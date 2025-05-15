@@ -24,10 +24,11 @@ import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { CardHoverEffectDemo } from "../../components/CardHoverEffect";
+import { getCourses } from "../../queries/courses";
 
 // Dynamically import with `ssr: false`
 const HeroLottie = dynamic(() => import("./_components/HeroLottie"));
-
+//MARK: CATEGORIES
 const categories = [
   {
     id: 1,
@@ -71,6 +72,7 @@ const categories = [
     // thumbnail: "/assets/images/categories/music.jpg",
   },
 ];
+//MARK: features
 const features = [
   {
     icon: <Calendar className="h-10 w-10 text-primary" />,
@@ -97,6 +99,7 @@ const features = [
       "Teachers can preview, edit, and version control all AI-generated assessments before publishing.",
   },
 ];
+//MARK: howItWorks
 const howItWorks = [
   {
     icon: <GraduationCap className="h-8 w-8 text-white" />,
@@ -127,7 +130,7 @@ const howItWorks = [
     color: "bg-emerald-500",
   },
 ];
-
+//MARK: courses
 const courses = [
   {
     id: 1,
@@ -171,7 +174,11 @@ const courses = [
     thumbnail: "/assets/images/categories/music.jpg",
   },
 ];
-const HomePage = () => {
+const HomePage = async () => {
+  const course = await getCourses()
+  // console.log(" HomePage ~ course:", course)
+  console.log("HomePage ~ course:", JSON.stringify(course, null, 2));
+
   return (
     <>
       <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32 ">

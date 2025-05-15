@@ -1,0 +1,248 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider     = "mongodb" // Keep "mongodb" if you're staying with MongoDB
+  url          = env("DATABASE_URL") // Make sure this is set in your .env file
+  relationMode = "prisma"
+}
+
+// MARK: User Management
+model User {
+  id             String  @id @default(auto()) @map("_id") @db.ObjectId
+  firstName      String
+  lastName       String
+  password       String
+  email          String  @unique
+  phone          String?
+  role           String
+  bio            String?
+  designation    String?
+  profilePicture String?
+  socialMedia    Json?
+
+  // Relations
+  coursesAsInstructor Course[]      @relation("InstructorCourses")
+  enrollments         Enrollment[]
+  testimonials        Testimonial[]
+  watches             Watch[]
+  certificates        Certificate[]
+  reports             Report[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// MARK: Course Management
+model Course {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  subtitle    String?
+  description String
+  thumbnail   String
+  price       Int
+  active      Boolean  @default(true)
+  learning    String[]
+  createdOn   DateTime @default(now())
+  modifiedOn  DateTime @updatedAt
+
+  // 🔗 Relations
+
+  // Category relation
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String   @db.ObjectId
+
+  // Instructor relation (from User model)
+  instructor   User   @relation("InstructorCourses", fields: [instructorId], references: [id])
+  instructorId String @db.ObjectId
+
+  // Modules (one-to-many)
+  modules Module[]
+
+  // Testimonials (one-to-many)
+  testimonials Testimonial[]
+
+  // Enrollments (one-to-many)
+  enrollments Enrollment[]
+
+  // Quiz set (optional one-to-one)
+  quizSet   QuizSet? @relation(fields: [quizSetId], references: [id])
+  quizSetId String?  @db.ObjectId
+
+  // Reports (one-to-many)
+  reports Report[]
+}
+
+// MARK: Content Categories
+model Category {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  thumbnail   String
+  courses     Course[]
+}
+
+// MARK: Learning Content Structure
+model Module {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  status      String
+  slug        String
+  duration    Int
+
+  // Relations
+  course    Course   @relation(fields: [courseId], references: [id])
+  courseId  String   @db.ObjectId
+  lessons   Lesson[] @relation(fields: [lessonIds], references: [id])
+  lessonIds String[] @db.ObjectId
+}
+
+model Lesson {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  duration    Int
+  videoUrl    String  @map("video_url")
+  published   Boolean @default(true)
+  slug        String
+  access      String
+
+  // Relations
+  modules   Module[] @relation(fields: [moduleIds], references: [id])
+  moduleIds String[] @db.ObjectId
+  watches   Watch[]
+}
+
+// MARK: Learning Progress Tracking
+model Watch {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt  DateTime @default(now()) @map("created_at")
+  modifiedAt DateTime @updatedAt @map("modified_at")
+  state      String
+  lastTime   Int      @map("last_time")
+
+  // Relations
+  lessonId String @db.ObjectId
+  lesson   Lesson @relation(fields: [lessonId], references: [id])
+  userId   String @db.ObjectId
+  user     User   @relation(fields: [userId], references: [id])
+}
+
+// MARK: Assessment and Quizzes
+model Quiz {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  question     String
+  description  String
+  options      Json[]
+  explanations String
+  mark         Int
+  slug         String
+
+  // Relations
+  quizSets    QuizSet[]    @relation(fields: [quizSetIds], references: [id])
+  quizSetIds  String[]     @db.ObjectId
+  assessments Assessment[]
+}
+
+model QuizSet {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  mark        Int
+  slug        String
+  status      String
+
+  // Relations
+  quizzes Quiz[]   @relation(fields: [quizIds], references: [id])
+  quizIds String[] @db.ObjectId
+  courses Course[]
+}
+
+model Assessment {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  mark       Int?
+  otherMarks Int?
+  noc        Int? // Number of correct answers
+  attempted  Boolean @default(false)
+
+  // Relations
+  quizId  String   @db.ObjectId
+  quiz    Quiz     @relation(fields: [quizId], references: [id])
+  options Json[]
+  reports Report[]
+}
+
+// MARK: Enrollment and Certification
+model Enrollment {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  enrollmentDate DateTime  @map("enrollment_date")
+  status         String
+  completionDate DateTime? @map("completion_date")
+  method         String
+
+  // Relations
+  courseId     String        @db.ObjectId
+  course       Course        @relation(fields: [courseId], references: [id])
+  studentId    String        @db.ObjectId
+  student      User          @relation(fields: [studentId], references: [id])
+  certificates Certificate[]
+}
+
+model Certificate {
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  certificateLink String @map("certificate_link")
+
+  // Relations
+  userId       String     @db.ObjectId
+  user         User       @relation(fields: [userId], references: [id])
+  courseId     String     @db.ObjectId
+  enrollmentId String     @db.ObjectId
+  enrollment   Enrollment @relation(fields: [enrollmentId], references: [id])
+}
+
+// MARK: User Feedback
+model Testimonial {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  content String
+  rating  Int
+
+  // Relations
+  courseId String @db.ObjectId
+  course   Course @relation(fields: [courseId], references: [id])
+  userId   String @db.ObjectId
+  user     User   @relation(fields: [userId], references: [id])
+}
+
+// MARK: Live Sessions
+model Live {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  description  String
+  thumbnail    String
+  videoId      String   @map("video_id")
+  slug         String
+  schedule     DateTime
+  quizId       String?  @map("quiz_id")
+  instructorId String   @map("instructor_id")
+}
+
+// MARK: Reporting and Analytics
+model Report {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // Relations
+  totalCompletedLessons String[] @db.ObjectId
+  totalCompletedModules String[] @map("totalCompletedModeules") @db.ObjectId
+
+  courseId     String      @db.ObjectId
+  course       Course      @relation(fields: [courseId], references: [id])
+  studentId    String      @db.ObjectId
+  student      User        @relation(fields: [studentId], references: [id])
+  assessmentId String?     @db.ObjectId
+  assessment   Assessment? @relation(fields: [assessmentId], references: [id])
+}
