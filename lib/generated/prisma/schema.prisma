@@ -1,8 +1,8 @@
 // prisma/schema.prisma
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../lib/generated/prisma"
+  provider      = "prisma-client-js"
+  output        = "../lib/generated/prisma"
   binaryTargets = ["native", "windows", "rhel-openssl-3.0.x"]
 }
 
@@ -10,7 +10,6 @@ datasource db {
   provider     = "mongodb" // Keep "mongodb" if you're staying with MongoDB
   url          = env("DATABASE_URL") // Make sure this is set in your .env file
   relationMode = "prisma"
-  
 }
 
 // MARK: User C
@@ -147,21 +146,22 @@ model Watch {
 
 // MARK: Quiz c need to verify relation
 model Quiz {
-  id           String       @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
   title        String
   description  String
-  options      Json[]       // Assuming this is static option config per quiz
+  options      Json[] // Assuming this is static option config per quiz
   explanations String
-  mark         Int          @default(5)
+  mark         Int    @default(5)
   slug         String
 
   // Relations
-  quizSets      QuizSet[]   @relation(fields: [quizSetIds], references: [id])
-  quizSetIds    String[]    @db.ObjectId
+  quizSets   QuizSet[] @relation(fields: [quizSetIds], references: [id])
+  quizSetIds String[]  @db.ObjectId
 
-  assessments   AssessmentItem[]  // Link to AssessmentItem, not Assessment directly
+  assessments AssessmentItem[] // Link to AssessmentItem, not Assessment directly
 }
+
 //MARK : QUIZSET C NEED to
 model QuizSet {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
@@ -180,38 +180,38 @@ model QuizSet {
 //need to fix it
 //MARK:Assessment
 model Assessment {
-  id         String           @id @default(auto()) @map("_id") @db.ObjectId
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
   otherMarks Int
 
   // Relations
-  items      AssessmentItem[]  // 👈 Add this
-  report     Report?           @relation(name: "ReportAssessment")
+  items  AssessmentItem[] // 👈 Add this
+  report Report?          @relation(name: "ReportAssessment")
 }
 
 //MARK:AssessmentItem
 model AssessmentItem {
-  id            String       @id @default(auto()) @map("_id") @db.ObjectId
-  attempted     Boolean      @default(false)
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  attempted Boolean @default(false)
 
   // Relations
-  quizId        String       @db.ObjectId
-  quiz          Quiz         @relation(fields: [quizId], references: [id])
+  quizId String @db.ObjectId
+  quiz   Quiz   @relation(fields: [quizId], references: [id])
 
-  assessmentId  String       @db.ObjectId
-  assessment    Assessment   @relation(fields: [assessmentId], references: [id])
+  assessmentId String     @db.ObjectId
+  assessment   Assessment @relation(fields: [assessmentId], references: [id])
 
-  options       Option[]     // one-to-many
+  options Option[] // one-to-many
 }
 
 //MARK: Option
 model Option {
-  id               String           @id @default(auto()) @map("_id") @db.ObjectId
-  option           String
-  isCorrect        Boolean
-  isSelected       Boolean
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  option     String
+  isCorrect  Boolean
+  isSelected Boolean
 
-  assessmentItemId String           @db.ObjectId
-  assessmentItem   AssessmentItem   @relation(fields: [assessmentItemId], references: [id])
+  assessmentItemId String         @db.ObjectId
+  assessmentItem   AssessmentItem @relation(fields: [assessmentItemId], references: [id])
 }
 
 // MARK: Enrollment and Certification
@@ -270,17 +270,17 @@ model Live {
 
 // MARK: Reporting and Analytics
 model Report {
-  id                    String       @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  totalCompletedLessons String[]     @db.ObjectId
-  totalCompletedModules String[]     @map("totalCompletedModeules") @db.ObjectId
+  totalCompletedLessons String[] @db.ObjectId
+  totalCompletedModules String[] @map("totalCompletedModeules") @db.ObjectId
 
-  courseId              String       @db.ObjectId
-  course                Course       @relation(fields: [courseId], references: [id])
+  courseId String @db.ObjectId
+  course   Course @relation(fields: [courseId], references: [id])
 
-  studentId             String       @db.ObjectId
-  student               User         @relation(fields: [studentId], references: [id])
+  studentId String @db.ObjectId
+  student   User   @relation(fields: [studentId], references: [id])
 
-  assessmentId          String?      @unique @db.ObjectId
-  assessment            Assessment?  @relation(name: "ReportAssessment", fields: [assessmentId], references: [id])
+  assessmentId String?     @unique @db.ObjectId
+  assessment   Assessment? @relation(name: "ReportAssessment", fields: [assessmentId], references: [id])
 }
