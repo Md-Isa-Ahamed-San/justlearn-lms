@@ -3,12 +3,14 @@
 generator client {
   provider = "prisma-client-js"
   output   = "../lib/generated/prisma"
+  binaryTargets = ["native", "windows", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
   provider     = "mongodb" // Keep "mongodb" if you're staying with MongoDB
   url          = env("DATABASE_URL") // Make sure this is set in your .env file
   relationMode = "prisma"
+  
 }
 
 // MARK: User C
