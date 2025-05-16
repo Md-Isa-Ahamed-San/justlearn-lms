@@ -2794,8 +2794,8 @@ export namespace Prisma {
     designation: string | null
     profilePicture: string | null
     socialMedia: JsonValue | null
-    createdAt: Date
-    updatedAt: Date
+    createdAt: Date | null
+    updatedAt: Date | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -2889,8 +2889,8 @@ export namespace Prisma {
       designation: string | null
       profilePicture: string | null
       socialMedia: Prisma.JsonValue | null
-      createdAt: Date
-      updatedAt: Date
+      createdAt: Date | null
+      updatedAt: Date | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -4052,8 +4052,8 @@ export namespace Prisma {
     price: number
     active: boolean
     learning: string[]
-    createdOn: Date
-    modifiedOn: Date
+    createdOn: Date | null
+    modifiedOn: Date | null
     categoryId: string
     instructorId: string
     quizSetId: string | null
@@ -4152,8 +4152,8 @@ export namespace Prisma {
       price: number
       active: boolean
       learning: string[]
-      createdOn: Date
-      modifiedOn: Date
+      createdOn: Date | null
+      modifiedOn: Date | null
       categoryId: string
       instructorId: string
       quizSetId: string | null
@@ -8473,8 +8473,8 @@ export namespace Prisma {
 
   export type WatchGroupByOutputType = {
     id: string
-    createdAt: Date
-    modifiedAt: Date
+    createdAt: Date | null
+    modifiedAt: Date | null
     state: string
     lastTime: number
     lessonId: string
@@ -8544,8 +8544,8 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      createdAt: Date
-      modifiedAt: Date
+      createdAt: Date | null
+      modifiedAt: Date | null
       state: string
       lastTime: number
       lessonId: string
@@ -19852,8 +19852,8 @@ export namespace Prisma {
     designation?: StringNullableFilter<"User"> | string | null
     profilePicture?: StringNullableFilter<"User"> | string | null
     socialMedia?: JsonNullableFilter<"User">
-    createdAt?: DateTimeFilter<"User"> | Date | string
-    updatedAt?: DateTimeFilter<"User"> | Date | string
+    createdAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     coursesAsInstructor?: CourseListRelationFilter
     enrollments?: EnrollmentListRelationFilter
     testimonials?: TestimonialListRelationFilter
@@ -19899,8 +19899,8 @@ export namespace Prisma {
     designation?: StringNullableFilter<"User"> | string | null
     profilePicture?: StringNullableFilter<"User"> | string | null
     socialMedia?: JsonNullableFilter<"User">
-    createdAt?: DateTimeFilter<"User"> | Date | string
-    updatedAt?: DateTimeFilter<"User"> | Date | string
+    createdAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     coursesAsInstructor?: CourseListRelationFilter
     enrollments?: EnrollmentListRelationFilter
     testimonials?: TestimonialListRelationFilter
@@ -19943,8 +19943,8 @@ export namespace Prisma {
     designation?: StringNullableWithAggregatesFilter<"User"> | string | null
     profilePicture?: StringNullableWithAggregatesFilter<"User"> | string | null
     socialMedia?: JsonNullableWithAggregatesFilter<"User">
-    createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    createdAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   }
 
   export type CourseWhereInput = {
@@ -19959,8 +19959,8 @@ export namespace Prisma {
     price?: IntFilter<"Course"> | number
     active?: BoolFilter<"Course"> | boolean
     learning?: StringNullableListFilter<"Course">
-    createdOn?: DateTimeFilter<"Course"> | Date | string
-    modifiedOn?: DateTimeFilter<"Course"> | Date | string
+    createdOn?: DateTimeNullableFilter<"Course"> | Date | string | null
+    modifiedOn?: DateTimeNullableFilter<"Course"> | Date | string | null
     categoryId?: StringFilter<"Course"> | string
     instructorId?: StringFilter<"Course"> | string
     quizSetId?: StringNullableFilter<"Course"> | string | null
@@ -20008,8 +20008,8 @@ export namespace Prisma {
     price?: IntFilter<"Course"> | number
     active?: BoolFilter<"Course"> | boolean
     learning?: StringNullableListFilter<"Course">
-    createdOn?: DateTimeFilter<"Course"> | Date | string
-    modifiedOn?: DateTimeFilter<"Course"> | Date | string
+    createdOn?: DateTimeNullableFilter<"Course"> | Date | string | null
+    modifiedOn?: DateTimeNullableFilter<"Course"> | Date | string | null
     categoryId?: StringFilter<"Course"> | string
     instructorId?: StringFilter<"Course"> | string
     quizSetId?: StringNullableFilter<"Course"> | string | null
@@ -20055,8 +20055,8 @@ export namespace Prisma {
     price?: IntWithAggregatesFilter<"Course"> | number
     active?: BoolWithAggregatesFilter<"Course"> | boolean
     learning?: StringNullableListFilter<"Course">
-    createdOn?: DateTimeWithAggregatesFilter<"Course"> | Date | string
-    modifiedOn?: DateTimeWithAggregatesFilter<"Course"> | Date | string
+    createdOn?: DateTimeNullableWithAggregatesFilter<"Course"> | Date | string | null
+    modifiedOn?: DateTimeNullableWithAggregatesFilter<"Course"> | Date | string | null
     categoryId?: StringWithAggregatesFilter<"Course"> | string
     instructorId?: StringWithAggregatesFilter<"Course"> | string
     quizSetId?: StringNullableWithAggregatesFilter<"Course"> | string | null
@@ -20280,8 +20280,8 @@ export namespace Prisma {
     OR?: WatchWhereInput[]
     NOT?: WatchWhereInput | WatchWhereInput[]
     id?: StringFilter<"Watch"> | string
-    createdAt?: DateTimeFilter<"Watch"> | Date | string
-    modifiedAt?: DateTimeFilter<"Watch"> | Date | string
+    createdAt?: DateTimeNullableFilter<"Watch"> | Date | string | null
+    modifiedAt?: DateTimeNullableFilter<"Watch"> | Date | string | null
     state?: StringFilter<"Watch"> | string
     lastTime?: IntFilter<"Watch"> | number
     lessonId?: StringFilter<"Watch"> | string
@@ -20311,8 +20311,8 @@ export namespace Prisma {
     AND?: WatchWhereInput | WatchWhereInput[]
     OR?: WatchWhereInput[]
     NOT?: WatchWhereInput | WatchWhereInput[]
-    createdAt?: DateTimeFilter<"Watch"> | Date | string
-    modifiedAt?: DateTimeFilter<"Watch"> | Date | string
+    createdAt?: DateTimeNullableFilter<"Watch"> | Date | string | null
+    modifiedAt?: DateTimeNullableFilter<"Watch"> | Date | string | null
     state?: StringFilter<"Watch"> | string
     lastTime?: IntFilter<"Watch"> | number
     lessonId?: StringFilter<"Watch"> | string
@@ -20344,8 +20344,8 @@ export namespace Prisma {
     OR?: WatchScalarWhereWithAggregatesInput[]
     NOT?: WatchScalarWhereWithAggregatesInput | WatchScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Watch"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"Watch"> | Date | string
-    modifiedAt?: DateTimeWithAggregatesFilter<"Watch"> | Date | string
+    createdAt?: DateTimeNullableWithAggregatesFilter<"Watch"> | Date | string | null
+    modifiedAt?: DateTimeNullableWithAggregatesFilter<"Watch"> | Date | string | null
     state?: StringWithAggregatesFilter<"Watch"> | string
     lastTime?: IntWithAggregatesFilter<"Watch"> | number
     lessonId?: StringWithAggregatesFilter<"Watch"> | string
@@ -20986,8 +20986,8 @@ export namespace Prisma {
     designation?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     coursesAsInstructor?: CourseCreateNestedManyWithoutInstructorInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     testimonials?: TestimonialCreateNestedManyWithoutUserInput
@@ -21008,8 +21008,8 @@ export namespace Prisma {
     designation?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     coursesAsInstructor?: CourseUncheckedCreateNestedManyWithoutInstructorInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
@@ -21029,8 +21029,8 @@ export namespace Prisma {
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     coursesAsInstructor?: CourseUpdateManyWithoutInstructorNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     testimonials?: TestimonialUpdateManyWithoutUserNestedInput
@@ -21050,8 +21050,8 @@ export namespace Prisma {
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     coursesAsInstructor?: CourseUncheckedUpdateManyWithoutInstructorNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
@@ -21072,8 +21072,8 @@ export namespace Prisma {
     designation?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -21087,8 +21087,8 @@ export namespace Prisma {
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -21102,8 +21102,8 @@ export namespace Prisma {
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CourseCreateInput = {
@@ -21115,8 +21115,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string
-    modifiedOn?: Date | string
+    createdOn?: Date | string | null
+    modifiedOn?: Date | string | null
     category: CategoryCreateNestedOneWithoutCoursesInput
     instructor: UserCreateNestedOneWithoutCoursesAsInstructorInput
     modules?: ModuleCreateNestedManyWithoutCourseInput
@@ -21135,8 +21135,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string
-    modifiedOn?: Date | string
+    createdOn?: Date | string | null
+    modifiedOn?: Date | string | null
     categoryId: string
     instructorId: string
     quizSetId?: string | null
@@ -21154,8 +21154,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     instructor?: UserUpdateOneRequiredWithoutCoursesAsInstructorNestedInput
     modules?: ModuleUpdateManyWithoutCourseNestedInput
@@ -21173,8 +21173,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
     instructorId?: StringFieldUpdateOperationsInput | string
     quizSetId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21193,8 +21193,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string
-    modifiedOn?: Date | string
+    createdOn?: Date | string | null
+    modifiedOn?: Date | string | null
     categoryId: string
     instructorId: string
     quizSetId?: string | null
@@ -21208,8 +21208,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CourseUncheckedUpdateManyInput = {
@@ -21220,8 +21220,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
     instructorId?: StringFieldUpdateOperationsInput | string
     quizSetId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21447,8 +21447,8 @@ export namespace Prisma {
 
   export type WatchCreateInput = {
     id?: string
-    createdAt?: Date | string
-    modifiedAt?: Date | string
+    createdAt?: Date | string | null
+    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
     lesson: LessonCreateNestedOneWithoutWatchesInput
@@ -21458,8 +21458,8 @@ export namespace Prisma {
 
   export type WatchUncheckedCreateInput = {
     id?: string
-    createdAt?: Date | string
-    modifiedAt?: Date | string
+    createdAt?: Date | string | null
+    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
     lessonId: string
@@ -21468,8 +21468,8 @@ export namespace Prisma {
   }
 
   export type WatchUpdateInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
     lesson?: LessonUpdateOneRequiredWithoutWatchesNestedInput
@@ -21478,8 +21478,8 @@ export namespace Prisma {
   }
 
   export type WatchUncheckedUpdateInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
     lessonId?: StringFieldUpdateOperationsInput | string
@@ -21489,8 +21489,8 @@ export namespace Prisma {
 
   export type WatchCreateManyInput = {
     id?: string
-    createdAt?: Date | string
-    modifiedAt?: Date | string
+    createdAt?: Date | string | null
+    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
     lessonId: string
@@ -21499,15 +21499,15 @@ export namespace Prisma {
   }
 
   export type WatchUpdateManyMutationInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
   }
 
   export type WatchUncheckedUpdateManyInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
     lessonId?: StringFieldUpdateOperationsInput | string
@@ -22141,15 +22141,16 @@ export namespace Prisma {
     isSet?: boolean
   }
 
-  export type DateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+    isSet?: boolean
   }
 
   export type CourseListRelationFilter = {
@@ -22310,18 +22311,19 @@ export namespace Prisma {
     isSet?: boolean
   }
 
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -22828,16 +22830,15 @@ export namespace Prisma {
     assessmentItemId?: SortOrder
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-    isSet?: boolean
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
   export type EnrollmentCountOrderByAggregateInput = {
@@ -22870,19 +22871,18 @@ export namespace Prisma {
     studentId?: SortOrder
   }
 
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-    isSet?: boolean
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type EnrollmentScalarRelationFilter = {
@@ -23103,8 +23103,9 @@ export namespace Prisma {
     unset?: boolean
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+    unset?: boolean
   }
 
   export type CourseUpdateManyWithoutInstructorNestedInput = {
@@ -24157,9 +24158,8 @@ export namespace Prisma {
     connect?: CertificateWhereUniqueInput | CertificateWhereUniqueInput[]
   }
 
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
-    unset?: boolean
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
   export type CourseUpdateOneRequiredWithoutEnrollmentsNestedInput = {
@@ -24353,15 +24353,16 @@ export namespace Prisma {
     isSet?: boolean
   }
 
-  export type NestedDateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+    isSet?: boolean
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -24434,18 +24435,19 @@ export namespace Prisma {
     isSet?: boolean
   }
 
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type NestedBoolFilter<$PrismaModel = never> = {
@@ -24488,31 +24490,29 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+  export type NestedDateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-    isSet?: boolean
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-    isSet?: boolean
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type CourseCreateWithoutInstructorInput = {
@@ -24524,8 +24524,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string
-    modifiedOn?: Date | string
+    createdOn?: Date | string | null
+    modifiedOn?: Date | string | null
     category: CategoryCreateNestedOneWithoutCoursesInput
     modules?: ModuleCreateNestedManyWithoutCourseInput
     testimonials?: TestimonialCreateNestedManyWithoutCourseInput
@@ -24543,8 +24543,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string
-    modifiedOn?: Date | string
+    createdOn?: Date | string | null
+    modifiedOn?: Date | string | null
     categoryId: string
     quizSetId?: string | null
     modules?: ModuleUncheckedCreateNestedManyWithoutCourseInput
@@ -24616,8 +24616,8 @@ export namespace Prisma {
 
   export type WatchCreateWithoutUserInput = {
     id?: string
-    createdAt?: Date | string
-    modifiedAt?: Date | string
+    createdAt?: Date | string | null
+    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
     lesson: LessonCreateNestedOneWithoutWatchesInput
@@ -24626,8 +24626,8 @@ export namespace Prisma {
 
   export type WatchUncheckedCreateWithoutUserInput = {
     id?: string
-    createdAt?: Date | string
-    modifiedAt?: Date | string
+    createdAt?: Date | string | null
+    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
     lessonId: string
@@ -24719,8 +24719,8 @@ export namespace Prisma {
     price?: IntFilter<"Course"> | number
     active?: BoolFilter<"Course"> | boolean
     learning?: StringNullableListFilter<"Course">
-    createdOn?: DateTimeFilter<"Course"> | Date | string
-    modifiedOn?: DateTimeFilter<"Course"> | Date | string
+    createdOn?: DateTimeNullableFilter<"Course"> | Date | string | null
+    modifiedOn?: DateTimeNullableFilter<"Course"> | Date | string | null
     categoryId?: StringFilter<"Course"> | string
     instructorId?: StringFilter<"Course"> | string
     quizSetId?: StringNullableFilter<"Course"> | string | null
@@ -24803,8 +24803,8 @@ export namespace Prisma {
     OR?: WatchScalarWhereInput[]
     NOT?: WatchScalarWhereInput | WatchScalarWhereInput[]
     id?: StringFilter<"Watch"> | string
-    createdAt?: DateTimeFilter<"Watch"> | Date | string
-    modifiedAt?: DateTimeFilter<"Watch"> | Date | string
+    createdAt?: DateTimeNullableFilter<"Watch"> | Date | string | null
+    modifiedAt?: DateTimeNullableFilter<"Watch"> | Date | string | null
     state?: StringFilter<"Watch"> | string
     lastTime?: IntFilter<"Watch"> | number
     lessonId?: StringFilter<"Watch"> | string
@@ -24898,8 +24898,8 @@ export namespace Prisma {
     designation?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     testimonials?: TestimonialCreateNestedManyWithoutUserInput
     watches?: WatchCreateNestedManyWithoutUserInput
@@ -24919,8 +24919,8 @@ export namespace Prisma {
     designation?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
@@ -25111,8 +25111,8 @@ export namespace Prisma {
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     testimonials?: TestimonialUpdateManyWithoutUserNestedInput
     watches?: WatchUpdateManyWithoutUserNestedInput
@@ -25131,8 +25131,8 @@ export namespace Prisma {
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
@@ -25255,8 +25255,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string
-    modifiedOn?: Date | string
+    createdOn?: Date | string | null
+    modifiedOn?: Date | string | null
     instructor: UserCreateNestedOneWithoutCoursesAsInstructorInput
     modules?: ModuleCreateNestedManyWithoutCourseInput
     testimonials?: TestimonialCreateNestedManyWithoutCourseInput
@@ -25274,8 +25274,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string
-    modifiedOn?: Date | string
+    createdOn?: Date | string | null
+    modifiedOn?: Date | string | null
     instructorId: string
     quizSetId?: string | null
     modules?: ModuleUncheckedCreateNestedManyWithoutCourseInput
@@ -25318,8 +25318,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string
-    modifiedOn?: Date | string
+    createdOn?: Date | string | null
+    modifiedOn?: Date | string | null
     category: CategoryCreateNestedOneWithoutCoursesInput
     instructor: UserCreateNestedOneWithoutCoursesAsInstructorInput
     testimonials?: TestimonialCreateNestedManyWithoutCourseInput
@@ -25337,8 +25337,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string
-    modifiedOn?: Date | string
+    createdOn?: Date | string | null
+    modifiedOn?: Date | string | null
     categoryId: string
     instructorId: string
     quizSetId?: string | null
@@ -25386,8 +25386,8 @@ export namespace Prisma {
 
   export type WatchCreateWithoutModuleInput = {
     id?: string
-    createdAt?: Date | string
-    modifiedAt?: Date | string
+    createdAt?: Date | string | null
+    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
     lesson: LessonCreateNestedOneWithoutWatchesInput
@@ -25396,8 +25396,8 @@ export namespace Prisma {
 
   export type WatchUncheckedCreateWithoutModuleInput = {
     id?: string
-    createdAt?: Date | string
-    modifiedAt?: Date | string
+    createdAt?: Date | string | null
+    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
     lessonId: string
@@ -25432,8 +25432,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     instructor?: UserUpdateOneRequiredWithoutCoursesAsInstructorNestedInput
     testimonials?: TestimonialUpdateManyWithoutCourseNestedInput
@@ -25450,8 +25450,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
     instructorId?: StringFieldUpdateOperationsInput | string
     quizSetId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -25538,8 +25538,8 @@ export namespace Prisma {
 
   export type WatchCreateWithoutLessonInput = {
     id?: string
-    createdAt?: Date | string
-    modifiedAt?: Date | string
+    createdAt?: Date | string | null
+    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
     user: UserCreateNestedOneWithoutWatchesInput
@@ -25548,8 +25548,8 @@ export namespace Prisma {
 
   export type WatchUncheckedCreateWithoutLessonInput = {
     id?: string
-    createdAt?: Date | string
-    modifiedAt?: Date | string
+    createdAt?: Date | string | null
+    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
     userId: string
@@ -25641,8 +25641,8 @@ export namespace Prisma {
     designation?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     coursesAsInstructor?: CourseCreateNestedManyWithoutInstructorInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     testimonials?: TestimonialCreateNestedManyWithoutUserInput
@@ -25662,8 +25662,8 @@ export namespace Prisma {
     designation?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     coursesAsInstructor?: CourseUncheckedCreateNestedManyWithoutInstructorInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
@@ -25762,8 +25762,8 @@ export namespace Prisma {
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     coursesAsInstructor?: CourseUpdateManyWithoutInstructorNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     testimonials?: TestimonialUpdateManyWithoutUserNestedInput
@@ -25782,8 +25782,8 @@ export namespace Prisma {
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     coursesAsInstructor?: CourseUncheckedUpdateManyWithoutInstructorNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
@@ -25961,8 +25961,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string
-    modifiedOn?: Date | string
+    createdOn?: Date | string | null
+    modifiedOn?: Date | string | null
     category: CategoryCreateNestedOneWithoutCoursesInput
     instructor: UserCreateNestedOneWithoutCoursesAsInstructorInput
     modules?: ModuleCreateNestedManyWithoutCourseInput
@@ -25980,8 +25980,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string
-    modifiedOn?: Date | string
+    createdOn?: Date | string | null
+    modifiedOn?: Date | string | null
     categoryId: string
     instructorId: string
     modules?: ModuleUncheckedCreateNestedManyWithoutCourseInput
@@ -26329,8 +26329,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string
-    modifiedOn?: Date | string
+    createdOn?: Date | string | null
+    modifiedOn?: Date | string | null
     category: CategoryCreateNestedOneWithoutCoursesInput
     instructor: UserCreateNestedOneWithoutCoursesAsInstructorInput
     modules?: ModuleCreateNestedManyWithoutCourseInput
@@ -26348,8 +26348,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string
-    modifiedOn?: Date | string
+    createdOn?: Date | string | null
+    modifiedOn?: Date | string | null
     categoryId: string
     instructorId: string
     quizSetId?: string | null
@@ -26375,8 +26375,8 @@ export namespace Prisma {
     designation?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     coursesAsInstructor?: CourseCreateNestedManyWithoutInstructorInput
     testimonials?: TestimonialCreateNestedManyWithoutUserInput
     watches?: WatchCreateNestedManyWithoutUserInput
@@ -26396,8 +26396,8 @@ export namespace Prisma {
     designation?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     coursesAsInstructor?: CourseUncheckedCreateNestedManyWithoutInstructorInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
@@ -26452,8 +26452,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     instructor?: UserUpdateOneRequiredWithoutCoursesAsInstructorNestedInput
     modules?: ModuleUpdateManyWithoutCourseNestedInput
@@ -26470,8 +26470,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
     instructorId?: StringFieldUpdateOperationsInput | string
     quizSetId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26502,8 +26502,8 @@ export namespace Prisma {
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     coursesAsInstructor?: CourseUpdateManyWithoutInstructorNestedInput
     testimonials?: TestimonialUpdateManyWithoutUserNestedInput
     watches?: WatchUpdateManyWithoutUserNestedInput
@@ -26522,8 +26522,8 @@ export namespace Prisma {
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     coursesAsInstructor?: CourseUncheckedUpdateManyWithoutInstructorNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
@@ -26559,8 +26559,8 @@ export namespace Prisma {
     designation?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     coursesAsInstructor?: CourseCreateNestedManyWithoutInstructorInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     testimonials?: TestimonialCreateNestedManyWithoutUserInput
@@ -26580,8 +26580,8 @@ export namespace Prisma {
     designation?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     coursesAsInstructor?: CourseUncheckedCreateNestedManyWithoutInstructorInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
@@ -26641,8 +26641,8 @@ export namespace Prisma {
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     coursesAsInstructor?: CourseUpdateManyWithoutInstructorNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     testimonials?: TestimonialUpdateManyWithoutUserNestedInput
@@ -26661,8 +26661,8 @@ export namespace Prisma {
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     coursesAsInstructor?: CourseUncheckedUpdateManyWithoutInstructorNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
@@ -26708,8 +26708,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string
-    modifiedOn?: Date | string
+    createdOn?: Date | string | null
+    modifiedOn?: Date | string | null
     category: CategoryCreateNestedOneWithoutCoursesInput
     instructor: UserCreateNestedOneWithoutCoursesAsInstructorInput
     modules?: ModuleCreateNestedManyWithoutCourseInput
@@ -26727,8 +26727,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string
-    modifiedOn?: Date | string
+    createdOn?: Date | string | null
+    modifiedOn?: Date | string | null
     categoryId: string
     instructorId: string
     quizSetId?: string | null
@@ -26754,8 +26754,8 @@ export namespace Prisma {
     designation?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     coursesAsInstructor?: CourseCreateNestedManyWithoutInstructorInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     watches?: WatchCreateNestedManyWithoutUserInput
@@ -26775,8 +26775,8 @@ export namespace Prisma {
     designation?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     coursesAsInstructor?: CourseUncheckedCreateNestedManyWithoutInstructorInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
@@ -26808,8 +26808,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     instructor?: UserUpdateOneRequiredWithoutCoursesAsInstructorNestedInput
     modules?: ModuleUpdateManyWithoutCourseNestedInput
@@ -26826,8 +26826,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
     instructorId?: StringFieldUpdateOperationsInput | string
     quizSetId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26858,8 +26858,8 @@ export namespace Prisma {
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     coursesAsInstructor?: CourseUpdateManyWithoutInstructorNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     watches?: WatchUpdateManyWithoutUserNestedInput
@@ -26878,8 +26878,8 @@ export namespace Prisma {
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     coursesAsInstructor?: CourseUncheckedUpdateManyWithoutInstructorNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
@@ -26896,8 +26896,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string
-    modifiedOn?: Date | string
+    createdOn?: Date | string | null
+    modifiedOn?: Date | string | null
     category: CategoryCreateNestedOneWithoutCoursesInput
     instructor: UserCreateNestedOneWithoutCoursesAsInstructorInput
     modules?: ModuleCreateNestedManyWithoutCourseInput
@@ -26915,8 +26915,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string
-    modifiedOn?: Date | string
+    createdOn?: Date | string | null
+    modifiedOn?: Date | string | null
     categoryId: string
     instructorId: string
     quizSetId?: string | null
@@ -26942,8 +26942,8 @@ export namespace Prisma {
     designation?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     coursesAsInstructor?: CourseCreateNestedManyWithoutInstructorInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     testimonials?: TestimonialCreateNestedManyWithoutUserInput
@@ -26963,8 +26963,8 @@ export namespace Prisma {
     designation?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     coursesAsInstructor?: CourseUncheckedCreateNestedManyWithoutInstructorInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
@@ -27013,8 +27013,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     instructor?: UserUpdateOneRequiredWithoutCoursesAsInstructorNestedInput
     modules?: ModuleUpdateManyWithoutCourseNestedInput
@@ -27031,8 +27031,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
     instructorId?: StringFieldUpdateOperationsInput | string
     quizSetId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27063,8 +27063,8 @@ export namespace Prisma {
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     coursesAsInstructor?: CourseUpdateManyWithoutInstructorNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     testimonials?: TestimonialUpdateManyWithoutUserNestedInput
@@ -27083,8 +27083,8 @@ export namespace Prisma {
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     coursesAsInstructor?: CourseUncheckedUpdateManyWithoutInstructorNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
@@ -27122,8 +27122,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string
-    modifiedOn?: Date | string
+    createdOn?: Date | string | null
+    modifiedOn?: Date | string | null
     categoryId: string
     quizSetId?: string | null
   }
@@ -27146,8 +27146,8 @@ export namespace Prisma {
 
   export type WatchCreateManyUserInput = {
     id?: string
-    createdAt?: Date | string
-    modifiedAt?: Date | string
+    createdAt?: Date | string | null
+    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
     lessonId: string
@@ -27177,8 +27177,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     modules?: ModuleUpdateManyWithoutCourseNestedInput
     testimonials?: TestimonialUpdateManyWithoutCourseNestedInput
@@ -27195,8 +27195,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
     quizSetId?: NullableStringFieldUpdateOperationsInput | string | null
     modules?: ModuleUncheckedUpdateManyWithoutCourseNestedInput
@@ -27213,8 +27213,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
     quizSetId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -27264,8 +27264,8 @@ export namespace Prisma {
   }
 
   export type WatchUpdateWithoutUserInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
     lesson?: LessonUpdateOneRequiredWithoutWatchesNestedInput
@@ -27273,8 +27273,8 @@ export namespace Prisma {
   }
 
   export type WatchUncheckedUpdateWithoutUserInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
     lessonId?: StringFieldUpdateOperationsInput | string
@@ -27282,8 +27282,8 @@ export namespace Prisma {
   }
 
   export type WatchUncheckedUpdateManyWithoutUserInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
     lessonId?: StringFieldUpdateOperationsInput | string
@@ -27467,8 +27467,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string
-    modifiedOn?: Date | string
+    createdOn?: Date | string | null
+    modifiedOn?: Date | string | null
     instructorId: string
     quizSetId?: string | null
   }
@@ -27481,8 +27481,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instructor?: UserUpdateOneRequiredWithoutCoursesAsInstructorNestedInput
     modules?: ModuleUpdateManyWithoutCourseNestedInput
     testimonials?: TestimonialUpdateManyWithoutCourseNestedInput
@@ -27499,8 +27499,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
     quizSetId?: NullableStringFieldUpdateOperationsInput | string | null
     modules?: ModuleUncheckedUpdateManyWithoutCourseNestedInput
@@ -27517,16 +27517,16 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
     quizSetId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type WatchCreateManyModuleInput = {
     id?: string
-    createdAt?: Date | string
-    modifiedAt?: Date | string
+    createdAt?: Date | string | null
+    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
     lessonId: string
@@ -27571,8 +27571,8 @@ export namespace Prisma {
   }
 
   export type WatchUpdateWithoutModuleInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
     lesson?: LessonUpdateOneRequiredWithoutWatchesNestedInput
@@ -27580,8 +27580,8 @@ export namespace Prisma {
   }
 
   export type WatchUncheckedUpdateWithoutModuleInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
     lessonId?: StringFieldUpdateOperationsInput | string
@@ -27589,8 +27589,8 @@ export namespace Prisma {
   }
 
   export type WatchUncheckedUpdateManyWithoutModuleInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
     lessonId?: StringFieldUpdateOperationsInput | string
@@ -27599,8 +27599,8 @@ export namespace Prisma {
 
   export type WatchCreateManyLessonInput = {
     id?: string
-    createdAt?: Date | string
-    modifiedAt?: Date | string
+    createdAt?: Date | string | null
+    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
     userId: string
@@ -27639,8 +27639,8 @@ export namespace Prisma {
   }
 
   export type WatchUpdateWithoutLessonInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
     user?: UserUpdateOneRequiredWithoutWatchesNestedInput
@@ -27648,8 +27648,8 @@ export namespace Prisma {
   }
 
   export type WatchUncheckedUpdateWithoutLessonInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
@@ -27657,8 +27657,8 @@ export namespace Prisma {
   }
 
   export type WatchUncheckedUpdateManyWithoutLessonInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
@@ -27722,8 +27722,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string
-    modifiedOn?: Date | string
+    createdOn?: Date | string | null
+    modifiedOn?: Date | string | null
     categoryId: string
     instructorId: string
   }
@@ -27767,8 +27767,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     instructor?: UserUpdateOneRequiredWithoutCoursesAsInstructorNestedInput
     modules?: ModuleUpdateManyWithoutCourseNestedInput
@@ -27785,8 +27785,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
     instructorId?: StringFieldUpdateOperationsInput | string
     modules?: ModuleUncheckedUpdateManyWithoutCourseNestedInput
@@ -27803,8 +27803,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
-    modifiedOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
     instructorId?: StringFieldUpdateOperationsInput | string
   }

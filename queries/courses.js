@@ -18,18 +18,7 @@ export const getCourses = async () => {
             bio: true,
           },
         },
-        testimonials: {
-          include: {
-            user: {
-              select: {
-                id: true,
-                firstName: true,
-                lastName: true,
-                profilePicture: true,
-              },
-            },
-          },
-        },
+     
         quizSet: true,
         // modules: true,
         // enrollments: true,

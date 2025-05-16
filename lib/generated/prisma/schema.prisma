@@ -34,22 +34,22 @@ model User {
   certificates        Certificate[]
   reports             Report[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 // MARK: Course C
 model Course {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   subtitle    String?
   description String
   thumbnail   String?
-  price       Int      @default(0)
-  active      Boolean  @default(false)
+  price       Int       @default(0)
+  active      Boolean   @default(false)
   learning    String[]
-  createdOn   DateTime @default(now())
-  modifiedOn  DateTime @updatedAt
+  createdOn   DateTime? @default(now())
+  modifiedOn  DateTime? @updatedAt
 
   // 🔗 Relations
 
@@ -127,11 +127,11 @@ model Lesson {
 
 //MARK : Watch c but need to verify the relation 
 model Watch {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt  DateTime @default(now()) @map("created_at")
-  modifiedAt DateTime @updatedAt @map("modified_at")
-  state      String   @default("started")
-  lastTime   Int      @map("last_time")
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt  DateTime? @default(now()) @map("created_at")
+  modifiedAt DateTime? @updatedAt @map("modified_at")
+  state      String    @default("started")
+  lastTime   Int       @map("last_time")
 
   // Relations
   lessonId String @db.ObjectId
