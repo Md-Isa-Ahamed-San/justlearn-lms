@@ -5,6 +5,8 @@ import { Delius } from "next/font/google";
 
 import Head from "next/head"; // ✅ Import Head
 import "./globals.css";
+import { ThemeProvider } from "../provider/theme-provider";
+import ThemeSwitcher from "../components/theme-switcher";
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Inter({ subsets: ["latin"], variable: "--font-poppins" });
@@ -22,7 +24,7 @@ export const metadata = {
 export default async function RootLayout({ children }) {
   // const conn = await dbConnect();
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <Head>
       
         <link
@@ -34,7 +36,11 @@ export default async function RootLayout({ children }) {
         />
       </Head>
       <body className={cn(inter.className, poppins.className, delius.variable)}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange={false}>
+
         {children}
+        <ThemeSwitcher />
+        </ThemeProvider>
         <Toaster richColors position="top-center" />
       </body>
     </html>

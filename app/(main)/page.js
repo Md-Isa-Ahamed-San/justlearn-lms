@@ -25,6 +25,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { CardHoverEffectDemo } from "../../components/CardHoverEffect";
 import { getCourses } from "../../queries/courses";
+import ThemeSwitcher from "../../components/theme-switcher";
 
 // Dynamically import with `ssr: false`
 const HeroLottie = dynamic(() => import("./_components/HeroLottie"));
@@ -175,9 +176,14 @@ const courses = [
   },
 ];
 const HomePage = async () => {
-  const course = await getCourses()
+  const course = await getCourses();
   // console.log(" HomePage ~ course:", course)
-  console.log("HomePage ~ course:", JSON.stringify(course, null, 2));
+  // console.log("HomePage ~ course:", JSON.stringify(course, null, 2));
+  console.dir(course, {
+    depth: null, // full depth
+    colors: true, // enable terminal colors
+    compact: false, // expand everything for readability
+  });
 
   return (
     <>
@@ -263,7 +269,7 @@ const HomePage = async () => {
           </div>
         </div>
       </section>
-      
+
       {/* Features Section */}
       <section className="container py-16 md:py-24">
         <div className="text-center mb-12">

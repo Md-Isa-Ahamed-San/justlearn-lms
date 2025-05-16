@@ -1,12 +1,11 @@
 // app/api/users/route.js
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
 import { db } from "../../../lib/prisma";
+import { getAllUsers, postUser } from "../../../queries/users";
 export async function GET() {
   try {
-    // Use `prisma.user.findMany()`
-    // console.log(db)
-    const users = await db.user.findMany();
+    const users = await getAllUsers();
     return NextResponse.json(users, { status: 200 });
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -34,6 +33,17 @@ export async function POST(request) {
         { status: 400 }
       );
     }
+    // Validate social media data
+    if (
+      data.socialMedia &&
+      typeof data.socialMedia !== "string" &&
+      typeof data.socialMedia !== "object"
+    ) {
+      return NextResponse.json(
+        { message: "Invalid social media data" },
+        { status: 400 }
+      );
+    }
 
     // Check for existing user with same email
     const existingUser = await db.user.findUnique({
@@ -47,30 +57,8 @@ export async function POST(request) {
       );
     }
 
-    // Prepare social media data if provided
-    const socialMedia = data.socialMedia
-      ? typeof data.socialMedia === "string"
-        ? JSON.parse(data.socialMedia)
-        : data.socialMedia
-      : {};
-
     // Create user with role-specific handling
-    const user = await db.user.create({
-      data: {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-        password: await bcrypt.hash(data.password, 10), // Ensure bcrypt is imported
-        phone: data.phone || null,
-        role: data.role,
-        bio: data.bio || null,
-        socialMedia: socialMedia,
-        profilePicture: data.profilePicture || null,
-        designation: data.designation || null,
-        // Note: Role-specific relations like taughtCourses are handled separately
-        // through their own endpoints after user creation
-      },
-    });
+    const user = await postUser(data);
 
     // Remove password from response
     const { password, ...userWithoutPassword } = user;

@@ -11,13 +11,13 @@ datasource db {
   relationMode = "prisma"
 }
 
-// MARK: User Management
+// MARK: User C
 model User {
-  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  id             String  @id @default(auto()) @map("_id") @db.ObjectId
   firstName      String
   lastName       String
   password       String
-  email          String       @unique
+  email          String  @unique
   phone          String?
   role           String
   bio            String?
@@ -26,7 +26,7 @@ model User {
   socialMedia    Json?
 
   // Relations
-  coursesAsInstructor Course[]       @relation("InstructorCourses")
+  coursesAsInstructor Course[]      @relation("InstructorCourses")
   enrollments         Enrollment[]
   testimonials        Testimonial[]
   watches             Watch[]
@@ -37,145 +37,179 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
-// MARK: Course Management
+// MARK: Course C
 model Course {
-  id           String        @id @default(auto()) @map("_id") @db.ObjectId
-  title        String
-  subtitle     String?
-  description  String
-  thumbnail    String
-  price        Int
-  active       Boolean       @default(true)
-  learning     String[]
-  createdOn    DateTime      @default(now())
-  modifiedOn   DateTime      @updatedAt
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  subtitle    String?
+  description String
+  thumbnail   String?
+  price       Int      @default(0)
+  active      Boolean  @default(false)
+  learning    String[]
+  createdOn   DateTime @default(now())
+  modifiedOn  DateTime @updatedAt
 
   // 🔗 Relations
 
   // Category relation
-  category     Category      @relation(fields: [categoryId], references: [id])
-  categoryId   String        @db.ObjectId
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String   @db.ObjectId
 
   // Instructor relation (from User model)
-  instructor   User          @relation("InstructorCourses", fields: [instructorId], references: [id])
-  instructorId String        @db.ObjectId
+  instructor   User   @relation("InstructorCourses", fields: [instructorId], references: [id])
+  instructorId String @db.ObjectId
 
   // Modules (one-to-many)
-  modules      Module[]
+  modules Module[]
 
   // Testimonials (one-to-many)
   testimonials Testimonial[]
 
   // Enrollments (one-to-many)
-  enrollments  Enrollment[]
+  enrollments Enrollment[]
 
   // Quiz set (optional one-to-one)
-  quizSet      QuizSet?      @relation(fields: [quizSetId], references: [id])
-  quizSetId    String?       @db.ObjectId
+  quizSet   QuizSet? @relation(fields: [quizSetId], references: [id])
+  quizSetId String?  @db.ObjectId
 
   // Reports (one-to-many)
-  reports      Report[]
+  reports Report[]
 }
 
-
-// MARK: Content Categories
+// MARK: Category C
 model Category {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
-  description String
+  description String?
   thumbnail   String
   courses     Course[]
 }
 
-// MARK: Learning Content Structure
+// MARK: Module c but relation need to change
 model Module {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
   title       String
-  description String
-  status      String
+  description String?
+  active      Boolean @default(false)
   slug        String
-  duration    Int
+  order       Int
 
   // Relations
   course    Course   @relation(fields: [courseId], references: [id])
   courseId  String   @db.ObjectId
   lessons   Lesson[] @relation(fields: [lessonIds], references: [id])
   lessonIds String[] @db.ObjectId
+
+  // Add this line:
+  watches Watch[] // 👈 Back-reference
 }
 
+//MARK: Lesson c but need to verify the relation
 model Lesson {
   id          String  @id @default(auto()) @map("_id") @db.ObjectId
   title       String
-  description String
-  duration    Int
-  videoUrl    String  @map("video_url")
-  published   Boolean @default(true)
-  slug        String
-  access      String
+  description String?
+  duration    Int     @default(0)
+  videoUrl    String? @map("video_url")
+
+  active Boolean @default(false)
+  slug   String
+  access String  @default("private")
+  order  Int
 
   // Relations
-  modules Module[] @relation(fields: [moduleIds], references: [id])
+  modules   Module[] @relation(fields: [moduleIds], references: [id])
   moduleIds String[] @db.ObjectId
-  watches Watch[]
+  watches   Watch[]
 }
 
-// MARK: Learning Progress Tracking
+//MARK : Watch c but need to verify the relation 
 model Watch {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   createdAt  DateTime @default(now()) @map("created_at")
   modifiedAt DateTime @updatedAt @map("modified_at")
-  state      String
+  state      String   @default("started")
   lastTime   Int      @map("last_time")
 
   // Relations
   lessonId String @db.ObjectId
   lesson   Lesson @relation(fields: [lessonId], references: [id])
-  userId   String @db.ObjectId
-  user     User   @relation(fields: [userId], references: [id])
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+
+  moduleId String? @db.ObjectId
+  module   Module? @relation(fields: [moduleId], references: [id])
 }
 
-// MARK: Assessment and Quizzes
+// MARK: Quiz c need to verify relation
 model Quiz {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  question    String
-  description String
-  options     Json[]
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
+
+  title        String
+  description  String
+  options      Json[]       // Assuming this is static option config per quiz
   explanations String
-  mark        Int
-  slug        String
+  mark         Int          @default(5)
+  slug         String
 
   // Relations
-  quizSets     QuizSet[]   @relation(fields: [quizSetIds], references: [id])
-  quizSetIds   String[]    @db.ObjectId
-  assessments  Assessment[]
-}
+  quizSets      QuizSet[]   @relation(fields: [quizSetIds], references: [id])
+  quizSetIds    String[]    @db.ObjectId
 
+  assessments   AssessmentItem[]  // Link to AssessmentItem, not Assessment directly
+}
+//MARK : QUIZSET C NEED to
 model QuizSet {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
-  mark        Int
-  slug        String
-  status      String
+
+  slug   String
+  active Boolean @default(false)
 
   // Relations
-  quizzes   Quiz[]    @relation(fields: [quizIds], references: [id])
-  quizIds   String[]  @db.ObjectId
-  courses   Course[]
+  quizzes Quiz[]   @relation(fields: [quizIds], references: [id])
+  quizIds String[] @db.ObjectId
+  courses Course[]
 }
 
+//need to fix it
+//MARK:Assessment
 model Assessment {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  mark      Int?
-  otherMarks Int?
-  noc       Int?     // Number of correct answers
-  attempted Boolean  @default(false)
+  id         String           @id @default(auto()) @map("_id") @db.ObjectId
+  otherMarks Int
 
   // Relations
-  quizId     String   @db.ObjectId
-  quiz       Quiz     @relation(fields: [quizId], references: [id])
-  options    Json[]
-  reports    Report[]
+  items      AssessmentItem[]  // 👈 Add this
+  report     Report?           @relation(name: "ReportAssessment")
+}
+
+//MARK:AssessmentItem
+model AssessmentItem {
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  attempted     Boolean      @default(false)
+
+  // Relations
+  quizId        String       @db.ObjectId
+  quiz          Quiz         @relation(fields: [quizId], references: [id])
+
+  assessmentId  String       @db.ObjectId
+  assessment    Assessment   @relation(fields: [assessmentId], references: [id])
+
+  options       Option[]     // one-to-many
+}
+
+//MARK: Option
+model Option {
+  id               String           @id @default(auto()) @map("_id") @db.ObjectId
+  option           String
+  isCorrect        Boolean
+  isSelected       Boolean
+
+  assessmentItemId String           @db.ObjectId
+  assessmentItem   AssessmentItem   @relation(fields: [assessmentItemId], references: [id])
 }
 
 // MARK: Enrollment and Certification
@@ -187,11 +221,11 @@ model Enrollment {
   method         String
 
   // Relations
-  courseId       String    @db.ObjectId
-  course         Course    @relation(fields: [courseId], references: [id])
-  studentId      String    @db.ObjectId
-  student        User      @relation(fields: [studentId], references: [id])
-  certificates   Certificate[]
+  courseId     String        @db.ObjectId
+  course       Course        @relation(fields: [courseId], references: [id])
+  studentId    String        @db.ObjectId
+  student      User          @relation(fields: [studentId], references: [id])
+  certificates Certificate[]
 }
 
 model Certificate {
@@ -221,29 +255,30 @@ model Testimonial {
 
 // MARK: Live Sessions
 model Live {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  description String
-  thumbnail   String
-  videoId     String   @map("video_id")
-  slug        String
-  schedule    DateTime
-  quizId      String?  @map("quiz_id")
-  instructorId String  @map("instructor_id")
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  description  String
+  thumbnail    String
+  videoId      String   @map("video_id")
+  slug         String
+  schedule     DateTime
+  quizId       String?  @map("quiz_id")
+  instructorId String   @map("instructor_id")
 }
 
 // MARK: Reporting and Analytics
 model Report {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id                    String       @id @default(auto()) @map("_id") @db.ObjectId
 
-  // Relations
-  totalCompletedLessons String[] @db.ObjectId
-  totalCompletedModules String[] @db.ObjectId @map("totalCompletedModeules")
-  
-  courseId      String     @db.ObjectId
-  course        Course     @relation(fields: [courseId], references: [id])
-  studentId     String     @db.ObjectId
-  student       User       @relation(fields: [studentId], references: [id])
-  assessmentId  String?    @db.ObjectId
-  assessment    Assessment? @relation(fields: [assessmentId], references: [id])
+  totalCompletedLessons String[]     @db.ObjectId
+  totalCompletedModules String[]     @map("totalCompletedModeules") @db.ObjectId
+
+  courseId              String       @db.ObjectId
+  course                Course       @relation(fields: [courseId], references: [id])
+
+  studentId             String       @db.ObjectId
+  student               User         @relation(fields: [studentId], references: [id])
+
+  assessmentId          String?      @unique @db.ObjectId
+  assessment            Assessment?  @relation(name: "ReportAssessment", fields: [assessmentId], references: [id])
 }

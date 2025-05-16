@@ -17,11 +17,11 @@ export async function GET(request, { params }) {
         ...(await shouldIncludeRoleSpecificData(params.id)),
       },
     });
-    
+
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
-    
+
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
     console.error("Error fetching user:", error);
@@ -37,13 +37,13 @@ async function shouldIncludeRoleSpecificData(userId) {
   try {
     const user = await db.user.findUnique({
       where: { id: userId },
-      select: { role: true }
+      select: { role: true },
     });
-    
+
     if (!user) return {};
-    
+
     switch (user.role) {
-      case 'instructor':
+      case "instructor":
         return {
           taughtCourses: {
             select: {
@@ -52,10 +52,10 @@ async function shouldIncludeRoleSpecificData(userId) {
               description: true,
               thumbnail: true,
               status: true,
-            }
-          }
+            },
+          },
         };
-      case 'student':
+      case "student":
         return {
           enrollments: {
             include: {
@@ -64,14 +64,14 @@ async function shouldIncludeRoleSpecificData(userId) {
                   id: true,
                   title: true,
                   thumbnail: true,
-                }
-              }
-            }
+                },
+              },
+            },
           },
           reports: true,
           watches: true,
         };
-      case 'admin':
+      case "admin":
         // Admin might need access to everything
         return {
           taughtCourses: true,
