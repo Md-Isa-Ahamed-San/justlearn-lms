@@ -24,8 +24,9 @@ import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { CardHoverEffectDemo } from "../../components/CardHoverEffect";
-import { getCourses } from "../../queries/courses";
+import { getCourseList } from "../../queries/courses";
 import ThemeSwitcher from "../../components/theme-switcher";
+import { getCategories } from "../../queries/categories";
 
 // Dynamically import with `ssr: false`
 const HeroLottie = dynamic(() => import("./_components/HeroLottie"));
@@ -176,14 +177,17 @@ const courses = [
   },
 ];
 const HomePage = async () => {
-  const course = await getCourses();
-  // console.log(" HomePage ~ course:", course)
-  // console.log("HomePage ~ course:", JSON.stringify(course, null, 2));
-  console.dir(course, {
-    depth: null, // full depth
-    colors: true, // enable terminal colors
-    compact: false, // expand everything for readability
-  });
+  // const courseList = await getCourseList();
+  const categories = await getCategories();
+  console.log(" HomePage ~ categories:", categories)
+
+
+  // console.log("HomePage ~ course:", JSON.stringify(courseList, null, 2));
+  // console.dir(course, {
+  //   depth: null, // full depth
+  //   colors: true, // enable terminal colors
+  //   compact: false, // expand everything for readability
+  // });
 
   return (
     <>
@@ -313,17 +317,17 @@ const HomePage = async () => {
           {categories.map((category) => {
             return (
               <Link
-                href=""
+                href={`/category/${category.id}`}
                 key={category.id}
                 className="relative overflow-hidden rounded-lg border bg-background p-2 hover:scale-105 transition-all duration-500 ease-in-out"
               >
                 <div className="flex  flex-col gap-4 items-center justify-between rounded-md p-6">
-                  {/* <Image
-                    src={category.thumbnail}
+                  <Image
+                    src={`/assets/images/categories/${category.thumbnail}`}
                     alt={category.title}
                     width={100}
                     height={100}
-                  /> */}
+                  />
                   <h3 className="font-bold">{category.title}</h3>
                 </div>
               </Link>

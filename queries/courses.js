@@ -1,6 +1,6 @@
 import { db } from "@/lib/prisma";
 
-export const getCourses = async () => {
+export const getCourseList = async () => {
   try {
     console.log("Fetching courses...");
 
