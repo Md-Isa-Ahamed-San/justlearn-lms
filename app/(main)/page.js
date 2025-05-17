@@ -27,6 +27,7 @@ import { getCourseList } from "../../queries/courses";
 
 import { getCategories } from "../../queries/categories";
 import HeroLottieWrapper from "./_components/HeroLottieWrapper";
+import HeroLottie from "./_components/HeroLottie";
 
 
 
@@ -111,6 +112,7 @@ const HomePage = async () => {
       <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32 ">
         <div className="flex max-w-7xl mx-auto justify-center items-center">
           <HeroLottieWrapper />
+          
           <div className="container flex max-w-3xl flex-col items-center gap-4 text-center relative isolate">
             <div
               aria-hidden="true"
