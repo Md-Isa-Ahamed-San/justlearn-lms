@@ -143,7 +143,7 @@ const HomePage = async () => {
             </h1>
 
             <div className="flex items-center gap-3 flex-wrap justify-center">
-              <Link href="" className={cn(buttonVariants({ size: "lg" }))}>
+              <Link href="/courses" className={cn(buttonVariants({ size: "lg" }))}>
                 Explore Now
               </Link>
               <Link
@@ -260,7 +260,7 @@ const HomePage = async () => {
         <div className="flex items-center justify-between">
           <SectionTitle>Courses</SectionTitle>
           <Link
-            href={""}
+            href={"/courses"}
             className=" text-sm font-medium  hover:opacity-80 flex items-center gap-1"
           >
             Browse All <ArrowRightIcon className="h-4 w-4" />
