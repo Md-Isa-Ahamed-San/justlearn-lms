@@ -16,6 +16,11 @@ const nextConfig = {
         hostname: "avatars.githubusercontent.com",
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: "i.pravatar.cc",
+        pathname: '/**',
+      },
     ],
   },
 };

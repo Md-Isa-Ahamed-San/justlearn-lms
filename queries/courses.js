@@ -33,3 +33,29 @@ export const getCourseList = async () => {
     throw error;
   }
 };
+export const getCourseDetails = async (id)=>{
+  console.log("single course id: ",id);
+  
+  try {
+    const course = await db.course.findUnique({
+      where: { id: id },
+      include: {
+        category: true,
+        instructor:true,
+        quizSet: true,
+        modules: true,
+        testimonials: {
+          include: {
+            user: true, 
+          },
+        },
+        // enrollments: true,
+        // reports: true,
+      },
+    });
+    return course;
+  } catch (error) {
+    console.error("Error fetching course:", error);
+    throw error;
+  }
+}

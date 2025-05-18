@@ -92,9 +92,9 @@ model Module {
   id          String  @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String?
-  active      Boolean @default(false)
+  status      String  @default("not-active")
   slug        String
-  order       Int
+  duration    Int
 
   // Relations
   course    Course   @relation(fields: [courseId], references: [id])
@@ -117,7 +117,6 @@ model Lesson {
   active Boolean @default(false)
   slug   String
   access String  @default("private")
-  order  Int
 
   // Relations
   modules   Module[] @relation(fields: [moduleIds], references: [id])

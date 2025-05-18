@@ -97,7 +97,7 @@ const HomePage = async () => {
   // const courseList = await getCourseList();
   const categories = await getCategories();
   const courses = await getCourseList()
-  console.log(" HomePage ~ categories:", categories)
+  // console.log(" HomePage ~ categories:", categories)
 
 
   // console.log("HomePage ~ course:", JSON.stringify(courseList, null, 2));
@@ -111,8 +111,8 @@ const HomePage = async () => {
     <>
       <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32 ">
         <div className="flex max-w-7xl mx-auto justify-center items-center">
-          {/* <HeroLottieWrapper /> */}
-          <HeroLottie/>
+          <HeroLottieWrapper />
+          {/* <HeroLottie/> */}
           
           <div className="container flex max-w-3xl flex-col items-center gap-4 text-center relative isolate">
             <div
