@@ -4,38 +4,38 @@
 
 @layer base {
 :root {
-  --background: 260 23.08% 97.45%;
-  --foreground: 243.16 13.67% 27.25%;
-  --card: 0 0% 100%;
-  --card-foreground: 243.16 13.67% 27.25%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 243.16 13.67% 27.25%;
-  --primary: 260.40 22.94% 57.25%;
-  --primary-foreground: 260 23.08% 97.45%;
-  --secondary: 258.95 33.33% 88.82%;
-  --secondary-foreground: 243.16 13.67% 27.25%;
-  --muted: 258.00 15.15% 87.06%;
-  --muted-foreground: 247.50 10.34% 45.49%;
-  --accent: 342.46 56.52% 77.45%;
-  --accent-foreground: 343.45 23.97% 23.73%;
-  --destructive: 0 62.19% 60.59%;
-  --destructive-foreground: 260 23.08% 97.45%;
-  --border: 258.75 17.39% 81.96%;
-  --input: 260.00 23.08% 92.35%;
-  --ring: 260.40 22.94% 57.25%;
-  --chart-1: 260.40 22.94% 57.25%;
-  --chart-2: 342.46 56.52% 77.45%;
-  --chart-3: 158.77 31.40% 59.41%;
-  --chart-4: 35.76 76.74% 74.71%;
-  --chart-5: 215.82 54.47% 75.88%;
-  --sidebar: 260.00 23.08% 94.90%;
-  --sidebar-foreground: 243.16 13.67% 27.25%;
-  --sidebar-primary: 260.40 22.94% 57.25%;
-  --sidebar-primary-foreground: 260 23.08% 97.45%;
-  --sidebar-accent: 342.46 56.52% 77.45%;
-  --sidebar-accent-foreground: 343.45 23.97% 23.73%;
-  --sidebar-border: 261.43 18.42% 85.10%;
-  --sidebar-ring: 260.40 22.94% 57.25%;
+  --background: 260 23.08% 97.45%; /* #f8f7fc */
+  --foreground: 243.16 13.67% 27.25%; /* #3e3e4a */
+  --card: 0 0% 100%; /* #ffffff */
+  --card-foreground: 243.16 13.67% 27.25%; /* #3e3e4a */
+  --popover: 0 0% 100%; /* #ffffff */
+  --popover-foreground: 243.16 13.67% 27.25%; /* #3e3e4a */
+  --primary: 260.40 22.94% 57.25%; /* #8273c7 */
+  --primary-foreground: 260 23.08% 97.45%; /* #f8f7fc */
+  --secondary: 258.95 33.33% 88.82%; /* #d3ccf0 */
+  --secondary-foreground: 243.16 13.67% 27.25%; /* #3e3e4a */
+  --muted: 258.00 15.15% 87.06%; /* #d7d4e3 */
+  --muted-foreground: 247.50 10.34% 45.49%; /* #6c6c7c */
+  --accent: 342.46 56.52% 77.45%; /* #eb90a8 */
+  --accent-foreground: 343.45 23.97% 23.73%; /* #4b2832 */
+  --destructive: 0 62.19% 60.59%; /* #e53e3e */
+  --destructive-foreground: 260 23.08% 97.45%; /* #f8f7fc */
+  --border: 258.75 17.39% 81.96%; /* #c6c2d3 */
+  --input: 260.00 23.08% 92.35%; /* #e7e4f2 */
+  --ring: 260.40 22.94% 57.25%; /* #8273c7 */
+  --chart-1: 260.40 22.94% 57.25%; /* #8273c7 */
+  --chart-2: 342.46 56.52% 77.45%; /* #eb90a8 */
+  --chart-3: 158.77 31.40% 59.41%; /* #69c289 */
+  --chart-4: 35.76 76.74% 74.71%; /* #f7ac55 */
+  --chart-5: 215.82 54.47% 75.88%; /* #5bcaf7 */
+  --sidebar: 260.00 23.08% 94.90%; /* #efecf7 */
+  --sidebar-foreground: 243.16 13.67% 27.25%; /* #3e3e4a */
+  --sidebar-primary: 260.40 22.94% 57.25%; /* #8273c7 */
+  --sidebar-primary-foreground: 260 23.08% 97.45%; /* #f8f7fc */
+  --sidebar-accent: 342.46 56.52% 77.45%; /* #eb90a8 */
+  --sidebar-accent-foreground: 343.45 23.97% 23.73%; /* #4b2832 */
+  --sidebar-border: 261.43 18.42% 85.10%; /* #cdc8dd */
+  --sidebar-ring: 260.40 22.94% 57.25%; /* #8273c7 */
   --font-sans: Geist, sans-serif;
   --font-serif: "Lora", Georgia, serif;
   --font-mono: "Fira Code", "Courier New", monospace;
@@ -51,38 +51,38 @@
 }
 
 .dark {
-  --background: 250.91 18.64% 11.57%;
-  --foreground: 250.00 36.00% 90.20%;
-  --card: 251.25 20% 15.69%;
-  --card-foreground: 250.00 36.00% 90.20%;
-  --popover: 251.25 20% 15.69%;
-  --popover-foreground: 250.00 36.00% 90.20%;
-  --primary: 263.08 32.50% 68.63%;
-  --primary-foreground: 250.91 18.64% 11.57%;
-  --secondary: 254.48 14.87% 38.24%;
-  --secondary-foreground: 250.00 36.00% 90.20%;
-  --muted: 254.12 20.99% 15.88%;
-  --muted-foreground: 258.95 10.38% 64.12%;
-  --accent: 271.76 15.60% 21.37%;
-  --accent-foreground: 345.52 69.05% 83.53%;
-  --destructive: 0 68.67% 67.45%;
-  --destructive-foreground: 250.91 18.64% 11.57%;
-  --border: 252 18.52% 21.18%;
-  --input: 249.47 19.59% 19.02%;
-  --ring: 263.08 32.50% 68.63%;
-  --chart-1: 263.08 32.50% 68.63%;
-  --chart-2: 345.52 69.05% 83.53%;
-  --chart-3: 158.77 31.40% 59.41%;
-  --chart-4: 35.76 76.74% 74.71%;
-  --chart-5: 215.82 54.47% 75.88%;
-  --sidebar: 252 20.00% 9.80%;
-  --sidebar-foreground: 250.00 36.00% 90.20%;
-  --sidebar-primary: 263.08 32.50% 68.63%;
-  --sidebar-primary-foreground: 250.91 18.64% 11.57%;
-  --sidebar-accent: 271.76 15.60% 21.37%;
-  --sidebar-accent-foreground: 345.52 69.05% 83.53%;
-  --sidebar-border: 249.47 19.59% 19.02%;
-  --sidebar-ring: 263.08 32.50% 68.63%;
+  --background: 250.91 18.64% 11.57%; /* #191a29 */
+  --foreground: 250.00 36.00% 90.20%; /* #d1d7f7 */
+  --card: 251.25 20% 15.69%; /* #21223a */
+  --card-foreground: 250.00 36.00% 90.20%; /* #d1d7f7 */
+  --popover: 251.25 20% 15.69%; /* #21223a */
+  --popover-foreground: 250.00 36.00% 90.20%; /* #d1d7f7 */
+  --primary: 263.08 32.50% 68.63%; /* #a399e8 */
+  --primary-foreground: 250.91 18.64% 11.57%; /* #191a29 */
+  --secondary: 254.48 14.87% 38.24%; /* #4f5178 */
+  --secondary-foreground: 250.00 36.00% 90.20%; /* #d1d7f7 */
+  --muted: 254.12 20.99% 15.88%; /* #21223a */
+  --muted-foreground: 258.95 10.38% 64.12%; /* #9a9cc0 */
+  --accent: 271.76 15.60% 21.37%; /* #312944 */
+  --accent-foreground: 345.52 69.05% 83.53%; /* #f792ad */
+  --destructive: 0 68.67% 67.45%; /* #fb5454 */
+  --destructive-foreground: 250.91 18.64% 11.57%; /* #191a29 */
+  --border: 252 18.52% 21.18%; /* #2d2e4c */
+  --input: 249.47 19.59% 19.02%; /* #292b48 */
+  --ring: 263.08 32.50% 68.63%; /* #a399e8 */
+  --chart-1: 263.08 32.50% 68.63%; /* #a399e8 */
+  --chart-2: 345.52 69.05% 83.53%; /* #f792ad */
+  --chart-3: 158.77 31.40% 59.41%; /* #69c289 */
+  --chart-4: 35.76 76.74% 74.71%; /* #f7ac55 */
+  --chart-5: 215.82 54.47% 75.88%; /* #5bcaf7 */
+  --sidebar: 252 20.00% 9.80%; /* #161728 */
+  --sidebar-foreground: 250.00 36.00% 90.20%; /* #d1d7f7 */
+  --sidebar-primary: 263.08 32.50% 68.63%; /* #a399e8 */
+  --sidebar-primary-foreground: 250.91 18.64% 11.57%; /* #191a29 */
+  --sidebar-accent: 271.76 15.60% 21.37%; /* #312944 */
+  --sidebar-accent-foreground: 345.52 69.05% 83.53%; /* #f792ad */
+  --sidebar-border: 249.47 19.59% 19.02%; /* #292b48 */
+  --sidebar-ring: 263.08 32.50% 68.63%; /* #a399e8 */
   --font-sans: Geist, sans-serif;
   --font-serif: "Lora", Georgia, serif;
   --font-mono: "Fira Code", "Courier New", monospace;
