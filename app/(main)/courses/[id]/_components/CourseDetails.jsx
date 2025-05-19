@@ -26,24 +26,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import CourseInstructor from "./CourseInstructor";
 import CourseCurriculum from "./CourseCurriculum";
 import CourseOverview from "./CourseOverview";
+import { formatPrice } from "../../../../../lib/formatPrice";
+import { formatDate } from "../../../../../lib/formatDate";
 
 const CourseDetails = ({ courseDetails }) => {
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(price / 100); // Assuming price is in cents
-  };
+  
 
   // Format date to readable format
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  };
+
 
   // Get instructor initials for avatar fallback
   const getInstructorInitials = () => {
@@ -119,7 +109,7 @@ const CourseDetails = ({ courseDetails }) => {
                   </span>
                 </div>
                 <div className="text-sm">
-                  Last updated: {formatDate(courseDetails?.modifiedOn)}
+                  Last updated: {formatDate(courseDetails?.updatedAt)}
                 </div>
               </div>
             </div>

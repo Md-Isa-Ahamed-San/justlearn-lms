@@ -28,7 +28,7 @@ const CourseCurriculum = ({courseDetails,getTotalLessons,getTotalDuration}) => {
                   <div className="flex flex-wrap items-center gap-6 text-sm">
                     <div className="flex items-center gap-2">
                       <BookCheck className="h-4 w-4" />
-                      <span>{courseDetails?.modules?.length || 0} Modules</span>
+                      <span>{courseDetails?.weeks?.length || 0} Modules</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Clock className="h-4 w-4" />
@@ -43,33 +43,33 @@ const CourseCurriculum = ({courseDetails,getTotalLessons,getTotalDuration}) => {
 
                 <Accordion
                   type="multiple"
-                  defaultValue={courseDetails?.modules?.map((m) => m.id) || []}
+                  defaultValue={courseDetails?.weeks?.map((m) => m.id) || []}
                   className="w-full"
                 >
-                  {courseDetails?.modules?.map((module) => (
-                    <AccordionItem key={module.id} value={module.id} className="border-b border-gray-200 px-0">
+                  {courseDetails?.weeks?.map((week) => (
+                    <AccordionItem key={week.id} value={week.id} className="border-b border-gray-200 px-0">
                       <AccordionTrigger className="py-4 text-lg font-medium hover:no-underline">
-                        {module.title}
+                        {week.title}
                       </AccordionTrigger>
                       <AccordionContent className="pb-6">
                         <div className="mb-4 flex flex-wrap items-center gap-4 rounded-lg bg-muted/30 p-4 text-sm">
                           <div className="flex items-center gap-1.5">
                             <Video className="h-4 w-4" />
-                            {module.lessonIds?.length || 0} Lessons
+                            {week.lessonIds?.length || 0} Lessons
                           </div>
                           <div className="flex items-center gap-1.5">
                             <Clock className="h-4 w-4" />
-                            {Math.ceil(module.duration / 60)} Hours
+                            {Math.ceil(week.duration / 60)} Hours
                           </div>
                           <div className="flex items-center gap-1.5">
                             <FileText className="h-4 w-4" />
-                            {module.description}
+                            {week.description}
                           </div>
                         </div>
 
                         <div className="space-y-3">
                           {/* Placeholder for lessons since we don't have actual lesson data */}
-                          {Array(module.lessonIds?.length || 0)
+                          {Array(week.lessonIds?.length || 0)
                             .fill(0)
                             .map((_, idx) => (
                               <div
@@ -79,7 +79,7 @@ const CourseCurriculum = ({courseDetails,getTotalLessons,getTotalDuration}) => {
                                 <div className="flex items-center gap-3">
                                   <Video className="h-4 w-4" />
                                   <span className="text-gray-700">
-                                    Lesson {idx + 1}: {module.title} - Part {idx + 1}
+                                    Lesson {idx + 1}: {week.title} - Part {idx + 1}
                                   </span>
                                 </div>
                                 <Button variant="ghost" size="sm" className="h-8 gap-1">

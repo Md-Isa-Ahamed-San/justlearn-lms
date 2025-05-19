@@ -7,32 +7,36 @@ generator client {
 }
 
 datasource db {
-  provider     = "mongodb" // Keep "mongodb" if you're staying with MongoDB
-  url          = env("DATABASE_URL") // Make sure this is set in your .env file
+  provider     = "mongodb"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
 // MARK: User C
 model User {
-  id             String  @id @default(auto()) @map("_id") @db.ObjectId
-  firstName      String
-  lastName       String
-  password       String
-  email          String  @unique
-  phone          String?
-  role           String
-  bio            String?
-  designation    String?
-  profilePicture String?
-  socialMedia    Json?
+  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
+  firstName            String
+  lastName             String
+  password             String
+  email                String    @unique
+  phone                String?
+  role                 String
+  bio                  String?
+  designation          String?
+  profilePicture       String?
+  socialMedia          Json?
+  resetPasswordToken   String? // Added for forgot password functionality
+  resetPasswordExpires DateTime?
 
   // Relations
-  coursesAsInstructor Course[]      @relation("InstructorCourses")
+  coursesAsInstructor Course[]        @relation("InstructorCourses")
   enrollments         Enrollment[]
   testimonials        Testimonial[]
   watches             Watch[]
   certificates        Certificate[]
   reports             Report[]
+  feedback            Feedback[] // Added relation
+  participations      Participation[] // Added relation
 
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
@@ -48,34 +52,26 @@ model Course {
   price       Int       @default(0)
   active      Boolean   @default(false)
   learning    String[]
+  rating      Float? // Added for filtering
+  popularity  Int? // Added for sorting by popularity
+  lastUpdated DateTime? // Added for "Last updated date"
   createdAt   DateTime? @default(now())
   updatedAt   DateTime? @updatedAt
 
   // 🔗 Relations
-
-  // Category relation
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String   @db.ObjectId
 
-  // Instructor relation (from User model)
   instructor   User   @relation("InstructorCourses", fields: [instructorId], references: [id])
   instructorId String @db.ObjectId
 
-  // Modules (one-to-many)
-  modules Module[]
-
-  // Testimonials (one-to-many)
-  testimonials Testimonial[]
-
-  // Enrollments (one-to-many)
-  enrollments Enrollment[]
-
-  // Quiz set (optional one-to-one)
-  quizSet   QuizSet? @relation(fields: [quizSetId], references: [id])
-  quizSetId String?  @db.ObjectId
-
-  // Reports (one-to-many)
-  reports Report[]
+  weeks          Week[]
+  testimonials   Testimonial[]
+  enrollments    Enrollment[]
+  quizSet        QuizSet?        @relation(fields: [quizSetId], references: [id])
+  quizSetId      String?         @db.ObjectId
+  reports        Report[]
+  participations Participation[] // Added relation
 }
 
 // MARK: Category C
@@ -89,96 +85,94 @@ model Category {
   courses     Course[]
 }
 
-// MARK: Module c but relation need to change
-model Module {
+// MARK: Week
+model Week {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String?
   status      String    @default("not-active")
   slug        String
   duration    Int
+  order       Int // Added: For sequencing weeks
+  quizPrompt  String? // Added: Instructor's prompt for AI quiz
   createdAt   DateTime? @default(now())
   updatedAt   DateTime? @updatedAt
 
   // Relations
-  course    Course   @relation(fields: [courseId], references: [id])
-  courseId  String   @db.ObjectId
-  lessons   Lesson[] @relation(fields: [lessonIds], references: [id])
-  lessonIds String[] @db.ObjectId
-
-  // Add this line:
-  watches Watch[] // 👈 Back-reference
+  course    Course     @relation(fields: [courseId], references: [id])
+  courseId  String     @db.ObjectId
+  lessons   Lesson[]
+  resources Resource[] // Added relation
+  watches   Watch[]
+  feedback  Feedback[] // Added relation
+  quizzes   Quiz[] // Added relation
 }
 
-//MARK: Lesson c but need to verify the relation
+// MARK: Lesson
 model Lesson {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String?
   duration    Int       @default(0)
   videoUrl    String?   @map("video_url")
+  active      Boolean   @default(false)
+  slug        String
+  access      String    @default("private")
   createdAt   DateTime? @default(now())
   updatedAt   DateTime? @updatedAt
 
-  active Boolean @default(false)
-  slug   String
-  access String  @default("private")
-
-  // Relations
-  modules   Module[] @relation(fields: [moduleIds], references: [id])
-  moduleIds String[] @db.ObjectId
-  watches   Watch[]
+  // Relations - fixed relation to be many-to-one with Week
+  weekId  String  @db.ObjectId
+  week    Week    @relation(fields: [weekId], references: [id])
+  watches Watch[]
 }
 
-//MARK : Watch c but need to verify the relation 
+// MARK: Watch
 model Watch {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
   state     String    @default("started")
   lastTime  Int       @map("last_time")
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 
   // Relations
-  lessonId String @db.ObjectId
-  lesson   Lesson @relation(fields: [lessonId], references: [id])
-
-  userId String @db.ObjectId
-  user   User   @relation(fields: [userId], references: [id])
-
-  moduleId String? @db.ObjectId
-  module   Module? @relation(fields: [moduleId], references: [id])
+  lessonId String  @db.ObjectId
+  lesson   Lesson  @relation(fields: [lessonId], references: [id])
+  userId   String  @db.ObjectId
+  user     User    @relation(fields: [userId], references: [id])
+  weekId   String? @db.ObjectId
+  week     Week?   @relation(fields: [weekId], references: [id])
 }
 
-// MARK: Quiz c need to verify relation
+// MARK: Quiz
 model Quiz {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-
-  title        String
-  description  String
-  options      Json[] // Assuming this is static option config per quiz
-  explanations String
-  mark         Int       @default(5)
-  slug         String
-  createdAt    DateTime? @default(now())
-  updatedAt    DateTime? @updatedAt
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  version     Int       @default(1) // For quiz versioning
+  published   Boolean   @default(false) // Published/draft status
+  slug        String
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @updatedAt
 
   // Relations
-  quizSets   QuizSet[] @relation(fields: [quizSetIds], references: [id])
-  quizSetIds String[]  @db.ObjectId
-
-  assessments AssessmentItem[] // Link to AssessmentItem, not Assessment directly
+  weekId          String?          @db.ObjectId
+  week            Week?            @relation(fields: [weekId], references: [id])
+  questions       Question[] // Added relation
+  quizSets        QuizSet[]        @relation(fields: [quizSetIds], references: [id])
+  quizSetIds      String[]         @db.ObjectId
+  assessmentItems AssessmentItem[]
 }
 
-//MARK : QUIZSET C NEED to
+// MARK: QuizSet
 model QuizSet {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
-  createdAt   DateTime? @default(now())
-  updatedAt   DateTime? @updatedAt
   slug        String
   active      Boolean   @default(false)
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @updatedAt
 
   // Relations
   quizzes Quiz[]   @relation(fields: [quizIds], references: [id])
@@ -186,8 +180,68 @@ model QuizSet {
   courses Course[]
 }
 
-//need to fix it
-//MARK:Assessment
+// MARK: Feedback
+model Feedback {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  quizScore   Float
+  suggestions String
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @updatedAt
+
+  // Relations
+  studentId String @db.ObjectId
+  student   User   @relation(fields: [studentId], references: [id])
+  weekId    String @db.ObjectId
+  week      Week   @relation(fields: [weekId], references: [id])
+}
+
+// MARK: Participation
+model Participation {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  progress  Json[] // Array of {weekId, completed, score}
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  // Relations
+  courseId  String @db.ObjectId
+  course    Course @relation(fields: [courseId], references: [id])
+  studentId String @db.ObjectId
+  student   User   @relation(fields: [studentId], references: [id])
+}
+
+// MARK: Question
+model Question {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  type        String // "MCQ", "TF", "short"
+  prompt      String
+  choices     Json? // For MCQ questions
+  answer      String
+  explanation String // AI-generated explanation
+  mark        Int       @default(1)
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @updatedAt
+
+  // Relations
+  quizId String @db.ObjectId
+  quiz   Quiz   @relation(fields: [quizId], references: [id])
+}
+
+// MARK: Resource
+model Resource {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  type      String // "text", "pdf", "video", "link"
+  url       String?
+  content   String? // For text resources
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  // Relations
+  weekId String @db.ObjectId
+  week   Week   @relation(fields: [weekId], references: [id])
+}
+
+// MARK: Assessment
 model Assessment {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
   otherMarks Int
@@ -195,11 +249,11 @@ model Assessment {
   updatedAt  DateTime? @updatedAt
 
   // Relations
-  items  AssessmentItem[] // 👈 Add this
+  items  AssessmentItem[]
   report Report?          @relation(name: "ReportAssessment")
 }
 
-//MARK:AssessmentItem
+// MARK: AssessmentItem
 model AssessmentItem {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
   attempted Boolean   @default(false)
@@ -216,7 +270,7 @@ model AssessmentItem {
   options Option[] // one-to-many
 }
 
-//MARK: Option
+// MARK: Option
 model Option {
   id               String         @id @default(auto()) @map("_id") @db.ObjectId
   option           String
@@ -246,6 +300,7 @@ model Enrollment {
   certificates Certificate[]
 }
 
+// MARK: Certificate
 model Certificate {
   id              String    @id @default(auto()) @map("_id") @db.ObjectId
   certificateLink String    @map("certificate_link")
@@ -260,19 +315,19 @@ model Certificate {
   enrollment   Enrollment @relation(fields: [enrollmentId], references: [id])
 }
 
-// MARK: User Feedback
+// MARK: Testimonial
 model Testimonial {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  content String
-  rating  Int
-
-  // Relations
-  courseId  String    @db.ObjectId
-  course    Course    @relation(fields: [courseId], references: [id])
-  userId    String    @db.ObjectId
-  user      User      @relation(fields: [userId], references: [id])
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  content   String
+  rating    Int
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
+
+  // Relations
+  courseId String @db.ObjectId
+  course   Course @relation(fields: [courseId], references: [id])
+  userId   String @db.ObjectId
+  user     User   @relation(fields: [userId], references: [id])
 }
 
 // MARK: Live Sessions

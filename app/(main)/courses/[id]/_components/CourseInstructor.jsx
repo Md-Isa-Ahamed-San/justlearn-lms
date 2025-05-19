@@ -1,9 +1,22 @@
 import React from "react";
 import { TabsContent } from "@/components/ui/tabs";
 import Image from "next/image";
-import { GraduationCap, MessageSquare, Star, Users } from "lucide-react";
 import Link from "next/link";
-const CourseInstructor = ({ courseDetails }) => {
+import {
+  GraduationCap,
+  MessageSquare,
+  Star,
+  Users,
+  Twitter,
+  Linkedin,
+  Facebook,
+} from "lucide-react";
+import { getInstructorDetailedStats } from "@/queries/courses";
+
+const CourseInstructor = async ({ courseDetails }) => {
+  const { courseCount, totalStudents, averageRating, testimonialCount } =
+    await getInstructorDetailedStats(courseDetails?.instructor?.id);
+
   return (
     <TabsContent value="instructor" className="mt-6">
       <div className="overflow-hidden rounded-xl bg-muted/30 p-8">
@@ -21,6 +34,7 @@ const CourseInstructor = ({ courseDetails }) => {
               quality={50}
             />
           </div>
+
           <div className="flex-1">
             <h3 className="text-3xl font-bold">
               {courseDetails?.instructor?.firstName}{" "}
@@ -35,25 +49,25 @@ const CourseInstructor = ({ courseDetails }) => {
                 <div className="rounded-full bg-primary/10 p-2">
                   <GraduationCap className="h-5 w-5 text-primary" />
                 </div>
-                <div>Multiple Courses</div>
+                <div>{courseCount} Courses</div>
               </div>
               <div className="flex items-center gap-3">
                 <div className="rounded-full bg-primary/10 p-2">
                   <Users className="h-5 w-5 text-primary" />
                 </div>
-                <div>Many Students</div>
+                <div>{totalStudents} Students</div>
               </div>
               <div className="flex items-center gap-3">
                 <div className="rounded-full bg-primary/10 p-2">
                   <MessageSquare className="h-5 w-5 text-primary" />
                 </div>
-                <div>Active Support</div>
+                <div>{testimonialCount} Reviews</div>
               </div>
               <div className="flex items-center gap-3">
                 <div className="rounded-full bg-primary/10 p-2">
                   <Star className="h-5 w-5 text-primary" />
                 </div>
-                <div>High Ratings</div>
+                <div>{averageRating} Star</div>
               </div>
             </div>
 
@@ -64,31 +78,31 @@ const CourseInstructor = ({ courseDetails }) => {
                 {courseDetails.instructor.socialMedia.twitter && (
                   <Link
                     href={`https://twitter.com/${courseDetails.instructor.socialMedia.twitter}`}
-                    className="text-blue-500 hover:text-blue-600"
                     target="_blank"
                     rel="noopener noreferrer"
+                    className=""
                   >
-                    Twitter
+                    <Twitter className="h-5 w-5 text-primary hover:text-destructive " />
                   </Link>
                 )}
                 {courseDetails.instructor.socialMedia.linkedin && (
                   <Link
                     href={courseDetails.instructor.socialMedia.linkedin}
-                    className="text-blue-700 hover:text-blue-800"
                     target="_blank"
                     rel="noopener noreferrer"
+                    className=""
                   >
-                    LinkedIn
+                    <Linkedin className="h-5 w-5  text-primary hover:text-destructive" />
                   </Link>
                 )}
                 {courseDetails.instructor.socialMedia.facebook && (
                   <Link
                     href={courseDetails.instructor.socialMedia.facebook}
-                    className="text-blue-600 hover:text-blue-700"
                     target="_blank"
                     rel="noopener noreferrer"
+                    className=""
                   >
-                    Facebook
+                    <Facebook className="h-5 w-5  text-primary hover:text-destructive" />
                   </Link>
                 )}
               </div>
