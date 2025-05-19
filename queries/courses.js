@@ -5,7 +5,10 @@ import { cache } from "react";
 const instructorStatsCache = new Map();
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
 
-export const getCourseList = async () => {
+
+// ⏳ Cache course list
+export const getCourseList = cache(async () => {
+  console.log("Fetching course list...");
   try {
     const courses = await db.course.findMany({
       include: {
@@ -31,12 +34,14 @@ export const getCourseList = async () => {
     console.error("Error fetching courses:", error);
     throw error;
   }
-};
+});
 
-export const getCourseDetails = async (id) => {
+// ⏳ Cache course details by ID
+export const getCourseDetails = cache(async (id) => {
+   console.log("Fetching CourseDetails...");
   try {
     const course = await db.course.findUnique({
-      where: { id: id },
+      where: { id },
       include: {
         category: true,
         instructor: true,
@@ -58,7 +63,7 @@ export const getCourseDetails = async (id) => {
     console.error("Error fetching course:", error);
     throw error;
   }
-};
+});
 
 // Cached wrapper using react's cache()
 export const getInstructorDetailedStats = cache(async (instructorId) => {
@@ -105,25 +110,21 @@ export const getInstructorDetailedStats = cache(async (instructorId) => {
 
     console.time("Step 3: Calculating ratings");
     const testimonials = await db.testimonial.findMany({
-  where: {
-    courseId: {
-      in: courseIds,
-    },
-    rating: {
-      not: 1, // ✅ This works
-    },
-  },
-  select: {
-    rating: true,
-  },
-});
-
+      where: {
+        courseId: {
+          in: courseIds,
+        },
+        rating: {
+          not: 1, // ✅ This works
+        },
+      },
+      select: {
+        rating: true,
+      },
+    });
 
     const testimonialCount = testimonials.length;
-    const totalRating = testimonials.reduce(
-      (sum, t) => sum + t.rating,
-      0
-    );
+    const totalRating = testimonials.reduce((sum, t) => sum + t.rating, 0);
 
     const averageRating =
       testimonialCount > 0 ? totalRating / testimonialCount : 0;
