@@ -43,7 +43,7 @@ import { getCourseDetails } from "../../../../queries/courses";
 import React from 'react';
 
 const SingleCoursePage = async ({ params }) => {
-  const {id} = await params;
+  const {id} = params;
 
   const courseDetails = await getCourseDetails(id);
 
