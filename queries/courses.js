@@ -5,7 +5,6 @@ import { cache } from "react";
 const instructorStatsCache = new Map();
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
 
-
 // ⏳ Cache course list
 export const getCourseList = cache(async () => {
   console.log("Fetching course list...");
@@ -38,7 +37,7 @@ export const getCourseList = cache(async () => {
 
 // ⏳ Cache course details by ID
 export const getCourseDetails = cache(async (id) => {
-   console.log("Fetching CourseDetails...");
+  console.log("Fetching CourseDetails...");
   try {
     const course = await db.course.findUnique({
       where: { id },
