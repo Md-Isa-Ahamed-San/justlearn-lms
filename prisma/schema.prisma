@@ -40,16 +40,16 @@ model User {
 
 // MARK: Course C
 model Course {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   subtitle    String?
   description String
   thumbnail   String?
-  price       Int      @default(0)
-  active      Boolean  @default(false)
+  price       Int       @default(0)
+  active      Boolean   @default(false)
   learning    String[]
-  createdOn   DateTime? @default(now())
-  modifiedOn  DateTime? @updatedAt
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @updatedAt
 
   // 🔗 Relations
 
@@ -80,22 +80,25 @@ model Course {
 
 // MARK: Category C
 model Category {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String?
   thumbnail   String
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @updatedAt
   courses     Course[]
 }
 
 // MARK: Module c but relation need to change
 model Module {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String?
-  status      String  @default("not-active")
+  status      String    @default("not-active")
   slug        String
   duration    Int
-  
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @updatedAt
 
   // Relations
   course    Course   @relation(fields: [courseId], references: [id])
@@ -109,16 +112,17 @@ model Module {
 
 //MARK: Lesson c but need to verify the relation
 model Lesson {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String?
-  duration    Int     @default(0)
-  videoUrl    String? @map("video_url")
+  duration    Int       @default(0)
+  videoUrl    String?   @map("video_url")
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @updatedAt
 
   active Boolean @default(false)
   slug   String
   access String  @default("private")
- 
 
   // Relations
   modules   Module[] @relation(fields: [moduleIds], references: [id])
@@ -128,11 +132,12 @@ model Lesson {
 
 //MARK : Watch c but need to verify the relation 
 model Watch {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt  DateTime? @default(now()) @map("created_at")
-  modifiedAt DateTime? @updatedAt @map("modified_at")
-  state      String   @default("started")
-  lastTime   Int      @map("last_time")
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+
+  state      String    @default("started")
+  lastTime   Int       @map("last_time")
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @updatedAt
 
   // Relations
   lessonId String @db.ObjectId
@@ -153,8 +158,10 @@ model Quiz {
   description  String
   options      Json[] // Assuming this is static option config per quiz
   explanations String
-  mark         Int    @default(5)
+  mark         Int       @default(5)
   slug         String
+  createdAt    DateTime? @default(now())
+  updatedAt    DateTime? @updatedAt
 
   // Relations
   quizSets   QuizSet[] @relation(fields: [quizSetIds], references: [id])
@@ -165,12 +172,13 @@ model Quiz {
 
 //MARK : QUIZSET C NEED to
 model QuizSet {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
-
-  slug   String
-  active Boolean @default(false)
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @updatedAt
+  slug        String
+  active      Boolean   @default(false)
 
   // Relations
   quizzes Quiz[]   @relation(fields: [quizIds], references: [id])
@@ -181,8 +189,10 @@ model QuizSet {
 //need to fix it
 //MARK:Assessment
 model Assessment {
-  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
   otherMarks Int
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @updatedAt
 
   // Relations
   items  AssessmentItem[] // 👈 Add this
@@ -191,8 +201,10 @@ model Assessment {
 
 //MARK:AssessmentItem
 model AssessmentItem {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  attempted Boolean @default(false)
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  attempted Boolean   @default(false)
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 
   // Relations
   quizId String @db.ObjectId
@@ -206,11 +218,12 @@ model AssessmentItem {
 
 //MARK: Option
 model Option {
-  id         String  @id @default(auto()) @map("_id") @db.ObjectId
-  option     String
-  isCorrect  Boolean
-  isSelected Boolean
-
+  id               String         @id @default(auto()) @map("_id") @db.ObjectId
+  option           String
+  isCorrect        Boolean
+  isSelected       Boolean
+  createdAt        DateTime?      @default(now())
+  updatedAt        DateTime?      @updatedAt
   assessmentItemId String         @db.ObjectId
   assessmentItem   AssessmentItem @relation(fields: [assessmentItemId], references: [id])
 }
@@ -222,6 +235,8 @@ model Enrollment {
   status         String
   completionDate DateTime? @map("completion_date")
   method         String
+  createdAt      DateTime? @default(now())
+  updatedAt      DateTime? @updatedAt
 
   // Relations
   courseId     String        @db.ObjectId
@@ -232,8 +247,10 @@ model Enrollment {
 }
 
 model Certificate {
-  id              String @id @default(auto()) @map("_id") @db.ObjectId
-  certificateLink String @map("certificate_link")
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  certificateLink String    @map("certificate_link")
+  createdAt       DateTime? @default(now())
+  updatedAt       DateTime? @updatedAt
 
   // Relations
   userId       String     @db.ObjectId
@@ -250,28 +267,34 @@ model Testimonial {
   rating  Int
 
   // Relations
-  courseId String @db.ObjectId
-  course   Course @relation(fields: [courseId], references: [id])
-  userId   String @db.ObjectId
-  user     User   @relation(fields: [userId], references: [id])
+  courseId  String    @db.ObjectId
+  course    Course    @relation(fields: [courseId], references: [id])
+  userId    String    @db.ObjectId
+  user      User      @relation(fields: [userId], references: [id])
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 // MARK: Live Sessions
 model Live {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
   title        String
   description  String
   thumbnail    String
-  videoId      String   @map("video_id")
+  videoId      String    @map("video_id")
   slug         String
   schedule     DateTime
-  quizId       String?  @map("quiz_id")
-  instructorId String   @map("instructor_id")
+  quizId       String?   @map("quiz_id")
+  instructorId String    @map("instructor_id")
+  createdAt    DateTime? @default(now())
+  updatedAt    DateTime? @updatedAt
 }
 
 // MARK: Reporting and Analytics
 model Report {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 
   totalCompletedLessons String[] @db.ObjectId
   totalCompletedModules String[] @map("totalCompletedModeules") @db.ObjectId

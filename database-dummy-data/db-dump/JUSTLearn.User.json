@@ -1,10 +1,12 @@
 [
   {
-    "_id": { "$oid": "663a06e7bfe65e5778eedf2a" },
-    "firstName": "John",
-    "lastName": "Doe",
+    "_id": {
+      "$oid": "663a06e7bfe65e5778eedf2a"
+    },
+    "firstName": "Isa",
+    "lastName": "Ahamed San",
     "password": "password123",
-    "email": "john.doe@example.com",
+    "email": "isaahamedsan@gmail.com",
     "phone": "+1234567890",
     "role": "instructor",
     "bio": "Experienced educator passionate about fostering student learning and development.",
@@ -13,13 +15,19 @@
       "linkedin": "linkedin.com/in/johndoe",
       "facebook": "facebook.com/johndoe"
     },
-    "profilePicture": "https://i.pravatar.cc",
+    "profilePicture": "https://res.cloudinary.com/djyzlmzoe/image/upload/v1747639416/sample-instructor-images/san.avif",
     "designation": "Senior Software Engineer, Dell Inc.",
-    "createdAt": { "$date": "2022-11-21T14:36:08.345Z" },
-    "updatedAt": { "$date": "2024-03-15T09:12:51.777Z" }
+    "createdAt": {
+      "$date": "2022-11-21T14:36:08.345Z"
+    },
+    "updatedAt": {
+      "$date": "2024-03-15T09:12:51.777Z"
+    }
   },
   {
-    "_id": { "$oid": "663a0b36bfe65e5778eedf7e" },
+    "_id": {
+      "$oid": "663a0b36bfe65e5778eedf7e"
+    },
     "password": "securepassword",
     "email": "michael.brown@example.com",
     "phone": "+4455667788",
@@ -32,11 +40,17 @@
     "profilePicture": "https://i.pravatar.cc",
     "firstName": "Michael",
     "lastName": "Brown",
-    "createdAt": { "$date": "2023-01-03T19:25:02.609Z" },
-    "updatedAt": { "$date": "2024-07-12T10:42:07.192Z" }
+    "createdAt": {
+      "$date": "2023-01-03T19:25:02.609Z"
+    },
+    "updatedAt": {
+      "$date": "2024-07-12T10:42:07.192Z"
+    }
   },
   {
-    "_id": { "$oid": "664accf41387e2ad2e8be488" },
+    "_id": {
+      "$oid": "664accf41387e2ad2e8be488"
+    },
     "password": "securepassword",
     "email": "alex.brown@example.com",
     "phone": "+42255667788",
@@ -49,11 +63,17 @@
     "profilePicture": "https://i.pravatar.cc",
     "firstName": "Alex",
     "lastName": "Brown",
-    "createdAt": { "$date": "2023-07-28T18:10:11.412Z" },
-    "updatedAt": { "$date": "2024-10-04T15:47:31.209Z" }
+    "createdAt": {
+      "$date": "2023-07-28T18:10:11.412Z"
+    },
+    "updatedAt": {
+      "$date": "2024-10-04T15:47:31.209Z"
+    }
   },
   {
-    "_id": { "$oid": "664adddc1387e2ad2e8be4a0" },
+    "_id": {
+      "$oid": "664adddc1387e2ad2e8be4a0"
+    },
     "password": "$2a$05$8B0y89Z7Gt/RlepneilmY.GRnX/G6O7RfvA61QpOG2M.H0r3PLdIG",
     "email": "fatima.shekh@example.com",
     "phone": "+88255667788",
@@ -66,36 +86,54 @@
     "profilePicture": "https://i.pravatar.cc",
     "lastName": "Sheikh",
     "firstName": "Fatima",
-    "createdAt": { "$date": "2022-04-19T03:52:19.023Z" },
-    "updatedAt": { "$date": "2024-11-11T21:06:44.573Z" }
+    "createdAt": {
+      "$date": "2022-04-19T03:52:19.023Z"
+    },
+    "updatedAt": {
+      "$date": "2024-11-11T21:06:44.573Z"
+    }
   },
   {
-    "_id": { "$oid": "664d8582439c45ebdc6f0e26" },
+    "_id": {
+      "$oid": "664d8582439c45ebdc6f0e26"
+    },
     "firstName": "test",
     "lastName": "test",
     "password": "$2a$05$g1XX1jFI0nwRjCX2ORiCxuHYlyVep/G4Jcqw1u4Eyt4GrV86V938.",
     "email": "test@test.com",
     "role": "student",
     "__v": 0,
-    "createdAt": { "$date": "2022-08-12T17:18:40.809Z" },
-    "updatedAt": { "$date": "2024-01-25T22:09:33.962Z" }
+    "createdAt": {
+      "$date": "2022-08-12T17:18:40.809Z"
+    },
+    "updatedAt": {
+      "$date": "2024-01-25T22:09:33.962Z"
+    }
   },
   {
-    "_id": { "$oid": "66504f85171d3fa703e7e043" },
-    "firstName": "Tapas",
-    "lastName": "Adhikary",
+    "_id": {
+      "$oid": "66504f85171d3fa703e7e043"
+    },
+    "firstName": "Mr.",
+    "lastName": "Bob",
     "password": "$2a$05$Kih1jnVYNDlNoABVmmxVceVnyY8Yr0kmOS6rIX/uzrWLBCQEi5i0S",
-    "email": "tapas.adhikary@gmail.com",
+    "email": "mrbob@gmail.com",
     "role": "instructor",
     "__v": 0,
     "bio": "An educator for a decade and a life-long learner",
-    "designation": "Founder, tapaScript | Co-Founder, CreoWis | 20 Years in Software Development",
-    "profilePicture": "https://res.cloudinary.com/atapas/image/upload/v1646745540/profile/face_x0vrxt.jpg",
-    "createdAt": { "$date": "2022-03-02T08:50:12.628Z" },
-    "updatedAt": { "$date": "2023-09-19T05:17:48.354Z" }
+    "designation": "Founder, BobScript | Co-Founder, CreoWis | 20 Years in Software Development",
+    "profilePicture": "https://res.cloudinary.com/djyzlmzoe/image/upload/v1747639363/sample-instructor-images/sample-instructor-2.avif",
+    "createdAt": {
+      "$date": "2022-03-02T08:50:12.628Z"
+    },
+    "updatedAt": {
+      "$date": "2023-09-19T05:17:48.354Z"
+    }
   },
   {
-    "_id": { "$oid": "66504fc6171d3fa703e7e05b" },
+    "_id": {
+      "$oid": "66504fc6171d3fa703e7e05b"
+    },
     "firstName": "ReactPlay",
     "lastName": "IO",
     "password": "$2a$05$eGyHsDPi.Ib0DGPJPlSQd.XFxvp4bmp3SLu.T.A7eOR/2gXVMc6My",
@@ -105,18 +143,29 @@
     "profilePicture": "https://res.cloudinary.com/reactplay/image/upload/v1686126339/logos/twitter-thumb_fiuv8m.png",
     "designation": "Open Source Project by Tapas",
     "bio": "Having 1K+ Star",
-    "createdAt": { "$date": "2023-02-10T10:07:20.491Z" },
-    "updatedAt": { "$date": "2024-05-06T13:58:14.178Z" }
+    "createdAt": {
+      "$date": "2023-02-10T10:07:20.491Z"
+    },
+    "updatedAt": {
+      "$date": "2024-05-06T13:58:14.178Z"
+    }
   },
   {
-    "_id": { "$oid": "66509f695f7ef01511c20c7b" },
-    "firstName": "T",
-    "lastName": "H",
+    "_id": {
+      "$oid": "66509f695f7ef01511c20c7b"
+    },
+    "firstName": "Mr.",
+    "lastName": "T",
     "password": "$2a$05$J3lCpL8ZLIhFW9.rwrDy6.UNqzhtEumUbyJ5SycwK/en5XBitf0Ia",
     "email": "t@t.com",
     "role": "instructor",
     "__v": 0,
-    "createdAt": { "$date": "2024-04-23T00:41:45.264Z" },
-    "updatedAt": { "$date": "2025-01-03T11:32:08.187Z" }
+    "createdAt": {
+      "$date": "2024-04-23T00:41:45.264Z"
+    },
+    "updatedAt": {
+      "$date": "2025-01-03T11:32:08.187Z"
+    },
+    "profilePicture": "https://res.cloudinary.com/djyzlmzoe/image/upload/v1747639362/sample-instructor-images/sample-insturctor-1.avif"
   }
 ]

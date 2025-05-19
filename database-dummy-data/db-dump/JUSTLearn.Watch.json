@@ -1,0 +1,45 @@
+[{
+  "_id": {
+    "$oid": "663a0abdbfe65e5778eedf66"
+  },
+  "state": "completed",
+  "last_time": 1500,
+  "createdAt": "2024-05-01T10:00:00Z",
+  "updatedAt": "2024-05-01T10:25:00Z",
+  "lessonId": {
+    "$oid": "663a0806bfe65e5778eedf35"
+  },
+  "userId": {
+    "$oid": "663a0b36bfe65e5778eedf7e"
+  }
+},
+{
+  "_id": {
+    "$oid": "663a0abdbfe65e5778eedf67"
+  },
+  "state": "completed",
+  "last_time": 1800,
+  "createdAt": "2024-05-02T14:00:00Z",
+  "updatedAt": "2024-05-02T15:30:00Z",
+  "lessonId": {
+    "$oid": "663a0806bfe65e5778eedf36"
+  },
+  "userId": {
+    "$oid": "663a0b36bfe65e5778eedf7e"
+  }
+},
+{
+  "_id": {
+    "$oid": "663a0abdbfe65e5778eedf68"
+  },
+  "state": "completed",
+  "last_time": 1350,
+  "createdAt": "2024-05-01T11:30:00Z",
+  "updatedAt": "2024-05-01T12:15:00Z",
+  "lessonId": {
+    "$oid": "663a0806bfe65e5778eedf37"
+  },
+  "userId": {
+    "$oid": "663a0b36bfe65e5778eedf7e"
+  }
+}]

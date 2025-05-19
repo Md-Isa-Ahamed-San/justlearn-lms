@@ -5,11 +5,11 @@
   "title": "Introduction to Data Science",
   "description": "Join us for an introduction to the exciting field of data science.",
   "thumbnail": "data_science_thumbnail.jpg",
-  "video_id": "video_1",
   "slug": "introduction-to-data-science",
   "schedule": "2024-05-15T10:00:00Z",
-  "quiz_id": "quiz_1",
-  "instructor_id": "teacher_1"
+  "instructorId": "teacher_1",
+  "quizId": "quiz_1",
+  "videoId": "video_1"
 },
 {
   "_id": {
@@ -18,11 +18,11 @@
   "title": "Web Development Q&A Session",
   "description": "Join our live Q&A session to get your web development questions answered.",
   "thumbnail": "webdev_qa_thumbnail.jpg",
-  "video_id": "video_2",
   "slug": "web-development-qa-session",
   "schedule": "2024-05-20T15:00:00Z",
-  "quiz_id": "quiz_2",
-  "instructor_id": "teacher_2"
+  "instructorId": "teacher_2",
+  "quizId": "quiz_2",
+  "videoId": "video_2"
 },
 {
   "_id": {
@@ -31,11 +31,11 @@
   "title": "Machine Learning Workshop",
   "description": "Participate in our hands-on machine learning workshop.",
   "thumbnail": "ml_workshop_thumbnail.jpg",
-  "video_id": "video_3",
   "slug": "machine-learning-workshop",
   "schedule": "2024-05-25T09:30:00Z",
-  "quiz_id": "quiz_3",
-  "instructor_id": "teacher_3"
+  "instructorId": "teacher_3",
+  "quizId": "quiz_3",
+  "videoId": "video_3"
 },
 {
   "_id": {
@@ -44,11 +44,11 @@
   "title": "Photography Tips and Tricks",
   "description": "Discover useful tips and tricks to improve your photography skills.",
   "thumbnail": "photography_tips_thumbnail.jpg",
-  "video_id": "video_4",
   "slug": "photography-tips-and-tricks",
   "schedule": "2024-05-30T11:00:00Z",
-  "quiz_id": "quiz_4",
-  "instructor_id": "teacher_4"
+  "instructorId": "teacher_4",
+  "quizId": "quiz_4",
+  "videoId": "video_4"
 },
 {
   "_id": {
@@ -57,9 +57,9 @@
   "title": "Financial Planning Seminar",
   "description": "Join our seminar to learn about effective financial planning strategies.",
   "thumbnail": "finance_seminar_thumbnail.jpg",
-  "video_id": "video_5",
   "slug": "financial-planning-seminar",
   "schedule": "2024-06-05T14:00:00Z",
-  "quiz_id": "quiz_5",
-  "instructor_id": "teacher_5"
+  "instructorId": "teacher_5",
+  "quizIdd": "quiz_5",
+  "videoId": "video_5"
 }]

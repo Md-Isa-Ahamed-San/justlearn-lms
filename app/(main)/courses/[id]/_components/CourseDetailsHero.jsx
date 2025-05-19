@@ -38,6 +38,7 @@ const CourseDetailsHero = ({categoryTitle, title,description,thumbnail}) => {
               className="h-full w-full"
               width={600}
               height={600}
+              quality={50}
             />
             <div className="absolute inset-0 flex items-center justify-center">
               <Button

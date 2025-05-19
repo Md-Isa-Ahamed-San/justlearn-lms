@@ -35,6 +35,7 @@ const Testimonials = ({ testimonials = [] }) => {
                           <AvatarImage
                             src={user.profilePicture || "/placeholder.svg"}
                             alt={`${user.firstName || 'User'} ${user.lastName || ''}`}
+                            quality={50}
                           />
                           <AvatarFallback>
                             {(user.firstName?.charAt(0) || 'U').toUpperCase()}

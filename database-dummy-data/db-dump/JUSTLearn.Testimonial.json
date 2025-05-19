@@ -7,7 +7,7 @@
   "courseId": {
     "$oid": "6648184a6fe803e9128d7fba"
   },
-  "user": {
+  "userId": {
     "$oid": "663a0b36bfe65e5778eedf7e"
   }
 },
@@ -20,7 +20,7 @@
   "courseId": {
     "$oid": "664aca881387e2ad2e8be484"
   },
-  "user": {
+  "userId": {
     "$oid": "664accf41387e2ad2e8be488"
   }
 },
@@ -28,12 +28,25 @@
   "_id": {
     "$oid": "664af61c1387e2ad2e8be4ad"
   },
-  "content": "One of the best JS Course!!!",
+  "content": "One of the best REACT Course!!!",
+  "rating": 5,
+  "courseId": {
+    "$oid": "66549c99b2aaa1cc3461fc9a"
+  },
+  "userId": {
+    "$oid": "664adddc1387e2ad2e8be4a0"
+  }
+},
+{
+  "_id": {
+    "$oid": "682ae5f568a012289f1397b1"
+  },
+  "content": "This REACT Course was great!",
   "rating": 4,
   "courseId": {
-    "$oid": "664aca881387e2ad2e8be484"
+    "$oid": "66549c99b2aaa1cc3461fc9a"
   },
-  "user": {
-    "$oid": "664adddc1387e2ad2e8be4a0"
+  "userId": {
+    "$oid": "664accf41387e2ad2e8be488"
   }
 }]

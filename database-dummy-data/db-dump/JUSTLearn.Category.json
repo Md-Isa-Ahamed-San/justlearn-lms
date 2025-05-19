@@ -1,0 +1,27 @@
+[{
+  "_id": {
+    "$oid": "664813cc6fe803e9128d7fae"
+  },
+  "title": "Development",
+  "description": "Developments Courses",
+  "thumbnail": "development.svg",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "664813cc6fe803e9128d7faf"
+  },
+  "title": "Theory",
+  "description": "Theoretical Computer Science and Mathematical Foundations",
+  "thumbnail": "theory.svg",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "664813cc6fe803e9128d7fb0"
+  },
+  "title": "Competitive Programming",
+  "description": "Algorithmic Problem Solving and Coding Competitions",
+  "thumbnail": "competitiveProgramming.svg",
+  "__v": 0
+}]

@@ -6,10 +6,10 @@
   "status": "complete",
   "completion_date": "2024-05-15",
   "method": "paypal",
-  "course": {
+  "courseId": {
     "$oid": "6648184a6fe803e9128d7fba"
   },
-  "student": {
+  "studentId": {
     "$oid": "663a0b36bfe65e5778eedf7e"
   }
 },
@@ -21,10 +21,10 @@
   "status": "complete",
   "completion_date": "2024-05-15",
   "method": "stripe",
-  "course": {
+  "courseId": {
     "$oid": "664aca881387e2ad2e8be484"
   },
-  "student": {
+  "studentId": {
     "$oid": "664accf41387e2ad2e8be488"
   }
 },
@@ -36,10 +36,10 @@
   "status": "complete",
   "completion_date": "2024-05-15",
   "method": "stripe",
-  "course": {
+  "courseId": {
     "$oid": "664aca881387e2ad2e8be484"
   },
-  "student": {
+  "studentId": {
     "$oid": "664adddc1387e2ad2e8be4a0"
   }
 },
@@ -52,11 +52,11 @@
   },
   "status": "not-started",
   "method": "stripe",
-  "course": {
+  "__v": 0,
+  "courseId": {
     "$oid": "664aca881387e2ad2e8be484"
   },
-  "student": {
+  "studentId": {
     "$oid": "66504fc6171d3fa703e7e05b"
-  },
-  "__v": 0
+  }
 }]

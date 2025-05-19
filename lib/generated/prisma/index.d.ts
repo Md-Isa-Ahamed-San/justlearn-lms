@@ -3862,8 +3862,8 @@ export namespace Prisma {
     thumbnail: string | null
     price: number | null
     active: boolean | null
-    createdOn: Date | null
-    modifiedOn: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
     categoryId: string | null
     instructorId: string | null
     quizSetId: string | null
@@ -3877,8 +3877,8 @@ export namespace Prisma {
     thumbnail: string | null
     price: number | null
     active: boolean | null
-    createdOn: Date | null
-    modifiedOn: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
     categoryId: string | null
     instructorId: string | null
     quizSetId: string | null
@@ -3893,8 +3893,8 @@ export namespace Prisma {
     price: number
     active: number
     learning: number
-    createdOn: number
-    modifiedOn: number
+    createdAt: number
+    updatedAt: number
     categoryId: number
     instructorId: number
     quizSetId: number
@@ -3918,8 +3918,8 @@ export namespace Prisma {
     thumbnail?: true
     price?: true
     active?: true
-    createdOn?: true
-    modifiedOn?: true
+    createdAt?: true
+    updatedAt?: true
     categoryId?: true
     instructorId?: true
     quizSetId?: true
@@ -3933,8 +3933,8 @@ export namespace Prisma {
     thumbnail?: true
     price?: true
     active?: true
-    createdOn?: true
-    modifiedOn?: true
+    createdAt?: true
+    updatedAt?: true
     categoryId?: true
     instructorId?: true
     quizSetId?: true
@@ -3949,8 +3949,8 @@ export namespace Prisma {
     price?: true
     active?: true
     learning?: true
-    createdOn?: true
-    modifiedOn?: true
+    createdAt?: true
+    updatedAt?: true
     categoryId?: true
     instructorId?: true
     quizSetId?: true
@@ -4052,8 +4052,8 @@ export namespace Prisma {
     price: number
     active: boolean
     learning: string[]
-    createdOn: Date | null
-    modifiedOn: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
     categoryId: string
     instructorId: string
     quizSetId: string | null
@@ -4087,8 +4087,8 @@ export namespace Prisma {
     price?: boolean
     active?: boolean
     learning?: boolean
-    createdOn?: boolean
-    modifiedOn?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     categoryId?: boolean
     instructorId?: boolean
     quizSetId?: boolean
@@ -4113,14 +4113,14 @@ export namespace Prisma {
     price?: boolean
     active?: boolean
     learning?: boolean
-    createdOn?: boolean
-    modifiedOn?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     categoryId?: boolean
     instructorId?: boolean
     quizSetId?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "subtitle" | "description" | "thumbnail" | "price" | "active" | "learning" | "createdOn" | "modifiedOn" | "categoryId" | "instructorId" | "quizSetId", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "subtitle" | "description" | "thumbnail" | "price" | "active" | "learning" | "createdAt" | "updatedAt" | "categoryId" | "instructorId" | "quizSetId", ExtArgs["result"]["course"]>
   export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     instructor?: boolean | UserDefaultArgs<ExtArgs>
@@ -4152,8 +4152,8 @@ export namespace Prisma {
       price: number
       active: boolean
       learning: string[]
-      createdOn: Date | null
-      modifiedOn: Date | null
+      createdAt: Date | null
+      updatedAt: Date | null
       categoryId: string
       instructorId: string
       quizSetId: string | null
@@ -4564,8 +4564,8 @@ export namespace Prisma {
     readonly price: FieldRef<"Course", 'Int'>
     readonly active: FieldRef<"Course", 'Boolean'>
     readonly learning: FieldRef<"Course", 'String[]'>
-    readonly createdOn: FieldRef<"Course", 'DateTime'>
-    readonly modifiedOn: FieldRef<"Course", 'DateTime'>
+    readonly createdAt: FieldRef<"Course", 'DateTime'>
+    readonly updatedAt: FieldRef<"Course", 'DateTime'>
     readonly categoryId: FieldRef<"Course", 'String'>
     readonly instructorId: FieldRef<"Course", 'String'>
     readonly quizSetId: FieldRef<"Course", 'String'>
@@ -5087,6 +5087,8 @@ export namespace Prisma {
     title: string | null
     description: string | null
     thumbnail: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type CategoryMaxAggregateOutputType = {
@@ -5094,6 +5096,8 @@ export namespace Prisma {
     title: string | null
     description: string | null
     thumbnail: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type CategoryCountAggregateOutputType = {
@@ -5101,6 +5105,8 @@ export namespace Prisma {
     title: number
     description: number
     thumbnail: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -5110,6 +5116,8 @@ export namespace Prisma {
     title?: true
     description?: true
     thumbnail?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type CategoryMaxAggregateInputType = {
@@ -5117,6 +5125,8 @@ export namespace Prisma {
     title?: true
     description?: true
     thumbnail?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type CategoryCountAggregateInputType = {
@@ -5124,6 +5134,8 @@ export namespace Prisma {
     title?: true
     description?: true
     thumbnail?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -5204,6 +5216,8 @@ export namespace Prisma {
     title: string
     description: string | null
     thumbnail: string
+    createdAt: Date | null
+    updatedAt: Date | null
     _count: CategoryCountAggregateOutputType | null
     _min: CategoryMinAggregateOutputType | null
     _max: CategoryMaxAggregateOutputType | null
@@ -5228,6 +5242,8 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     thumbnail?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     courses?: boolean | Category$coursesArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["category"]>
@@ -5239,9 +5255,11 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     thumbnail?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "thumbnail", ExtArgs["result"]["category"]>
+  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "thumbnail" | "createdAt" | "updatedAt", ExtArgs["result"]["category"]>
   export type CategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     courses?: boolean | Category$coursesArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
@@ -5257,6 +5275,8 @@ export namespace Prisma {
       title: string
       description: string | null
       thumbnail: string
+      createdAt: Date | null
+      updatedAt: Date | null
     }, ExtArgs["result"]["category"]>
     composites: {}
   }
@@ -5654,6 +5674,8 @@ export namespace Prisma {
     readonly title: FieldRef<"Category", 'String'>
     readonly description: FieldRef<"Category", 'String'>
     readonly thumbnail: FieldRef<"Category", 'String'>
+    readonly createdAt: FieldRef<"Category", 'DateTime'>
+    readonly updatedAt: FieldRef<"Category", 'DateTime'>
   }
     
 
@@ -6093,6 +6115,8 @@ export namespace Prisma {
     status: string | null
     slug: string | null
     duration: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
     courseId: string | null
   }
 
@@ -6103,6 +6127,8 @@ export namespace Prisma {
     status: string | null
     slug: string | null
     duration: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
     courseId: string | null
   }
 
@@ -6113,6 +6139,8 @@ export namespace Prisma {
     status: number
     slug: number
     duration: number
+    createdAt: number
+    updatedAt: number
     courseId: number
     lessonIds: number
     _all: number
@@ -6134,6 +6162,8 @@ export namespace Prisma {
     status?: true
     slug?: true
     duration?: true
+    createdAt?: true
+    updatedAt?: true
     courseId?: true
   }
 
@@ -6144,6 +6174,8 @@ export namespace Prisma {
     status?: true
     slug?: true
     duration?: true
+    createdAt?: true
+    updatedAt?: true
     courseId?: true
   }
 
@@ -6154,6 +6186,8 @@ export namespace Prisma {
     status?: true
     slug?: true
     duration?: true
+    createdAt?: true
+    updatedAt?: true
     courseId?: true
     lessonIds?: true
     _all?: true
@@ -6252,6 +6286,8 @@ export namespace Prisma {
     status: string
     slug: string
     duration: number
+    createdAt: Date | null
+    updatedAt: Date | null
     courseId: string
     lessonIds: string[]
     _count: ModuleCountAggregateOutputType | null
@@ -6282,6 +6318,8 @@ export namespace Prisma {
     status?: boolean
     slug?: boolean
     duration?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     courseId?: boolean
     lessonIds?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
@@ -6299,11 +6337,13 @@ export namespace Prisma {
     status?: boolean
     slug?: boolean
     duration?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     courseId?: boolean
     lessonIds?: boolean
   }
 
-  export type ModuleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "status" | "slug" | "duration" | "courseId" | "lessonIds", ExtArgs["result"]["module"]>
+  export type ModuleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "status" | "slug" | "duration" | "createdAt" | "updatedAt" | "courseId" | "lessonIds", ExtArgs["result"]["module"]>
   export type ModuleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | CourseDefaultArgs<ExtArgs>
     lessons?: boolean | Module$lessonsArgs<ExtArgs>
@@ -6325,6 +6365,8 @@ export namespace Prisma {
       status: string
       slug: string
       duration: number
+      createdAt: Date | null
+      updatedAt: Date | null
       courseId: string
       lessonIds: string[]
     }, ExtArgs["result"]["module"]>
@@ -6728,6 +6770,8 @@ export namespace Prisma {
     readonly status: FieldRef<"Module", 'String'>
     readonly slug: FieldRef<"Module", 'String'>
     readonly duration: FieldRef<"Module", 'Int'>
+    readonly createdAt: FieldRef<"Module", 'DateTime'>
+    readonly updatedAt: FieldRef<"Module", 'DateTime'>
     readonly courseId: FieldRef<"Module", 'String'>
     readonly lessonIds: FieldRef<"Module", 'String[]'>
   }
@@ -7192,6 +7236,8 @@ export namespace Prisma {
     description: string | null
     duration: number | null
     videoUrl: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
     active: boolean | null
     slug: string | null
     access: string | null
@@ -7203,6 +7249,8 @@ export namespace Prisma {
     description: string | null
     duration: number | null
     videoUrl: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
     active: boolean | null
     slug: string | null
     access: string | null
@@ -7214,6 +7262,8 @@ export namespace Prisma {
     description: number
     duration: number
     videoUrl: number
+    createdAt: number
+    updatedAt: number
     active: number
     slug: number
     access: number
@@ -7236,6 +7286,8 @@ export namespace Prisma {
     description?: true
     duration?: true
     videoUrl?: true
+    createdAt?: true
+    updatedAt?: true
     active?: true
     slug?: true
     access?: true
@@ -7247,6 +7299,8 @@ export namespace Prisma {
     description?: true
     duration?: true
     videoUrl?: true
+    createdAt?: true
+    updatedAt?: true
     active?: true
     slug?: true
     access?: true
@@ -7258,6 +7312,8 @@ export namespace Prisma {
     description?: true
     duration?: true
     videoUrl?: true
+    createdAt?: true
+    updatedAt?: true
     active?: true
     slug?: true
     access?: true
@@ -7357,6 +7413,8 @@ export namespace Prisma {
     description: string | null
     duration: number
     videoUrl: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
     active: boolean
     slug: string
     access: string
@@ -7388,6 +7446,8 @@ export namespace Prisma {
     description?: boolean
     duration?: boolean
     videoUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     active?: boolean
     slug?: boolean
     access?: boolean
@@ -7405,13 +7465,15 @@ export namespace Prisma {
     description?: boolean
     duration?: boolean
     videoUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     active?: boolean
     slug?: boolean
     access?: boolean
     moduleIds?: boolean
   }
 
-  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "duration" | "videoUrl" | "active" | "slug" | "access" | "moduleIds", ExtArgs["result"]["lesson"]>
+  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "duration" | "videoUrl" | "createdAt" | "updatedAt" | "active" | "slug" | "access" | "moduleIds", ExtArgs["result"]["lesson"]>
   export type LessonInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     modules?: boolean | Lesson$modulesArgs<ExtArgs>
     watches?: boolean | Lesson$watchesArgs<ExtArgs>
@@ -7430,6 +7492,8 @@ export namespace Prisma {
       description: string | null
       duration: number
       videoUrl: string | null
+      createdAt: Date | null
+      updatedAt: Date | null
       active: boolean
       slug: string
       access: string
@@ -7833,6 +7897,8 @@ export namespace Prisma {
     readonly description: FieldRef<"Lesson", 'String'>
     readonly duration: FieldRef<"Lesson", 'Int'>
     readonly videoUrl: FieldRef<"Lesson", 'String'>
+    readonly createdAt: FieldRef<"Lesson", 'DateTime'>
+    readonly updatedAt: FieldRef<"Lesson", 'DateTime'>
     readonly active: FieldRef<"Lesson", 'Boolean'>
     readonly slug: FieldRef<"Lesson", 'String'>
     readonly access: FieldRef<"Lesson", 'String'>
@@ -8295,10 +8361,10 @@ export namespace Prisma {
 
   export type WatchMinAggregateOutputType = {
     id: string | null
-    createdAt: Date | null
-    modifiedAt: Date | null
     state: string | null
     lastTime: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
     lessonId: string | null
     userId: string | null
     moduleId: string | null
@@ -8306,10 +8372,10 @@ export namespace Prisma {
 
   export type WatchMaxAggregateOutputType = {
     id: string | null
-    createdAt: Date | null
-    modifiedAt: Date | null
     state: string | null
     lastTime: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
     lessonId: string | null
     userId: string | null
     moduleId: string | null
@@ -8317,10 +8383,10 @@ export namespace Prisma {
 
   export type WatchCountAggregateOutputType = {
     id: number
-    createdAt: number
-    modifiedAt: number
     state: number
     lastTime: number
+    createdAt: number
+    updatedAt: number
     lessonId: number
     userId: number
     moduleId: number
@@ -8338,10 +8404,10 @@ export namespace Prisma {
 
   export type WatchMinAggregateInputType = {
     id?: true
-    createdAt?: true
-    modifiedAt?: true
     state?: true
     lastTime?: true
+    createdAt?: true
+    updatedAt?: true
     lessonId?: true
     userId?: true
     moduleId?: true
@@ -8349,10 +8415,10 @@ export namespace Prisma {
 
   export type WatchMaxAggregateInputType = {
     id?: true
-    createdAt?: true
-    modifiedAt?: true
     state?: true
     lastTime?: true
+    createdAt?: true
+    updatedAt?: true
     lessonId?: true
     userId?: true
     moduleId?: true
@@ -8360,10 +8426,10 @@ export namespace Prisma {
 
   export type WatchCountAggregateInputType = {
     id?: true
-    createdAt?: true
-    modifiedAt?: true
     state?: true
     lastTime?: true
+    createdAt?: true
+    updatedAt?: true
     lessonId?: true
     userId?: true
     moduleId?: true
@@ -8458,10 +8524,10 @@ export namespace Prisma {
 
   export type WatchGroupByOutputType = {
     id: string
-    createdAt: Date | null
-    modifiedAt: Date | null
     state: string
     lastTime: number
+    createdAt: Date | null
+    updatedAt: Date | null
     lessonId: string
     userId: string
     moduleId: string | null
@@ -8488,10 +8554,10 @@ export namespace Prisma {
 
   export type WatchSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    createdAt?: boolean
-    modifiedAt?: boolean
     state?: boolean
     lastTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     lessonId?: boolean
     userId?: boolean
     moduleId?: boolean
@@ -8504,16 +8570,16 @@ export namespace Prisma {
 
   export type WatchSelectScalar = {
     id?: boolean
-    createdAt?: boolean
-    modifiedAt?: boolean
     state?: boolean
     lastTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     lessonId?: boolean
     userId?: boolean
     moduleId?: boolean
   }
 
-  export type WatchOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "modifiedAt" | "state" | "lastTime" | "lessonId" | "userId" | "moduleId", ExtArgs["result"]["watch"]>
+  export type WatchOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "state" | "lastTime" | "createdAt" | "updatedAt" | "lessonId" | "userId" | "moduleId", ExtArgs["result"]["watch"]>
   export type WatchInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     lesson?: boolean | LessonDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -8529,10 +8595,10 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      createdAt: Date | null
-      modifiedAt: Date | null
       state: string
       lastTime: number
+      createdAt: Date | null
+      updatedAt: Date | null
       lessonId: string
       userId: string
       moduleId: string | null
@@ -8932,10 +8998,10 @@ export namespace Prisma {
    */
   interface WatchFieldRefs {
     readonly id: FieldRef<"Watch", 'String'>
-    readonly createdAt: FieldRef<"Watch", 'DateTime'>
-    readonly modifiedAt: FieldRef<"Watch", 'DateTime'>
     readonly state: FieldRef<"Watch", 'String'>
     readonly lastTime: FieldRef<"Watch", 'Int'>
+    readonly createdAt: FieldRef<"Watch", 'DateTime'>
+    readonly updatedAt: FieldRef<"Watch", 'DateTime'>
     readonly lessonId: FieldRef<"Watch", 'String'>
     readonly userId: FieldRef<"Watch", 'String'>
     readonly moduleId: FieldRef<"Watch", 'String'>
@@ -9373,6 +9439,8 @@ export namespace Prisma {
     explanations: string | null
     mark: number | null
     slug: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type QuizMaxAggregateOutputType = {
@@ -9382,6 +9450,8 @@ export namespace Prisma {
     explanations: string | null
     mark: number | null
     slug: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type QuizCountAggregateOutputType = {
@@ -9392,6 +9462,8 @@ export namespace Prisma {
     explanations: number
     mark: number
     slug: number
+    createdAt: number
+    updatedAt: number
     quizSetIds: number
     _all: number
   }
@@ -9412,6 +9484,8 @@ export namespace Prisma {
     explanations?: true
     mark?: true
     slug?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type QuizMaxAggregateInputType = {
@@ -9421,6 +9495,8 @@ export namespace Prisma {
     explanations?: true
     mark?: true
     slug?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type QuizCountAggregateInputType = {
@@ -9431,6 +9507,8 @@ export namespace Prisma {
     explanations?: true
     mark?: true
     slug?: true
+    createdAt?: true
+    updatedAt?: true
     quizSetIds?: true
     _all?: true
   }
@@ -9529,6 +9607,8 @@ export namespace Prisma {
     explanations: string
     mark: number
     slug: string
+    createdAt: Date | null
+    updatedAt: Date | null
     quizSetIds: string[]
     _count: QuizCountAggregateOutputType | null
     _avg: QuizAvgAggregateOutputType | null
@@ -9559,6 +9639,8 @@ export namespace Prisma {
     explanations?: boolean
     mark?: boolean
     slug?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     quizSetIds?: boolean
     quizSets?: boolean | Quiz$quizSetsArgs<ExtArgs>
     assessments?: boolean | Quiz$assessmentsArgs<ExtArgs>
@@ -9575,10 +9657,12 @@ export namespace Prisma {
     explanations?: boolean
     mark?: boolean
     slug?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     quizSetIds?: boolean
   }
 
-  export type QuizOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "options" | "explanations" | "mark" | "slug" | "quizSetIds", ExtArgs["result"]["quiz"]>
+  export type QuizOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "options" | "explanations" | "mark" | "slug" | "createdAt" | "updatedAt" | "quizSetIds", ExtArgs["result"]["quiz"]>
   export type QuizInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     quizSets?: boolean | Quiz$quizSetsArgs<ExtArgs>
     assessments?: boolean | Quiz$assessmentsArgs<ExtArgs>
@@ -9599,6 +9683,8 @@ export namespace Prisma {
       explanations: string
       mark: number
       slug: string
+      createdAt: Date | null
+      updatedAt: Date | null
       quizSetIds: string[]
     }, ExtArgs["result"]["quiz"]>
     composites: {}
@@ -10001,6 +10087,8 @@ export namespace Prisma {
     readonly explanations: FieldRef<"Quiz", 'String'>
     readonly mark: FieldRef<"Quiz", 'Int'>
     readonly slug: FieldRef<"Quiz", 'String'>
+    readonly createdAt: FieldRef<"Quiz", 'DateTime'>
+    readonly updatedAt: FieldRef<"Quiz", 'DateTime'>
     readonly quizSetIds: FieldRef<"Quiz", 'String[]'>
   }
     
@@ -10452,6 +10540,8 @@ export namespace Prisma {
     id: string | null
     title: string | null
     description: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
     slug: string | null
     active: boolean | null
   }
@@ -10460,6 +10550,8 @@ export namespace Prisma {
     id: string | null
     title: string | null
     description: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
     slug: string | null
     active: boolean | null
   }
@@ -10468,6 +10560,8 @@ export namespace Prisma {
     id: number
     title: number
     description: number
+    createdAt: number
+    updatedAt: number
     slug: number
     active: number
     quizIds: number
@@ -10479,6 +10573,8 @@ export namespace Prisma {
     id?: true
     title?: true
     description?: true
+    createdAt?: true
+    updatedAt?: true
     slug?: true
     active?: true
   }
@@ -10487,6 +10583,8 @@ export namespace Prisma {
     id?: true
     title?: true
     description?: true
+    createdAt?: true
+    updatedAt?: true
     slug?: true
     active?: true
   }
@@ -10495,6 +10593,8 @@ export namespace Prisma {
     id?: true
     title?: true
     description?: true
+    createdAt?: true
+    updatedAt?: true
     slug?: true
     active?: true
     quizIds?: true
@@ -10577,6 +10677,8 @@ export namespace Prisma {
     id: string
     title: string
     description: string
+    createdAt: Date | null
+    updatedAt: Date | null
     slug: string
     active: boolean
     quizIds: string[]
@@ -10603,6 +10705,8 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     slug?: boolean
     active?: boolean
     quizIds?: boolean
@@ -10617,12 +10721,14 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     slug?: boolean
     active?: boolean
     quizIds?: boolean
   }
 
-  export type QuizSetOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "slug" | "active" | "quizIds", ExtArgs["result"]["quizSet"]>
+  export type QuizSetOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "createdAt" | "updatedAt" | "slug" | "active" | "quizIds", ExtArgs["result"]["quizSet"]>
   export type QuizSetInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     quizzes?: boolean | QuizSet$quizzesArgs<ExtArgs>
     courses?: boolean | QuizSet$coursesArgs<ExtArgs>
@@ -10639,6 +10745,8 @@ export namespace Prisma {
       id: string
       title: string
       description: string
+      createdAt: Date | null
+      updatedAt: Date | null
       slug: string
       active: boolean
       quizIds: string[]
@@ -11039,6 +11147,8 @@ export namespace Prisma {
     readonly id: FieldRef<"QuizSet", 'String'>
     readonly title: FieldRef<"QuizSet", 'String'>
     readonly description: FieldRef<"QuizSet", 'String'>
+    readonly createdAt: FieldRef<"QuizSet", 'DateTime'>
+    readonly updatedAt: FieldRef<"QuizSet", 'DateTime'>
     readonly slug: FieldRef<"QuizSet", 'String'>
     readonly active: FieldRef<"QuizSet", 'Boolean'>
     readonly quizIds: FieldRef<"QuizSet", 'String[]'>
@@ -11501,16 +11611,22 @@ export namespace Prisma {
   export type AssessmentMinAggregateOutputType = {
     id: string | null
     otherMarks: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type AssessmentMaxAggregateOutputType = {
     id: string | null
     otherMarks: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type AssessmentCountAggregateOutputType = {
     id: number
     otherMarks: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -11526,16 +11642,22 @@ export namespace Prisma {
   export type AssessmentMinAggregateInputType = {
     id?: true
     otherMarks?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type AssessmentMaxAggregateInputType = {
     id?: true
     otherMarks?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type AssessmentCountAggregateInputType = {
     id?: true
     otherMarks?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -11628,6 +11750,8 @@ export namespace Prisma {
   export type AssessmentGroupByOutputType = {
     id: string
     otherMarks: number
+    createdAt: Date | null
+    updatedAt: Date | null
     _count: AssessmentCountAggregateOutputType | null
     _avg: AssessmentAvgAggregateOutputType | null
     _sum: AssessmentSumAggregateOutputType | null
@@ -11652,6 +11776,8 @@ export namespace Prisma {
   export type AssessmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     otherMarks?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     items?: boolean | Assessment$itemsArgs<ExtArgs>
     report?: boolean | Assessment$reportArgs<ExtArgs>
     _count?: boolean | AssessmentCountOutputTypeDefaultArgs<ExtArgs>
@@ -11662,9 +11788,11 @@ export namespace Prisma {
   export type AssessmentSelectScalar = {
     id?: boolean
     otherMarks?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type AssessmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "otherMarks", ExtArgs["result"]["assessment"]>
+  export type AssessmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "otherMarks" | "createdAt" | "updatedAt", ExtArgs["result"]["assessment"]>
   export type AssessmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     items?: boolean | Assessment$itemsArgs<ExtArgs>
     report?: boolean | Assessment$reportArgs<ExtArgs>
@@ -11680,6 +11808,8 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       otherMarks: number
+      createdAt: Date | null
+      updatedAt: Date | null
     }, ExtArgs["result"]["assessment"]>
     composites: {}
   }
@@ -12076,6 +12206,8 @@ export namespace Prisma {
   interface AssessmentFieldRefs {
     readonly id: FieldRef<"Assessment", 'String'>
     readonly otherMarks: FieldRef<"Assessment", 'Int'>
+    readonly createdAt: FieldRef<"Assessment", 'DateTime'>
+    readonly updatedAt: FieldRef<"Assessment", 'DateTime'>
   }
     
 
@@ -12520,6 +12652,8 @@ export namespace Prisma {
   export type AssessmentItemMinAggregateOutputType = {
     id: string | null
     attempted: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
     quizId: string | null
     assessmentId: string | null
   }
@@ -12527,6 +12661,8 @@ export namespace Prisma {
   export type AssessmentItemMaxAggregateOutputType = {
     id: string | null
     attempted: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
     quizId: string | null
     assessmentId: string | null
   }
@@ -12534,6 +12670,8 @@ export namespace Prisma {
   export type AssessmentItemCountAggregateOutputType = {
     id: number
     attempted: number
+    createdAt: number
+    updatedAt: number
     quizId: number
     assessmentId: number
     _all: number
@@ -12543,6 +12681,8 @@ export namespace Prisma {
   export type AssessmentItemMinAggregateInputType = {
     id?: true
     attempted?: true
+    createdAt?: true
+    updatedAt?: true
     quizId?: true
     assessmentId?: true
   }
@@ -12550,6 +12690,8 @@ export namespace Prisma {
   export type AssessmentItemMaxAggregateInputType = {
     id?: true
     attempted?: true
+    createdAt?: true
+    updatedAt?: true
     quizId?: true
     assessmentId?: true
   }
@@ -12557,6 +12699,8 @@ export namespace Prisma {
   export type AssessmentItemCountAggregateInputType = {
     id?: true
     attempted?: true
+    createdAt?: true
+    updatedAt?: true
     quizId?: true
     assessmentId?: true
     _all?: true
@@ -12637,6 +12781,8 @@ export namespace Prisma {
   export type AssessmentItemGroupByOutputType = {
     id: string
     attempted: boolean
+    createdAt: Date | null
+    updatedAt: Date | null
     quizId: string
     assessmentId: string
     _count: AssessmentItemCountAggregateOutputType | null
@@ -12661,6 +12807,8 @@ export namespace Prisma {
   export type AssessmentItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     attempted?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     quizId?: boolean
     assessmentId?: boolean
     quiz?: boolean | QuizDefaultArgs<ExtArgs>
@@ -12674,11 +12822,13 @@ export namespace Prisma {
   export type AssessmentItemSelectScalar = {
     id?: boolean
     attempted?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     quizId?: boolean
     assessmentId?: boolean
   }
 
-  export type AssessmentItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "attempted" | "quizId" | "assessmentId", ExtArgs["result"]["assessmentItem"]>
+  export type AssessmentItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "attempted" | "createdAt" | "updatedAt" | "quizId" | "assessmentId", ExtArgs["result"]["assessmentItem"]>
   export type AssessmentItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     quiz?: boolean | QuizDefaultArgs<ExtArgs>
     assessment?: boolean | AssessmentDefaultArgs<ExtArgs>
@@ -12696,6 +12846,8 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       attempted: boolean
+      createdAt: Date | null
+      updatedAt: Date | null
       quizId: string
       assessmentId: string
     }, ExtArgs["result"]["assessmentItem"]>
@@ -13095,6 +13247,8 @@ export namespace Prisma {
   interface AssessmentItemFieldRefs {
     readonly id: FieldRef<"AssessmentItem", 'String'>
     readonly attempted: FieldRef<"AssessmentItem", 'Boolean'>
+    readonly createdAt: FieldRef<"AssessmentItem", 'DateTime'>
+    readonly updatedAt: FieldRef<"AssessmentItem", 'DateTime'>
     readonly quizId: FieldRef<"AssessmentItem", 'String'>
     readonly assessmentId: FieldRef<"AssessmentItem", 'String'>
   }
@@ -13524,6 +13678,8 @@ export namespace Prisma {
     option: string | null
     isCorrect: boolean | null
     isSelected: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
     assessmentItemId: string | null
   }
 
@@ -13532,6 +13688,8 @@ export namespace Prisma {
     option: string | null
     isCorrect: boolean | null
     isSelected: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
     assessmentItemId: string | null
   }
 
@@ -13540,6 +13698,8 @@ export namespace Prisma {
     option: number
     isCorrect: number
     isSelected: number
+    createdAt: number
+    updatedAt: number
     assessmentItemId: number
     _all: number
   }
@@ -13550,6 +13710,8 @@ export namespace Prisma {
     option?: true
     isCorrect?: true
     isSelected?: true
+    createdAt?: true
+    updatedAt?: true
     assessmentItemId?: true
   }
 
@@ -13558,6 +13720,8 @@ export namespace Prisma {
     option?: true
     isCorrect?: true
     isSelected?: true
+    createdAt?: true
+    updatedAt?: true
     assessmentItemId?: true
   }
 
@@ -13566,6 +13730,8 @@ export namespace Prisma {
     option?: true
     isCorrect?: true
     isSelected?: true
+    createdAt?: true
+    updatedAt?: true
     assessmentItemId?: true
     _all?: true
   }
@@ -13647,6 +13813,8 @@ export namespace Prisma {
     option: string
     isCorrect: boolean
     isSelected: boolean
+    createdAt: Date | null
+    updatedAt: Date | null
     assessmentItemId: string
     _count: OptionCountAggregateOutputType | null
     _min: OptionMinAggregateOutputType | null
@@ -13672,6 +13840,8 @@ export namespace Prisma {
     option?: boolean
     isCorrect?: boolean
     isSelected?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     assessmentItemId?: boolean
     assessmentItem?: boolean | AssessmentItemDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["option"]>
@@ -13683,10 +13853,12 @@ export namespace Prisma {
     option?: boolean
     isCorrect?: boolean
     isSelected?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     assessmentItemId?: boolean
   }
 
-  export type OptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "option" | "isCorrect" | "isSelected" | "assessmentItemId", ExtArgs["result"]["option"]>
+  export type OptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "option" | "isCorrect" | "isSelected" | "createdAt" | "updatedAt" | "assessmentItemId", ExtArgs["result"]["option"]>
   export type OptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     assessmentItem?: boolean | AssessmentItemDefaultArgs<ExtArgs>
   }
@@ -13701,6 +13873,8 @@ export namespace Prisma {
       option: string
       isCorrect: boolean
       isSelected: boolean
+      createdAt: Date | null
+      updatedAt: Date | null
       assessmentItemId: string
     }, ExtArgs["result"]["option"]>
     composites: {}
@@ -14099,6 +14273,8 @@ export namespace Prisma {
     readonly option: FieldRef<"Option", 'String'>
     readonly isCorrect: FieldRef<"Option", 'Boolean'>
     readonly isSelected: FieldRef<"Option", 'Boolean'>
+    readonly createdAt: FieldRef<"Option", 'DateTime'>
+    readonly updatedAt: FieldRef<"Option", 'DateTime'>
     readonly assessmentItemId: FieldRef<"Option", 'String'>
   }
     
@@ -14504,6 +14680,8 @@ export namespace Prisma {
     status: string | null
     completionDate: Date | null
     method: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
     courseId: string | null
     studentId: string | null
   }
@@ -14514,6 +14692,8 @@ export namespace Prisma {
     status: string | null
     completionDate: Date | null
     method: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
     courseId: string | null
     studentId: string | null
   }
@@ -14524,6 +14704,8 @@ export namespace Prisma {
     status: number
     completionDate: number
     method: number
+    createdAt: number
+    updatedAt: number
     courseId: number
     studentId: number
     _all: number
@@ -14536,6 +14718,8 @@ export namespace Prisma {
     status?: true
     completionDate?: true
     method?: true
+    createdAt?: true
+    updatedAt?: true
     courseId?: true
     studentId?: true
   }
@@ -14546,6 +14730,8 @@ export namespace Prisma {
     status?: true
     completionDate?: true
     method?: true
+    createdAt?: true
+    updatedAt?: true
     courseId?: true
     studentId?: true
   }
@@ -14556,6 +14742,8 @@ export namespace Prisma {
     status?: true
     completionDate?: true
     method?: true
+    createdAt?: true
+    updatedAt?: true
     courseId?: true
     studentId?: true
     _all?: true
@@ -14639,6 +14827,8 @@ export namespace Prisma {
     status: string
     completionDate: Date | null
     method: string
+    createdAt: Date | null
+    updatedAt: Date | null
     courseId: string
     studentId: string
     _count: EnrollmentCountAggregateOutputType | null
@@ -14666,6 +14856,8 @@ export namespace Prisma {
     status?: boolean
     completionDate?: boolean
     method?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     courseId?: boolean
     studentId?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
@@ -14682,11 +14874,13 @@ export namespace Prisma {
     status?: boolean
     completionDate?: boolean
     method?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     courseId?: boolean
     studentId?: boolean
   }
 
-  export type EnrollmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "enrollmentDate" | "status" | "completionDate" | "method" | "courseId" | "studentId", ExtArgs["result"]["enrollment"]>
+  export type EnrollmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "enrollmentDate" | "status" | "completionDate" | "method" | "createdAt" | "updatedAt" | "courseId" | "studentId", ExtArgs["result"]["enrollment"]>
   export type EnrollmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | CourseDefaultArgs<ExtArgs>
     student?: boolean | UserDefaultArgs<ExtArgs>
@@ -14707,6 +14901,8 @@ export namespace Prisma {
       status: string
       completionDate: Date | null
       method: string
+      createdAt: Date | null
+      updatedAt: Date | null
       courseId: string
       studentId: string
     }, ExtArgs["result"]["enrollment"]>
@@ -15109,6 +15305,8 @@ export namespace Prisma {
     readonly status: FieldRef<"Enrollment", 'String'>
     readonly completionDate: FieldRef<"Enrollment", 'DateTime'>
     readonly method: FieldRef<"Enrollment", 'String'>
+    readonly createdAt: FieldRef<"Enrollment", 'DateTime'>
+    readonly updatedAt: FieldRef<"Enrollment", 'DateTime'>
     readonly courseId: FieldRef<"Enrollment", 'String'>
     readonly studentId: FieldRef<"Enrollment", 'String'>
   }
@@ -15536,6 +15734,8 @@ export namespace Prisma {
   export type CertificateMinAggregateOutputType = {
     id: string | null
     certificateLink: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
     userId: string | null
     courseId: string | null
     enrollmentId: string | null
@@ -15544,6 +15744,8 @@ export namespace Prisma {
   export type CertificateMaxAggregateOutputType = {
     id: string | null
     certificateLink: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
     userId: string | null
     courseId: string | null
     enrollmentId: string | null
@@ -15552,6 +15754,8 @@ export namespace Prisma {
   export type CertificateCountAggregateOutputType = {
     id: number
     certificateLink: number
+    createdAt: number
+    updatedAt: number
     userId: number
     courseId: number
     enrollmentId: number
@@ -15562,6 +15766,8 @@ export namespace Prisma {
   export type CertificateMinAggregateInputType = {
     id?: true
     certificateLink?: true
+    createdAt?: true
+    updatedAt?: true
     userId?: true
     courseId?: true
     enrollmentId?: true
@@ -15570,6 +15776,8 @@ export namespace Prisma {
   export type CertificateMaxAggregateInputType = {
     id?: true
     certificateLink?: true
+    createdAt?: true
+    updatedAt?: true
     userId?: true
     courseId?: true
     enrollmentId?: true
@@ -15578,6 +15786,8 @@ export namespace Prisma {
   export type CertificateCountAggregateInputType = {
     id?: true
     certificateLink?: true
+    createdAt?: true
+    updatedAt?: true
     userId?: true
     courseId?: true
     enrollmentId?: true
@@ -15659,6 +15869,8 @@ export namespace Prisma {
   export type CertificateGroupByOutputType = {
     id: string
     certificateLink: string
+    createdAt: Date | null
+    updatedAt: Date | null
     userId: string
     courseId: string
     enrollmentId: string
@@ -15684,6 +15896,8 @@ export namespace Prisma {
   export type CertificateSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     certificateLink?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     userId?: boolean
     courseId?: boolean
     enrollmentId?: boolean
@@ -15696,12 +15910,14 @@ export namespace Prisma {
   export type CertificateSelectScalar = {
     id?: boolean
     certificateLink?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     userId?: boolean
     courseId?: boolean
     enrollmentId?: boolean
   }
 
-  export type CertificateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "certificateLink" | "userId" | "courseId" | "enrollmentId", ExtArgs["result"]["certificate"]>
+  export type CertificateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "certificateLink" | "createdAt" | "updatedAt" | "userId" | "courseId" | "enrollmentId", ExtArgs["result"]["certificate"]>
   export type CertificateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     enrollment?: boolean | EnrollmentDefaultArgs<ExtArgs>
@@ -15716,6 +15932,8 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       certificateLink: string
+      createdAt: Date | null
+      updatedAt: Date | null
       userId: string
       courseId: string
       enrollmentId: string
@@ -16115,6 +16333,8 @@ export namespace Prisma {
   interface CertificateFieldRefs {
     readonly id: FieldRef<"Certificate", 'String'>
     readonly certificateLink: FieldRef<"Certificate", 'String'>
+    readonly createdAt: FieldRef<"Certificate", 'DateTime'>
+    readonly updatedAt: FieldRef<"Certificate", 'DateTime'>
     readonly userId: FieldRef<"Certificate", 'String'>
     readonly courseId: FieldRef<"Certificate", 'String'>
     readonly enrollmentId: FieldRef<"Certificate", 'String'>
@@ -16532,6 +16752,8 @@ export namespace Prisma {
     rating: number | null
     courseId: string | null
     userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type TestimonialMaxAggregateOutputType = {
@@ -16540,6 +16762,8 @@ export namespace Prisma {
     rating: number | null
     courseId: string | null
     userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type TestimonialCountAggregateOutputType = {
@@ -16548,6 +16772,8 @@ export namespace Prisma {
     rating: number
     courseId: number
     userId: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -16566,6 +16792,8 @@ export namespace Prisma {
     rating?: true
     courseId?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type TestimonialMaxAggregateInputType = {
@@ -16574,6 +16802,8 @@ export namespace Prisma {
     rating?: true
     courseId?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type TestimonialCountAggregateInputType = {
@@ -16582,6 +16812,8 @@ export namespace Prisma {
     rating?: true
     courseId?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -16677,6 +16909,8 @@ export namespace Prisma {
     rating: number
     courseId: string
     userId: string
+    createdAt: Date | null
+    updatedAt: Date | null
     _count: TestimonialCountAggregateOutputType | null
     _avg: TestimonialAvgAggregateOutputType | null
     _sum: TestimonialSumAggregateOutputType | null
@@ -16704,6 +16938,8 @@ export namespace Prisma {
     rating?: boolean
     courseId?: boolean
     userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["testimonial"]>
@@ -16716,9 +16952,11 @@ export namespace Prisma {
     rating?: boolean
     courseId?: boolean
     userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type TestimonialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "rating" | "courseId" | "userId", ExtArgs["result"]["testimonial"]>
+  export type TestimonialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "rating" | "courseId" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["testimonial"]>
   export type TestimonialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | CourseDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -16736,6 +16974,8 @@ export namespace Prisma {
       rating: number
       courseId: string
       userId: string
+      createdAt: Date | null
+      updatedAt: Date | null
     }, ExtArgs["result"]["testimonial"]>
     composites: {}
   }
@@ -17135,6 +17375,8 @@ export namespace Prisma {
     readonly rating: FieldRef<"Testimonial", 'Int'>
     readonly courseId: FieldRef<"Testimonial", 'String'>
     readonly userId: FieldRef<"Testimonial", 'String'>
+    readonly createdAt: FieldRef<"Testimonial", 'DateTime'>
+    readonly updatedAt: FieldRef<"Testimonial", 'DateTime'>
   }
     
 
@@ -17543,6 +17785,8 @@ export namespace Prisma {
     schedule: Date | null
     quizId: string | null
     instructorId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type LiveMaxAggregateOutputType = {
@@ -17555,6 +17799,8 @@ export namespace Prisma {
     schedule: Date | null
     quizId: string | null
     instructorId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type LiveCountAggregateOutputType = {
@@ -17567,6 +17813,8 @@ export namespace Prisma {
     schedule: number
     quizId: number
     instructorId: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -17581,6 +17829,8 @@ export namespace Prisma {
     schedule?: true
     quizId?: true
     instructorId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type LiveMaxAggregateInputType = {
@@ -17593,6 +17843,8 @@ export namespace Prisma {
     schedule?: true
     quizId?: true
     instructorId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type LiveCountAggregateInputType = {
@@ -17605,6 +17857,8 @@ export namespace Prisma {
     schedule?: true
     quizId?: true
     instructorId?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -17690,6 +17944,8 @@ export namespace Prisma {
     schedule: Date
     quizId: string | null
     instructorId: string
+    createdAt: Date | null
+    updatedAt: Date | null
     _count: LiveCountAggregateOutputType | null
     _min: LiveMinAggregateOutputType | null
     _max: LiveMaxAggregateOutputType | null
@@ -17719,6 +17975,8 @@ export namespace Prisma {
     schedule?: boolean
     quizId?: boolean
     instructorId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["live"]>
 
 
@@ -17733,9 +17991,11 @@ export namespace Prisma {
     schedule?: boolean
     quizId?: boolean
     instructorId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type LiveOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "thumbnail" | "videoId" | "slug" | "schedule" | "quizId" | "instructorId", ExtArgs["result"]["live"]>
+  export type LiveOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "thumbnail" | "videoId" | "slug" | "schedule" | "quizId" | "instructorId" | "createdAt" | "updatedAt", ExtArgs["result"]["live"]>
 
   export type $LivePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Live"
@@ -17750,6 +18010,8 @@ export namespace Prisma {
       schedule: Date
       quizId: string | null
       instructorId: string
+      createdAt: Date | null
+      updatedAt: Date | null
     }, ExtArgs["result"]["live"]>
     composites: {}
   }
@@ -18151,6 +18413,8 @@ export namespace Prisma {
     readonly schedule: FieldRef<"Live", 'DateTime'>
     readonly quizId: FieldRef<"Live", 'String'>
     readonly instructorId: FieldRef<"Live", 'String'>
+    readonly createdAt: FieldRef<"Live", 'DateTime'>
+    readonly updatedAt: FieldRef<"Live", 'DateTime'>
   }
     
 
@@ -18511,6 +18775,8 @@ export namespace Prisma {
 
   export type ReportMinAggregateOutputType = {
     id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
     courseId: string | null
     studentId: string | null
     assessmentId: string | null
@@ -18518,6 +18784,8 @@ export namespace Prisma {
 
   export type ReportMaxAggregateOutputType = {
     id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
     courseId: string | null
     studentId: string | null
     assessmentId: string | null
@@ -18525,6 +18793,8 @@ export namespace Prisma {
 
   export type ReportCountAggregateOutputType = {
     id: number
+    createdAt: number
+    updatedAt: number
     totalCompletedLessons: number
     totalCompletedModules: number
     courseId: number
@@ -18536,6 +18806,8 @@ export namespace Prisma {
 
   export type ReportMinAggregateInputType = {
     id?: true
+    createdAt?: true
+    updatedAt?: true
     courseId?: true
     studentId?: true
     assessmentId?: true
@@ -18543,6 +18815,8 @@ export namespace Prisma {
 
   export type ReportMaxAggregateInputType = {
     id?: true
+    createdAt?: true
+    updatedAt?: true
     courseId?: true
     studentId?: true
     assessmentId?: true
@@ -18550,6 +18824,8 @@ export namespace Prisma {
 
   export type ReportCountAggregateInputType = {
     id?: true
+    createdAt?: true
+    updatedAt?: true
     totalCompletedLessons?: true
     totalCompletedModules?: true
     courseId?: true
@@ -18632,6 +18908,8 @@ export namespace Prisma {
 
   export type ReportGroupByOutputType = {
     id: string
+    createdAt: Date | null
+    updatedAt: Date | null
     totalCompletedLessons: string[]
     totalCompletedModules: string[]
     courseId: string
@@ -18658,6 +18936,8 @@ export namespace Prisma {
 
   export type ReportSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     totalCompletedLessons?: boolean
     totalCompletedModules?: boolean
     courseId?: boolean
@@ -18672,6 +18952,8 @@ export namespace Prisma {
 
   export type ReportSelectScalar = {
     id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     totalCompletedLessons?: boolean
     totalCompletedModules?: boolean
     courseId?: boolean
@@ -18679,7 +18961,7 @@ export namespace Prisma {
     assessmentId?: boolean
   }
 
-  export type ReportOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "totalCompletedLessons" | "totalCompletedModules" | "courseId" | "studentId" | "assessmentId", ExtArgs["result"]["report"]>
+  export type ReportOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "totalCompletedLessons" | "totalCompletedModules" | "courseId" | "studentId" | "assessmentId", ExtArgs["result"]["report"]>
   export type ReportInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | CourseDefaultArgs<ExtArgs>
     student?: boolean | UserDefaultArgs<ExtArgs>
@@ -18695,6 +18977,8 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      createdAt: Date | null
+      updatedAt: Date | null
       totalCompletedLessons: string[]
       totalCompletedModules: string[]
       courseId: string
@@ -19096,6 +19380,8 @@ export namespace Prisma {
    */
   interface ReportFieldRefs {
     readonly id: FieldRef<"Report", 'String'>
+    readonly createdAt: FieldRef<"Report", 'DateTime'>
+    readonly updatedAt: FieldRef<"Report", 'DateTime'>
     readonly totalCompletedLessons: FieldRef<"Report", 'String[]'>
     readonly totalCompletedModules: FieldRef<"Report", 'String[]'>
     readonly courseId: FieldRef<"Report", 'String'>
@@ -19540,8 +19826,8 @@ export namespace Prisma {
     price: 'price',
     active: 'active',
     learning: 'learning',
-    createdOn: 'createdOn',
-    modifiedOn: 'modifiedOn',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
     categoryId: 'categoryId',
     instructorId: 'instructorId',
     quizSetId: 'quizSetId'
@@ -19554,7 +19840,9 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     description: 'description',
-    thumbnail: 'thumbnail'
+    thumbnail: 'thumbnail',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
@@ -19567,6 +19855,8 @@ export namespace Prisma {
     status: 'status',
     slug: 'slug',
     duration: 'duration',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
     courseId: 'courseId',
     lessonIds: 'lessonIds'
   };
@@ -19580,6 +19870,8 @@ export namespace Prisma {
     description: 'description',
     duration: 'duration',
     videoUrl: 'videoUrl',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
     active: 'active',
     slug: 'slug',
     access: 'access',
@@ -19591,10 +19883,10 @@ export namespace Prisma {
 
   export const WatchScalarFieldEnum: {
     id: 'id',
-    createdAt: 'createdAt',
-    modifiedAt: 'modifiedAt',
     state: 'state',
     lastTime: 'lastTime',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
     lessonId: 'lessonId',
     userId: 'userId',
     moduleId: 'moduleId'
@@ -19611,6 +19903,8 @@ export namespace Prisma {
     explanations: 'explanations',
     mark: 'mark',
     slug: 'slug',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
     quizSetIds: 'quizSetIds'
   };
 
@@ -19621,6 +19915,8 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     description: 'description',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
     slug: 'slug',
     active: 'active',
     quizIds: 'quizIds'
@@ -19631,7 +19927,9 @@ export namespace Prisma {
 
   export const AssessmentScalarFieldEnum: {
     id: 'id',
-    otherMarks: 'otherMarks'
+    otherMarks: 'otherMarks',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type AssessmentScalarFieldEnum = (typeof AssessmentScalarFieldEnum)[keyof typeof AssessmentScalarFieldEnum]
@@ -19640,6 +19938,8 @@ export namespace Prisma {
   export const AssessmentItemScalarFieldEnum: {
     id: 'id',
     attempted: 'attempted',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
     quizId: 'quizId',
     assessmentId: 'assessmentId'
   };
@@ -19652,6 +19952,8 @@ export namespace Prisma {
     option: 'option',
     isCorrect: 'isCorrect',
     isSelected: 'isSelected',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
     assessmentItemId: 'assessmentItemId'
   };
 
@@ -19664,6 +19966,8 @@ export namespace Prisma {
     status: 'status',
     completionDate: 'completionDate',
     method: 'method',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
     courseId: 'courseId',
     studentId: 'studentId'
   };
@@ -19674,6 +19978,8 @@ export namespace Prisma {
   export const CertificateScalarFieldEnum: {
     id: 'id',
     certificateLink: 'certificateLink',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
     userId: 'userId',
     courseId: 'courseId',
     enrollmentId: 'enrollmentId'
@@ -19687,7 +19993,9 @@ export namespace Prisma {
     content: 'content',
     rating: 'rating',
     courseId: 'courseId',
-    userId: 'userId'
+    userId: 'userId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type TestimonialScalarFieldEnum = (typeof TestimonialScalarFieldEnum)[keyof typeof TestimonialScalarFieldEnum]
@@ -19702,7 +20010,9 @@ export namespace Prisma {
     slug: 'slug',
     schedule: 'schedule',
     quizId: 'quizId',
-    instructorId: 'instructorId'
+    instructorId: 'instructorId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type LiveScalarFieldEnum = (typeof LiveScalarFieldEnum)[keyof typeof LiveScalarFieldEnum]
@@ -19710,6 +20020,8 @@ export namespace Prisma {
 
   export const ReportScalarFieldEnum: {
     id: 'id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
     totalCompletedLessons: 'totalCompletedLessons',
     totalCompletedModules: 'totalCompletedModules',
     courseId: 'courseId',
@@ -19943,8 +20255,8 @@ export namespace Prisma {
     price?: IntFilter<"Course"> | number
     active?: BoolFilter<"Course"> | boolean
     learning?: StringNullableListFilter<"Course">
-    createdOn?: DateTimeNullableFilter<"Course"> | Date | string | null
-    modifiedOn?: DateTimeNullableFilter<"Course"> | Date | string | null
+    createdAt?: DateTimeNullableFilter<"Course"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Course"> | Date | string | null
     categoryId?: StringFilter<"Course"> | string
     instructorId?: StringFilter<"Course"> | string
     quizSetId?: StringNullableFilter<"Course"> | string | null
@@ -19966,8 +20278,8 @@ export namespace Prisma {
     price?: SortOrder
     active?: SortOrder
     learning?: SortOrder
-    createdOn?: SortOrder
-    modifiedOn?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     categoryId?: SortOrder
     instructorId?: SortOrder
     quizSetId?: SortOrder
@@ -19992,8 +20304,8 @@ export namespace Prisma {
     price?: IntFilter<"Course"> | number
     active?: BoolFilter<"Course"> | boolean
     learning?: StringNullableListFilter<"Course">
-    createdOn?: DateTimeNullableFilter<"Course"> | Date | string | null
-    modifiedOn?: DateTimeNullableFilter<"Course"> | Date | string | null
+    createdAt?: DateTimeNullableFilter<"Course"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Course"> | Date | string | null
     categoryId?: StringFilter<"Course"> | string
     instructorId?: StringFilter<"Course"> | string
     quizSetId?: StringNullableFilter<"Course"> | string | null
@@ -20015,8 +20327,8 @@ export namespace Prisma {
     price?: SortOrder
     active?: SortOrder
     learning?: SortOrder
-    createdOn?: SortOrder
-    modifiedOn?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     categoryId?: SortOrder
     instructorId?: SortOrder
     quizSetId?: SortOrder
@@ -20039,8 +20351,8 @@ export namespace Prisma {
     price?: IntWithAggregatesFilter<"Course"> | number
     active?: BoolWithAggregatesFilter<"Course"> | boolean
     learning?: StringNullableListFilter<"Course">
-    createdOn?: DateTimeNullableWithAggregatesFilter<"Course"> | Date | string | null
-    modifiedOn?: DateTimeNullableWithAggregatesFilter<"Course"> | Date | string | null
+    createdAt?: DateTimeNullableWithAggregatesFilter<"Course"> | Date | string | null
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"Course"> | Date | string | null
     categoryId?: StringWithAggregatesFilter<"Course"> | string
     instructorId?: StringWithAggregatesFilter<"Course"> | string
     quizSetId?: StringNullableWithAggregatesFilter<"Course"> | string | null
@@ -20054,6 +20366,8 @@ export namespace Prisma {
     title?: StringFilter<"Category"> | string
     description?: StringNullableFilter<"Category"> | string | null
     thumbnail?: StringFilter<"Category"> | string
+    createdAt?: DateTimeNullableFilter<"Category"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Category"> | Date | string | null
     courses?: CourseListRelationFilter
   }
 
@@ -20062,6 +20376,8 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     thumbnail?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     courses?: CourseOrderByRelationAggregateInput
   }
 
@@ -20073,6 +20389,8 @@ export namespace Prisma {
     title?: StringFilter<"Category"> | string
     description?: StringNullableFilter<"Category"> | string | null
     thumbnail?: StringFilter<"Category"> | string
+    createdAt?: DateTimeNullableFilter<"Category"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Category"> | Date | string | null
     courses?: CourseListRelationFilter
   }, "id">
 
@@ -20081,6 +20399,8 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     thumbnail?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: CategoryCountOrderByAggregateInput
     _max?: CategoryMaxOrderByAggregateInput
     _min?: CategoryMinOrderByAggregateInput
@@ -20094,6 +20414,8 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Category"> | string
     description?: StringNullableWithAggregatesFilter<"Category"> | string | null
     thumbnail?: StringWithAggregatesFilter<"Category"> | string
+    createdAt?: DateTimeNullableWithAggregatesFilter<"Category"> | Date | string | null
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"Category"> | Date | string | null
   }
 
   export type ModuleWhereInput = {
@@ -20106,6 +20428,8 @@ export namespace Prisma {
     status?: StringFilter<"Module"> | string
     slug?: StringFilter<"Module"> | string
     duration?: IntFilter<"Module"> | number
+    createdAt?: DateTimeNullableFilter<"Module"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Module"> | Date | string | null
     courseId?: StringFilter<"Module"> | string
     lessonIds?: StringNullableListFilter<"Module">
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
@@ -20120,6 +20444,8 @@ export namespace Prisma {
     status?: SortOrder
     slug?: SortOrder
     duration?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     courseId?: SortOrder
     lessonIds?: SortOrder
     course?: CourseOrderByWithRelationInput
@@ -20137,6 +20463,8 @@ export namespace Prisma {
     status?: StringFilter<"Module"> | string
     slug?: StringFilter<"Module"> | string
     duration?: IntFilter<"Module"> | number
+    createdAt?: DateTimeNullableFilter<"Module"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Module"> | Date | string | null
     courseId?: StringFilter<"Module"> | string
     lessonIds?: StringNullableListFilter<"Module">
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
@@ -20151,6 +20479,8 @@ export namespace Prisma {
     status?: SortOrder
     slug?: SortOrder
     duration?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     courseId?: SortOrder
     lessonIds?: SortOrder
     _count?: ModuleCountOrderByAggregateInput
@@ -20170,6 +20500,8 @@ export namespace Prisma {
     status?: StringWithAggregatesFilter<"Module"> | string
     slug?: StringWithAggregatesFilter<"Module"> | string
     duration?: IntWithAggregatesFilter<"Module"> | number
+    createdAt?: DateTimeNullableWithAggregatesFilter<"Module"> | Date | string | null
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"Module"> | Date | string | null
     courseId?: StringWithAggregatesFilter<"Module"> | string
     lessonIds?: StringNullableListFilter<"Module">
   }
@@ -20183,6 +20515,8 @@ export namespace Prisma {
     description?: StringNullableFilter<"Lesson"> | string | null
     duration?: IntFilter<"Lesson"> | number
     videoUrl?: StringNullableFilter<"Lesson"> | string | null
+    createdAt?: DateTimeNullableFilter<"Lesson"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Lesson"> | Date | string | null
     active?: BoolFilter<"Lesson"> | boolean
     slug?: StringFilter<"Lesson"> | string
     access?: StringFilter<"Lesson"> | string
@@ -20197,6 +20531,8 @@ export namespace Prisma {
     description?: SortOrder
     duration?: SortOrder
     videoUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     active?: SortOrder
     slug?: SortOrder
     access?: SortOrder
@@ -20214,6 +20550,8 @@ export namespace Prisma {
     description?: StringNullableFilter<"Lesson"> | string | null
     duration?: IntFilter<"Lesson"> | number
     videoUrl?: StringNullableFilter<"Lesson"> | string | null
+    createdAt?: DateTimeNullableFilter<"Lesson"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Lesson"> | Date | string | null
     active?: BoolFilter<"Lesson"> | boolean
     slug?: StringFilter<"Lesson"> | string
     access?: StringFilter<"Lesson"> | string
@@ -20228,6 +20566,8 @@ export namespace Prisma {
     description?: SortOrder
     duration?: SortOrder
     videoUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     active?: SortOrder
     slug?: SortOrder
     access?: SortOrder
@@ -20248,6 +20588,8 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
     duration?: IntWithAggregatesFilter<"Lesson"> | number
     videoUrl?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
+    createdAt?: DateTimeNullableWithAggregatesFilter<"Lesson"> | Date | string | null
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"Lesson"> | Date | string | null
     active?: BoolWithAggregatesFilter<"Lesson"> | boolean
     slug?: StringWithAggregatesFilter<"Lesson"> | string
     access?: StringWithAggregatesFilter<"Lesson"> | string
@@ -20259,10 +20601,10 @@ export namespace Prisma {
     OR?: WatchWhereInput[]
     NOT?: WatchWhereInput | WatchWhereInput[]
     id?: StringFilter<"Watch"> | string
-    createdAt?: DateTimeNullableFilter<"Watch"> | Date | string | null
-    modifiedAt?: DateTimeNullableFilter<"Watch"> | Date | string | null
     state?: StringFilter<"Watch"> | string
     lastTime?: IntFilter<"Watch"> | number
+    createdAt?: DateTimeNullableFilter<"Watch"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Watch"> | Date | string | null
     lessonId?: StringFilter<"Watch"> | string
     userId?: StringFilter<"Watch"> | string
     moduleId?: StringNullableFilter<"Watch"> | string | null
@@ -20273,10 +20615,10 @@ export namespace Prisma {
 
   export type WatchOrderByWithRelationInput = {
     id?: SortOrder
-    createdAt?: SortOrder
-    modifiedAt?: SortOrder
     state?: SortOrder
     lastTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     lessonId?: SortOrder
     userId?: SortOrder
     moduleId?: SortOrder
@@ -20290,10 +20632,10 @@ export namespace Prisma {
     AND?: WatchWhereInput | WatchWhereInput[]
     OR?: WatchWhereInput[]
     NOT?: WatchWhereInput | WatchWhereInput[]
-    createdAt?: DateTimeNullableFilter<"Watch"> | Date | string | null
-    modifiedAt?: DateTimeNullableFilter<"Watch"> | Date | string | null
     state?: StringFilter<"Watch"> | string
     lastTime?: IntFilter<"Watch"> | number
+    createdAt?: DateTimeNullableFilter<"Watch"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Watch"> | Date | string | null
     lessonId?: StringFilter<"Watch"> | string
     userId?: StringFilter<"Watch"> | string
     moduleId?: StringNullableFilter<"Watch"> | string | null
@@ -20304,10 +20646,10 @@ export namespace Prisma {
 
   export type WatchOrderByWithAggregationInput = {
     id?: SortOrder
-    createdAt?: SortOrder
-    modifiedAt?: SortOrder
     state?: SortOrder
     lastTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     lessonId?: SortOrder
     userId?: SortOrder
     moduleId?: SortOrder
@@ -20323,10 +20665,10 @@ export namespace Prisma {
     OR?: WatchScalarWhereWithAggregatesInput[]
     NOT?: WatchScalarWhereWithAggregatesInput | WatchScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Watch"> | string
-    createdAt?: DateTimeNullableWithAggregatesFilter<"Watch"> | Date | string | null
-    modifiedAt?: DateTimeNullableWithAggregatesFilter<"Watch"> | Date | string | null
     state?: StringWithAggregatesFilter<"Watch"> | string
     lastTime?: IntWithAggregatesFilter<"Watch"> | number
+    createdAt?: DateTimeNullableWithAggregatesFilter<"Watch"> | Date | string | null
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"Watch"> | Date | string | null
     lessonId?: StringWithAggregatesFilter<"Watch"> | string
     userId?: StringWithAggregatesFilter<"Watch"> | string
     moduleId?: StringNullableWithAggregatesFilter<"Watch"> | string | null
@@ -20343,6 +20685,8 @@ export namespace Prisma {
     explanations?: StringFilter<"Quiz"> | string
     mark?: IntFilter<"Quiz"> | number
     slug?: StringFilter<"Quiz"> | string
+    createdAt?: DateTimeNullableFilter<"Quiz"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Quiz"> | Date | string | null
     quizSetIds?: StringNullableListFilter<"Quiz">
     quizSets?: QuizSetListRelationFilter
     assessments?: AssessmentItemListRelationFilter
@@ -20356,6 +20700,8 @@ export namespace Prisma {
     explanations?: SortOrder
     mark?: SortOrder
     slug?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     quizSetIds?: SortOrder
     quizSets?: QuizSetOrderByRelationAggregateInput
     assessments?: AssessmentItemOrderByRelationAggregateInput
@@ -20372,6 +20718,8 @@ export namespace Prisma {
     explanations?: StringFilter<"Quiz"> | string
     mark?: IntFilter<"Quiz"> | number
     slug?: StringFilter<"Quiz"> | string
+    createdAt?: DateTimeNullableFilter<"Quiz"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Quiz"> | Date | string | null
     quizSetIds?: StringNullableListFilter<"Quiz">
     quizSets?: QuizSetListRelationFilter
     assessments?: AssessmentItemListRelationFilter
@@ -20385,6 +20733,8 @@ export namespace Prisma {
     explanations?: SortOrder
     mark?: SortOrder
     slug?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     quizSetIds?: SortOrder
     _count?: QuizCountOrderByAggregateInput
     _avg?: QuizAvgOrderByAggregateInput
@@ -20404,6 +20754,8 @@ export namespace Prisma {
     explanations?: StringWithAggregatesFilter<"Quiz"> | string
     mark?: IntWithAggregatesFilter<"Quiz"> | number
     slug?: StringWithAggregatesFilter<"Quiz"> | string
+    createdAt?: DateTimeNullableWithAggregatesFilter<"Quiz"> | Date | string | null
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"Quiz"> | Date | string | null
     quizSetIds?: StringNullableListFilter<"Quiz">
   }
 
@@ -20414,6 +20766,8 @@ export namespace Prisma {
     id?: StringFilter<"QuizSet"> | string
     title?: StringFilter<"QuizSet"> | string
     description?: StringFilter<"QuizSet"> | string
+    createdAt?: DateTimeNullableFilter<"QuizSet"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"QuizSet"> | Date | string | null
     slug?: StringFilter<"QuizSet"> | string
     active?: BoolFilter<"QuizSet"> | boolean
     quizIds?: StringNullableListFilter<"QuizSet">
@@ -20425,6 +20779,8 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     slug?: SortOrder
     active?: SortOrder
     quizIds?: SortOrder
@@ -20439,6 +20795,8 @@ export namespace Prisma {
     NOT?: QuizSetWhereInput | QuizSetWhereInput[]
     title?: StringFilter<"QuizSet"> | string
     description?: StringFilter<"QuizSet"> | string
+    createdAt?: DateTimeNullableFilter<"QuizSet"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"QuizSet"> | Date | string | null
     slug?: StringFilter<"QuizSet"> | string
     active?: BoolFilter<"QuizSet"> | boolean
     quizIds?: StringNullableListFilter<"QuizSet">
@@ -20450,6 +20808,8 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     slug?: SortOrder
     active?: SortOrder
     quizIds?: SortOrder
@@ -20465,6 +20825,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"QuizSet"> | string
     title?: StringWithAggregatesFilter<"QuizSet"> | string
     description?: StringWithAggregatesFilter<"QuizSet"> | string
+    createdAt?: DateTimeNullableWithAggregatesFilter<"QuizSet"> | Date | string | null
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"QuizSet"> | Date | string | null
     slug?: StringWithAggregatesFilter<"QuizSet"> | string
     active?: BoolWithAggregatesFilter<"QuizSet"> | boolean
     quizIds?: StringNullableListFilter<"QuizSet">
@@ -20476,6 +20838,8 @@ export namespace Prisma {
     NOT?: AssessmentWhereInput | AssessmentWhereInput[]
     id?: StringFilter<"Assessment"> | string
     otherMarks?: IntFilter<"Assessment"> | number
+    createdAt?: DateTimeNullableFilter<"Assessment"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Assessment"> | Date | string | null
     items?: AssessmentItemListRelationFilter
     report?: XOR<ReportNullableScalarRelationFilter, ReportWhereInput> | null
   }
@@ -20483,6 +20847,8 @@ export namespace Prisma {
   export type AssessmentOrderByWithRelationInput = {
     id?: SortOrder
     otherMarks?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     items?: AssessmentItemOrderByRelationAggregateInput
     report?: ReportOrderByWithRelationInput
   }
@@ -20493,6 +20859,8 @@ export namespace Prisma {
     OR?: AssessmentWhereInput[]
     NOT?: AssessmentWhereInput | AssessmentWhereInput[]
     otherMarks?: IntFilter<"Assessment"> | number
+    createdAt?: DateTimeNullableFilter<"Assessment"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Assessment"> | Date | string | null
     items?: AssessmentItemListRelationFilter
     report?: XOR<ReportNullableScalarRelationFilter, ReportWhereInput> | null
   }, "id">
@@ -20500,6 +20868,8 @@ export namespace Prisma {
   export type AssessmentOrderByWithAggregationInput = {
     id?: SortOrder
     otherMarks?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: AssessmentCountOrderByAggregateInput
     _avg?: AssessmentAvgOrderByAggregateInput
     _max?: AssessmentMaxOrderByAggregateInput
@@ -20513,6 +20883,8 @@ export namespace Prisma {
     NOT?: AssessmentScalarWhereWithAggregatesInput | AssessmentScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Assessment"> | string
     otherMarks?: IntWithAggregatesFilter<"Assessment"> | number
+    createdAt?: DateTimeNullableWithAggregatesFilter<"Assessment"> | Date | string | null
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"Assessment"> | Date | string | null
   }
 
   export type AssessmentItemWhereInput = {
@@ -20521,6 +20893,8 @@ export namespace Prisma {
     NOT?: AssessmentItemWhereInput | AssessmentItemWhereInput[]
     id?: StringFilter<"AssessmentItem"> | string
     attempted?: BoolFilter<"AssessmentItem"> | boolean
+    createdAt?: DateTimeNullableFilter<"AssessmentItem"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"AssessmentItem"> | Date | string | null
     quizId?: StringFilter<"AssessmentItem"> | string
     assessmentId?: StringFilter<"AssessmentItem"> | string
     quiz?: XOR<QuizScalarRelationFilter, QuizWhereInput>
@@ -20531,6 +20905,8 @@ export namespace Prisma {
   export type AssessmentItemOrderByWithRelationInput = {
     id?: SortOrder
     attempted?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     quizId?: SortOrder
     assessmentId?: SortOrder
     quiz?: QuizOrderByWithRelationInput
@@ -20544,6 +20920,8 @@ export namespace Prisma {
     OR?: AssessmentItemWhereInput[]
     NOT?: AssessmentItemWhereInput | AssessmentItemWhereInput[]
     attempted?: BoolFilter<"AssessmentItem"> | boolean
+    createdAt?: DateTimeNullableFilter<"AssessmentItem"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"AssessmentItem"> | Date | string | null
     quizId?: StringFilter<"AssessmentItem"> | string
     assessmentId?: StringFilter<"AssessmentItem"> | string
     quiz?: XOR<QuizScalarRelationFilter, QuizWhereInput>
@@ -20554,6 +20932,8 @@ export namespace Prisma {
   export type AssessmentItemOrderByWithAggregationInput = {
     id?: SortOrder
     attempted?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     quizId?: SortOrder
     assessmentId?: SortOrder
     _count?: AssessmentItemCountOrderByAggregateInput
@@ -20567,6 +20947,8 @@ export namespace Prisma {
     NOT?: AssessmentItemScalarWhereWithAggregatesInput | AssessmentItemScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"AssessmentItem"> | string
     attempted?: BoolWithAggregatesFilter<"AssessmentItem"> | boolean
+    createdAt?: DateTimeNullableWithAggregatesFilter<"AssessmentItem"> | Date | string | null
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"AssessmentItem"> | Date | string | null
     quizId?: StringWithAggregatesFilter<"AssessmentItem"> | string
     assessmentId?: StringWithAggregatesFilter<"AssessmentItem"> | string
   }
@@ -20579,6 +20961,8 @@ export namespace Prisma {
     option?: StringFilter<"Option"> | string
     isCorrect?: BoolFilter<"Option"> | boolean
     isSelected?: BoolFilter<"Option"> | boolean
+    createdAt?: DateTimeNullableFilter<"Option"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Option"> | Date | string | null
     assessmentItemId?: StringFilter<"Option"> | string
     assessmentItem?: XOR<AssessmentItemScalarRelationFilter, AssessmentItemWhereInput>
   }
@@ -20588,6 +20972,8 @@ export namespace Prisma {
     option?: SortOrder
     isCorrect?: SortOrder
     isSelected?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     assessmentItemId?: SortOrder
     assessmentItem?: AssessmentItemOrderByWithRelationInput
   }
@@ -20600,6 +20986,8 @@ export namespace Prisma {
     option?: StringFilter<"Option"> | string
     isCorrect?: BoolFilter<"Option"> | boolean
     isSelected?: BoolFilter<"Option"> | boolean
+    createdAt?: DateTimeNullableFilter<"Option"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Option"> | Date | string | null
     assessmentItemId?: StringFilter<"Option"> | string
     assessmentItem?: XOR<AssessmentItemScalarRelationFilter, AssessmentItemWhereInput>
   }, "id">
@@ -20609,6 +20997,8 @@ export namespace Prisma {
     option?: SortOrder
     isCorrect?: SortOrder
     isSelected?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     assessmentItemId?: SortOrder
     _count?: OptionCountOrderByAggregateInput
     _max?: OptionMaxOrderByAggregateInput
@@ -20623,6 +21013,8 @@ export namespace Prisma {
     option?: StringWithAggregatesFilter<"Option"> | string
     isCorrect?: BoolWithAggregatesFilter<"Option"> | boolean
     isSelected?: BoolWithAggregatesFilter<"Option"> | boolean
+    createdAt?: DateTimeNullableWithAggregatesFilter<"Option"> | Date | string | null
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"Option"> | Date | string | null
     assessmentItemId?: StringWithAggregatesFilter<"Option"> | string
   }
 
@@ -20635,6 +21027,8 @@ export namespace Prisma {
     status?: StringFilter<"Enrollment"> | string
     completionDate?: DateTimeNullableFilter<"Enrollment"> | Date | string | null
     method?: StringFilter<"Enrollment"> | string
+    createdAt?: DateTimeNullableFilter<"Enrollment"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Enrollment"> | Date | string | null
     courseId?: StringFilter<"Enrollment"> | string
     studentId?: StringFilter<"Enrollment"> | string
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
@@ -20648,6 +21042,8 @@ export namespace Prisma {
     status?: SortOrder
     completionDate?: SortOrder
     method?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     courseId?: SortOrder
     studentId?: SortOrder
     course?: CourseOrderByWithRelationInput
@@ -20664,6 +21060,8 @@ export namespace Prisma {
     status?: StringFilter<"Enrollment"> | string
     completionDate?: DateTimeNullableFilter<"Enrollment"> | Date | string | null
     method?: StringFilter<"Enrollment"> | string
+    createdAt?: DateTimeNullableFilter<"Enrollment"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Enrollment"> | Date | string | null
     courseId?: StringFilter<"Enrollment"> | string
     studentId?: StringFilter<"Enrollment"> | string
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
@@ -20677,6 +21075,8 @@ export namespace Prisma {
     status?: SortOrder
     completionDate?: SortOrder
     method?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     courseId?: SortOrder
     studentId?: SortOrder
     _count?: EnrollmentCountOrderByAggregateInput
@@ -20693,6 +21093,8 @@ export namespace Prisma {
     status?: StringWithAggregatesFilter<"Enrollment"> | string
     completionDate?: DateTimeNullableWithAggregatesFilter<"Enrollment"> | Date | string | null
     method?: StringWithAggregatesFilter<"Enrollment"> | string
+    createdAt?: DateTimeNullableWithAggregatesFilter<"Enrollment"> | Date | string | null
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"Enrollment"> | Date | string | null
     courseId?: StringWithAggregatesFilter<"Enrollment"> | string
     studentId?: StringWithAggregatesFilter<"Enrollment"> | string
   }
@@ -20703,6 +21105,8 @@ export namespace Prisma {
     NOT?: CertificateWhereInput | CertificateWhereInput[]
     id?: StringFilter<"Certificate"> | string
     certificateLink?: StringFilter<"Certificate"> | string
+    createdAt?: DateTimeNullableFilter<"Certificate"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Certificate"> | Date | string | null
     userId?: StringFilter<"Certificate"> | string
     courseId?: StringFilter<"Certificate"> | string
     enrollmentId?: StringFilter<"Certificate"> | string
@@ -20713,6 +21117,8 @@ export namespace Prisma {
   export type CertificateOrderByWithRelationInput = {
     id?: SortOrder
     certificateLink?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     userId?: SortOrder
     courseId?: SortOrder
     enrollmentId?: SortOrder
@@ -20726,6 +21132,8 @@ export namespace Prisma {
     OR?: CertificateWhereInput[]
     NOT?: CertificateWhereInput | CertificateWhereInput[]
     certificateLink?: StringFilter<"Certificate"> | string
+    createdAt?: DateTimeNullableFilter<"Certificate"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Certificate"> | Date | string | null
     userId?: StringFilter<"Certificate"> | string
     courseId?: StringFilter<"Certificate"> | string
     enrollmentId?: StringFilter<"Certificate"> | string
@@ -20736,6 +21144,8 @@ export namespace Prisma {
   export type CertificateOrderByWithAggregationInput = {
     id?: SortOrder
     certificateLink?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     userId?: SortOrder
     courseId?: SortOrder
     enrollmentId?: SortOrder
@@ -20750,6 +21160,8 @@ export namespace Prisma {
     NOT?: CertificateScalarWhereWithAggregatesInput | CertificateScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Certificate"> | string
     certificateLink?: StringWithAggregatesFilter<"Certificate"> | string
+    createdAt?: DateTimeNullableWithAggregatesFilter<"Certificate"> | Date | string | null
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"Certificate"> | Date | string | null
     userId?: StringWithAggregatesFilter<"Certificate"> | string
     courseId?: StringWithAggregatesFilter<"Certificate"> | string
     enrollmentId?: StringWithAggregatesFilter<"Certificate"> | string
@@ -20764,6 +21176,8 @@ export namespace Prisma {
     rating?: IntFilter<"Testimonial"> | number
     courseId?: StringFilter<"Testimonial"> | string
     userId?: StringFilter<"Testimonial"> | string
+    createdAt?: DateTimeNullableFilter<"Testimonial"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Testimonial"> | Date | string | null
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
@@ -20774,6 +21188,8 @@ export namespace Prisma {
     rating?: SortOrder
     courseId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     course?: CourseOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
   }
@@ -20787,6 +21203,8 @@ export namespace Prisma {
     rating?: IntFilter<"Testimonial"> | number
     courseId?: StringFilter<"Testimonial"> | string
     userId?: StringFilter<"Testimonial"> | string
+    createdAt?: DateTimeNullableFilter<"Testimonial"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Testimonial"> | Date | string | null
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
@@ -20797,6 +21215,8 @@ export namespace Prisma {
     rating?: SortOrder
     courseId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: TestimonialCountOrderByAggregateInput
     _avg?: TestimonialAvgOrderByAggregateInput
     _max?: TestimonialMaxOrderByAggregateInput
@@ -20813,6 +21233,8 @@ export namespace Prisma {
     rating?: IntWithAggregatesFilter<"Testimonial"> | number
     courseId?: StringWithAggregatesFilter<"Testimonial"> | string
     userId?: StringWithAggregatesFilter<"Testimonial"> | string
+    createdAt?: DateTimeNullableWithAggregatesFilter<"Testimonial"> | Date | string | null
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"Testimonial"> | Date | string | null
   }
 
   export type LiveWhereInput = {
@@ -20828,6 +21250,8 @@ export namespace Prisma {
     schedule?: DateTimeFilter<"Live"> | Date | string
     quizId?: StringNullableFilter<"Live"> | string | null
     instructorId?: StringFilter<"Live"> | string
+    createdAt?: DateTimeNullableFilter<"Live"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Live"> | Date | string | null
   }
 
   export type LiveOrderByWithRelationInput = {
@@ -20840,6 +21264,8 @@ export namespace Prisma {
     schedule?: SortOrder
     quizId?: SortOrder
     instructorId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type LiveWhereUniqueInput = Prisma.AtLeast<{
@@ -20855,6 +21281,8 @@ export namespace Prisma {
     schedule?: DateTimeFilter<"Live"> | Date | string
     quizId?: StringNullableFilter<"Live"> | string | null
     instructorId?: StringFilter<"Live"> | string
+    createdAt?: DateTimeNullableFilter<"Live"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Live"> | Date | string | null
   }, "id">
 
   export type LiveOrderByWithAggregationInput = {
@@ -20867,6 +21295,8 @@ export namespace Prisma {
     schedule?: SortOrder
     quizId?: SortOrder
     instructorId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: LiveCountOrderByAggregateInput
     _max?: LiveMaxOrderByAggregateInput
     _min?: LiveMinOrderByAggregateInput
@@ -20885,6 +21315,8 @@ export namespace Prisma {
     schedule?: DateTimeWithAggregatesFilter<"Live"> | Date | string
     quizId?: StringNullableWithAggregatesFilter<"Live"> | string | null
     instructorId?: StringWithAggregatesFilter<"Live"> | string
+    createdAt?: DateTimeNullableWithAggregatesFilter<"Live"> | Date | string | null
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"Live"> | Date | string | null
   }
 
   export type ReportWhereInput = {
@@ -20892,6 +21324,8 @@ export namespace Prisma {
     OR?: ReportWhereInput[]
     NOT?: ReportWhereInput | ReportWhereInput[]
     id?: StringFilter<"Report"> | string
+    createdAt?: DateTimeNullableFilter<"Report"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Report"> | Date | string | null
     totalCompletedLessons?: StringNullableListFilter<"Report">
     totalCompletedModules?: StringNullableListFilter<"Report">
     courseId?: StringFilter<"Report"> | string
@@ -20904,6 +21338,8 @@ export namespace Prisma {
 
   export type ReportOrderByWithRelationInput = {
     id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     totalCompletedLessons?: SortOrder
     totalCompletedModules?: SortOrder
     courseId?: SortOrder
@@ -20920,6 +21356,8 @@ export namespace Prisma {
     AND?: ReportWhereInput | ReportWhereInput[]
     OR?: ReportWhereInput[]
     NOT?: ReportWhereInput | ReportWhereInput[]
+    createdAt?: DateTimeNullableFilter<"Report"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Report"> | Date | string | null
     totalCompletedLessons?: StringNullableListFilter<"Report">
     totalCompletedModules?: StringNullableListFilter<"Report">
     courseId?: StringFilter<"Report"> | string
@@ -20931,6 +21369,8 @@ export namespace Prisma {
 
   export type ReportOrderByWithAggregationInput = {
     id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     totalCompletedLessons?: SortOrder
     totalCompletedModules?: SortOrder
     courseId?: SortOrder
@@ -20946,6 +21386,8 @@ export namespace Prisma {
     OR?: ReportScalarWhereWithAggregatesInput[]
     NOT?: ReportScalarWhereWithAggregatesInput | ReportScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Report"> | string
+    createdAt?: DateTimeNullableWithAggregatesFilter<"Report"> | Date | string | null
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"Report"> | Date | string | null
     totalCompletedLessons?: StringNullableListFilter<"Report">
     totalCompletedModules?: StringNullableListFilter<"Report">
     courseId?: StringWithAggregatesFilter<"Report"> | string
@@ -21094,8 +21536,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string | null
-    modifiedOn?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     category: CategoryCreateNestedOneWithoutCoursesInput
     instructor: UserCreateNestedOneWithoutCoursesAsInstructorInput
     modules?: ModuleCreateNestedManyWithoutCourseInput
@@ -21114,8 +21556,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string | null
-    modifiedOn?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     categoryId: string
     instructorId: string
     quizSetId?: string | null
@@ -21133,8 +21575,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     instructor?: UserUpdateOneRequiredWithoutCoursesAsInstructorNestedInput
     modules?: ModuleUpdateManyWithoutCourseNestedInput
@@ -21152,8 +21594,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
     instructorId?: StringFieldUpdateOperationsInput | string
     quizSetId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21172,8 +21614,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string | null
-    modifiedOn?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     categoryId: string
     instructorId: string
     quizSetId?: string | null
@@ -21187,8 +21629,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CourseUncheckedUpdateManyInput = {
@@ -21199,8 +21641,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
     instructorId?: StringFieldUpdateOperationsInput | string
     quizSetId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21211,6 +21653,8 @@ export namespace Prisma {
     title: string
     description?: string | null
     thumbnail: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     courses?: CourseCreateNestedManyWithoutCategoryInput
   }
 
@@ -21219,6 +21663,8 @@ export namespace Prisma {
     title: string
     description?: string | null
     thumbnail: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     courses?: CourseUncheckedCreateNestedManyWithoutCategoryInput
   }
 
@@ -21226,6 +21672,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     courses?: CourseUpdateManyWithoutCategoryNestedInput
   }
 
@@ -21233,6 +21681,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     courses?: CourseUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
@@ -21241,18 +21691,24 @@ export namespace Prisma {
     title: string
     description?: string | null
     thumbnail: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
   }
 
   export type CategoryUpdateManyMutationInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CategoryUncheckedUpdateManyInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ModuleCreateInput = {
@@ -21262,6 +21718,8 @@ export namespace Prisma {
     status?: string
     slug: string
     duration: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     course: CourseCreateNestedOneWithoutModulesInput
     lessons?: LessonCreateNestedManyWithoutModulesInput
     watches?: WatchCreateNestedManyWithoutModuleInput
@@ -21274,6 +21732,8 @@ export namespace Prisma {
     status?: string
     slug: string
     duration: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     courseId: string
     lessonIds?: ModuleCreatelessonIdsInput | string[]
     lessons?: LessonUncheckedCreateNestedManyWithoutModulesInput
@@ -21286,6 +21746,8 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     course?: CourseUpdateOneRequiredWithoutModulesNestedInput
     lessons?: LessonUpdateManyWithoutModulesNestedInput
     watches?: WatchUpdateManyWithoutModuleNestedInput
@@ -21297,6 +21759,8 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     courseId?: StringFieldUpdateOperationsInput | string
     lessonIds?: ModuleUpdatelessonIdsInput | string[]
     lessons?: LessonUncheckedUpdateManyWithoutModulesNestedInput
@@ -21310,6 +21774,8 @@ export namespace Prisma {
     status?: string
     slug: string
     duration: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     courseId: string
     lessonIds?: ModuleCreatelessonIdsInput | string[]
   }
@@ -21320,6 +21786,8 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ModuleUncheckedUpdateManyInput = {
@@ -21328,6 +21796,8 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     courseId?: StringFieldUpdateOperationsInput | string
     lessonIds?: ModuleUpdatelessonIdsInput | string[]
   }
@@ -21338,6 +21808,8 @@ export namespace Prisma {
     description?: string | null
     duration?: number
     videoUrl?: string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     active?: boolean
     slug: string
     access?: string
@@ -21351,6 +21823,8 @@ export namespace Prisma {
     description?: string | null
     duration?: number
     videoUrl?: string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     active?: boolean
     slug: string
     access?: string
@@ -21364,6 +21838,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: IntFieldUpdateOperationsInput | number
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     slug?: StringFieldUpdateOperationsInput | string
     access?: StringFieldUpdateOperationsInput | string
@@ -21376,6 +21852,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: IntFieldUpdateOperationsInput | number
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     slug?: StringFieldUpdateOperationsInput | string
     access?: StringFieldUpdateOperationsInput | string
@@ -21390,6 +21868,8 @@ export namespace Prisma {
     description?: string | null
     duration?: number
     videoUrl?: string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     active?: boolean
     slug: string
     access?: string
@@ -21401,6 +21881,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: IntFieldUpdateOperationsInput | number
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     slug?: StringFieldUpdateOperationsInput | string
     access?: StringFieldUpdateOperationsInput | string
@@ -21411,6 +21893,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: IntFieldUpdateOperationsInput | number
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     slug?: StringFieldUpdateOperationsInput | string
     access?: StringFieldUpdateOperationsInput | string
@@ -21419,10 +21903,10 @@ export namespace Prisma {
 
   export type WatchCreateInput = {
     id?: string
-    createdAt?: Date | string | null
-    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     lesson: LessonCreateNestedOneWithoutWatchesInput
     user: UserCreateNestedOneWithoutWatchesInput
     module?: ModuleCreateNestedOneWithoutWatchesInput
@@ -21430,30 +21914,30 @@ export namespace Prisma {
 
   export type WatchUncheckedCreateInput = {
     id?: string
-    createdAt?: Date | string | null
-    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     lessonId: string
     userId: string
     moduleId?: string | null
   }
 
   export type WatchUpdateInput = {
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lesson?: LessonUpdateOneRequiredWithoutWatchesNestedInput
     user?: UserUpdateOneRequiredWithoutWatchesNestedInput
     module?: ModuleUpdateOneWithoutWatchesNestedInput
   }
 
   export type WatchUncheckedUpdateInput = {
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lessonId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     moduleId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21461,27 +21945,27 @@ export namespace Prisma {
 
   export type WatchCreateManyInput = {
     id?: string
-    createdAt?: Date | string | null
-    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     lessonId: string
     userId: string
     moduleId?: string | null
   }
 
   export type WatchUpdateManyMutationInput = {
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type WatchUncheckedUpdateManyInput = {
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lessonId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     moduleId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21495,6 +21979,8 @@ export namespace Prisma {
     explanations: string
     mark?: number
     slug: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     quizSets?: QuizSetCreateNestedManyWithoutQuizzesInput
     assessments?: AssessmentItemCreateNestedManyWithoutQuizInput
   }
@@ -21507,6 +21993,8 @@ export namespace Prisma {
     explanations: string
     mark?: number
     slug: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     quizSetIds?: QuizCreatequizSetIdsInput | string[]
     quizSets?: QuizSetUncheckedCreateNestedManyWithoutQuizzesInput
     assessments?: AssessmentItemUncheckedCreateNestedManyWithoutQuizInput
@@ -21519,6 +22007,8 @@ export namespace Prisma {
     explanations?: StringFieldUpdateOperationsInput | string
     mark?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizSets?: QuizSetUpdateManyWithoutQuizzesNestedInput
     assessments?: AssessmentItemUpdateManyWithoutQuizNestedInput
   }
@@ -21530,6 +22020,8 @@ export namespace Prisma {
     explanations?: StringFieldUpdateOperationsInput | string
     mark?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizSetIds?: QuizUpdatequizSetIdsInput | string[]
     quizSets?: QuizSetUncheckedUpdateManyWithoutQuizzesNestedInput
     assessments?: AssessmentItemUncheckedUpdateManyWithoutQuizNestedInput
@@ -21543,6 +22035,8 @@ export namespace Prisma {
     explanations: string
     mark?: number
     slug: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     quizSetIds?: QuizCreatequizSetIdsInput | string[]
   }
 
@@ -21553,6 +22047,8 @@ export namespace Prisma {
     explanations?: StringFieldUpdateOperationsInput | string
     mark?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type QuizUncheckedUpdateManyInput = {
@@ -21562,6 +22058,8 @@ export namespace Prisma {
     explanations?: StringFieldUpdateOperationsInput | string
     mark?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizSetIds?: QuizUpdatequizSetIdsInput | string[]
   }
 
@@ -21569,6 +22067,8 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     slug: string
     active?: boolean
     quizzes?: QuizCreateNestedManyWithoutQuizSetsInput
@@ -21579,6 +22079,8 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     slug: string
     active?: boolean
     quizIds?: QuizSetCreatequizIdsInput | string[]
@@ -21589,6 +22091,8 @@ export namespace Prisma {
   export type QuizSetUpdateInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     quizzes?: QuizUpdateManyWithoutQuizSetsNestedInput
@@ -21598,6 +22102,8 @@ export namespace Prisma {
   export type QuizSetUncheckedUpdateInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     quizIds?: QuizSetUpdatequizIdsInput | string[]
@@ -21609,6 +22115,8 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     slug: string
     active?: boolean
     quizIds?: QuizSetCreatequizIdsInput | string[]
@@ -21617,6 +22125,8 @@ export namespace Prisma {
   export type QuizSetUpdateManyMutationInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
   }
@@ -21624,6 +22134,8 @@ export namespace Prisma {
   export type QuizSetUncheckedUpdateManyInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     quizIds?: QuizSetUpdatequizIdsInput | string[]
@@ -21632,6 +22144,8 @@ export namespace Prisma {
   export type AssessmentCreateInput = {
     id?: string
     otherMarks: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     items?: AssessmentItemCreateNestedManyWithoutAssessmentInput
     report?: ReportCreateNestedOneWithoutAssessmentInput
   }
@@ -21639,18 +22153,24 @@ export namespace Prisma {
   export type AssessmentUncheckedCreateInput = {
     id?: string
     otherMarks: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     items?: AssessmentItemUncheckedCreateNestedManyWithoutAssessmentInput
     report?: ReportUncheckedCreateNestedOneWithoutAssessmentInput
   }
 
   export type AssessmentUpdateInput = {
     otherMarks?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     items?: AssessmentItemUpdateManyWithoutAssessmentNestedInput
     report?: ReportUpdateOneWithoutAssessmentNestedInput
   }
 
   export type AssessmentUncheckedUpdateInput = {
     otherMarks?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     items?: AssessmentItemUncheckedUpdateManyWithoutAssessmentNestedInput
     report?: ReportUncheckedUpdateOneWithoutAssessmentNestedInput
   }
@@ -21658,19 +22178,27 @@ export namespace Prisma {
   export type AssessmentCreateManyInput = {
     id?: string
     otherMarks: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
   }
 
   export type AssessmentUpdateManyMutationInput = {
     otherMarks?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AssessmentUncheckedUpdateManyInput = {
     otherMarks?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AssessmentItemCreateInput = {
     id?: string
     attempted?: boolean
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     quiz: QuizCreateNestedOneWithoutAssessmentsInput
     assessment: AssessmentCreateNestedOneWithoutItemsInput
     options?: OptionCreateNestedManyWithoutAssessmentItemInput
@@ -21679,6 +22207,8 @@ export namespace Prisma {
   export type AssessmentItemUncheckedCreateInput = {
     id?: string
     attempted?: boolean
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     quizId: string
     assessmentId: string
     options?: OptionUncheckedCreateNestedManyWithoutAssessmentItemInput
@@ -21686,6 +22216,8 @@ export namespace Prisma {
 
   export type AssessmentItemUpdateInput = {
     attempted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quiz?: QuizUpdateOneRequiredWithoutAssessmentsNestedInput
     assessment?: AssessmentUpdateOneRequiredWithoutItemsNestedInput
     options?: OptionUpdateManyWithoutAssessmentItemNestedInput
@@ -21693,6 +22225,8 @@ export namespace Prisma {
 
   export type AssessmentItemUncheckedUpdateInput = {
     attempted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizId?: StringFieldUpdateOperationsInput | string
     assessmentId?: StringFieldUpdateOperationsInput | string
     options?: OptionUncheckedUpdateManyWithoutAssessmentItemNestedInput
@@ -21701,16 +22235,22 @@ export namespace Prisma {
   export type AssessmentItemCreateManyInput = {
     id?: string
     attempted?: boolean
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     quizId: string
     assessmentId: string
   }
 
   export type AssessmentItemUpdateManyMutationInput = {
     attempted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AssessmentItemUncheckedUpdateManyInput = {
     attempted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizId?: StringFieldUpdateOperationsInput | string
     assessmentId?: StringFieldUpdateOperationsInput | string
   }
@@ -21720,6 +22260,8 @@ export namespace Prisma {
     option: string
     isCorrect: boolean
     isSelected: boolean
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     assessmentItem: AssessmentItemCreateNestedOneWithoutOptionsInput
   }
 
@@ -21728,6 +22270,8 @@ export namespace Prisma {
     option: string
     isCorrect: boolean
     isSelected: boolean
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     assessmentItemId: string
   }
 
@@ -21735,6 +22279,8 @@ export namespace Prisma {
     option?: StringFieldUpdateOperationsInput | string
     isCorrect?: BoolFieldUpdateOperationsInput | boolean
     isSelected?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assessmentItem?: AssessmentItemUpdateOneRequiredWithoutOptionsNestedInput
   }
 
@@ -21742,6 +22288,8 @@ export namespace Prisma {
     option?: StringFieldUpdateOperationsInput | string
     isCorrect?: BoolFieldUpdateOperationsInput | boolean
     isSelected?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assessmentItemId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -21750,6 +22298,8 @@ export namespace Prisma {
     option: string
     isCorrect: boolean
     isSelected: boolean
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     assessmentItemId: string
   }
 
@@ -21757,12 +22307,16 @@ export namespace Prisma {
     option?: StringFieldUpdateOperationsInput | string
     isCorrect?: BoolFieldUpdateOperationsInput | boolean
     isSelected?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type OptionUncheckedUpdateManyInput = {
     option?: StringFieldUpdateOperationsInput | string
     isCorrect?: BoolFieldUpdateOperationsInput | boolean
     isSelected?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assessmentItemId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -21772,6 +22326,8 @@ export namespace Prisma {
     status: string
     completionDate?: Date | string | null
     method: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     course: CourseCreateNestedOneWithoutEnrollmentsInput
     student: UserCreateNestedOneWithoutEnrollmentsInput
     certificates?: CertificateCreateNestedManyWithoutEnrollmentInput
@@ -21783,6 +22339,8 @@ export namespace Prisma {
     status: string
     completionDate?: Date | string | null
     method: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     courseId: string
     studentId: string
     certificates?: CertificateUncheckedCreateNestedManyWithoutEnrollmentInput
@@ -21793,6 +22351,8 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     completionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     method?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     course?: CourseUpdateOneRequiredWithoutEnrollmentsNestedInput
     student?: UserUpdateOneRequiredWithoutEnrollmentsNestedInput
     certificates?: CertificateUpdateManyWithoutEnrollmentNestedInput
@@ -21803,6 +22363,8 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     completionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     method?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     courseId?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
     certificates?: CertificateUncheckedUpdateManyWithoutEnrollmentNestedInput
@@ -21814,6 +22376,8 @@ export namespace Prisma {
     status: string
     completionDate?: Date | string | null
     method: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     courseId: string
     studentId: string
   }
@@ -21823,6 +22387,8 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     completionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     method?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type EnrollmentUncheckedUpdateManyInput = {
@@ -21830,6 +22396,8 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     completionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     method?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     courseId?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
   }
@@ -21837,6 +22405,8 @@ export namespace Prisma {
   export type CertificateCreateInput = {
     id?: string
     certificateLink: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     courseId: string
     user: UserCreateNestedOneWithoutCertificatesInput
     enrollment: EnrollmentCreateNestedOneWithoutCertificatesInput
@@ -21845,6 +22415,8 @@ export namespace Prisma {
   export type CertificateUncheckedCreateInput = {
     id?: string
     certificateLink: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     userId: string
     courseId: string
     enrollmentId: string
@@ -21852,6 +22424,8 @@ export namespace Prisma {
 
   export type CertificateUpdateInput = {
     certificateLink?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     courseId?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutCertificatesNestedInput
     enrollment?: EnrollmentUpdateOneRequiredWithoutCertificatesNestedInput
@@ -21859,6 +22433,8 @@ export namespace Prisma {
 
   export type CertificateUncheckedUpdateInput = {
     certificateLink?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     userId?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
     enrollmentId?: StringFieldUpdateOperationsInput | string
@@ -21867,6 +22443,8 @@ export namespace Prisma {
   export type CertificateCreateManyInput = {
     id?: string
     certificateLink: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     userId: string
     courseId: string
     enrollmentId: string
@@ -21874,11 +22452,15 @@ export namespace Prisma {
 
   export type CertificateUpdateManyMutationInput = {
     certificateLink?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     courseId?: StringFieldUpdateOperationsInput | string
   }
 
   export type CertificateUncheckedUpdateManyInput = {
     certificateLink?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     userId?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
     enrollmentId?: StringFieldUpdateOperationsInput | string
@@ -21888,6 +22470,8 @@ export namespace Prisma {
     id?: string
     content: string
     rating: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     course: CourseCreateNestedOneWithoutTestimonialsInput
     user: UserCreateNestedOneWithoutTestimonialsInput
   }
@@ -21898,11 +22482,15 @@ export namespace Prisma {
     rating: number
     courseId: string
     userId: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
   }
 
   export type TestimonialUpdateInput = {
     content?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     course?: CourseUpdateOneRequiredWithoutTestimonialsNestedInput
     user?: UserUpdateOneRequiredWithoutTestimonialsNestedInput
   }
@@ -21912,6 +22500,8 @@ export namespace Prisma {
     rating?: IntFieldUpdateOperationsInput | number
     courseId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TestimonialCreateManyInput = {
@@ -21920,11 +22510,15 @@ export namespace Prisma {
     rating: number
     courseId: string
     userId: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
   }
 
   export type TestimonialUpdateManyMutationInput = {
     content?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TestimonialUncheckedUpdateManyInput = {
@@ -21932,6 +22526,8 @@ export namespace Prisma {
     rating?: IntFieldUpdateOperationsInput | number
     courseId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type LiveCreateInput = {
@@ -21944,6 +22540,8 @@ export namespace Prisma {
     schedule: Date | string
     quizId?: string | null
     instructorId: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
   }
 
   export type LiveUncheckedCreateInput = {
@@ -21956,6 +22554,8 @@ export namespace Prisma {
     schedule: Date | string
     quizId?: string | null
     instructorId: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
   }
 
   export type LiveUpdateInput = {
@@ -21967,6 +22567,8 @@ export namespace Prisma {
     schedule?: DateTimeFieldUpdateOperationsInput | Date | string
     quizId?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type LiveUncheckedUpdateInput = {
@@ -21978,6 +22580,8 @@ export namespace Prisma {
     schedule?: DateTimeFieldUpdateOperationsInput | Date | string
     quizId?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type LiveCreateManyInput = {
@@ -21990,6 +22594,8 @@ export namespace Prisma {
     schedule: Date | string
     quizId?: string | null
     instructorId: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
   }
 
   export type LiveUpdateManyMutationInput = {
@@ -22001,6 +22607,8 @@ export namespace Prisma {
     schedule?: DateTimeFieldUpdateOperationsInput | Date | string
     quizId?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type LiveUncheckedUpdateManyInput = {
@@ -22012,10 +22620,14 @@ export namespace Prisma {
     schedule?: DateTimeFieldUpdateOperationsInput | Date | string
     quizId?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ReportCreateInput = {
     id?: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     totalCompletedLessons?: ReportCreatetotalCompletedLessonsInput | string[]
     totalCompletedModules?: ReportCreatetotalCompletedModulesInput | string[]
     course: CourseCreateNestedOneWithoutReportsInput
@@ -22025,6 +22637,8 @@ export namespace Prisma {
 
   export type ReportUncheckedCreateInput = {
     id?: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     totalCompletedLessons?: ReportCreatetotalCompletedLessonsInput | string[]
     totalCompletedModules?: ReportCreatetotalCompletedModulesInput | string[]
     courseId: string
@@ -22033,6 +22647,8 @@ export namespace Prisma {
   }
 
   export type ReportUpdateInput = {
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     totalCompletedLessons?: ReportUpdatetotalCompletedLessonsInput | string[]
     totalCompletedModules?: ReportUpdatetotalCompletedModulesInput | string[]
     course?: CourseUpdateOneRequiredWithoutReportsNestedInput
@@ -22041,6 +22657,8 @@ export namespace Prisma {
   }
 
   export type ReportUncheckedUpdateInput = {
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     totalCompletedLessons?: ReportUpdatetotalCompletedLessonsInput | string[]
     totalCompletedModules?: ReportUpdatetotalCompletedModulesInput | string[]
     courseId?: StringFieldUpdateOperationsInput | string
@@ -22050,6 +22668,8 @@ export namespace Prisma {
 
   export type ReportCreateManyInput = {
     id?: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     totalCompletedLessons?: ReportCreatetotalCompletedLessonsInput | string[]
     totalCompletedModules?: ReportCreatetotalCompletedModulesInput | string[]
     courseId: string
@@ -22058,11 +22678,15 @@ export namespace Prisma {
   }
 
   export type ReportUpdateManyMutationInput = {
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     totalCompletedLessons?: ReportUpdatetotalCompletedLessonsInput | string[]
     totalCompletedModules?: ReportUpdatetotalCompletedModulesInput | string[]
   }
 
   export type ReportUncheckedUpdateManyInput = {
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     totalCompletedLessons?: ReportUpdatetotalCompletedLessonsInput | string[]
     totalCompletedModules?: ReportUpdatetotalCompletedModulesInput | string[]
     courseId?: StringFieldUpdateOperationsInput | string
@@ -22356,8 +22980,8 @@ export namespace Prisma {
     price?: SortOrder
     active?: SortOrder
     learning?: SortOrder
-    createdOn?: SortOrder
-    modifiedOn?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     categoryId?: SortOrder
     instructorId?: SortOrder
     quizSetId?: SortOrder
@@ -22375,8 +22999,8 @@ export namespace Prisma {
     thumbnail?: SortOrder
     price?: SortOrder
     active?: SortOrder
-    createdOn?: SortOrder
-    modifiedOn?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     categoryId?: SortOrder
     instructorId?: SortOrder
     quizSetId?: SortOrder
@@ -22390,8 +23014,8 @@ export namespace Prisma {
     thumbnail?: SortOrder
     price?: SortOrder
     active?: SortOrder
-    createdOn?: SortOrder
-    modifiedOn?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     categoryId?: SortOrder
     instructorId?: SortOrder
     quizSetId?: SortOrder
@@ -22430,6 +23054,8 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     thumbnail?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type CategoryMaxOrderByAggregateInput = {
@@ -22437,6 +23063,8 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     thumbnail?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type CategoryMinOrderByAggregateInput = {
@@ -22444,6 +23072,8 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     thumbnail?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type CourseScalarRelationFilter = {
@@ -22468,6 +23098,8 @@ export namespace Prisma {
     status?: SortOrder
     slug?: SortOrder
     duration?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     courseId?: SortOrder
     lessonIds?: SortOrder
   }
@@ -22483,6 +23115,8 @@ export namespace Prisma {
     status?: SortOrder
     slug?: SortOrder
     duration?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     courseId?: SortOrder
   }
 
@@ -22493,6 +23127,8 @@ export namespace Prisma {
     status?: SortOrder
     slug?: SortOrder
     duration?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     courseId?: SortOrder
   }
 
@@ -22506,6 +23142,8 @@ export namespace Prisma {
     description?: SortOrder
     duration?: SortOrder
     videoUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     active?: SortOrder
     slug?: SortOrder
     access?: SortOrder
@@ -22522,6 +23160,8 @@ export namespace Prisma {
     description?: SortOrder
     duration?: SortOrder
     videoUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     active?: SortOrder
     slug?: SortOrder
     access?: SortOrder
@@ -22533,6 +23173,8 @@ export namespace Prisma {
     description?: SortOrder
     duration?: SortOrder
     videoUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     active?: SortOrder
     slug?: SortOrder
     access?: SortOrder
@@ -22554,10 +23196,10 @@ export namespace Prisma {
 
   export type WatchCountOrderByAggregateInput = {
     id?: SortOrder
-    createdAt?: SortOrder
-    modifiedAt?: SortOrder
     state?: SortOrder
     lastTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     lessonId?: SortOrder
     userId?: SortOrder
     moduleId?: SortOrder
@@ -22569,10 +23211,10 @@ export namespace Prisma {
 
   export type WatchMaxOrderByAggregateInput = {
     id?: SortOrder
-    createdAt?: SortOrder
-    modifiedAt?: SortOrder
     state?: SortOrder
     lastTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     lessonId?: SortOrder
     userId?: SortOrder
     moduleId?: SortOrder
@@ -22580,10 +23222,10 @@ export namespace Prisma {
 
   export type WatchMinOrderByAggregateInput = {
     id?: SortOrder
-    createdAt?: SortOrder
-    modifiedAt?: SortOrder
     state?: SortOrder
     lastTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     lessonId?: SortOrder
     userId?: SortOrder
     moduleId?: SortOrder
@@ -22635,6 +23277,8 @@ export namespace Prisma {
     explanations?: SortOrder
     mark?: SortOrder
     slug?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     quizSetIds?: SortOrder
   }
 
@@ -22649,6 +23293,8 @@ export namespace Prisma {
     explanations?: SortOrder
     mark?: SortOrder
     slug?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type QuizMinOrderByAggregateInput = {
@@ -22658,6 +23304,8 @@ export namespace Prisma {
     explanations?: SortOrder
     mark?: SortOrder
     slug?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type QuizSumOrderByAggregateInput = {
@@ -22678,6 +23326,8 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     slug?: SortOrder
     active?: SortOrder
     quizIds?: SortOrder
@@ -22687,6 +23337,8 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     slug?: SortOrder
     active?: SortOrder
   }
@@ -22695,6 +23347,8 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     slug?: SortOrder
     active?: SortOrder
   }
@@ -22707,6 +23361,8 @@ export namespace Prisma {
   export type AssessmentCountOrderByAggregateInput = {
     id?: SortOrder
     otherMarks?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type AssessmentAvgOrderByAggregateInput = {
@@ -22716,11 +23372,15 @@ export namespace Prisma {
   export type AssessmentMaxOrderByAggregateInput = {
     id?: SortOrder
     otherMarks?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type AssessmentMinOrderByAggregateInput = {
     id?: SortOrder
     otherMarks?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type AssessmentSumOrderByAggregateInput = {
@@ -22750,6 +23410,8 @@ export namespace Prisma {
   export type AssessmentItemCountOrderByAggregateInput = {
     id?: SortOrder
     attempted?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     quizId?: SortOrder
     assessmentId?: SortOrder
   }
@@ -22757,6 +23419,8 @@ export namespace Prisma {
   export type AssessmentItemMaxOrderByAggregateInput = {
     id?: SortOrder
     attempted?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     quizId?: SortOrder
     assessmentId?: SortOrder
   }
@@ -22764,6 +23428,8 @@ export namespace Prisma {
   export type AssessmentItemMinOrderByAggregateInput = {
     id?: SortOrder
     attempted?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     quizId?: SortOrder
     assessmentId?: SortOrder
   }
@@ -22778,6 +23444,8 @@ export namespace Prisma {
     option?: SortOrder
     isCorrect?: SortOrder
     isSelected?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     assessmentItemId?: SortOrder
   }
 
@@ -22786,6 +23454,8 @@ export namespace Prisma {
     option?: SortOrder
     isCorrect?: SortOrder
     isSelected?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     assessmentItemId?: SortOrder
   }
 
@@ -22794,6 +23464,8 @@ export namespace Prisma {
     option?: SortOrder
     isCorrect?: SortOrder
     isSelected?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     assessmentItemId?: SortOrder
   }
 
@@ -22814,6 +23486,8 @@ export namespace Prisma {
     status?: SortOrder
     completionDate?: SortOrder
     method?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     courseId?: SortOrder
     studentId?: SortOrder
   }
@@ -22824,6 +23498,8 @@ export namespace Prisma {
     status?: SortOrder
     completionDate?: SortOrder
     method?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     courseId?: SortOrder
     studentId?: SortOrder
   }
@@ -22834,6 +23510,8 @@ export namespace Prisma {
     status?: SortOrder
     completionDate?: SortOrder
     method?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     courseId?: SortOrder
     studentId?: SortOrder
   }
@@ -22860,6 +23538,8 @@ export namespace Prisma {
   export type CertificateCountOrderByAggregateInput = {
     id?: SortOrder
     certificateLink?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     userId?: SortOrder
     courseId?: SortOrder
     enrollmentId?: SortOrder
@@ -22868,6 +23548,8 @@ export namespace Prisma {
   export type CertificateMaxOrderByAggregateInput = {
     id?: SortOrder
     certificateLink?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     userId?: SortOrder
     courseId?: SortOrder
     enrollmentId?: SortOrder
@@ -22876,6 +23558,8 @@ export namespace Prisma {
   export type CertificateMinOrderByAggregateInput = {
     id?: SortOrder
     certificateLink?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     userId?: SortOrder
     courseId?: SortOrder
     enrollmentId?: SortOrder
@@ -22887,6 +23571,8 @@ export namespace Prisma {
     rating?: SortOrder
     courseId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type TestimonialAvgOrderByAggregateInput = {
@@ -22899,6 +23585,8 @@ export namespace Prisma {
     rating?: SortOrder
     courseId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type TestimonialMinOrderByAggregateInput = {
@@ -22907,6 +23595,8 @@ export namespace Prisma {
     rating?: SortOrder
     courseId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type TestimonialSumOrderByAggregateInput = {
@@ -22923,6 +23613,8 @@ export namespace Prisma {
     schedule?: SortOrder
     quizId?: SortOrder
     instructorId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type LiveMaxOrderByAggregateInput = {
@@ -22935,6 +23627,8 @@ export namespace Prisma {
     schedule?: SortOrder
     quizId?: SortOrder
     instructorId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type LiveMinOrderByAggregateInput = {
@@ -22947,6 +23641,8 @@ export namespace Prisma {
     schedule?: SortOrder
     quizId?: SortOrder
     instructorId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type AssessmentNullableScalarRelationFilter = {
@@ -22956,6 +23652,8 @@ export namespace Prisma {
 
   export type ReportCountOrderByAggregateInput = {
     id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     totalCompletedLessons?: SortOrder
     totalCompletedModules?: SortOrder
     courseId?: SortOrder
@@ -22965,6 +23663,8 @@ export namespace Prisma {
 
   export type ReportMaxOrderByAggregateInput = {
     id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     courseId?: SortOrder
     studentId?: SortOrder
     assessmentId?: SortOrder
@@ -22972,6 +23672,8 @@ export namespace Prisma {
 
   export type ReportMinOrderByAggregateInput = {
     id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     courseId?: SortOrder
     studentId?: SortOrder
     assessmentId?: SortOrder
@@ -24491,8 +25193,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string | null
-    modifiedOn?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     category: CategoryCreateNestedOneWithoutCoursesInput
     modules?: ModuleCreateNestedManyWithoutCourseInput
     testimonials?: TestimonialCreateNestedManyWithoutCourseInput
@@ -24510,8 +25212,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string | null
-    modifiedOn?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     categoryId: string
     quizSetId?: string | null
     modules?: ModuleUncheckedCreateNestedManyWithoutCourseInput
@@ -24535,6 +25237,8 @@ export namespace Prisma {
     status: string
     completionDate?: Date | string | null
     method: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     course: CourseCreateNestedOneWithoutEnrollmentsInput
     certificates?: CertificateCreateNestedManyWithoutEnrollmentInput
   }
@@ -24545,6 +25249,8 @@ export namespace Prisma {
     status: string
     completionDate?: Date | string | null
     method: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     courseId: string
     certificates?: CertificateUncheckedCreateNestedManyWithoutEnrollmentInput
   }
@@ -24562,6 +25268,8 @@ export namespace Prisma {
     id?: string
     content: string
     rating: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     course: CourseCreateNestedOneWithoutTestimonialsInput
   }
 
@@ -24570,6 +25278,8 @@ export namespace Prisma {
     content: string
     rating: number
     courseId: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
   }
 
   export type TestimonialCreateOrConnectWithoutUserInput = {
@@ -24583,20 +25293,20 @@ export namespace Prisma {
 
   export type WatchCreateWithoutUserInput = {
     id?: string
-    createdAt?: Date | string | null
-    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     lesson: LessonCreateNestedOneWithoutWatchesInput
     module?: ModuleCreateNestedOneWithoutWatchesInput
   }
 
   export type WatchUncheckedCreateWithoutUserInput = {
     id?: string
-    createdAt?: Date | string | null
-    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     lessonId: string
     moduleId?: string | null
   }
@@ -24613,6 +25323,8 @@ export namespace Prisma {
   export type CertificateCreateWithoutUserInput = {
     id?: string
     certificateLink: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     courseId: string
     enrollment: EnrollmentCreateNestedOneWithoutCertificatesInput
   }
@@ -24620,6 +25332,8 @@ export namespace Prisma {
   export type CertificateUncheckedCreateWithoutUserInput = {
     id?: string
     certificateLink: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     courseId: string
     enrollmentId: string
   }
@@ -24635,6 +25349,8 @@ export namespace Prisma {
 
   export type ReportCreateWithoutStudentInput = {
     id?: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     totalCompletedLessons?: ReportCreatetotalCompletedLessonsInput | string[]
     totalCompletedModules?: ReportCreatetotalCompletedModulesInput | string[]
     course: CourseCreateNestedOneWithoutReportsInput
@@ -24643,6 +25359,8 @@ export namespace Prisma {
 
   export type ReportUncheckedCreateWithoutStudentInput = {
     id?: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     totalCompletedLessons?: ReportCreatetotalCompletedLessonsInput | string[]
     totalCompletedModules?: ReportCreatetotalCompletedModulesInput | string[]
     courseId: string
@@ -24686,8 +25404,8 @@ export namespace Prisma {
     price?: IntFilter<"Course"> | number
     active?: BoolFilter<"Course"> | boolean
     learning?: StringNullableListFilter<"Course">
-    createdOn?: DateTimeNullableFilter<"Course"> | Date | string | null
-    modifiedOn?: DateTimeNullableFilter<"Course"> | Date | string | null
+    createdAt?: DateTimeNullableFilter<"Course"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Course"> | Date | string | null
     categoryId?: StringFilter<"Course"> | string
     instructorId?: StringFilter<"Course"> | string
     quizSetId?: StringNullableFilter<"Course"> | string | null
@@ -24718,6 +25436,8 @@ export namespace Prisma {
     status?: StringFilter<"Enrollment"> | string
     completionDate?: DateTimeNullableFilter<"Enrollment"> | Date | string | null
     method?: StringFilter<"Enrollment"> | string
+    createdAt?: DateTimeNullableFilter<"Enrollment"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Enrollment"> | Date | string | null
     courseId?: StringFilter<"Enrollment"> | string
     studentId?: StringFilter<"Enrollment"> | string
   }
@@ -24747,6 +25467,8 @@ export namespace Prisma {
     rating?: IntFilter<"Testimonial"> | number
     courseId?: StringFilter<"Testimonial"> | string
     userId?: StringFilter<"Testimonial"> | string
+    createdAt?: DateTimeNullableFilter<"Testimonial"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Testimonial"> | Date | string | null
   }
 
   export type WatchUpsertWithWhereUniqueWithoutUserInput = {
@@ -24770,10 +25492,10 @@ export namespace Prisma {
     OR?: WatchScalarWhereInput[]
     NOT?: WatchScalarWhereInput | WatchScalarWhereInput[]
     id?: StringFilter<"Watch"> | string
-    createdAt?: DateTimeNullableFilter<"Watch"> | Date | string | null
-    modifiedAt?: DateTimeNullableFilter<"Watch"> | Date | string | null
     state?: StringFilter<"Watch"> | string
     lastTime?: IntFilter<"Watch"> | number
+    createdAt?: DateTimeNullableFilter<"Watch"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Watch"> | Date | string | null
     lessonId?: StringFilter<"Watch"> | string
     userId?: StringFilter<"Watch"> | string
     moduleId?: StringNullableFilter<"Watch"> | string | null
@@ -24801,6 +25523,8 @@ export namespace Prisma {
     NOT?: CertificateScalarWhereInput | CertificateScalarWhereInput[]
     id?: StringFilter<"Certificate"> | string
     certificateLink?: StringFilter<"Certificate"> | string
+    createdAt?: DateTimeNullableFilter<"Certificate"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Certificate"> | Date | string | null
     userId?: StringFilter<"Certificate"> | string
     courseId?: StringFilter<"Certificate"> | string
     enrollmentId?: StringFilter<"Certificate"> | string
@@ -24827,6 +25551,8 @@ export namespace Prisma {
     OR?: ReportScalarWhereInput[]
     NOT?: ReportScalarWhereInput | ReportScalarWhereInput[]
     id?: StringFilter<"Report"> | string
+    createdAt?: DateTimeNullableFilter<"Report"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Report"> | Date | string | null
     totalCompletedLessons?: StringNullableListFilter<"Report">
     totalCompletedModules?: StringNullableListFilter<"Report">
     courseId?: StringFilter<"Report"> | string
@@ -24839,6 +25565,8 @@ export namespace Prisma {
     title: string
     description?: string | null
     thumbnail: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
   }
 
   export type CategoryUncheckedCreateWithoutCoursesInput = {
@@ -24846,6 +25574,8 @@ export namespace Prisma {
     title: string
     description?: string | null
     thumbnail: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
   }
 
   export type CategoryCreateOrConnectWithoutCoursesInput = {
@@ -24907,6 +25637,8 @@ export namespace Prisma {
     status?: string
     slug: string
     duration: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     lessons?: LessonCreateNestedManyWithoutModulesInput
     watches?: WatchCreateNestedManyWithoutModuleInput
   }
@@ -24918,6 +25650,8 @@ export namespace Prisma {
     status?: string
     slug: string
     duration: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     lessonIds?: ModuleCreatelessonIdsInput | string[]
     lessons?: LessonUncheckedCreateNestedManyWithoutModulesInput
     watches?: WatchUncheckedCreateNestedManyWithoutModuleInput
@@ -24936,6 +25670,8 @@ export namespace Prisma {
     id?: string
     content: string
     rating: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     user: UserCreateNestedOneWithoutTestimonialsInput
   }
 
@@ -24944,6 +25680,8 @@ export namespace Prisma {
     content: string
     rating: number
     userId: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
   }
 
   export type TestimonialCreateOrConnectWithoutCourseInput = {
@@ -24961,6 +25699,8 @@ export namespace Prisma {
     status: string
     completionDate?: Date | string | null
     method: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     student: UserCreateNestedOneWithoutEnrollmentsInput
     certificates?: CertificateCreateNestedManyWithoutEnrollmentInput
   }
@@ -24971,6 +25711,8 @@ export namespace Prisma {
     status: string
     completionDate?: Date | string | null
     method: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     studentId: string
     certificates?: CertificateUncheckedCreateNestedManyWithoutEnrollmentInput
   }
@@ -24988,6 +25730,8 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     slug: string
     active?: boolean
     quizzes?: QuizCreateNestedManyWithoutQuizSetsInput
@@ -24997,6 +25741,8 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     slug: string
     active?: boolean
     quizIds?: QuizSetCreatequizIdsInput | string[]
@@ -25010,6 +25756,8 @@ export namespace Prisma {
 
   export type ReportCreateWithoutCourseInput = {
     id?: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     totalCompletedLessons?: ReportCreatetotalCompletedLessonsInput | string[]
     totalCompletedModules?: ReportCreatetotalCompletedModulesInput | string[]
     student: UserCreateNestedOneWithoutReportsInput
@@ -25018,6 +25766,8 @@ export namespace Prisma {
 
   export type ReportUncheckedCreateWithoutCourseInput = {
     id?: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     totalCompletedLessons?: ReportCreatetotalCompletedLessonsInput | string[]
     totalCompletedModules?: ReportCreatetotalCompletedModulesInput | string[]
     studentId: string
@@ -25048,12 +25798,16 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CategoryUncheckedUpdateWithoutCoursesInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUpsertWithoutCoursesAsInstructorInput = {
@@ -25133,6 +25887,8 @@ export namespace Prisma {
     status?: StringFilter<"Module"> | string
     slug?: StringFilter<"Module"> | string
     duration?: IntFilter<"Module"> | number
+    createdAt?: DateTimeNullableFilter<"Module"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Module"> | Date | string | null
     courseId?: StringFilter<"Module"> | string
     lessonIds?: StringNullableListFilter<"Module">
   }
@@ -25183,6 +25939,8 @@ export namespace Prisma {
   export type QuizSetUpdateWithoutCoursesInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     quizzes?: QuizUpdateManyWithoutQuizSetsNestedInput
@@ -25191,6 +25949,8 @@ export namespace Prisma {
   export type QuizSetUncheckedUpdateWithoutCoursesInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     quizIds?: QuizSetUpdatequizIdsInput | string[]
@@ -25222,8 +25982,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string | null
-    modifiedOn?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     instructor: UserCreateNestedOneWithoutCoursesAsInstructorInput
     modules?: ModuleCreateNestedManyWithoutCourseInput
     testimonials?: TestimonialCreateNestedManyWithoutCourseInput
@@ -25241,8 +26001,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string | null
-    modifiedOn?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     instructorId: string
     quizSetId?: string | null
     modules?: ModuleUncheckedCreateNestedManyWithoutCourseInput
@@ -25285,8 +26045,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string | null
-    modifiedOn?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     category: CategoryCreateNestedOneWithoutCoursesInput
     instructor: UserCreateNestedOneWithoutCoursesAsInstructorInput
     testimonials?: TestimonialCreateNestedManyWithoutCourseInput
@@ -25304,8 +26064,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string | null
-    modifiedOn?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     categoryId: string
     instructorId: string
     quizSetId?: string | null
@@ -25325,6 +26085,8 @@ export namespace Prisma {
     description?: string | null
     duration?: number
     videoUrl?: string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     active?: boolean
     slug: string
     access?: string
@@ -25337,6 +26099,8 @@ export namespace Prisma {
     description?: string | null
     duration?: number
     videoUrl?: string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     active?: boolean
     slug: string
     access?: string
@@ -25351,20 +26115,20 @@ export namespace Prisma {
 
   export type WatchCreateWithoutModuleInput = {
     id?: string
-    createdAt?: Date | string | null
-    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     lesson: LessonCreateNestedOneWithoutWatchesInput
     user: UserCreateNestedOneWithoutWatchesInput
   }
 
   export type WatchUncheckedCreateWithoutModuleInput = {
     id?: string
-    createdAt?: Date | string | null
-    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     lessonId: string
     userId: string
   }
@@ -25397,8 +26161,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     instructor?: UserUpdateOneRequiredWithoutCoursesAsInstructorNestedInput
     testimonials?: TestimonialUpdateManyWithoutCourseNestedInput
@@ -25415,8 +26179,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
     instructorId?: StringFieldUpdateOperationsInput | string
     quizSetId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -25450,6 +26214,8 @@ export namespace Prisma {
     description?: StringNullableFilter<"Lesson"> | string | null
     duration?: IntFilter<"Lesson"> | number
     videoUrl?: StringNullableFilter<"Lesson"> | string | null
+    createdAt?: DateTimeNullableFilter<"Lesson"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Lesson"> | Date | string | null
     active?: BoolFilter<"Lesson"> | boolean
     slug?: StringFilter<"Lesson"> | string
     access?: StringFilter<"Lesson"> | string
@@ -25479,6 +26245,8 @@ export namespace Prisma {
     status?: string
     slug: string
     duration: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     course: CourseCreateNestedOneWithoutModulesInput
     watches?: WatchCreateNestedManyWithoutModuleInput
   }
@@ -25490,6 +26258,8 @@ export namespace Prisma {
     status?: string
     slug: string
     duration: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     courseId: string
     lessonIds?: ModuleCreatelessonIdsInput | string[]
     watches?: WatchUncheckedCreateNestedManyWithoutModuleInput
@@ -25502,20 +26272,20 @@ export namespace Prisma {
 
   export type WatchCreateWithoutLessonInput = {
     id?: string
-    createdAt?: Date | string | null
-    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     user: UserCreateNestedOneWithoutWatchesInput
     module?: ModuleCreateNestedOneWithoutWatchesInput
   }
 
   export type WatchUncheckedCreateWithoutLessonInput = {
     id?: string
-    createdAt?: Date | string | null
-    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     userId: string
     moduleId?: string | null
   }
@@ -25567,6 +26337,8 @@ export namespace Prisma {
     description?: string | null
     duration?: number
     videoUrl?: string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     active?: boolean
     slug: string
     access?: string
@@ -25579,6 +26351,8 @@ export namespace Prisma {
     description?: string | null
     duration?: number
     videoUrl?: string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     active?: boolean
     slug: string
     access?: string
@@ -25645,6 +26419,8 @@ export namespace Prisma {
     status?: string
     slug: string
     duration: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     course: CourseCreateNestedOneWithoutModulesInput
     lessons?: LessonCreateNestedManyWithoutModulesInput
   }
@@ -25656,6 +26432,8 @@ export namespace Prisma {
     status?: string
     slug: string
     duration: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     courseId: string
     lessonIds?: ModuleCreatelessonIdsInput | string[]
     lessons?: LessonUncheckedCreateNestedManyWithoutModulesInput
@@ -25682,6 +26460,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: IntFieldUpdateOperationsInput | number
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     slug?: StringFieldUpdateOperationsInput | string
     access?: StringFieldUpdateOperationsInput | string
@@ -25693,6 +26473,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: IntFieldUpdateOperationsInput | number
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     slug?: StringFieldUpdateOperationsInput | string
     access?: StringFieldUpdateOperationsInput | string
@@ -25768,6 +26550,8 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     course?: CourseUpdateOneRequiredWithoutModulesNestedInput
     lessons?: LessonUpdateManyWithoutModulesNestedInput
   }
@@ -25778,6 +26562,8 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     courseId?: StringFieldUpdateOperationsInput | string
     lessonIds?: ModuleUpdatelessonIdsInput | string[]
     lessons?: LessonUncheckedUpdateManyWithoutModulesNestedInput
@@ -25787,6 +26573,8 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     slug: string
     active?: boolean
     courses?: CourseCreateNestedManyWithoutQuizSetInput
@@ -25796,6 +26584,8 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     slug: string
     active?: boolean
     quizIds?: QuizSetCreatequizIdsInput | string[]
@@ -25810,6 +26600,8 @@ export namespace Prisma {
   export type AssessmentItemCreateWithoutQuizInput = {
     id?: string
     attempted?: boolean
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     assessment: AssessmentCreateNestedOneWithoutItemsInput
     options?: OptionCreateNestedManyWithoutAssessmentItemInput
   }
@@ -25817,6 +26609,8 @@ export namespace Prisma {
   export type AssessmentItemUncheckedCreateWithoutQuizInput = {
     id?: string
     attempted?: boolean
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     assessmentId: string
     options?: OptionUncheckedCreateNestedManyWithoutAssessmentItemInput
   }
@@ -25853,6 +26647,8 @@ export namespace Prisma {
     id?: StringFilter<"QuizSet"> | string
     title?: StringFilter<"QuizSet"> | string
     description?: StringFilter<"QuizSet"> | string
+    createdAt?: DateTimeNullableFilter<"QuizSet"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"QuizSet"> | Date | string | null
     slug?: StringFilter<"QuizSet"> | string
     active?: BoolFilter<"QuizSet"> | boolean
     quizIds?: StringNullableListFilter<"QuizSet">
@@ -25880,6 +26676,8 @@ export namespace Prisma {
     NOT?: AssessmentItemScalarWhereInput | AssessmentItemScalarWhereInput[]
     id?: StringFilter<"AssessmentItem"> | string
     attempted?: BoolFilter<"AssessmentItem"> | boolean
+    createdAt?: DateTimeNullableFilter<"AssessmentItem"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"AssessmentItem"> | Date | string | null
     quizId?: StringFilter<"AssessmentItem"> | string
     assessmentId?: StringFilter<"AssessmentItem"> | string
   }
@@ -25892,6 +26690,8 @@ export namespace Prisma {
     explanations: string
     mark?: number
     slug: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     assessments?: AssessmentItemCreateNestedManyWithoutQuizInput
   }
 
@@ -25903,6 +26703,8 @@ export namespace Prisma {
     explanations: string
     mark?: number
     slug: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     quizSetIds?: QuizCreatequizSetIdsInput | string[]
     assessments?: AssessmentItemUncheckedCreateNestedManyWithoutQuizInput
   }
@@ -25921,8 +26723,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string | null
-    modifiedOn?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     category: CategoryCreateNestedOneWithoutCoursesInput
     instructor: UserCreateNestedOneWithoutCoursesAsInstructorInput
     modules?: ModuleCreateNestedManyWithoutCourseInput
@@ -25940,8 +26742,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string | null
-    modifiedOn?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     categoryId: string
     instructorId: string
     modules?: ModuleUncheckedCreateNestedManyWithoutCourseInput
@@ -25986,6 +26788,8 @@ export namespace Prisma {
     explanations?: StringFilter<"Quiz"> | string
     mark?: IntFilter<"Quiz"> | number
     slug?: StringFilter<"Quiz"> | string
+    createdAt?: DateTimeNullableFilter<"Quiz"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Quiz"> | Date | string | null
     quizSetIds?: StringNullableListFilter<"Quiz">
   }
 
@@ -26008,6 +26812,8 @@ export namespace Prisma {
   export type AssessmentItemCreateWithoutAssessmentInput = {
     id?: string
     attempted?: boolean
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     quiz: QuizCreateNestedOneWithoutAssessmentsInput
     options?: OptionCreateNestedManyWithoutAssessmentItemInput
   }
@@ -26015,6 +26821,8 @@ export namespace Prisma {
   export type AssessmentItemUncheckedCreateWithoutAssessmentInput = {
     id?: string
     attempted?: boolean
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     quizId: string
     options?: OptionUncheckedCreateNestedManyWithoutAssessmentItemInput
   }
@@ -26030,6 +26838,8 @@ export namespace Prisma {
 
   export type ReportCreateWithoutAssessmentInput = {
     id?: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     totalCompletedLessons?: ReportCreatetotalCompletedLessonsInput | string[]
     totalCompletedModules?: ReportCreatetotalCompletedModulesInput | string[]
     course: CourseCreateNestedOneWithoutReportsInput
@@ -26038,6 +26848,8 @@ export namespace Prisma {
 
   export type ReportUncheckedCreateWithoutAssessmentInput = {
     id?: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     totalCompletedLessons?: ReportCreatetotalCompletedLessonsInput | string[]
     totalCompletedModules?: ReportCreatetotalCompletedModulesInput | string[]
     courseId: string
@@ -26077,6 +26889,8 @@ export namespace Prisma {
   }
 
   export type ReportUpdateWithoutAssessmentInput = {
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     totalCompletedLessons?: ReportUpdatetotalCompletedLessonsInput | string[]
     totalCompletedModules?: ReportUpdatetotalCompletedModulesInput | string[]
     course?: CourseUpdateOneRequiredWithoutReportsNestedInput
@@ -26084,6 +26898,8 @@ export namespace Prisma {
   }
 
   export type ReportUncheckedUpdateWithoutAssessmentInput = {
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     totalCompletedLessons?: ReportUpdatetotalCompletedLessonsInput | string[]
     totalCompletedModules?: ReportUpdatetotalCompletedModulesInput | string[]
     courseId?: StringFieldUpdateOperationsInput | string
@@ -26098,6 +26914,8 @@ export namespace Prisma {
     explanations: string
     mark?: number
     slug: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     quizSets?: QuizSetCreateNestedManyWithoutQuizzesInput
   }
 
@@ -26109,6 +26927,8 @@ export namespace Prisma {
     explanations: string
     mark?: number
     slug: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     quizSetIds?: QuizCreatequizSetIdsInput | string[]
     quizSets?: QuizSetUncheckedCreateNestedManyWithoutQuizzesInput
   }
@@ -26121,12 +26941,16 @@ export namespace Prisma {
   export type AssessmentCreateWithoutItemsInput = {
     id?: string
     otherMarks: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     report?: ReportCreateNestedOneWithoutAssessmentInput
   }
 
   export type AssessmentUncheckedCreateWithoutItemsInput = {
     id?: string
     otherMarks: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     report?: ReportUncheckedCreateNestedOneWithoutAssessmentInput
   }
 
@@ -26140,6 +26964,8 @@ export namespace Prisma {
     option: string
     isCorrect: boolean
     isSelected: boolean
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
   }
 
   export type OptionUncheckedCreateWithoutAssessmentItemInput = {
@@ -26147,6 +26973,8 @@ export namespace Prisma {
     option: string
     isCorrect: boolean
     isSelected: boolean
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
   }
 
   export type OptionCreateOrConnectWithoutAssessmentItemInput = {
@@ -26176,6 +27004,8 @@ export namespace Prisma {
     explanations?: StringFieldUpdateOperationsInput | string
     mark?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizSets?: QuizSetUpdateManyWithoutQuizzesNestedInput
   }
 
@@ -26186,6 +27016,8 @@ export namespace Prisma {
     explanations?: StringFieldUpdateOperationsInput | string
     mark?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizSetIds?: QuizUpdatequizSetIdsInput | string[]
     quizSets?: QuizSetUncheckedUpdateManyWithoutQuizzesNestedInput
   }
@@ -26203,11 +27035,15 @@ export namespace Prisma {
 
   export type AssessmentUpdateWithoutItemsInput = {
     otherMarks?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     report?: ReportUpdateOneWithoutAssessmentNestedInput
   }
 
   export type AssessmentUncheckedUpdateWithoutItemsInput = {
     otherMarks?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     report?: ReportUncheckedUpdateOneWithoutAssessmentNestedInput
   }
 
@@ -26235,12 +27071,16 @@ export namespace Prisma {
     option?: StringFilter<"Option"> | string
     isCorrect?: BoolFilter<"Option"> | boolean
     isSelected?: BoolFilter<"Option"> | boolean
+    createdAt?: DateTimeNullableFilter<"Option"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Option"> | Date | string | null
     assessmentItemId?: StringFilter<"Option"> | string
   }
 
   export type AssessmentItemCreateWithoutOptionsInput = {
     id?: string
     attempted?: boolean
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     quiz: QuizCreateNestedOneWithoutAssessmentsInput
     assessment: AssessmentCreateNestedOneWithoutItemsInput
   }
@@ -26248,6 +27088,8 @@ export namespace Prisma {
   export type AssessmentItemUncheckedCreateWithoutOptionsInput = {
     id?: string
     attempted?: boolean
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     quizId: string
     assessmentId: string
   }
@@ -26270,12 +27112,16 @@ export namespace Prisma {
 
   export type AssessmentItemUpdateWithoutOptionsInput = {
     attempted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quiz?: QuizUpdateOneRequiredWithoutAssessmentsNestedInput
     assessment?: AssessmentUpdateOneRequiredWithoutItemsNestedInput
   }
 
   export type AssessmentItemUncheckedUpdateWithoutOptionsInput = {
     attempted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizId?: StringFieldUpdateOperationsInput | string
     assessmentId?: StringFieldUpdateOperationsInput | string
   }
@@ -26289,8 +27135,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string | null
-    modifiedOn?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     category: CategoryCreateNestedOneWithoutCoursesInput
     instructor: UserCreateNestedOneWithoutCoursesAsInstructorInput
     modules?: ModuleCreateNestedManyWithoutCourseInput
@@ -26308,8 +27154,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string | null
-    modifiedOn?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     categoryId: string
     instructorId: string
     quizSetId?: string | null
@@ -26373,6 +27219,8 @@ export namespace Prisma {
   export type CertificateCreateWithoutEnrollmentInput = {
     id?: string
     certificateLink: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     courseId: string
     user: UserCreateNestedOneWithoutCertificatesInput
   }
@@ -26380,6 +27228,8 @@ export namespace Prisma {
   export type CertificateUncheckedCreateWithoutEnrollmentInput = {
     id?: string
     certificateLink: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     userId: string
     courseId: string
   }
@@ -26412,8 +27262,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     instructor?: UserUpdateOneRequiredWithoutCoursesAsInstructorNestedInput
     modules?: ModuleUpdateManyWithoutCourseNestedInput
@@ -26430,8 +27280,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
     instructorId?: StringFieldUpdateOperationsInput | string
     quizSetId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26560,6 +27410,8 @@ export namespace Prisma {
     status: string
     completionDate?: Date | string | null
     method: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     course: CourseCreateNestedOneWithoutEnrollmentsInput
     student: UserCreateNestedOneWithoutEnrollmentsInput
   }
@@ -26570,6 +27422,8 @@ export namespace Prisma {
     status: string
     completionDate?: Date | string | null
     method: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     courseId: string
     studentId: string
   }
@@ -26646,6 +27500,8 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     completionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     method?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     course?: CourseUpdateOneRequiredWithoutEnrollmentsNestedInput
     student?: UserUpdateOneRequiredWithoutEnrollmentsNestedInput
   }
@@ -26655,6 +27511,8 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     completionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     method?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     courseId?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
   }
@@ -26668,8 +27526,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string | null
-    modifiedOn?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     category: CategoryCreateNestedOneWithoutCoursesInput
     instructor: UserCreateNestedOneWithoutCoursesAsInstructorInput
     modules?: ModuleCreateNestedManyWithoutCourseInput
@@ -26687,8 +27545,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string | null
-    modifiedOn?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     categoryId: string
     instructorId: string
     quizSetId?: string | null
@@ -26768,8 +27626,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     instructor?: UserUpdateOneRequiredWithoutCoursesAsInstructorNestedInput
     modules?: ModuleUpdateManyWithoutCourseNestedInput
@@ -26786,8 +27644,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
     instructorId?: StringFieldUpdateOperationsInput | string
     quizSetId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26856,8 +27714,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string | null
-    modifiedOn?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     category: CategoryCreateNestedOneWithoutCoursesInput
     instructor: UserCreateNestedOneWithoutCoursesAsInstructorInput
     modules?: ModuleCreateNestedManyWithoutCourseInput
@@ -26875,8 +27733,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string | null
-    modifiedOn?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     categoryId: string
     instructorId: string
     quizSetId?: string | null
@@ -26940,12 +27798,16 @@ export namespace Prisma {
   export type AssessmentCreateWithoutReportInput = {
     id?: string
     otherMarks: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     items?: AssessmentItemCreateNestedManyWithoutAssessmentInput
   }
 
   export type AssessmentUncheckedCreateWithoutReportInput = {
     id?: string
     otherMarks: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     items?: AssessmentItemUncheckedCreateNestedManyWithoutAssessmentInput
   }
 
@@ -26973,8 +27835,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     instructor?: UserUpdateOneRequiredWithoutCoursesAsInstructorNestedInput
     modules?: ModuleUpdateManyWithoutCourseNestedInput
@@ -26991,8 +27853,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
     instructorId?: StringFieldUpdateOperationsInput | string
     quizSetId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27065,11 +27927,15 @@ export namespace Prisma {
 
   export type AssessmentUpdateWithoutReportInput = {
     otherMarks?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     items?: AssessmentItemUpdateManyWithoutAssessmentNestedInput
   }
 
   export type AssessmentUncheckedUpdateWithoutReportInput = {
     otherMarks?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     items?: AssessmentItemUncheckedUpdateManyWithoutAssessmentNestedInput
   }
 
@@ -27082,8 +27948,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string | null
-    modifiedOn?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     categoryId: string
     quizSetId?: string | null
   }
@@ -27094,6 +27960,8 @@ export namespace Prisma {
     status: string
     completionDate?: Date | string | null
     method: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     courseId: string
   }
 
@@ -27102,14 +27970,16 @@ export namespace Prisma {
     content: string
     rating: number
     courseId: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
   }
 
   export type WatchCreateManyUserInput = {
     id?: string
-    createdAt?: Date | string | null
-    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     lessonId: string
     moduleId?: string | null
   }
@@ -27117,12 +27987,16 @@ export namespace Prisma {
   export type CertificateCreateManyUserInput = {
     id?: string
     certificateLink: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     courseId: string
     enrollmentId: string
   }
 
   export type ReportCreateManyStudentInput = {
     id?: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     totalCompletedLessons?: ReportCreatetotalCompletedLessonsInput | string[]
     totalCompletedModules?: ReportCreatetotalCompletedModulesInput | string[]
     courseId: string
@@ -27137,8 +28011,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     modules?: ModuleUpdateManyWithoutCourseNestedInput
     testimonials?: TestimonialUpdateManyWithoutCourseNestedInput
@@ -27155,8 +28029,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
     quizSetId?: NullableStringFieldUpdateOperationsInput | string | null
     modules?: ModuleUncheckedUpdateManyWithoutCourseNestedInput
@@ -27173,8 +28047,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
     quizSetId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -27184,6 +28058,8 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     completionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     method?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     course?: CourseUpdateOneRequiredWithoutEnrollmentsNestedInput
     certificates?: CertificateUpdateManyWithoutEnrollmentNestedInput
   }
@@ -27193,6 +28069,8 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     completionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     method?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     courseId?: StringFieldUpdateOperationsInput | string
     certificates?: CertificateUncheckedUpdateManyWithoutEnrollmentNestedInput
   }
@@ -27202,12 +28080,16 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     completionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     method?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     courseId?: StringFieldUpdateOperationsInput | string
   }
 
   export type TestimonialUpdateWithoutUserInput = {
     content?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     course?: CourseUpdateOneRequiredWithoutTestimonialsNestedInput
   }
 
@@ -27215,60 +28097,72 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     courseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TestimonialUncheckedUpdateManyWithoutUserInput = {
     content?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     courseId?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type WatchUpdateWithoutUserInput = {
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lesson?: LessonUpdateOneRequiredWithoutWatchesNestedInput
     module?: ModuleUpdateOneWithoutWatchesNestedInput
   }
 
   export type WatchUncheckedUpdateWithoutUserInput = {
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lessonId?: StringFieldUpdateOperationsInput | string
     moduleId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type WatchUncheckedUpdateManyWithoutUserInput = {
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lessonId?: StringFieldUpdateOperationsInput | string
     moduleId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CertificateUpdateWithoutUserInput = {
     certificateLink?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     courseId?: StringFieldUpdateOperationsInput | string
     enrollment?: EnrollmentUpdateOneRequiredWithoutCertificatesNestedInput
   }
 
   export type CertificateUncheckedUpdateWithoutUserInput = {
     certificateLink?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     courseId?: StringFieldUpdateOperationsInput | string
     enrollmentId?: StringFieldUpdateOperationsInput | string
   }
 
   export type CertificateUncheckedUpdateManyWithoutUserInput = {
     certificateLink?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     courseId?: StringFieldUpdateOperationsInput | string
     enrollmentId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ReportUpdateWithoutStudentInput = {
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     totalCompletedLessons?: ReportUpdatetotalCompletedLessonsInput | string[]
     totalCompletedModules?: ReportUpdatetotalCompletedModulesInput | string[]
     course?: CourseUpdateOneRequiredWithoutReportsNestedInput
@@ -27276,6 +28170,8 @@ export namespace Prisma {
   }
 
   export type ReportUncheckedUpdateWithoutStudentInput = {
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     totalCompletedLessons?: ReportUpdatetotalCompletedLessonsInput | string[]
     totalCompletedModules?: ReportUpdatetotalCompletedModulesInput | string[]
     courseId?: StringFieldUpdateOperationsInput | string
@@ -27283,6 +28179,8 @@ export namespace Prisma {
   }
 
   export type ReportUncheckedUpdateManyWithoutStudentInput = {
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     totalCompletedLessons?: ReportUpdatetotalCompletedLessonsInput | string[]
     totalCompletedModules?: ReportUpdatetotalCompletedModulesInput | string[]
     courseId?: StringFieldUpdateOperationsInput | string
@@ -27296,6 +28194,8 @@ export namespace Prisma {
     status?: string
     slug: string
     duration: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     lessonIds?: ModuleCreatelessonIdsInput | string[]
   }
 
@@ -27304,6 +28204,8 @@ export namespace Prisma {
     content: string
     rating: number
     userId: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
   }
 
   export type EnrollmentCreateManyCourseInput = {
@@ -27312,11 +28214,15 @@ export namespace Prisma {
     status: string
     completionDate?: Date | string | null
     method: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     studentId: string
   }
 
   export type ReportCreateManyCourseInput = {
     id?: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     totalCompletedLessons?: ReportCreatetotalCompletedLessonsInput | string[]
     totalCompletedModules?: ReportCreatetotalCompletedModulesInput | string[]
     studentId: string
@@ -27329,6 +28235,8 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lessons?: LessonUpdateManyWithoutModulesNestedInput
     watches?: WatchUpdateManyWithoutModuleNestedInput
   }
@@ -27339,6 +28247,8 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lessonIds?: ModuleUpdatelessonIdsInput | string[]
     lessons?: LessonUncheckedUpdateManyWithoutModulesNestedInput
     watches?: WatchUncheckedUpdateManyWithoutModuleNestedInput
@@ -27350,12 +28260,16 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lessonIds?: ModuleUpdatelessonIdsInput | string[]
   }
 
   export type TestimonialUpdateWithoutCourseInput = {
     content?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutTestimonialsNestedInput
   }
 
@@ -27363,12 +28277,16 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TestimonialUncheckedUpdateManyWithoutCourseInput = {
     content?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type EnrollmentUpdateWithoutCourseInput = {
@@ -27376,6 +28294,8 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     completionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     method?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     student?: UserUpdateOneRequiredWithoutEnrollmentsNestedInput
     certificates?: CertificateUpdateManyWithoutEnrollmentNestedInput
   }
@@ -27385,6 +28305,8 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     completionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     method?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentId?: StringFieldUpdateOperationsInput | string
     certificates?: CertificateUncheckedUpdateManyWithoutEnrollmentNestedInput
   }
@@ -27394,10 +28316,14 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     completionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     method?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ReportUpdateWithoutCourseInput = {
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     totalCompletedLessons?: ReportUpdatetotalCompletedLessonsInput | string[]
     totalCompletedModules?: ReportUpdatetotalCompletedModulesInput | string[]
     student?: UserUpdateOneRequiredWithoutReportsNestedInput
@@ -27405,6 +28331,8 @@ export namespace Prisma {
   }
 
   export type ReportUncheckedUpdateWithoutCourseInput = {
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     totalCompletedLessons?: ReportUpdatetotalCompletedLessonsInput | string[]
     totalCompletedModules?: ReportUpdatetotalCompletedModulesInput | string[]
     studentId?: StringFieldUpdateOperationsInput | string
@@ -27412,6 +28340,8 @@ export namespace Prisma {
   }
 
   export type ReportUncheckedUpdateManyWithoutCourseInput = {
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     totalCompletedLessons?: ReportUpdatetotalCompletedLessonsInput | string[]
     totalCompletedModules?: ReportUpdatetotalCompletedModulesInput | string[]
     studentId?: StringFieldUpdateOperationsInput | string
@@ -27427,8 +28357,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string | null
-    modifiedOn?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     instructorId: string
     quizSetId?: string | null
   }
@@ -27441,8 +28371,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instructor?: UserUpdateOneRequiredWithoutCoursesAsInstructorNestedInput
     modules?: ModuleUpdateManyWithoutCourseNestedInput
     testimonials?: TestimonialUpdateManyWithoutCourseNestedInput
@@ -27459,8 +28389,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
     quizSetId?: NullableStringFieldUpdateOperationsInput | string | null
     modules?: ModuleUncheckedUpdateManyWithoutCourseNestedInput
@@ -27477,18 +28407,18 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
     quizSetId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type WatchCreateManyModuleInput = {
     id?: string
-    createdAt?: Date | string | null
-    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     lessonId: string
     userId: string
   }
@@ -27498,6 +28428,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: IntFieldUpdateOperationsInput | number
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     slug?: StringFieldUpdateOperationsInput | string
     access?: StringFieldUpdateOperationsInput | string
@@ -27509,6 +28441,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: IntFieldUpdateOperationsInput | number
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     slug?: StringFieldUpdateOperationsInput | string
     access?: StringFieldUpdateOperationsInput | string
@@ -27521,6 +28455,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: IntFieldUpdateOperationsInput | number
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     slug?: StringFieldUpdateOperationsInput | string
     access?: StringFieldUpdateOperationsInput | string
@@ -27528,38 +28464,38 @@ export namespace Prisma {
   }
 
   export type WatchUpdateWithoutModuleInput = {
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lesson?: LessonUpdateOneRequiredWithoutWatchesNestedInput
     user?: UserUpdateOneRequiredWithoutWatchesNestedInput
   }
 
   export type WatchUncheckedUpdateWithoutModuleInput = {
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lessonId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type WatchUncheckedUpdateManyWithoutModuleInput = {
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lessonId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type WatchCreateManyLessonInput = {
     id?: string
-    createdAt?: Date | string | null
-    modifiedAt?: Date | string | null
     state?: string
     lastTime: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     userId: string
     moduleId?: string | null
   }
@@ -27570,6 +28506,8 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     course?: CourseUpdateOneRequiredWithoutModulesNestedInput
     watches?: WatchUpdateManyWithoutModuleNestedInput
   }
@@ -27580,6 +28518,8 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     courseId?: StringFieldUpdateOperationsInput | string
     lessonIds?: ModuleUpdatelessonIdsInput | string[]
     watches?: WatchUncheckedUpdateManyWithoutModuleNestedInput
@@ -27591,33 +28531,35 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     courseId?: StringFieldUpdateOperationsInput | string
     lessonIds?: ModuleUpdatelessonIdsInput | string[]
   }
 
   export type WatchUpdateWithoutLessonInput = {
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutWatchesNestedInput
     module?: ModuleUpdateOneWithoutWatchesNestedInput
   }
 
   export type WatchUncheckedUpdateWithoutLessonInput = {
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     userId?: StringFieldUpdateOperationsInput | string
     moduleId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type WatchUncheckedUpdateManyWithoutLessonInput = {
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     userId?: StringFieldUpdateOperationsInput | string
     moduleId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -27625,12 +28567,16 @@ export namespace Prisma {
   export type AssessmentItemCreateManyQuizInput = {
     id?: string
     attempted?: boolean
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     assessmentId: string
   }
 
   export type QuizSetUpdateWithoutQuizzesInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     courses?: CourseUpdateManyWithoutQuizSetNestedInput
@@ -27639,6 +28585,8 @@ export namespace Prisma {
   export type QuizSetUncheckedUpdateWithoutQuizzesInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     quizIds?: QuizSetUpdatequizIdsInput | string[]
@@ -27648,6 +28596,8 @@ export namespace Prisma {
   export type QuizSetUncheckedUpdateManyWithoutQuizzesInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     quizIds?: QuizSetUpdatequizIdsInput | string[]
@@ -27655,18 +28605,24 @@ export namespace Prisma {
 
   export type AssessmentItemUpdateWithoutQuizInput = {
     attempted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assessment?: AssessmentUpdateOneRequiredWithoutItemsNestedInput
     options?: OptionUpdateManyWithoutAssessmentItemNestedInput
   }
 
   export type AssessmentItemUncheckedUpdateWithoutQuizInput = {
     attempted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assessmentId?: StringFieldUpdateOperationsInput | string
     options?: OptionUncheckedUpdateManyWithoutAssessmentItemNestedInput
   }
 
   export type AssessmentItemUncheckedUpdateManyWithoutQuizInput = {
     attempted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assessmentId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -27679,8 +28635,8 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
-    createdOn?: Date | string | null
-    modifiedOn?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     categoryId: string
     instructorId: string
   }
@@ -27692,6 +28648,8 @@ export namespace Prisma {
     explanations?: StringFieldUpdateOperationsInput | string
     mark?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     assessments?: AssessmentItemUpdateManyWithoutQuizNestedInput
   }
 
@@ -27702,6 +28660,8 @@ export namespace Prisma {
     explanations?: StringFieldUpdateOperationsInput | string
     mark?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizSetIds?: QuizUpdatequizSetIdsInput | string[]
     assessments?: AssessmentItemUncheckedUpdateManyWithoutQuizNestedInput
   }
@@ -27713,6 +28673,8 @@ export namespace Prisma {
     explanations?: StringFieldUpdateOperationsInput | string
     mark?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizSetIds?: QuizUpdatequizSetIdsInput | string[]
   }
 
@@ -27724,8 +28686,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     instructor?: UserUpdateOneRequiredWithoutCoursesAsInstructorNestedInput
     modules?: ModuleUpdateManyWithoutCourseNestedInput
@@ -27742,8 +28704,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
     instructorId?: StringFieldUpdateOperationsInput | string
     modules?: ModuleUncheckedUpdateManyWithoutCourseNestedInput
@@ -27760,8 +28722,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
-    createdOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    modifiedOn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     categoryId?: StringFieldUpdateOperationsInput | string
     instructorId?: StringFieldUpdateOperationsInput | string
   }
@@ -27769,23 +28731,31 @@ export namespace Prisma {
   export type AssessmentItemCreateManyAssessmentInput = {
     id?: string
     attempted?: boolean
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     quizId: string
   }
 
   export type AssessmentItemUpdateWithoutAssessmentInput = {
     attempted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quiz?: QuizUpdateOneRequiredWithoutAssessmentsNestedInput
     options?: OptionUpdateManyWithoutAssessmentItemNestedInput
   }
 
   export type AssessmentItemUncheckedUpdateWithoutAssessmentInput = {
     attempted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizId?: StringFieldUpdateOperationsInput | string
     options?: OptionUncheckedUpdateManyWithoutAssessmentItemNestedInput
   }
 
   export type AssessmentItemUncheckedUpdateManyWithoutAssessmentInput = {
     attempted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     quizId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -27794,47 +28764,63 @@ export namespace Prisma {
     option: string
     isCorrect: boolean
     isSelected: boolean
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
   }
 
   export type OptionUpdateWithoutAssessmentItemInput = {
     option?: StringFieldUpdateOperationsInput | string
     isCorrect?: BoolFieldUpdateOperationsInput | boolean
     isSelected?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type OptionUncheckedUpdateWithoutAssessmentItemInput = {
     option?: StringFieldUpdateOperationsInput | string
     isCorrect?: BoolFieldUpdateOperationsInput | boolean
     isSelected?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type OptionUncheckedUpdateManyWithoutAssessmentItemInput = {
     option?: StringFieldUpdateOperationsInput | string
     isCorrect?: BoolFieldUpdateOperationsInput | boolean
     isSelected?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CertificateCreateManyEnrollmentInput = {
     id?: string
     certificateLink: string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
     userId: string
     courseId: string
   }
 
   export type CertificateUpdateWithoutEnrollmentInput = {
     certificateLink?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     courseId?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutCertificatesNestedInput
   }
 
   export type CertificateUncheckedUpdateWithoutEnrollmentInput = {
     certificateLink?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     userId?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
   }
 
   export type CertificateUncheckedUpdateManyWithoutEnrollmentInput = {
     certificateLink?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     userId?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
   }

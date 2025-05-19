@@ -6,9 +6,6 @@
   "description": "Learn the fundamentals of Python programming language.",
   "status": "active",
   "slug": "python-basics",
-  "course": {
-    "$oid": "6648184a6fe803e9128d7fba"
-  },
   "lessonIds": [
     {
       "$oid": "663a0806bfe65e5778eedf35"
@@ -20,7 +17,10 @@
       "$oid": "663a0806bfe65e5778eedf37"
     }
   ],
-  "duration": 2286
+  "duration": 2286,
+  "courseId": {
+    "$oid": "66549c99b2aaa1cc3461fc9a"
+  }
 },
 {
   "_id": {
@@ -30,9 +30,6 @@
   "description": "Master HTML5 and CSS3 for modern web development.",
   "status": "active",
   "slug": "html5-css3-essentials",
-  "course": {
-    "$oid": "6648184a6fe803e9128d7fba"
-  },
   "lessonIds": [
     {
       "$oid": "663a0806bfe65e5778eedf38"
@@ -44,5 +41,8 @@
       "$oid": "663a0806bfe65e5778eedf38"
     }
   ],
-  "duration": 2286
+  "duration": 2286,
+  "courseId": {
+    "$oid": "6648184a6fe803e9128d7fba"
+  }
 }]

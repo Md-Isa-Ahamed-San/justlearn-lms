@@ -17,6 +17,7 @@ import CourseCard from "./_components/CourseCard";
 
 const CoursesPage = async () => {
   const courses = await getCourseList();
+  // console.dir(courses)
 
   return (
     <section id="courses" className="container space-y-6 dark:bg-transparent py-6">

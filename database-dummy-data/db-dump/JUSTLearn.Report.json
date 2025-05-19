@@ -15,13 +15,13 @@
       "$oid": "663a0893bfe65e5778eedf3c"
     }
   ],
-  "course": {
+  "courseId": {
     "$oid": "664aca881387e2ad2e8be484"
   },
-  "student": {
-    "$oid": "66504fc6171d3fa703e7e05b"
-  },
-  "quizAssessment": {
+  "quizAssessmentId": {
     "$oid": "663b144d94bdaddfbf619390"
+  },
+  "studentId": {
+    "$oid": "66504fc6171d3fa703e7e05b"
   }
 }]
