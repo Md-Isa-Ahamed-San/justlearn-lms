@@ -2,6 +2,7 @@ import React from "react";
 import { TabsContent } from "@/components/ui/tabs";
 import Image from "next/image";
 import { GraduationCap, MessageSquare, Star, Users } from "lucide-react";
+import Link from "next/link";
 const CourseInstructor = ({ courseDetails }) => {
   return (
     <TabsContent value="instructor" className="mt-6">
@@ -61,34 +62,34 @@ const CourseInstructor = ({ courseDetails }) => {
             {courseDetails?.instructor?.socialMedia && (
               <div className="mt-6 flex gap-4">
                 {courseDetails.instructor.socialMedia.twitter && (
-                  <a
+                  <Link
                     href={`https://twitter.com/${courseDetails.instructor.socialMedia.twitter}`}
                     className="text-blue-500 hover:text-blue-600"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     Twitter
-                  </a>
+                  </Link>
                 )}
                 {courseDetails.instructor.socialMedia.linkedin && (
-                  <a
+                  <Link
                     href={courseDetails.instructor.socialMedia.linkedin}
                     className="text-blue-700 hover:text-blue-800"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     LinkedIn
-                  </a>
+                  </Link>
                 )}
                 {courseDetails.instructor.socialMedia.facebook && (
-                  <a
+                  <Link
                     href={courseDetails.instructor.socialMedia.facebook}
                     className="text-blue-600 hover:text-blue-700"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     Facebook
-                  </a>
+                  </Link>
                 )}
               </div>
             )}
