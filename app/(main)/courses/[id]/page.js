@@ -47,7 +47,7 @@ const SingleCoursePage = async ({ params }) => {
 
   const courseDetails = await getCourseDetails(id);
 
-  console.log(" SingleCoursePage ~ courseDetails:", courseDetails);
+  // console.log(" SingleCoursePage ~ courseDetails:", courseDetails);
 
   return (
     <div>

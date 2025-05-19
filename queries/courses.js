@@ -1,13 +1,28 @@
 import { db } from "@/lib/prisma";
-import { cache } from "react";
 
-// In-memory cache for instructor stats
-const instructorStatsCache = new Map();
+// ⏱ TTL for all caches (5 minutes)
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
 
-// ⏳ Cache course list
-export const getCourseList = cache(async () => {
-  console.log("Fetching course list...");
+// 🧠 In-memory caches
+const courseListCache = {
+  data: null,
+  timestamp: 0,
+};
+
+const courseDetailsCache = new Map(); // key: courseId → { data, timestamp }
+const instructorStatsCache = new Map(); // key: instructorId → { data, timestamp }
+
+// ✅ Get All Courses (Cached)
+export const getCourseList = async () => {
+  if (
+    courseListCache.data &&
+    Date.now() - courseListCache.timestamp < CACHE_TTL
+  ) {
+    console.log("✅ Using cached course list");
+    return courseListCache.data;
+  }
+
+  console.log("⏱ Fetching fresh course list from DB...");
   try {
     const courses = await db.course.findMany({
       include: {
@@ -27,17 +42,27 @@ export const getCourseList = cache(async () => {
       },
     });
 
-    console.log(`Found ${courses.length} courses.`);
+    // cache it
+    courseListCache.data = courses;
+    courseListCache.timestamp = Date.now();
+
     return courses;
   } catch (error) {
-    console.error("Error fetching courses:", error);
+    console.error("❌ Error fetching courses:", error);
     throw error;
   }
-});
+};
 
-// ⏳ Cache course details by ID
-export const getCourseDetails = cache(async (id) => {
-  console.log("Fetching CourseDetails...");
+// ✅ Get Course Details by ID (Cached per Course)
+export const getCourseDetails = async (id) => {
+  const cached = courseDetailsCache.get(id);
+
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    console.log(`✅ Using cached details for course ${id}`);
+    return cached.data;
+  }
+
+  console.log(`⏱ Fetching course ${id} details from DB...`);
   try {
     const course = await db.course.findUnique({
       where: { id },
@@ -47,43 +72,39 @@ export const getCourseDetails = cache(async (id) => {
         quizSet: true,
         weeks: true,
         testimonials: {
-          include: {
-            user: true,
-          },
-          orderBy: {
-            createdAt: "desc",
-          },
+          include: { user: true },
+          orderBy: { createdAt: "desc" },
         },
       },
     });
 
+    courseDetailsCache.set(id, {
+      data: course,
+      timestamp: Date.now(),
+    });
+
     return course;
   } catch (error) {
-    console.error("Error fetching course:", error);
+    console.error(`❌ Error fetching course ${id} details:`, error);
     throw error;
   }
-});
+};
 
-// Cached wrapper using react's cache()
-export const getInstructorDetailedStats = cache(async (instructorId) => {
+// ✅ Get Instructor Stats (Cached per Instructor)
+export const getInstructorDetailedStats = async (instructorId) => {
   const cached = instructorStatsCache.get(instructorId);
 
   if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-    console.log("✅ Using cached instructor stats for:", instructorId);
+    console.log(`✅ Using cached instructor stats for ${instructorId}`);
     return cached.data;
   }
 
   console.time(`instructorStats_${instructorId}`);
-
   try {
     console.time("Step 1: Getting courses");
     const courses = await db.course.findMany({
-      where: {
-        instructorId: instructorId,
-      },
-      select: {
-        id: true,
-      },
+      where: { instructorId },
+      select: { id: true },
     });
 
     const courseIds = courses.map((course) => course.id);
@@ -96,9 +117,7 @@ export const getInstructorDetailedStats = cache(async (instructorId) => {
       where: {
         courseId: { in: courseIds },
       },
-      _count: {
-        id: true,
-      },
+      _count: { id: true },
     });
 
     const totalStudents = enrollments.reduce(
@@ -110,21 +129,16 @@ export const getInstructorDetailedStats = cache(async (instructorId) => {
     console.time("Step 3: Calculating ratings");
     const testimonials = await db.testimonial.findMany({
       where: {
-        courseId: {
-          in: courseIds,
-        },
+        courseId: { in: courseIds },
         rating: {
-          not: 1, // ✅ This works
+          not: 1, // FIXED: null-safe filter
         },
       },
-      select: {
-        rating: true,
-      },
+      select: { rating: true },
     });
 
     const testimonialCount = testimonials.length;
     const totalRating = testimonials.reduce((sum, t) => sum + t.rating, 0);
-
     const averageRating =
       testimonialCount > 0 ? totalRating / testimonialCount : 0;
     console.timeEnd("Step 3: Calculating ratings");
@@ -136,7 +150,6 @@ export const getInstructorDetailedStats = cache(async (instructorId) => {
       testimonialCount,
     };
 
-    // Store in memory cache
     instructorStatsCache.set(instructorId, {
       data: result,
       timestamp: Date.now(),
@@ -145,8 +158,8 @@ export const getInstructorDetailedStats = cache(async (instructorId) => {
     console.timeEnd(`instructorStats_${instructorId}`);
     return result;
   } catch (error) {
-    console.error("Error fetching instructor statistics:", error);
+    console.error("❌ Error fetching instructor statistics:", error);
     console.timeEnd(`instructorStats_${instructorId}`);
     throw error;
   }
-});
+};
