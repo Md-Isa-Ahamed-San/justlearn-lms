@@ -12,10 +12,10 @@ import { Button, buttonVariants } from "./ui/button";
 import FloatingDockDemo from "./FloatingDockDemo";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 
 export function MainNav({ items, children }) {
@@ -44,21 +44,12 @@ export function MainNav({ items, children }) {
           >
             Login
           </Link>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
-                Register
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56 mt-4">
-              <DropdownMenuItem className="cursor-pointer">
-                <Link href="">Student</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer">
-                <Link href="">Instructor</Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+
+          <Link href="/register">
+            <Button variant="outline" size="sm">
+              Register
+            </Button>
+          </Link>
         </div>
 
         {/* Avatar Dropdown */}

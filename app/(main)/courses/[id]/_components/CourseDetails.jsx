@@ -30,6 +30,7 @@ import { formatPrice } from "../../../../../lib/formatPrice";
 import { formatDate } from "../../../../../lib/formatDate";
 
 const CourseDetails = ({ courseDetails }) => {
+  console.log(" CourseDetails ~ courseDetails:", courseDetails)
   
 
   // Format date to readable format
@@ -45,17 +46,17 @@ const CourseDetails = ({ courseDetails }) => {
 
   // Calculate total lessons from modules
   const getTotalLessons = () => {
-    if (!courseDetails?.modules) return 0;
-    return courseDetails.modules.reduce((total, module) => {
-      return total + (module.lessonIds?.length || 0);
+    if (!courseDetails?.weeks) return 0;
+    return courseDetails.weeks.reduce((total, week) => {
+      return total + (week.lessons?.length || 0);
     }, 0);
   };
 
   // Calculate total duration in hours
   const getTotalDuration = () => {
-    if (!courseDetails?.modules) return 0;
-    const totalMinutes = courseDetails.modules.reduce((total, module) => {
-      return total + (module.duration || 0);
+    if (!courseDetails?.weeks) return 0;
+    const totalMinutes = courseDetails.weeks.reduce((total, week) => {
+      return total + (week.duration || 0);
     }, 0);
 
     // Convert minutes to hours

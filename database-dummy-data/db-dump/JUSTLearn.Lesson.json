@@ -8,7 +8,10 @@
   "video_url": "https://example.com/variables_video",
   "published": true,
   "slug": "introduction-to-variables",
-  "access": "public"
+  "access": "public",
+  "weekId": {
+    "$oid": "682b4c2e68a012289f1397f4"
+  }
 },
 {
   "_id": {
@@ -20,7 +23,10 @@
   "video_url": "https://example.com/html_basics_video",
   "published": true,
   "slug": "html-basics",
-  "access": "private"
+  "access": "private",
+  "weekId": {
+    "$oid": "682b4c2e68a012289f1397f4"
+  }
 },
 {
   "_id": {
@@ -32,7 +38,10 @@
   "video_url": "https://example.com/ml_intro_video",
   "published": true,
   "slug": "introduction-to-machine-learning",
-  "access": "public"
+  "access": "public",
+  "weekId": {
+    "$oid": "682b4c3e68a012289f1397f8"
+  }
 },
 {
   "_id": {
@@ -44,7 +53,10 @@
   "video_url": "https://example.com/photography_composition_video",
   "published": true,
   "slug": "composition-techniques-in-photography",
-  "access": "public"
+  "access": "public",
+  "weekId": {
+    "$oid": "682b4c3e68a012289f1397f8"
+  }
 },
 {
   "_id": {
@@ -56,5 +68,23 @@
   "video_url": "https://example.com/budgeting_strategies_video",
   "published": true,
   "slug": "budgeting-strategies",
-  "access": "private"
+  "access": "private",
+  "weekId": {
+    "$oid": "682b4c3e68a012289f1397f8"
+  }
+},
+{
+  "_id": {
+    "$oid": "682b4ba468a012289f1397ed"
+  },
+  "title": "use state ",
+  "description": "Learn effective way use state",
+  "duration": 537,
+  "video_url": "https://example.com/budgeting_strategies_video",
+  "published": true,
+  "slug": "budgeting-strategies",
+  "access": "private",
+  "weekId": {
+    "$oid": "682b4c3e68a012289f1397f8"
+  }
 }]

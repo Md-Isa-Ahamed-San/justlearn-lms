@@ -5,14 +5,6 @@
   "title": "Learn Python",
   "description": "Learn Python programming language from scratch with hands-on exercises.",
   "thumbnail": "learnCoding.svg",
-  "modules": [
-    {
-      "$oid": "663a0893bfe65e5778eedf3c"
-    },
-    {
-      "$oid": "663a0893bfe65e5778eedf3d"
-    }
-  ],
   "price": 4567,
   "active": true,
   "__v": 0,
@@ -42,7 +34,15 @@
   },
   "updatedAt": {
     "$date": "2024-04-11T00:00:00.000Z"
-  }
+  },
+  "weeks": [
+    {
+      "$oid": "663a0893bfe65e5778eedf3c"
+    },
+    {
+      "$oid": "663a0893bfe65e5778eedf3d"
+    }
+  ]
 },
 {
   "_id": {
@@ -51,14 +51,6 @@
   "title": "Mastering JavaScript",
   "description": "Learn JavaScript fundamentals from scratch with hands-on exercises.",
   "thumbnail": "learnCoding.svg",
-  "modules": [
-    {
-      "$oid": "663a0893bfe65e5778eedf3c"
-    },
-    {
-      "$oid": "663a0893bfe65e5778eedf3d"
-    }
-  ],
   "price": 5678,
   "active": true,
   "__v": 0,
@@ -91,7 +83,15 @@
   },
   "updatedAt": {
     "$date": "2024-04-11T00:00:00.000Z"
-  }
+  },
+  "weeks": [
+    {
+      "$oid": "663a0893bfe65e5778eedf3c"
+    },
+    {
+      "$oid": "663a0893bfe65e5778eedf3d"
+    }
+  ]
 },
 {
   "_id": {
@@ -100,14 +100,6 @@
   "title": "React Thunder",
   "description": "Master ReactJS with a lot of practical problem solving.",
   "thumbnail": "bookLovers.svg",
-  "modules": [
-    {
-      "$oid": "663a0893bfe65e5778eedf3c"
-    },
-    {
-      "$oid": "663a0893bfe65e5778eedf3d"
-    }
-  ],
   "price": 6678,
   "active": true,
   "__v": 0,
@@ -133,5 +125,55 @@
   },
   "updatedAt": {
     "$date": "2024-05-11T00:00:00.000Z"
-  }
+  },
+  "weeks": [
+    {
+      "$oid": "663a0893bfe65e5778eedf3c"
+    },
+    {
+      "$oid": "663a0893bfe65e5778eedf3d"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "682b534768a012289f1397ff"
+  },
+  "title": "Next js",
+  "description": "Master Next hs with a lot of practical problem solving.",
+  "thumbnail": "bookLovers.svg",
+  "price": 678,
+  "active": true,
+  "__v": 0,
+  "testimonials": [],
+  "subtitle": "Learn Nextjs Like a Pro",
+  "learning": [
+    "Learn Next js from the basic fundamentals",
+    "Learn how to apply the fundamentals to build things",
+    "Learn to make projects that are production ready",
+    "Get a bonus chapter on using Raect 19 for Full Stack Develeopment"
+  ],
+  "instructorId": {
+    "$oid": "66504f85171d3fa703e7e043"
+  },
+  "quizSetId": {
+    "$oid": "663a096ebfe65e5778eedf4a"
+  },
+  "categoryId": {
+    "$oid": "664813cc6fe803e9128d7fb0"
+  },
+  "createdAt": {
+    "$date": "2024-02-22T00:00:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-11T00:00:00.000Z"
+  },
+  "weeks": [
+    {
+      "$oid": "663a0893bfe65e5778eedf3c"
+    },
+    {
+      "$oid": "663a0893bfe65e5778eedf3d"
+    }
+  ]
 }]

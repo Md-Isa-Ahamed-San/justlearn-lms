@@ -122,8 +122,10 @@ model Lesson {
   updatedAt   DateTime? @updatedAt
 
   // Relations - fixed relation to be many-to-one with Week
-  weekId  String  @db.ObjectId
-  week    Week    @relation(fields: [weekId], references: [id])
+
+  week   Week   @relation(fields: [weekId], references: [id]) // ✅ Foreign key & relation name
+  weekId String @db.ObjectId
+
   watches Watch[]
 }
 

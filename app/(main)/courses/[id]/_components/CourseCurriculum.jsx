@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 
 const CourseCurriculum = ({courseDetails,getTotalLessons,getTotalDuration}) => {
   
+  // const lessons = courseDetails?.weeks?.lessons
 
     return (
         <TabsContent value="curriculum" className="mt-6">
@@ -28,7 +29,7 @@ const CourseCurriculum = ({courseDetails,getTotalLessons,getTotalDuration}) => {
                   <div className="flex flex-wrap items-center gap-6 text-sm">
                     <div className="flex items-center gap-2">
                       <BookCheck className="h-4 w-4" />
-                      <span>{courseDetails?.weeks?.length || 0} Modules</span>
+                      <span>{courseDetails?.weeks?.length || 0} Weeks</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Clock className="h-4 w-4" />
@@ -69,16 +70,16 @@ const CourseCurriculum = ({courseDetails,getTotalLessons,getTotalDuration}) => {
 
                         <div className="space-y-3">
                           {/* Placeholder for lessons since we don't have actual lesson data */}
-                          {Array(week.lessonIds?.length || 0)
+                          {Array(week.lessons?.length || 0)
                             .fill(0)
                             .map((_, idx) => (
                               <div
                                 key={idx}
-                                className="flex items-center justify-between rounded-lg p-3 transition-colors hover:bg-muted/50"
+                                className="flex items-center justify-between rounded-lg p-3 pl-8 transition-colors hover:bg-muted/50"
                               >
                                 <div className="flex items-center gap-3">
                                   <Video className="h-4 w-4" />
-                                  <span className="text-gray-700">
+                                  <span className="">
                                     Lesson {idx + 1}: {week.title} - Part {idx + 1}
                                   </span>
                                 </div>

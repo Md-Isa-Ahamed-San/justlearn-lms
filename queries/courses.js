@@ -39,6 +39,7 @@ export const getCourseList = unstable_cache(
 );
 
 // ✅ Get Course Details by ID (Cached per Course)
+// Modify your database query to ensure proper relations are loaded
 export const getCourseDetails = unstable_cache(
   async (id) => {
     try {
@@ -50,7 +51,14 @@ export const getCourseDetails = unstable_cache(
           category: true,
           instructor: true,
           quizSet: true,
-          weeks: true,
+          weeks: {
+            include: {
+              lessons: true, // This is correctly including lessons
+            },
+            orderBy: {
+              order: "asc", // Optional: sort weeks by order
+            },
+          },
           testimonials: {
             include: {
               user: true,
@@ -61,6 +69,18 @@ export const getCourseDetails = unstable_cache(
           },
         },
       });
+
+      // Debug: Check if weeks have associated lessons
+      if (course?.weeks) {
+        console.log("Weeks found:", course.weeks.length);
+        course.weeks.forEach((week, i) => {
+          console.log(
+            `Week ${i + 1} (${week.id}) has ${
+              week?.lessons?.length || 0
+            } lessons`
+          );
+        });
+      }
 
       return course;
     } catch (error) {
@@ -104,7 +124,7 @@ export const getInstructorDetailedStats = unstable_cache(
       const testimonials = await db.testimonial.findMany({
         where: {
           courseId: { in: courseIds },
-          rating:1, // ✅ Correct null-safe filter
+          rating: 1, // ✅ Correct null-safe filter
         },
         select: { rating: true },
       });

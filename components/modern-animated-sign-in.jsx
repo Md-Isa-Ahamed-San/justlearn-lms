@@ -58,6 +58,62 @@ const Input = memo(
   })
 );
 
+const Select = memo(
+  forwardRef(function Select({ className, options = [], ...props }, ref) {
+    const radius = 100; // Adjust the hover radius here
+    const [visible, setVisible] = useState(false);
+
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    function handleMouseMove({ currentTarget, clientX, clientY }) {
+      const { left, top } = currentTarget.getBoundingClientRect();
+      mouseX.set(clientX - left);
+      mouseY.set(clientY - top);
+    }
+
+    return (
+      <motion.div
+        style={{
+          background: useMotionTemplate`
+            radial-gradient(
+              ${
+                visible ? radius + "px" : "0px"
+              } circle at ${mouseX}px ${mouseY}px,
+              #3b82f6,
+              transparent 80%
+            )
+          `,
+        }}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={() => setVisible(true)}
+        onMouseLeave={() => setVisible(false)}
+        className="group/input rounded-lg p-[2px] transition duration-300"
+      >
+        <select
+          ref={ref}
+          className={cn(
+            `shadow-input flex h-10 w-full rounded-md border-none bg-gray-50 px-3 py-2 text-sm text-black transition duration-400 group-hover/input:shadow-none placeholder:text-neutral-400 focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-800 dark:text-white dark:shadow-[0px_0px_1px_1px_#404040] dark:focus-visible:ring-neutral-600`,
+            className
+          )}
+          {...props}
+        >
+          <option disabled value="">
+            {props.placeholder || "Select an option"}
+          </option>
+          {options.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+      </motion.div>
+    );
+  })
+);
+
+export default Select;
+
 Input.displayName = "Input";
 
 const BoxReveal = memo(function BoxReveal({
@@ -216,7 +272,7 @@ const OrbitingCircles = memo(function OrbitingCircles({
 
 const TechOrbitDisplay = memo(function TechOrbitDisplay({
   iconsArray,
-  text = "Animated Login",
+  text = "JUSTLearn",
 }) {
   return (
     <section className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-lg">
@@ -344,13 +400,14 @@ const AnimatedForm = memo(function AnimatedForm({
       )}
       <form onSubmit={handleSubmit}>
         <section
-          className={`grid grid-cols-1 md:grid-cols-${fieldPerRow} mb-4`}
+          className={`grid grid-cols-1 md:grid-cols-${fieldPerRow} mb-4 gap-4`}
         >
           {fields.map((field) => (
             <section key={field.label} className="flex flex-col gap-2">
               <BoxReveal boxColor="var(--skeleton)" duration={0.3}>
                 <Label htmlFor={field.label}>
-                  {field.label} <span className="text-red-500">*</span>
+                  {field.label}{" "}
+                  {field.required && <span className="text-red-500">*</span>}
                 </Label>
               </BoxReveal>
 
@@ -360,34 +417,43 @@ const AnimatedForm = memo(function AnimatedForm({
                 duration={0.3}
                 className="flex flex-col space-y-2 w-full"
               >
-                <section className="relative">
-                  <Input
-                    type={
-                      field.type === "password"
-                        ? visible
-                          ? "text"
-                          : "password"
-                        : field.type
-                    }
+                {field.type === "select" ? (
+                  <Select
                     id={field.label}
+                    options={field.options}
                     placeholder={field.placeholder}
                     onChange={field.onChange}
                   />
+                ) : (
+                  <section className="relative">
+                    <Input
+                      type={
+                        field.type === "password"
+                          ? visible
+                            ? "text"
+                            : "password"
+                          : field.type
+                      }
+                      id={field.label}
+                      placeholder={field.placeholder}
+                      onChange={field.onChange}
+                    />
 
-                  {field.type === "password" && (
-                    <button
-                      type="button"
-                      onClick={toggleVisibility}
-                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
-                    >
-                      {visible ? (
-                        <Eye className="h-5 w-5" />
-                      ) : (
-                        <EyeOff className="h-5 w-5" />
-                      )}
-                    </button>
-                  )}
-                </section>
+                    {field.type === "password" && (
+                      <button
+                        type="button"
+                        onClick={toggleVisibility}
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                      >
+                        {visible ? (
+                          <Eye className="h-5 w-5" />
+                        ) : (
+                          <EyeOff className="h-5 w-5" />
+                        )}
+                      </button>
+                    )}
+                  </section>
+                )}
 
                 <section className="h-4">
                   {errors[field.label] && (

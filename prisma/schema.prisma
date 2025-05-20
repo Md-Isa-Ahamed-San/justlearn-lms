@@ -7,35 +7,41 @@ generator client {
 }
 
 datasource db {
-  provider     = "mongodb" 
+  provider     = "mongodb"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
+enum Role {
+  STUDENT    @map("student")
+  INSTRUCTOR @map("instructor")
+  ADMIN      @map("admin")
+}
+
 // MARK: User C
 model User {
-  id             String  @id @default(auto()) @map("_id") @db.ObjectId
-  firstName      String
-  lastName       String
-  password       String
-  email          String  @unique
-  phone          String?
-  role           String
-  bio            String?
-  designation    String?
-  profilePicture String?
-  socialMedia    Json?
-  resetPasswordToken String? // Added for forgot password functionality
+  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
+  firstName            String
+  lastName             String
+  password             String
+  email                String    @unique
+  phone                String?
+  role                 Role
+  bio                  String?
+  designation          String?
+  profilePicture       String?
+  socialMedia          Json?
+  resetPasswordToken   String? // Added for forgot password functionality
   resetPasswordExpires DateTime?
 
   // Relations
-  coursesAsInstructor Course[]      @relation("InstructorCourses")
+  coursesAsInstructor Course[]        @relation("InstructorCourses")
   enrollments         Enrollment[]
   testimonials        Testimonial[]
   watches             Watch[]
   certificates        Certificate[]
   reports             Report[]
-  feedback            Feedback[]    // Added relation
+  feedback            Feedback[] // Added relation
   participations      Participation[] // Added relation
 
   createdAt DateTime? @default(now())
@@ -52,8 +58,8 @@ model Course {
   price       Int       @default(0)
   active      Boolean   @default(false)
   learning    String[]
-  rating      Float?    // Added for filtering
-  popularity  Int?      // Added for sorting by popularity
+  rating      Float? // Added for filtering
+  popularity  Int? // Added for sorting by popularity
   lastUpdated DateTime? // Added for "Last updated date"
   createdAt   DateTime? @default(now())
   updatedAt   DateTime? @updatedAt
@@ -65,12 +71,12 @@ model Course {
   instructor   User   @relation("InstructorCourses", fields: [instructorId], references: [id])
   instructorId String @db.ObjectId
 
-  weeks Week[]
-  testimonials Testimonial[]
-  enrollments Enrollment[]
-  quizSet   QuizSet? @relation(fields: [quizSetId], references: [id])
-  quizSetId String?  @db.ObjectId
-  reports Report[]
+  weeks          Week[]
+  testimonials   Testimonial[]
+  enrollments    Enrollment[]
+  quizSet        QuizSet?        @relation(fields: [quizSetId], references: [id])
+  quizSetId      String?         @db.ObjectId
+  reports        Report[]
   participations Participation[] // Added relation
 }
 
@@ -93,19 +99,19 @@ model Week {
   status      String    @default("not-active")
   slug        String
   duration    Int
-  order       Int       // Added: For sequencing weeks
-  quizPrompt  String?   // Added: Instructor's prompt for AI quiz
+  order       Int // Added: For sequencing weeks
+  quizPrompt  String? // Added: Instructor's prompt for AI quiz
   createdAt   DateTime? @default(now())
   updatedAt   DateTime? @updatedAt
 
   // Relations
-  course     Course    @relation(fields: [courseId], references: [id])
-  courseId   String    @db.ObjectId
-  lessons    Lesson[]
-  resources  Resource[] // Added relation
-  watches    Watch[]
-  feedback   Feedback[] // Added relation
-  quizzes    Quiz[]     // Added relation
+  course    Course     @relation(fields: [courseId], references: [id])
+  courseId  String     @db.ObjectId
+  lessons   Lesson[]
+  resources Resource[] // Added relation
+  watches   Watch[]
+  feedback  Feedback[] // Added relation
+  quizzes   Quiz[] // Added relation
 }
 
 // MARK: Lesson
@@ -122,26 +128,28 @@ model Lesson {
   updatedAt   DateTime? @updatedAt
 
   // Relations - fixed relation to be many-to-one with Week
-  weekId      String    @db.ObjectId
-  week        Week      @relation(fields: [weekId], references: [id])
-  watches     Watch[]
+
+  week   Week   @relation(fields: [weekId], references: [id]) // ✅ Foreign key & relation name
+  weekId String @db.ObjectId
+
+  watches Watch[]
 }
 
 // MARK: Watch
 model Watch {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  state      String    @default("started")
-  lastTime   Int       @map("last_time")
-  createdAt  DateTime? @default(now())
-  updatedAt  DateTime? @updatedAt
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  state     String    @default("started")
+  lastTime  Int       @map("last_time")
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 
   // Relations
-  lessonId String @db.ObjectId
-  lesson   Lesson @relation(fields: [lessonId], references: [id])
-  userId   String @db.ObjectId
-  user     User   @relation(fields: [userId], references: [id])
+  lessonId String  @db.ObjectId
+  lesson   Lesson  @relation(fields: [lessonId], references: [id])
+  userId   String  @db.ObjectId
+  user     User    @relation(fields: [userId], references: [id])
   weekId   String? @db.ObjectId
-  week     Week?  @relation(fields: [weekId], references: [id])
+  week     Week?   @relation(fields: [weekId], references: [id])
 }
 
 // MARK: Quiz
@@ -149,18 +157,18 @@ model Quiz {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
-  version     Int       @default(1)  // For quiz versioning
+  version     Int       @default(1) // For quiz versioning
   published   Boolean   @default(false) // Published/draft status
   slug        String
   createdAt   DateTime? @default(now())
   updatedAt   DateTime? @updatedAt
 
   // Relations
-  weekId      String?   @db.ObjectId
-  week        Week?     @relation(fields: [weekId], references: [id])
-  questions   Question[] // Added relation
-  quizSets    QuizSet[] @relation(fields: [quizSetIds], references: [id])
-  quizSetIds  String[]  @db.ObjectId
+  weekId          String?          @db.ObjectId
+  week            Week?            @relation(fields: [weekId], references: [id])
+  questions       Question[] // Added relation
+  quizSets        QuizSet[]        @relation(fields: [quizSetIds], references: [id])
+  quizSetIds      String[]         @db.ObjectId
   assessmentItems AssessmentItem[]
 }
 
@@ -175,9 +183,9 @@ model QuizSet {
   updatedAt   DateTime? @updatedAt
 
   // Relations
-  quizzes  Quiz[]   @relation(fields: [quizIds], references: [id])
-  quizIds  String[] @db.ObjectId
-  courses  Course[]
+  quizzes Quiz[]   @relation(fields: [quizIds], references: [id])
+  quizIds String[] @db.ObjectId
+  courses Course[]
 }
 
 // MARK: Feedback
@@ -189,56 +197,56 @@ model Feedback {
   updatedAt   DateTime? @updatedAt
 
   // Relations
-  studentId   String    @db.ObjectId
-  student     User      @relation(fields: [studentId], references: [id])
-  weekId      String    @db.ObjectId
-  week        Week      @relation(fields: [weekId], references: [id])
+  studentId String @db.ObjectId
+  student   User   @relation(fields: [studentId], references: [id])
+  weekId    String @db.ObjectId
+  week      Week   @relation(fields: [weekId], references: [id])
 }
 
 // MARK: Participation
 model Participation {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  progress    Json[]    // Array of {weekId, completed, score}
-  createdAt   DateTime? @default(now())
-  updatedAt   DateTime? @updatedAt
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  progress  Json[] // Array of {weekId, completed, score}
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 
   // Relations
-  courseId    String    @db.ObjectId
-  course      Course    @relation(fields: [courseId], references: [id])
-  studentId   String    @db.ObjectId
-  student     User      @relation(fields: [studentId], references: [id])
+  courseId  String @db.ObjectId
+  course    Course @relation(fields: [courseId], references: [id])
+  studentId String @db.ObjectId
+  student   User   @relation(fields: [studentId], references: [id])
 }
 
 // MARK: Question
 model Question {
-  id           String    @id @default(auto()) @map("_id") @db.ObjectId
-  type         String    // "MCQ", "TF", "short"
-  prompt       String
-  choices      Json?     // For MCQ questions
-  answer       String
-  explanation  String    // AI-generated explanation
-  mark         Int       @default(1)
-  createdAt    DateTime? @default(now())
-  updatedAt    DateTime? @updatedAt
-
-  // Relations
-  quizId       String    @db.ObjectId
-  quiz         Quiz      @relation(fields: [quizId], references: [id])
-}
-
-// MARK: Resource
-model Resource {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  type        String    // "text", "pdf", "video", "link"
-  url         String?
-  content     String?   // For text resources
+  type        String // "MCQ", "TF", "short"
+  prompt      String
+  choices     Json? // For MCQ questions
+  answer      String
+  explanation String // AI-generated explanation
+  mark        Int       @default(1)
   createdAt   DateTime? @default(now())
   updatedAt   DateTime? @updatedAt
 
   // Relations
-  weekId      String    @db.ObjectId
-  week        Week      @relation(fields: [weekId], references: [id])
+  quizId String @db.ObjectId
+  quiz   Quiz   @relation(fields: [quizId], references: [id])
+}
+
+// MARK: Resource
+model Resource {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  type      String // "text", "pdf", "video", "link"
+  url       String?
+  content   String? // For text resources
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  // Relations
+  weekId String @db.ObjectId
+  week   Week   @relation(fields: [weekId], references: [id])
 }
 
 // MARK: Assessment
@@ -317,17 +325,17 @@ model Certificate {
 
 // MARK: Testimonial
 model Testimonial {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  content String
-  rating  Int
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  content   String
+  rating    Int
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 
   // Relations
-  courseId  String    @db.ObjectId
-  course    Course    @relation(fields: [courseId], references: [id])
-  userId    String    @db.ObjectId
-  user      User      @relation(fields: [userId], references: [id])
+  courseId String @db.ObjectId
+  course   Course @relation(fields: [courseId], references: [id])
+  userId   String @db.ObjectId
+  user     User   @relation(fields: [userId], references: [id])
 }
 
 // MARK: Live Sessions
