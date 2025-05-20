@@ -1,4 +1,5 @@
 import { db } from "@/lib/prisma";
+import { unstable_cache } from "next/cache";
 
 // ⏱ TTL for all caches (5 minutes)
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
@@ -54,7 +55,35 @@ export const getCourseList = async () => {
 };
 
 // ✅ Get Course Details by ID (Cached per Course)
-export const getCourseDetails = async (id) => {
+// queries/courses.ts
+
+
+
+// ⏳ Caching getCourseDetails with 5 min revalidate
+export const getCourseDetails = unstable_cache(
+  async (id) => {
+    console.log("🔄 DB fetch: getCourseDetails", id); // visible only on actual fetch
+    return await db.course.findUnique({
+      where: { id },
+      include: {
+        category: true,
+        instructor: true,
+        quizSet: true,
+        weeks: true,
+        testimonials: {
+          include: { user: true },
+          orderBy: { createdAt: "desc" },
+        },
+      },
+    });
+  },
+  (id) => [`course-details-${id}`], // 🔑 cache key per id
+  {
+    revalidate: 300, // 5 min cache
+  }
+);
+
+export const getCourseDetailss = async (id) => {
   const cached = courseDetailsCache.get(id);
 
   if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
