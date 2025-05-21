@@ -163,7 +163,7 @@ export function Register() {
 
   const goToForgotPassword = (event) => {
     event.preventDefault();
-    console.log("forgot password");
+    
   };
 
   const handleInputChange = (event, name) => {
@@ -226,7 +226,7 @@ export function Register() {
       },
     ],
     submitButton: "Sign Up",
-    textVariantButton: "Forgot password?",
+    textVariantButton: "Have account? Sign In",
   };
 
   return (

@@ -207,7 +207,8 @@ export function Login() {
       },
     ],
     submitButton: 'Sign in',
-    textVariantButton: 'Forgot password?',
+    textVariantButton: 'Don\'t have an account? Sign Up',
+    
   };
 
   return (

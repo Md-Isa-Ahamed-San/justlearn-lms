@@ -12,12 +12,7 @@ export const getUser = async (id) => {
   
 }
 export const postUser = async (data) => {
-    // Prepare social media data if provided
-    const socialMedia = data.socialMedia
-      ? typeof data.socialMedia === "string"
-        ? JSON.parse(data.socialMedia)
-        : data.socialMedia
-      : {};
+
       
   const user = await db.user.create({
     data: {
@@ -25,14 +20,7 @@ export const postUser = async (data) => {
       lastName: data.lastName,
       email: data.email,
       password: await bcrypt.hash(data.password, 10),
-      phone: data.phone || null,
       role: data.role,
-      bio: data.bio || null,
-      socialMedia: socialMedia,
-      profilePicture: data.profilePicture || null,
-      designation: data.designation || null,
-      // Note: Role-specific relations like taughtCourses are handled separately
-      // through their own endpoints after user creation
     },
   });
   return user;
