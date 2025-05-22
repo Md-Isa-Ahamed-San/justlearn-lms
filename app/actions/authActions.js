@@ -8,8 +8,7 @@ export async function credentialLogin(data) {
   return await signIn("credentials", {
     email: data.email,
     password: data.password,
-    redirectTo: "/", // ✅ redirect target
-   redirect: false
+    redirect: false,
   });
 }
 

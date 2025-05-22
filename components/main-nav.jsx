@@ -18,15 +18,20 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { useSession, signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export function MainNav({ items, children }) {
-  const { data: session, status } = useSession();
+  const { data: session, status,update } = useSession();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [loginSession, setLoginSession] = useState(null);
-  useEffect(() => {
-  console.log("inside use effect",session)
-    setLoginSession(session);
-  }, [session?.user]);
+  const router = useRouter();
+const handleSignOut = async () => {
+    // Call signOut with redirect: false to prevent full page reload
+    await signOut({ redirect: false });
+    // Manually trigger a session update on the client
+    await update();
+    // Navigate to the desired page client-side
+    router.push("/");
+  };
 
   console.log(" MainNav ~ session:", session);
   return (
@@ -69,7 +74,7 @@ export function MainNav({ items, children }) {
                 <Link href="">Testimonials & Certificates</Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer" asChild>
-                <Link href="#" onClick={() => signOut()}>
+                <Link href="#" onClick={() => handleSignOut()}>
                   Logout
                 </Link>
               </DropdownMenuItem>

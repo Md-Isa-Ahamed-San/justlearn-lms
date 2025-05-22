@@ -10,6 +10,7 @@ import Image from "next/image";
 import { credentialLogin } from "../app/actions/authActions";
 
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const iconsArray = [
   {
@@ -144,7 +145,7 @@ export function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loginError, setLoginError] = useState(null);
   const router = useRouter();
-
+  const { update } = useSession();
   const handleInputChange = (event, name) => {
     const value = event.target.value;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
@@ -153,11 +154,15 @@ export function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const res = await credentialLogin(formData); 
-      if(!res?.error){
+      const res = await credentialLogin(formData);
+      if (res?.error) {
+        setLoginError(res.error); // Display the error message from NextAuth.js
+      } else {
+        // Login successful
+        await update(); // Force session update on the client
         router.push("/")
       }
-      console.log("handleSubmit ~ res:", res); 
+      console.log("handleSubmit ~ res:", res);
     } catch (err) {
       setLoginError(err.message || "Unexpected error occurred.");
     }
