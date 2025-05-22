@@ -144,6 +144,7 @@ const iconsArray = [
 export function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loginError, setLoginError] = useState(null);
+    const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
   const { update } = useSession();
   const handleInputChange = (event, name) => {
@@ -161,6 +162,7 @@ export function Login() {
         // Login successful
         await update(); // Force session update on the client
         router.push("/")
+        // setSubmitting(false)
       }
       console.log("handleSubmit ~ res:", res);
     } catch (err) {
@@ -209,6 +211,8 @@ export function Login() {
           formFields={formFields}
           goTo={goToForgotPassword}
           handleSubmit={handleSubmit}
+          submitting={submitting}
+          setSubmitting={setSubmitting}
         />
       </span>
     </section>

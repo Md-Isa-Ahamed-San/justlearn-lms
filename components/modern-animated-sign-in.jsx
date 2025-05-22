@@ -309,6 +309,8 @@ const AnimatedForm = memo(function AnimatedForm({
   goTo,
   registerError,
   loginError,
+  submitting,
+  setSubmitting
 }) {
   const [visible, setVisible] = useState(false);
   const [errors, setErrors] = useState({});
@@ -338,6 +340,7 @@ const AnimatedForm = memo(function AnimatedForm({
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setSubmitting(true);
     const formErrors = validateForm(event);
 
     setErrors({});
@@ -505,7 +508,7 @@ const AnimatedForm = memo(function AnimatedForm({
             outline-hidden hover:cursor-pointer"
             type="submit"
           >
-            {submitButton} &rarr;
+            {submitting ? "Processing..." : submitButton}
             <BottomGradient />
           </button>
         </BoxReveal>
@@ -546,6 +549,9 @@ const AuthTabs = memo(function AuthTabs({
   handleSubmit,
   registerError,
   loginError,
+  submitting,
+  setSubmitting,
+  
 }) {
   return (
     <div className="flex max-lg:justify-center w-full md:w-auto">
@@ -559,6 +565,8 @@ const AuthTabs = memo(function AuthTabs({
           onSubmit={handleSubmit}
           goTo={goTo}
           googleLogin="Login with Google"
+          submitting={submitting}
+          setSubmitting={setSubmitting}
         />
       </div>
     </div>

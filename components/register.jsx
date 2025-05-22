@@ -163,6 +163,7 @@ export function Register() {
     role:"student"
   });
   const [registerError, setRegisterError] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
   const goToForgotPassword = (event) => {
     event.preventDefault();
@@ -268,6 +269,8 @@ export function Register() {
           goTo={goToForgotPassword}
           handleSubmit={handleSubmit}
           registerError={registerError}
+          submitting={submitting}
+          setSubmitting={setSubmitting}
         />
       </span>
     </section>
