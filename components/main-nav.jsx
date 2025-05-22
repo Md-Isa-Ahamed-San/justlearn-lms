@@ -17,15 +17,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { useSession,signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 
 export function MainNav({ items, children }) {
   const { data: session, status } = useSession();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [loginSession, setLoginSession] = useState(null);
   useEffect(() => {
+  console.log("inside use effect",session)
     setLoginSession(session);
-  }, [session]);
+  }, [session?.user]);
 
   console.log(" MainNav ~ session:", session);
   return (
@@ -44,7 +45,7 @@ export function MainNav({ items, children }) {
 
       {/* Right: Auth + Avatar */}
       <div className="flex items-center gap-3">
-        {loginSession ? (
+        {session && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className="cursor-pointer">
@@ -68,11 +69,15 @@ export function MainNav({ items, children }) {
                 <Link href="">Testimonials & Certificates</Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer" asChild>
-                <Link href="#" onClick={() => signOut()}>Logout</Link>
+                <Link href="#" onClick={() => signOut()}>
+                  Logout
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        ) : (
+        )}
+
+        {!session && (
           <div className="hidden lg:flex items-center gap-3">
             <Link
               href="/login"

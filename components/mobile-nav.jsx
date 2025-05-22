@@ -43,7 +43,7 @@ export function MobileNav({ items, children }) {
           ))}
         </nav>
 
-       {!loginSessionMobile && ( <div className="items-center gap-3 flex lg:hidden">
+       {!session && ( <div className="items-center gap-3 flex lg:hidden">
           <Link
             href="/login"
             className={cn(buttonVariants({ size: "sm" }), "px-4")}

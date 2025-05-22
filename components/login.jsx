@@ -153,7 +153,11 @@ export function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await credentialLogin(formData); // ✅ Will trigger redirect on success
+      const res = await credentialLogin(formData); 
+      if(!res?.error){
+        router.push("/")
+      }
+      console.log("handleSubmit ~ res:", res); 
     } catch (err) {
       setLoginError(err.message || "Unexpected error occurred.");
     }
