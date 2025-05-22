@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import { useLockBody } from "@/hooks/use-lock-body";
+import { useState, useEffect } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,9 +11,15 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Button, buttonVariants } from "./ui/button";
-
+import { useSession, signOut } from "next-auth/react";
 export function MobileNav({ items, children }) {
   useLockBody();
+  const { data: session, status } = useSession();
+
+  const [loginSessionMobile, setLoginSessionMobile] = useState(null);
+  useEffect(() => {
+    setLoginSessionMobile(session);
+  }, [session]);
 
   return (
     <div
@@ -35,7 +42,8 @@ export function MobileNav({ items, children }) {
             </Link>
           ))}
         </nav>
-        <div className="items-center gap-3 flex lg:hidden">
+
+       {!loginSessionMobile && ( <div className="items-center gap-3 flex lg:hidden">
           <Link
             href="/login"
             className={cn(buttonVariants({ size: "sm" }), "px-4")}
@@ -45,7 +53,7 @@ export function MobileNav({ items, children }) {
           <Button variant="outline" size="sm">
             <Link href="/register">Register</Link>
           </Button>
-        </div>
+        </div>)}
         {children}
       </div>
     </div>

@@ -7,7 +7,7 @@ import Head from "next/head"; // ✅ Import Head
 import "./globals.css";
 import { ThemeProvider } from "../provider/theme-provider";
 import ThemeSwitcher from "../components/theme-switcher";
-
+import { SessionProvider } from "next-auth/react";
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Inter({ subsets: ["latin"], variable: "--font-poppins" });
 
@@ -38,7 +38,9 @@ export default async function RootLayout({ children }) {
       <body className={cn(inter.className, poppins.className, delius.variable)}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange={false}>
 
-        {children}
+         <SessionProvider>
+      {children}
+    </SessionProvider>
         <ThemeSwitcher />
         </ThemeProvider>
         <Toaster richColors position="top-center" />

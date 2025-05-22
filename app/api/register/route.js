@@ -5,6 +5,7 @@ import { postUser } from "../../../queries/users";
 export async function POST(request) {
   try {
     const data = await request.json();
+    console.log(" POST ~ data:", data)
 
     // Basic validation
     if (

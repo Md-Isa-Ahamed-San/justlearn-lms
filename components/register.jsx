@@ -7,6 +7,7 @@ import {
   TechOrbitDisplay,
 } from "@/components/modern-animated-sign-in";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const iconsArray = [
   {
@@ -14,8 +15,8 @@ const iconsArray = [
       <Image
         width={100}
         height={100}
-        src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg"
-        alt="HTML5"
+        src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg"
+        alt="nodejs"
       />
     ),
     className: "size-[30px] border-none bg-transparent",
@@ -30,8 +31,8 @@ const iconsArray = [
       <Image
         width={100}
         height={100}
-        src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg"
-        alt="CSS3"
+        src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original.svg"
+        alt="express"
       />
     ),
     className: "size-[30px] border-none bg-transparent",
@@ -46,8 +47,8 @@ const iconsArray = [
       <Image
         width={100}
         height={100}
-        src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg"
-        alt="TypeScript"
+        src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/prisma/prisma-original.svg"
+        alt="Prisma"
       />
     ),
     className: "size-[50px] border-none bg-transparent",
@@ -65,7 +66,7 @@ const iconsArray = [
         alt="JavaScript"
       />
     ),
-    className: "size-[50px] border-none bg-transparent",
+    className: "size-[40px] border-none bg-transparent",
     radius: 210,
     duration: 20,
     delay: 20,
@@ -124,8 +125,8 @@ const iconsArray = [
       <Image
         width={100}
         height={100}
-        src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg"
-        alt="Figma"
+        src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg"
+        alt="MongoDB"
       />
     ),
     className: "size-[50px] border-none bg-transparent",
@@ -135,22 +136,22 @@ const iconsArray = [
     path: false,
     reverse: true,
   },
-  {
-    component: () => (
-      <Image
-        width={100}
-        height={100}
-        src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg"
-        alt="Git"
-      />
-    ),
-    className: "size-[50px] border-none bg-transparent",
-    radius: 320,
-    duration: 20,
-    delay: 20,
-    path: false,
-    reverse: false,
-  },
+  // {
+  //   component: () => (
+  //     <Image
+  //       width={100}
+  //       height={100}
+  //       src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg"
+  //       alt="Git"
+  //     />
+  //   ),
+  //   className: "size-[50px] border-none bg-transparent",
+  //   radius: 320,
+  //   duration: 20,
+  //   delay: 20,
+  //   path: false,
+  //   reverse: false,
+  // },
 ];
 
 export function Register() {
@@ -159,11 +160,12 @@ export function Register() {
     lastName: "",
     email: "",
     password: "",
+    role:"student"
   });
-
+  const [registerError, setRegisterError] = useState(null);
+  const router = useRouter();
   const goToForgotPassword = (event) => {
     event.preventDefault();
-    
   };
 
   const handleInputChange = (event, name) => {
@@ -175,10 +177,32 @@ export function Register() {
     }));
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    console.log("Form submitted", formData);
-  };
+ const handleSubmit = async (event) => {
+  event.preventDefault();
+  console.log("Form submitted", formData);
+  try {
+    const registerResponse = await fetch("/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+    
+    if (registerResponse.status === 201) {
+      setRegisterError(null);
+      router.push("/login");
+    } else {
+      // Handle non-201 responses
+      const errorData = await registerResponse.json();
+      setRegisterError(errorData.message || "Registration failed. Please try again.");
+    }
+  } catch (error) {
+    console.log(error);
+    // Convert error object to string message
+    setRegisterError(error.message || "An unexpected error occurred. Please try again.");
+  }
+};
 
   const formFields = {
     header: "Welcome",
@@ -243,6 +267,7 @@ export function Register() {
           formFields={formFields}
           goTo={goToForgotPassword}
           handleSubmit={handleSubmit}
+          registerError={registerError}
         />
       </span>
     </section>
