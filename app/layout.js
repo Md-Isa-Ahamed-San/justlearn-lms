@@ -26,7 +26,6 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <Head>
-      
         <link
           rel="preload"
           as="fetch"
@@ -36,12 +35,14 @@ export default async function RootLayout({ children }) {
         />
       </Head>
       <body className={cn(inter.className, poppins.className, delius.variable)}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange={false}>
-
-         <SessionProvider>
-      {children}
-    </SessionProvider>
-        <ThemeSwitcher />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange={false}
+        >
+          <SessionProvider>{children}</SessionProvider>
+          <ThemeSwitcher />
         </ThemeProvider>
         <Toaster richColors position="top-center" />
       </body>

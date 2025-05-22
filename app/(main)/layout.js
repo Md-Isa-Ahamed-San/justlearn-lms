@@ -15,55 +15,74 @@ import {
   IconBrandGithub,
   IconBrandX,
 } from "@tabler/icons-react";
+import { FooterController } from "../../components/footer-controller";
 
 const navLinks = [
   {
     title: "Home",
-    icon: <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+    icon: (
+      <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+    ),
     href: "/",
   },
   {
     title: "Courses",
-    icon: <IconBooks className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+    icon: (
+      <IconBooks className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+    ),
     href: "/courses",
   },
   {
     title: "Instructor Panel",
-    icon: <IconChalkboard className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+    icon: (
+      <IconChalkboard className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+    ),
     href: "/instructor",
   },
   {
     title: "Student Dashboard",
-    icon: <IconUser className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+    icon: (
+      <IconUser className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+    ),
     href: "/dashboard",
   },
   {
     title: "Weekly Quizzes",
-    icon: <IconListCheck className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+    icon: (
+      <IconListCheck className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+    ),
     href: "/quizzes",
   },
   {
     title: "AI Quiz Generator",
-    icon: <IconRobot className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+    icon: (
+      <IconRobot className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+    ),
     href: "/ai",
   },
   {
     title: "Admin",
-    icon: <IconSettings className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+    icon: (
+      <IconSettings className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+    ),
     href: "/admin",
-  }]
+  },
+];
 
 const MainLayout = ({ children }) => {
+
   return (
     <div className="flex min-h-screen flex-col">
-     
       <header className="z-40 bg-background/60 backdrop-blur-md fixed top-0 left-0 right-0 border-b h-24">
         <div className="container flex h-24 items-center justify-between py-6 ">
           <MainNav items={navLinks} />
         </div>
       </header>
       <main className="flex-1 pt-20 flex flex-col">{children}</main>
-      <SiteFooter />
+
+      {/* <SiteFooter /> */}
+      <FooterController/>
+
     </div>
   );
 };
