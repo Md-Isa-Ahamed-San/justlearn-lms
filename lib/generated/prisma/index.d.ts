@@ -115,6 +115,24 @@ export type Live = $Result.DefaultSelection<Prisma.$LivePayload>
 export type Report = $Result.DefaultSelection<Prisma.$ReportPayload>
 
 /**
+ * Enums
+ */
+export namespace $Enums {
+  export const Role: {
+  STUDENT: 'STUDENT',
+  INSTRUCTOR: 'INSTRUCTOR',
+  ADMIN: 'ADMIN'
+};
+
+export type Role = (typeof Role)[keyof typeof Role]
+
+}
+
+export type Role = $Enums.Role
+
+export const Role: typeof $Enums.Role
+
+/**
  * ##  Prisma Client ʲˢ
  *
  * Type-safe database client for TypeScript & Node.js
@@ -3040,7 +3058,7 @@ export namespace Prisma {
     password: string | null
     email: string | null
     phone: string | null
-    role: string | null
+    role: $Enums.Role | null
     bio: string | null
     designation: string | null
     profilePicture: string | null
@@ -3057,7 +3075,7 @@ export namespace Prisma {
     password: string | null
     email: string | null
     phone: string | null
-    role: string | null
+    role: $Enums.Role | null
     bio: string | null
     designation: string | null
     profilePicture: string | null
@@ -3219,7 +3237,7 @@ export namespace Prisma {
     password: string
     email: string
     phone: string | null
-    role: string
+    role: $Enums.Role
     bio: string | null
     designation: string | null
     profilePicture: string | null
@@ -3326,7 +3344,7 @@ export namespace Prisma {
       password: string
       email: string
       phone: string | null
-      role: string
+      role: $Enums.Role
       bio: string | null
       designation: string | null
       profilePicture: string | null
@@ -3741,7 +3759,7 @@ export namespace Prisma {
     readonly password: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly phone: FieldRef<"User", 'String'>
-    readonly role: FieldRef<"User", 'String'>
+    readonly role: FieldRef<"User", 'Role'>
     readonly bio: FieldRef<"User", 'String'>
     readonly designation: FieldRef<"User", 'String'>
     readonly profilePicture: FieldRef<"User", 'String'>
@@ -4362,6 +4380,7 @@ export namespace Prisma {
     thumbnail: string | null
     price: number | null
     active: boolean | null
+    isActive: boolean | null
     rating: number | null
     popularity: number | null
     lastUpdated: Date | null
@@ -4380,6 +4399,7 @@ export namespace Prisma {
     thumbnail: string | null
     price: number | null
     active: boolean | null
+    isActive: boolean | null
     rating: number | null
     popularity: number | null
     lastUpdated: Date | null
@@ -4399,6 +4419,7 @@ export namespace Prisma {
     price: number
     active: number
     learning: number
+    isActive: number
     rating: number
     popularity: number
     lastUpdated: number
@@ -4431,6 +4452,7 @@ export namespace Prisma {
     thumbnail?: true
     price?: true
     active?: true
+    isActive?: true
     rating?: true
     popularity?: true
     lastUpdated?: true
@@ -4449,6 +4471,7 @@ export namespace Prisma {
     thumbnail?: true
     price?: true
     active?: true
+    isActive?: true
     rating?: true
     popularity?: true
     lastUpdated?: true
@@ -4468,6 +4491,7 @@ export namespace Prisma {
     price?: true
     active?: true
     learning?: true
+    isActive?: true
     rating?: true
     popularity?: true
     lastUpdated?: true
@@ -4574,6 +4598,7 @@ export namespace Prisma {
     price: number
     active: boolean
     learning: string[]
+    isActive: boolean | null
     rating: number | null
     popularity: number | null
     lastUpdated: Date | null
@@ -4612,6 +4637,7 @@ export namespace Prisma {
     price?: boolean
     active?: boolean
     learning?: boolean
+    isActive?: boolean
     rating?: boolean
     popularity?: boolean
     lastUpdated?: boolean
@@ -4642,6 +4668,7 @@ export namespace Prisma {
     price?: boolean
     active?: boolean
     learning?: boolean
+    isActive?: boolean
     rating?: boolean
     popularity?: boolean
     lastUpdated?: boolean
@@ -4652,7 +4679,7 @@ export namespace Prisma {
     quizSetId?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "subtitle" | "description" | "thumbnail" | "price" | "active" | "learning" | "rating" | "popularity" | "lastUpdated" | "createdAt" | "updatedAt" | "categoryId" | "instructorId" | "quizSetId", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "subtitle" | "description" | "thumbnail" | "price" | "active" | "learning" | "isActive" | "rating" | "popularity" | "lastUpdated" | "createdAt" | "updatedAt" | "categoryId" | "instructorId" | "quizSetId", ExtArgs["result"]["course"]>
   export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     instructor?: boolean | UserDefaultArgs<ExtArgs>
@@ -4686,6 +4713,7 @@ export namespace Prisma {
       price: number
       active: boolean
       learning: string[]
+      isActive: boolean | null
       rating: number | null
       popularity: number | null
       lastUpdated: Date | null
@@ -5102,6 +5130,7 @@ export namespace Prisma {
     readonly price: FieldRef<"Course", 'Int'>
     readonly active: FieldRef<"Course", 'Boolean'>
     readonly learning: FieldRef<"Course", 'String[]'>
+    readonly isActive: FieldRef<"Course", 'Boolean'>
     readonly rating: FieldRef<"Course", 'Float'>
     readonly popularity: FieldRef<"Course", 'Int'>
     readonly lastUpdated: FieldRef<"Course", 'DateTime'>
@@ -24636,6 +24665,7 @@ export namespace Prisma {
     price: 'price',
     active: 'active',
     learning: 'learning',
+    isActive: 'isActive',
     rating: 'rating',
     popularity: 'popularity',
     lastUpdated: 'lastUpdated',
@@ -24937,6 +24967,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Role'
+   */
+  export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
+    
+
+
+  /**
+   * Reference to a field of type 'Role[]'
+   */
+  export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -25012,7 +25056,7 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
     phone?: StringNullableFilter<"User"> | string | null
-    role?: StringFilter<"User"> | string
+    role?: EnumRoleFilter<"User"> | $Enums.Role
     bio?: StringNullableFilter<"User"> | string | null
     designation?: StringNullableFilter<"User"> | string | null
     profilePicture?: StringNullableFilter<"User"> | string | null
@@ -25067,7 +25111,7 @@ export namespace Prisma {
     lastName?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     phone?: StringNullableFilter<"User"> | string | null
-    role?: StringFilter<"User"> | string
+    role?: EnumRoleFilter<"User"> | $Enums.Role
     bio?: StringNullableFilter<"User"> | string | null
     designation?: StringNullableFilter<"User"> | string | null
     profilePicture?: StringNullableFilter<"User"> | string | null
@@ -25117,7 +25161,7 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
     phone?: StringNullableWithAggregatesFilter<"User"> | string | null
-    role?: StringWithAggregatesFilter<"User"> | string
+    role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     bio?: StringNullableWithAggregatesFilter<"User"> | string | null
     designation?: StringNullableWithAggregatesFilter<"User"> | string | null
     profilePicture?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -25140,6 +25184,7 @@ export namespace Prisma {
     price?: IntFilter<"Course"> | number
     active?: BoolFilter<"Course"> | boolean
     learning?: StringNullableListFilter<"Course">
+    isActive?: BoolNullableFilter<"Course"> | boolean | null
     rating?: FloatNullableFilter<"Course"> | number | null
     popularity?: IntNullableFilter<"Course"> | number | null
     lastUpdated?: DateTimeNullableFilter<"Course"> | Date | string | null
@@ -25167,6 +25212,7 @@ export namespace Prisma {
     price?: SortOrder
     active?: SortOrder
     learning?: SortOrder
+    isActive?: SortOrder
     rating?: SortOrder
     popularity?: SortOrder
     lastUpdated?: SortOrder
@@ -25197,6 +25243,7 @@ export namespace Prisma {
     price?: IntFilter<"Course"> | number
     active?: BoolFilter<"Course"> | boolean
     learning?: StringNullableListFilter<"Course">
+    isActive?: BoolNullableFilter<"Course"> | boolean | null
     rating?: FloatNullableFilter<"Course"> | number | null
     popularity?: IntNullableFilter<"Course"> | number | null
     lastUpdated?: DateTimeNullableFilter<"Course"> | Date | string | null
@@ -25224,6 +25271,7 @@ export namespace Prisma {
     price?: SortOrder
     active?: SortOrder
     learning?: SortOrder
+    isActive?: SortOrder
     rating?: SortOrder
     popularity?: SortOrder
     lastUpdated?: SortOrder
@@ -25251,6 +25299,7 @@ export namespace Prisma {
     price?: IntWithAggregatesFilter<"Course"> | number
     active?: BoolWithAggregatesFilter<"Course"> | boolean
     learning?: StringNullableListFilter<"Course">
+    isActive?: BoolNullableWithAggregatesFilter<"Course"> | boolean | null
     rating?: FloatNullableWithAggregatesFilter<"Course"> | number | null
     popularity?: IntNullableWithAggregatesFilter<"Course"> | number | null
     lastUpdated?: DateTimeNullableWithAggregatesFilter<"Course"> | Date | string | null
@@ -26610,7 +26659,7 @@ export namespace Prisma {
     password: string
     email: string
     phone?: string | null
-    role: string
+    role: $Enums.Role
     bio?: string | null
     designation?: string | null
     profilePicture?: string | null
@@ -26636,7 +26685,7 @@ export namespace Prisma {
     password: string
     email: string
     phone?: string | null
-    role: string
+    role: $Enums.Role
     bio?: string | null
     designation?: string | null
     profilePicture?: string | null
@@ -26661,7 +26710,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26686,7 +26735,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26712,7 +26761,7 @@ export namespace Prisma {
     password: string
     email: string
     phone?: string | null
-    role: string
+    role: $Enums.Role
     bio?: string | null
     designation?: string | null
     profilePicture?: string | null
@@ -26729,7 +26778,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26746,7 +26795,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26766,6 +26815,7 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
+    isActive?: boolean | null
     rating?: number | null
     popularity?: number | null
     lastUpdated?: Date | string | null
@@ -26790,6 +26840,7 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
+    isActive?: boolean | null
     rating?: number | null
     popularity?: number | null
     lastUpdated?: Date | string | null
@@ -26813,6 +26864,7 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
+    isActive?: NullableBoolFieldUpdateOperationsInput | boolean | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     popularity?: NullableIntFieldUpdateOperationsInput | number | null
     lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26836,6 +26888,7 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
+    isActive?: NullableBoolFieldUpdateOperationsInput | boolean | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     popularity?: NullableIntFieldUpdateOperationsInput | number | null
     lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26860,6 +26913,7 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
+    isActive?: boolean | null
     rating?: number | null
     popularity?: number | null
     lastUpdated?: Date | string | null
@@ -26878,6 +26932,7 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
+    isActive?: NullableBoolFieldUpdateOperationsInput | boolean | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     popularity?: NullableIntFieldUpdateOperationsInput | number | null
     lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26893,6 +26948,7 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
+    isActive?: NullableBoolFieldUpdateOperationsInput | boolean | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     popularity?: NullableIntFieldUpdateOperationsInput | number | null
     lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -28281,6 +28337,13 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
     isSet?: boolean
   }
+
+  export type EnumRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
+  }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -28474,6 +28537,16 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
     isSet?: boolean
   }
+
+  export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRoleFilter<$PrismaModel>
+    _max?: NestedEnumRoleFilter<$PrismaModel>
+  }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
@@ -28527,6 +28600,12 @@ export namespace Prisma {
     hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
     hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
     isEmpty?: boolean
+  }
+
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+    isSet?: boolean
   }
 
   export type FloatNullableFilter<$PrismaModel = never> = {
@@ -28587,6 +28666,7 @@ export namespace Prisma {
     price?: SortOrder
     active?: SortOrder
     learning?: SortOrder
+    isActive?: SortOrder
     rating?: SortOrder
     popularity?: SortOrder
     lastUpdated?: SortOrder
@@ -28611,6 +28691,7 @@ export namespace Prisma {
     thumbnail?: SortOrder
     price?: SortOrder
     active?: SortOrder
+    isActive?: SortOrder
     rating?: SortOrder
     popularity?: SortOrder
     lastUpdated?: SortOrder
@@ -28629,6 +28710,7 @@ export namespace Prisma {
     thumbnail?: SortOrder
     price?: SortOrder
     active?: SortOrder
+    isActive?: SortOrder
     rating?: SortOrder
     popularity?: SortOrder
     lastUpdated?: SortOrder
@@ -28667,6 +28749,15 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -29658,6 +29749,10 @@ export namespace Prisma {
     unset?: boolean
   }
 
+  export type EnumRoleFieldUpdateOperationsInput = {
+    set?: $Enums.Role
+  }
+
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
     unset?: boolean
@@ -29994,6 +30089,11 @@ export namespace Prisma {
   export type CourseUpdatelearningInput = {
     set?: string[]
     push?: string | string[]
+  }
+
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
+    unset?: boolean
   }
 
   export type NullableFloatFieldUpdateOperationsInput = {
@@ -31262,6 +31362,13 @@ export namespace Prisma {
     isSet?: boolean
   }
 
+  export type NestedEnumRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
+  }
+
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -31331,6 +31438,16 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
     isSet?: boolean
   }
+
+  export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRoleFilter<$PrismaModel>
+    _max?: NestedEnumRoleFilter<$PrismaModel>
+  }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -31362,6 +31479,12 @@ export namespace Prisma {
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+    isSet?: boolean
   }
 
   export type NestedFloatNullableFilter<$PrismaModel = never> = {
@@ -31409,6 +31532,15 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -31495,6 +31627,7 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
+    isActive?: boolean | null
     rating?: number | null
     popularity?: number | null
     lastUpdated?: Date | string | null
@@ -31518,6 +31651,7 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
+    isActive?: boolean | null
     rating?: number | null
     popularity?: number | null
     lastUpdated?: Date | string | null
@@ -31766,6 +31900,7 @@ export namespace Prisma {
     price?: IntFilter<"Course"> | number
     active?: BoolFilter<"Course"> | boolean
     learning?: StringNullableListFilter<"Course">
+    isActive?: BoolNullableFilter<"Course"> | boolean | null
     rating?: FloatNullableFilter<"Course"> | number | null
     popularity?: IntNullableFilter<"Course"> | number | null
     lastUpdated?: DateTimeNullableFilter<"Course"> | Date | string | null
@@ -32012,7 +32147,7 @@ export namespace Prisma {
     password: string
     email: string
     phone?: string | null
-    role: string
+    role: $Enums.Role
     bio?: string | null
     designation?: string | null
     profilePicture?: string | null
@@ -32037,7 +32172,7 @@ export namespace Prisma {
     password: string
     email: string
     phone?: string | null
-    role: string
+    role: $Enums.Role
     bio?: string | null
     designation?: string | null
     profilePicture?: string | null
@@ -32291,7 +32426,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -32315,7 +32450,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -32471,6 +32606,7 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
+    isActive?: boolean | null
     rating?: number | null
     popularity?: number | null
     lastUpdated?: Date | string | null
@@ -32494,6 +32630,7 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
+    isActive?: boolean | null
     rating?: number | null
     popularity?: number | null
     lastUpdated?: Date | string | null
@@ -32542,6 +32679,7 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
+    isActive?: boolean | null
     rating?: number | null
     popularity?: number | null
     lastUpdated?: Date | string | null
@@ -32565,6 +32703,7 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
+    isActive?: boolean | null
     rating?: number | null
     popularity?: number | null
     lastUpdated?: Date | string | null
@@ -32763,6 +32902,7 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
+    isActive?: NullableBoolFieldUpdateOperationsInput | boolean | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     popularity?: NullableIntFieldUpdateOperationsInput | number | null
     lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32785,6 +32925,7 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
+    isActive?: NullableBoolFieldUpdateOperationsInput | boolean | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     popularity?: NullableIntFieldUpdateOperationsInput | number | null
     lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -33097,7 +33238,7 @@ export namespace Prisma {
     password: string
     email: string
     phone?: string | null
-    role: string
+    role: $Enums.Role
     bio?: string | null
     designation?: string | null
     profilePicture?: string | null
@@ -33122,7 +33263,7 @@ export namespace Prisma {
     password: string
     email: string
     phone?: string | null
-    role: string
+    role: $Enums.Role
     bio?: string | null
     designation?: string | null
     profilePicture?: string | null
@@ -33240,7 +33381,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33264,7 +33405,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33634,6 +33775,7 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
+    isActive?: boolean | null
     rating?: number | null
     popularity?: number | null
     lastUpdated?: Date | string | null
@@ -33657,6 +33799,7 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
+    isActive?: boolean | null
     rating?: number | null
     popularity?: number | null
     lastUpdated?: Date | string | null
@@ -33719,7 +33862,7 @@ export namespace Prisma {
     password: string
     email: string
     phone?: string | null
-    role: string
+    role: $Enums.Role
     bio?: string | null
     designation?: string | null
     profilePicture?: string | null
@@ -33744,7 +33887,7 @@ export namespace Prisma {
     password: string
     email: string
     phone?: string | null
-    role: string
+    role: $Enums.Role
     bio?: string | null
     designation?: string | null
     profilePicture?: string | null
@@ -33825,7 +33968,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33849,7 +33992,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33921,6 +34064,7 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
+    isActive?: boolean | null
     rating?: number | null
     popularity?: number | null
     lastUpdated?: Date | string | null
@@ -33944,6 +34088,7 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
+    isActive?: boolean | null
     rating?: number | null
     popularity?: number | null
     lastUpdated?: Date | string | null
@@ -33970,7 +34115,7 @@ export namespace Prisma {
     password: string
     email: string
     phone?: string | null
-    role: string
+    role: $Enums.Role
     bio?: string | null
     designation?: string | null
     profilePicture?: string | null
@@ -33995,7 +34140,7 @@ export namespace Prisma {
     password: string
     email: string
     phone?: string | null
-    role: string
+    role: $Enums.Role
     bio?: string | null
     designation?: string | null
     profilePicture?: string | null
@@ -34037,6 +34182,7 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
+    isActive?: NullableBoolFieldUpdateOperationsInput | boolean | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     popularity?: NullableIntFieldUpdateOperationsInput | number | null
     lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -34059,6 +34205,7 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
+    isActive?: NullableBoolFieldUpdateOperationsInput | boolean | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     popularity?: NullableIntFieldUpdateOperationsInput | number | null
     lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -34090,7 +34237,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34114,7 +34261,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34620,6 +34767,7 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
+    isActive?: boolean | null
     rating?: number | null
     popularity?: number | null
     lastUpdated?: Date | string | null
@@ -34643,6 +34791,7 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
+    isActive?: boolean | null
     rating?: number | null
     popularity?: number | null
     lastUpdated?: Date | string | null
@@ -34669,7 +34818,7 @@ export namespace Prisma {
     password: string
     email: string
     phone?: string | null
-    role: string
+    role: $Enums.Role
     bio?: string | null
     designation?: string | null
     profilePicture?: string | null
@@ -34694,7 +34843,7 @@ export namespace Prisma {
     password: string
     email: string
     phone?: string | null
-    role: string
+    role: $Enums.Role
     bio?: string | null
     designation?: string | null
     profilePicture?: string | null
@@ -34763,6 +34912,7 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
+    isActive?: NullableBoolFieldUpdateOperationsInput | boolean | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     popularity?: NullableIntFieldUpdateOperationsInput | number | null
     lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -34785,6 +34935,7 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
+    isActive?: NullableBoolFieldUpdateOperationsInput | boolean | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     popularity?: NullableIntFieldUpdateOperationsInput | number | null
     lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -34816,7 +34967,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34840,7 +34991,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34881,7 +35032,7 @@ export namespace Prisma {
     password: string
     email: string
     phone?: string | null
-    role: string
+    role: $Enums.Role
     bio?: string | null
     designation?: string | null
     profilePicture?: string | null
@@ -34906,7 +35057,7 @@ export namespace Prisma {
     password: string
     email: string
     phone?: string | null
-    role: string
+    role: $Enums.Role
     bio?: string | null
     designation?: string | null
     profilePicture?: string | null
@@ -34975,7 +35126,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34999,7 +35150,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35059,6 +35210,7 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
+    isActive?: boolean | null
     rating?: number | null
     popularity?: number | null
     lastUpdated?: Date | string | null
@@ -35082,6 +35234,7 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
+    isActive?: boolean | null
     rating?: number | null
     popularity?: number | null
     lastUpdated?: Date | string | null
@@ -35108,7 +35261,7 @@ export namespace Prisma {
     password: string
     email: string
     phone?: string | null
-    role: string
+    role: $Enums.Role
     bio?: string | null
     designation?: string | null
     profilePicture?: string | null
@@ -35133,7 +35286,7 @@ export namespace Prisma {
     password: string
     email: string
     phone?: string | null
-    role: string
+    role: $Enums.Role
     bio?: string | null
     designation?: string | null
     profilePicture?: string | null
@@ -35175,6 +35328,7 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
+    isActive?: NullableBoolFieldUpdateOperationsInput | boolean | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     popularity?: NullableIntFieldUpdateOperationsInput | number | null
     lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35197,6 +35351,7 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
+    isActive?: NullableBoolFieldUpdateOperationsInput | boolean | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     popularity?: NullableIntFieldUpdateOperationsInput | number | null
     lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35228,7 +35383,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35252,7 +35407,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35279,6 +35434,7 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
+    isActive?: boolean | null
     rating?: number | null
     popularity?: number | null
     lastUpdated?: Date | string | null
@@ -35302,6 +35458,7 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
+    isActive?: boolean | null
     rating?: number | null
     popularity?: number | null
     lastUpdated?: Date | string | null
@@ -35328,7 +35485,7 @@ export namespace Prisma {
     password: string
     email: string
     phone?: string | null
-    role: string
+    role: $Enums.Role
     bio?: string | null
     designation?: string | null
     profilePicture?: string | null
@@ -35353,7 +35510,7 @@ export namespace Prisma {
     password: string
     email: string
     phone?: string | null
-    role: string
+    role: $Enums.Role
     bio?: string | null
     designation?: string | null
     profilePicture?: string | null
@@ -35416,6 +35573,7 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
+    isActive?: NullableBoolFieldUpdateOperationsInput | boolean | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     popularity?: NullableIntFieldUpdateOperationsInput | number | null
     lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35438,6 +35596,7 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
+    isActive?: NullableBoolFieldUpdateOperationsInput | boolean | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     popularity?: NullableIntFieldUpdateOperationsInput | number | null
     lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35469,7 +35628,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35493,7 +35652,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35545,6 +35704,7 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
+    isActive?: boolean | null
     rating?: number | null
     popularity?: number | null
     lastUpdated?: Date | string | null
@@ -35628,6 +35788,7 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
+    isActive?: NullableBoolFieldUpdateOperationsInput | boolean | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     popularity?: NullableIntFieldUpdateOperationsInput | number | null
     lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35650,6 +35811,7 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
+    isActive?: NullableBoolFieldUpdateOperationsInput | boolean | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     popularity?: NullableIntFieldUpdateOperationsInput | number | null
     lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35672,6 +35834,7 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
+    isActive?: NullableBoolFieldUpdateOperationsInput | boolean | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     popularity?: NullableIntFieldUpdateOperationsInput | number | null
     lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36070,6 +36233,7 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
+    isActive?: boolean | null
     rating?: number | null
     popularity?: number | null
     lastUpdated?: Date | string | null
@@ -36087,6 +36251,7 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
+    isActive?: NullableBoolFieldUpdateOperationsInput | boolean | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     popularity?: NullableIntFieldUpdateOperationsInput | number | null
     lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36109,6 +36274,7 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
+    isActive?: NullableBoolFieldUpdateOperationsInput | boolean | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     popularity?: NullableIntFieldUpdateOperationsInput | number | null
     lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36131,6 +36297,7 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
+    isActive?: NullableBoolFieldUpdateOperationsInput | boolean | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     popularity?: NullableIntFieldUpdateOperationsInput | number | null
     lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36501,6 +36668,7 @@ export namespace Prisma {
     price?: number
     active?: boolean
     learning?: CourseCreatelearningInput | string[]
+    isActive?: boolean | null
     rating?: number | null
     popularity?: number | null
     lastUpdated?: Date | string | null
@@ -36557,6 +36725,7 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
+    isActive?: NullableBoolFieldUpdateOperationsInput | boolean | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     popularity?: NullableIntFieldUpdateOperationsInput | number | null
     lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36579,6 +36748,7 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
+    isActive?: NullableBoolFieldUpdateOperationsInput | boolean | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     popularity?: NullableIntFieldUpdateOperationsInput | number | null
     lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36601,6 +36771,7 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: CourseUpdatelearningInput | string[]
+    isActive?: NullableBoolFieldUpdateOperationsInput | boolean | null
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     popularity?: NullableIntFieldUpdateOperationsInput | number | null
     lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

@@ -58,6 +58,7 @@ model Course {
   price       Int       @default(0)
   active      Boolean   @default(false)
   learning    String[]
+  isActive    Boolean?   @default(true)
   rating      Float? // Added for filtering
   popularity  Int? // Added for sorting by popularity
   lastUpdated DateTime? // Added for "Last updated date"

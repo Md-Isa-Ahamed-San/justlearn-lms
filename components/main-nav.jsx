@@ -2,13 +2,15 @@
 
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { Logo } from "@/components/logo";
 import { MobileNav } from "@/components/mobile-nav";
 import { Menu, X } from "lucide-react";
 import { Button, buttonVariants } from "./ui/button";
 
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import FloatingDockDemo from "./FloatingDockDemo";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import {
@@ -17,21 +19,22 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { useSession, signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
 export function MainNav({ items, children }) {
-  const { data: session, status,update } = useSession();
+  const { data: session, status, update } = useSession();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const router = useRouter();
-const handleSignOut = async () => {
+  const handleSignOut = async () => {
     // Call signOut with redirect: false to prevent full page reload
     await signOut({ redirect: false });
     // Manually trigger a session update on the client
     await update();
-    // Navigate to the desired page client-side
+
     router.push("/");
   };
+  if (session?.error === "RefreshAccessTokenError") {
+    handleSignOut();
+  }
 
   console.log(" MainNav ~ session:", session);
   return (
@@ -55,10 +58,7 @@ const handleSignOut = async () => {
             <DropdownMenuTrigger asChild>
               <div className="cursor-pointer">
                 <Avatar>
-                  <AvatarImage
-                    src={session?.user?.image}
-                    alt="User"
-                  />
+                  <AvatarImage src={session?.user?.image} alt="User" />
                   <AvatarFallback>JL</AvatarFallback>
                 </Avatar>
               </div>

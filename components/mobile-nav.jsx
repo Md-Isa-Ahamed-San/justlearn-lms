@@ -3,23 +3,19 @@ import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import { useLockBody } from "@/hooks/use-lock-body";
-import { useState, useEffect } from "react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+
 import { Button, buttonVariants } from "./ui/button";
 import { useSession, signOut } from "next-auth/react";
 export function MobileNav({ items, children }) {
   useLockBody();
   const { data: session, status } = useSession();
 
-  const [loginSessionMobile, setLoginSessionMobile] = useState(null);
-  useEffect(() => {
-    setLoginSessionMobile(session);
-  }, [session]);
+  if (session?.error === "RefreshAccessTokenError") {
+    console.log("RefreshAccessTokenError... Signing out...");
+    signOut();
+    redirect("/login");
+    
+  }
 
   return (
     <div
@@ -43,17 +39,19 @@ export function MobileNav({ items, children }) {
           ))}
         </nav>
 
-       {!session && ( <div className="items-center gap-3 flex lg:hidden">
-          <Link
-            href="/login"
-            className={cn(buttonVariants({ size: "sm" }), "px-4")}
-          >
-            Login
-          </Link>
-          <Button variant="outline" size="sm">
-            <Link href="/register">Register</Link>
-          </Button>
-        </div>)}
+        {!session && (
+          <div className="items-center gap-3 flex lg:hidden">
+            <Link
+              href="/login"
+              className={cn(buttonVariants({ size: "sm" }), "px-4")}
+            >
+              Login
+            </Link>
+            <Button variant="outline" size="sm">
+              <Link href="/register">Register</Link>
+            </Button>
+          </div>
+        )}
         {children}
       </div>
     </div>

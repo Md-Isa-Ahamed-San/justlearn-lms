@@ -12,6 +12,12 @@ datasource db {
   relationMode = "prisma"
 }
 
+enum Role {
+  STUDENT    @map("student")
+  INSTRUCTOR @map("instructor")
+  ADMIN      @map("admin")
+}
+
 // MARK: User C
 model User {
   id                   String    @id @default(auto()) @map("_id") @db.ObjectId
@@ -20,7 +26,7 @@ model User {
   password             String
   email                String    @unique
   phone                String?
-  role                 String
+  role                 Role
   bio                  String?
   designation          String?
   profilePicture       String?
@@ -52,6 +58,7 @@ model Course {
   price       Int       @default(0)
   active      Boolean   @default(false)
   learning    String[]
+  isActive    Boolean?  @default(true)
   rating      Float? // Added for filtering
   popularity  Int? // Added for sorting by popularity
   lastUpdated DateTime? // Added for "Last updated date"
