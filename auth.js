@@ -1,8 +1,9 @@
+import bcrypt from "bcrypt";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcrypt";
-import { db } from "./lib/prisma";
+import GoogleProvider from "next-auth/providers/google";
 import { authConfig } from "./auth.config";
+import { db } from "./lib/prisma";
 
 export const {
   auth,
@@ -22,10 +23,24 @@ export const {
 
         if (!user) throw new Error("User not found");
 
-        const isMatch = await bcrypt.compare(credentials.password, user.password);
+        const isMatch = await bcrypt.compare(
+          credentials.password,
+          user.password
+        );
         if (!isMatch) throw new Error("Invalid password");
 
-        return user; // success
+        return user;
+      },
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+        },
       },
     }),
   ],

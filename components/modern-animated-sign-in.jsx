@@ -12,6 +12,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Logo } from "./logo";
+import { doSocialLogin } from "../app/actions/authActions";
 
 // ==================== Input Component ====================
 
@@ -363,9 +364,10 @@ const AnimatedForm = memo(function AnimatedForm({
           <p className="text-muted-foreground text-sm max-w-sm">{subHeader}</p>
         </BoxReveal>
       )}
+      {/* //#MARK:google */}
       {googleLogin && (
         <>
-          <BoxReveal
+        <form  action={doSocialLogin}><BoxReveal
             boxColor="hsl(var(--muted))"
             duration={0.3}
             overflow="visible"
@@ -373,7 +375,9 @@ const AnimatedForm = memo(function AnimatedForm({
           >
             <button
               className="g-button group/btn bg-transparent w-full rounded-md border h-10 font-medium outline-hidden hover:cursor-pointer"
-              type="button"
+              type="submit"
+              name="action"
+              value="google"
               onClick={() => console.log("Google login clicked")}
             >
               <span className="flex items-center justify-center w-full h-full gap-3">
@@ -388,7 +392,8 @@ const AnimatedForm = memo(function AnimatedForm({
 
               <BottomGradient />
             </button>
-          </BoxReveal>
+          </BoxReveal></form>
+          
 
           <BoxReveal boxColor="hsl(var(--muted))" duration={0.3} width="100%">
             <section className="flex items-center gap-4">

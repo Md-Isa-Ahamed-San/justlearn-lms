@@ -56,10 +56,10 @@ const handleSignOut = async () => {
               <div className="cursor-pointer">
                 <Avatar>
                   <AvatarImage
-                    src="https://github.com/shadcn.png"
-                    alt="@shadcn"
+                    src={session?.user?.image}
+                    alt="User"
                   />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarFallback>JL</AvatarFallback>
                 </Avatar>
               </div>
             </DropdownMenuTrigger>
