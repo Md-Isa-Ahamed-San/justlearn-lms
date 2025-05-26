@@ -29,8 +29,6 @@ import { getCategories } from "../../queries/categories";
 import HeroLottieWrapper from "./_components/HeroLottieWrapper";
 import HeroLottie from "./_components/HeroLottie";
 
-
-
 //MARK: CATEGORIES
 
 //MARK: features
@@ -96,9 +94,8 @@ const howItWorks = [
 const HomePage = async () => {
   // const courseList = await getCourseList();
   const categories = await getCategories();
-  const courses = await getCourseList()
+  const courses = await getCourseList();
   // console.log(" HomePage ~ categories:", categories)
-
 
   // console.log("HomePage ~ course:", JSON.stringify(courseList, null, 2));
   // console.dir(course, {
@@ -110,10 +107,21 @@ const HomePage = async () => {
   return (
     <>
       <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32 ">
-        <div className="flex max-w-7xl mx-auto justify-center items-center">
-          <HeroLottieWrapper />
+        <div className="flex flex-col md:flex-row max-w-7xl mx-auto justify-center items-center">
+          <div className="relative  md:ml-6 lg:mr-28 isolate  min-w-[240px] sm:min-w-[280px] md:min-w-[375px] lg:min-w-[450px]">
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 -z-10 rounded-2xl
+               bg-gradient-to-tr from-[#ff80b5] to-[#9089fc]
+               opacity-30
+               blur-3xl
+               pointer-events-none "
+            />
+            <HeroLottieWrapper />
+          </div>
+          {/* <HeroLottieWrapper /> */}
           {/* <HeroLottie/> */}
-          
+
           <div className="container flex max-w-3xl flex-col items-center gap-4 text-center relative isolate">
             <div
               aria-hidden="true"
@@ -144,7 +152,10 @@ const HomePage = async () => {
             </h1>
 
             <div className="flex items-center gap-3 flex-wrap justify-center">
-              <Link href="/courses" className={cn(buttonVariants({ size: "lg" }))}>
+              <Link
+                href="/courses"
+                className={cn(buttonVariants({ size: "lg" }))}
+              >
                 Explore Now
               </Link>
               <Link
@@ -282,7 +293,7 @@ const HomePage = async () => {
                   </div>
                   <div className="flex flex-col pt-2">
                     <div className="text-lg md:text-base font-medium group-hover:text-sky-700 line-clamp-2">
-                     {category.title}
+                      {category.title}
                     </div>
                     <p className="text-xs text-muted-foreground">Development</p>
                     <div className="my-3 flex items-center gap-x-2 text-sm md:text-xs">

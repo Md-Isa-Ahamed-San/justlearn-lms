@@ -1,10 +1,11 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import jwt from "jsonwebtoken";
 import { authConfig } from "./auth.config";
 import { db } from "./lib/prisma";
+import { chalkLog } from "./utils/logger";
 
 // Function to generate custom JWT tokens for credentials login
 function generateTokens(user) {
@@ -24,13 +25,13 @@ function generateTokens(user) {
   const accessToken = jwt.sign(
     accessTokenPayload,
     process.env.JWT_SECRET,
-    { expiresIn: "1m" } // 1 minute for testing
+    { expiresIn: "5m" } // 1 minute for testing
   );
 
   const refreshToken = jwt.sign(
     refreshTokenPayload,
     process.env.JWT_REFRESH_SECRET,
-    { expiresIn: "3m" } // 3 minutes for testing
+    { expiresIn: "10m" } // 3 minutes for testing
   );
 
   return {
@@ -53,7 +54,7 @@ async function refreshCredentialsToken(token) {
 
     // Get user from database to ensure they still exist
     const user = await db.user.findUnique({
-      where: { id: decoded.userId }
+      where: { id: decoded.userId },
     });
 
     if (!user) {
@@ -139,7 +140,7 @@ export const {
 } = NextAuth({
   ...authConfig,
   providers: [
-     CredentialsProvider({
+    CredentialsProvider({
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
 
@@ -172,9 +173,12 @@ export const {
   ],
   callbacks: {
     async jwt({ token, user, account }) {
-      console.log(`JWT token: ${JSON.stringify(token)}`);
-      console.log(`JWT Account: ${JSON.stringify(account)}`);
-
+      // console.log(`JWT token: ${JSON.stringify(token)}`);
+      // console.log(`JWT Account: ${JSON.stringify(account)}`);
+      //  chalkLog.structured(token)
+      //  chalkLog.structured(account)
+      chalkLog.log("token",token);
+      chalkLog.log("account",account);
       // Initial sign in
       if (account && user) {
         if (account.provider === "google") {

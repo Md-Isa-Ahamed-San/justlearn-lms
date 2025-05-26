@@ -4,7 +4,7 @@
 
 @layer base {
 :root {
-  --background: 260 23.08% 97.45%; /* #f8f7fc */
+  --background: 260 40% 95%; /* #f2effc */
   --foreground: 243.16 13.67% 27.25%; /* #3e3e4a */
   --card: 0 0% 100%; /* #ffffff */
   --card-foreground: 243.16 13.67% 27.25%; /* #3e3e4a */
@@ -51,7 +51,7 @@
 }
 
 .dark {
-  --background: 250.91 18.64% 11.57%; /* #191a29 */
+  --background: 250.91 18.64% 18%; /* #262739 */
   --foreground: 250.00 36.00% 90.20%; /* #d1d7f7 */
   --card: 251.25 20% 15.69%; /* #21223a */
   --card-foreground: 250.00 36.00% 90.20%; /* #d1d7f7 */
@@ -127,8 +127,11 @@
   }
 }
 
-
-
+/* This duplicate @layer base was in the original, merging its content where appropriate or removing if redundant.
+   The rules `* { @apply border-border; }` and `body { @apply bg-background text-foreground; }`
+   are already present or covered in the first @layer base.
+*/
+/*
 @layer base {
   * {
     @apply border-border;
@@ -137,3 +140,4 @@
     @apply bg-background text-foreground;
   }
 }
+*/

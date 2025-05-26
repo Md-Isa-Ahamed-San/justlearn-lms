@@ -10,7 +10,7 @@ const HeroLottieImg = () => {
           alt="Hero Lottie"
           height={1000}
           width={1000}
-          className="w-full h-full object-contain"
+          className="w-full h-full object-contain "
           priority
         />
       </div>

@@ -1,9 +1,9 @@
 import { TextShimmer } from "@/components/text-shimmer";
-export const Logo = ({ textSize = "text-2xl" }) => {
+export const Logo = ({ textSize = "text-3xl" }) => {
   return (
     <>
       <div
-        className={`${textSize} font-delius  hover:scale-105 hover:duration-200 `}
+        className={`text-2xl md:${textSize} font-delius hover:scale-105 hover:duration-200 `}
       >
         <TextShimmer style={{ color: "hsl(var(--primary))" }}>JUST</TextShimmer>
         Learn
