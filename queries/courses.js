@@ -18,6 +18,7 @@ export const getCourseList = unstable_cache(
               lastName: true,
               email: true,
               role: true,
+              isActive : true,
               instructor: {
                 select: {
                   id: true,
@@ -48,6 +49,7 @@ export const getCourseList = unstable_cache(
     revalidate: REVALIDATE_TIME,
   }
 );
+
 // ✅ Get Course Details by ID (Cached per Course)
 // Modify your database query to ensure proper relations are loaded
 export const getCourseDetails = unstable_cache(
@@ -59,19 +61,27 @@ export const getCourseDetails = unstable_cache(
         where: { id },
         include: {
           category: true,
-          instructor: true,
-          quizSet: true,
+          user: {
+            include: {
+              instructor: true, // Get instructor details through user
+            },
+          },
+          courseQuizSets: {
+            include: {
+              quizSet: true,
+            },
+          },
           weeks: {
             include: {
-              lessons: true, // This is correctly including lessons
+              lessons: true,
             },
             orderBy: {
-              order: "asc", // Optional: sort weeks by order
+              order: "asc",
             },
           },
           testimonials: {
             include: {
-              user: true,
+              user: true, // Get user details directly since testimonials reference userId
             },
             orderBy: {
               createdAt: "desc",
@@ -92,6 +102,11 @@ export const getCourseDetails = unstable_cache(
         });
       }
 
+      // Debug: Check instructor information
+      if (course?.user?.instructor) {
+        console.log("Instructor found:", course.user.instructor.id);
+      }
+
       return course;
     } catch (error) {
       console.error(`❌ Error fetching course details for ${id}:`, error);
@@ -103,22 +118,56 @@ export const getCourseDetails = unstable_cache(
     revalidate: REVALIDATE_TIME,
   }
 );
-
 // ✅ Get Instructor Stats (Cached per Instructor)
 export const getInstructorDetailedStats = unstable_cache(
   async (instructorId) => {
     try {
+      // Add validation for instructorId
+      if (!instructorId) {
+        console.error("❌ No instructorId provided");
+        throw new Error("Instructor ID is required");
+      }
+
       console.log("🔄 Fetching instructor stats for:", instructorId);
 
+      // First, get the instructor record with user relationship
+      const instructor = await db.instructor.findUnique({
+        where: { id: instructorId },
+        include: {
+          user: {
+            select: { id: true }
+          }
+        },
+      });
+
+      if (!instructor) {
+        throw new Error(`Instructor with ID ${instructorId} not found`);
+      }
+
+      // Get all courses created by this instructor's user account
       const courses = await db.course.findMany({
-        where: { instructorId },
+        where: {
+          userId: instructor.user.id, // Use the user.id from the instructor
+          active: true // Only count active courses
+        },
         select: { id: true },
       });
 
       const courseIds = courses.map((course) => course.id);
       const courseCount = courseIds.length;
 
-      const enrollments = await db.enrollment.groupBy({
+      // If no courses, return early with zero stats
+      if (courseCount === 0) {
+        return {
+          courseCount: 0,
+          totalStudents: 0,
+          averageRating: 0,
+          testimonialCount: 0,
+        };
+      }
+
+      // Get enrollment statistics
+      const enrollmentStats = await db.enrollment.groupBy({
         by: ["courseId"],
         where: {
           courseId: { in: courseIds },
@@ -126,21 +175,25 @@ export const getInstructorDetailedStats = unstable_cache(
         _count: { id: true },
       });
 
-      const totalStudents = enrollments.reduce(
+      const totalStudents = enrollmentStats.reduce(
         (total, item) => total + item._count.id,
         0
       );
 
+      // Get testimonials for instructor's courses
       const testimonials = await db.testimonial.findMany({
         where: {
           courseId: { in: courseIds },
-          rating: 1, // ✅ Correct null-safe filter
+          rating: { 
+            not: null,
+            gte: 1 
+          }, // Get all testimonials with valid ratings
         },
         select: { rating: true },
       });
 
       const testimonialCount = testimonials.length;
-      const totalRating = testimonials.reduce((sum, t) => sum + t.rating, 0);
+      const totalRating = testimonials.reduce((sum, t) => sum + (t.rating || 0), 0);
       const averageRating =
         testimonialCount > 0 ? totalRating / testimonialCount : 0;
 
@@ -158,7 +211,7 @@ export const getInstructorDetailedStats = unstable_cache(
       throw error;
     }
   },
-  (i) => [`instructor-details-${id}`],
+  (instructorId) => [`instructor-details-${instructorId}`],
   {
     revalidate: REVALIDATE_TIME,
   }

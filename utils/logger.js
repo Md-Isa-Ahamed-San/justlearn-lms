@@ -1,248 +1,275 @@
 // utils/chalkLogger.js
 import chalk from 'chalk';
-import util from 'util';
 
 const isDev = process.env.NODE_ENV === 'development';
 
-export const chalkLog = {
-  // ... other methods (object, api, json, table, error, success, debug, log) remain the same ...
+// Helper function to get type-specific color
+const getTypeColor = (value) => {
+  if (value === null) return chalk.gray;
+  if (typeof value === 'string') return chalk.green;
+  if (typeof value === 'number') return chalk.blue;
+  if (typeof value === 'boolean') return chalk.red;
+  if (typeof value === 'function') return chalk.yellow;
+  return chalk.white;
+};
 
-  // Structured object with type-based coloring and braces for objects
-  structured: (obj, label = 'Structured Object') => {
-    if (!isDev) return;
+// Helper function to format value with appropriate color
+const formatValue = (value) => {
+  if (value === null) return chalk.gray('null');
+  if (value === undefined) return chalk.gray('undefined');
+  if (typeof value === 'string') return chalk.green(`"${value}"`);
+  if (typeof value === 'number') return chalk.blue(value);
+  if (typeof value === 'boolean') return chalk.red(value);
+  if (typeof value === 'function') return chalk.yellow('[Function]');
+  return chalk.white(value);
+};
 
-    console.log('\n' + chalk.magenta.bold(`📊 ${label}`));
-    console.log(chalk.gray('═'.repeat(50)));
-
-    const displayRecursive = (currentData, indentLevel) => {
-      const currentSpaces = '  '.repeat(indentLevel);
-      const dataType = typeof currentData;
-
-      if (dataType === 'object') {
-        if (currentData === null) {
-          console.log(chalk.gray('null')); // Value is null
-        } else if (Array.isArray(currentData)) {
-          // Value is an Array.
-          // The caller (Object.entries loop or Array.forEach loop) already printed "key: " or "[index]: "
-          console.log(chalk.cyan(`[Array(${currentData.length})]`));
-          currentData.forEach((item, idx) => {
-            const itemIndentSpaces = '  '.repeat(indentLevel + 1);
-            console.log(`${itemIndentSpaces}${chalk.dim(`[${idx}]`)}: `);
-            displayRecursive(item, indentLevel + 1); // Display the array item
-          });
-        } else { // Value is a plain Object
-          // The caller already printed "key: " or "[index]: "
-          console.log(chalk.gray('{')); // Opening brace for this object's content
-          Object.entries(currentData).forEach(([k, v_val]) => {
-            const propIndentSpaces = '  '.repeat(indentLevel + 1);
-            console.log(`${propIndentSpaces}${chalk.yellow.bold(k)}: `);
-            displayRecursive(v_val, indentLevel + 1); // Display the property's value
-          });
-          console.log(`${currentSpaces}${chalk.gray('}')}`); // Closing brace, aligned with the level that opened it.
-        }
-      } else if (dataType === 'string') {
-        console.log(chalk.green(`"${currentData}"`));
-      } else if (dataType === 'number') {
-        console.log(chalk.blue(currentData));
-      } else if (dataType === 'boolean') {
-        console.log(chalk.red(currentData));
-      } else if (dataType === 'function') {
-        console.log(chalk.yellow('[Function]'));
-      } else { // undefined, symbol, bigint etc.
-        console.log(util.inspect(currentData, {colors: true, compact:true}));
-      }
-    };
-
-    // --- Initial handling for the root object/array/primitive passed to chalkLog.structured ---
-    const rootDataType = typeof obj;
-    if (rootDataType === 'object' && obj !== null) {
-      if (Array.isArray(obj)) {
-        // Root is an Array
-        console.log(chalk.cyan(`[Array(${obj.length})]`)); // Display header for root array
-        obj.forEach((item, index) => {
-          const rootItemSpaces = '  '.repeat(1); // Indent root array items by 1 level
-          console.log(`${rootItemSpaces}${chalk.dim(`[${index}]`)}: `);
-          displayRecursive(item, 1); // `indentLevel` is 1 for items of the root array
-        });
+// Recursive function to display nested objects/arrays
+const displayNested = (data, indent = 0) => {
+  const spaces = '  '.repeat(indent);
+  
+  if (Array.isArray(data)) {
+    data.forEach((item, index) => {
+      if (Array.isArray(item) || (item && typeof item === 'object')) {
+        console.log(`${spaces}  ${chalk.red(`[${index}]:`)} `);
+        displayNested(item, indent + 1);
       } else {
-        // Root is an Object. For the very top-level object,
-        // we'll print its key-value pairs directly without an enclosing global brace for the `label` itself,
-        // but its *values* that are objects will get braces.
-        // If you want the entire output wrapped in a single { } pair tied to the label,
-        // the initial call to displayRecursive would be for the object itself, inside a manually printed {}.
-        // For consistency with how it was, let's list properties directly:
-        Object.entries(obj).forEach(([key, value]) => {
-          // Root keys have no preceding spaces from a parent object, effectively indentLevel 0 for the key itself.
-          console.log(`${chalk.yellow.bold(key)}: `);
-          // The `value` associated with this root key is at effective indentLevel 0 from its perspective.
-          // `displayRecursive` will handle indenting its children if it's an object/array.
-          displayRecursive(value, 0);
-        });
+        console.log(`${spaces}  ${chalk.red(`[${index}]:`)} ${formatValue(item)}`);
       }
-    } else {
-      // Root is a primitive.
-      displayRecursive(obj, 0); // Display the primitive itself
-    }
+    });
+  } else if (data && typeof data === 'object') {
+    Object.entries(data).forEach(([key, value]) => {
+      if (Array.isArray(value) || (value && typeof value === 'object')) {
+        console.log(`${spaces}  ${chalk.yellow(key)}:`);
+        displayNested(value, indent + 1);
+      } else {
+        console.log(`${spaces}  ${chalk.yellow(key)}: ${formatValue(value)}`);
+      }
+    });
+  }
+};
 
-    console.log(chalk.gray('═'.repeat(50)) + '\n'); // Footer
-  },
+// Helper to format complex values (objects/arrays) or simple values
+const formatComplexValue = (value, indent = 0) => {
+  // This function is no longer needed with the new approach
+  return formatValue(value);
+};
 
-  // Make sure the other methods are here from the previous response
-  // Basic object logging with colors
+export const chalkLog = {
+  // Simple object logging
   object: (obj, label = 'Object') => {
     if (!isDev) return;
-    console.log('\n' + chalk.cyan.bold(`🔍 ${label}`));
+    
+    console.log(`\n${chalk.cyan.bold(`🔍 ${label}`)}`);
     console.log(chalk.gray('─'.repeat(50)));
-    const formatted = JSON.stringify(obj, null, 2);
-    console.log(formatted);
-    console.log(chalk.gray('─'.repeat(50)) + '\n');
+    console.log(JSON.stringify(obj, null, 2));
+    console.log(chalk.gray('─'.repeat(50)));
   },
-  // API request/response logging
-  api: (method, url, data, response = null) => {
+
+  // Structured logging with colors and proper formatting
+  structured: (obj, label = 'Data') => {
     if (!isDev) return;
-    const methodColors = { GET: chalk.blue, POST: chalk.green, PUT: chalk.yellow, DELETE: chalk.red, PATCH: chalk.magenta };
+
+    console.log(`\n${chalk.magenta.bold(`📊 ${label}`)}`);
+    console.log(chalk.gray('═'.repeat(50)));
+    
+    if (Array.isArray(obj)) {
+      console.log(chalk.cyan(`[Array(${obj.length})]`));
+      obj.forEach((item, index) => {
+        if (Array.isArray(item) || (item && typeof item === 'object')) {
+          console.log(`  ${chalk.red(`[${index}]:`)} `);
+          displayNested(item, 1);
+        } else {
+          console.log(`  ${chalk.red(`[${index}]:`)} ${formatValue(item)}`);
+        }
+      });
+    } else if (obj && typeof obj === 'object') {
+      console.log(chalk.yellow('{'));
+      Object.entries(obj).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          console.log(chalk.yellow.bold(key) + ': ' + chalk.cyan(`[Array(${value.length})]`));
+          displayNested(value, 1);
+        } else if (value && typeof value === 'object') {
+          console.log(chalk.yellow.bold(key) + ': ' + chalk.gray('{'));
+          displayNested(value, 1);
+          console.log(chalk.gray('}'));
+        } else {
+          console.log(chalk.yellow.bold(key) + ': ' + formatValue(value));
+        }
+      });
+      console.log(chalk.yellow('}'));
+    } else {
+      console.log(formatValue(obj));
+    }
+    
+    console.log(chalk.gray('═'.repeat(50)));
+  },
+
+  // API logging
+  api: (method, url, data = null, response = null) => {
+    if (!isDev) return;
+    
+    const methodColors = {
+      GET: chalk.blue,
+      POST: chalk.green,
+      PUT: chalk.yellow,
+      DELETE: chalk.red,
+      PATCH: chalk.magenta
+    };
+    
     const methodColor = methodColors[method.toUpperCase()] || chalk.white;
-    console.log('\n' + chalk.bgBlack.white.bold(` 🌐 API ${method.toUpperCase()} `));
+    
+    console.log(`\n${chalk.bgBlack.white.bold(` 🌐 API ${method.toUpperCase()} `)}`);
     console.log(methodColor.bold(`URL: ${url}`));
+    
     if (data) {
-      console.log(chalk.cyan.bold('\n📤 Request Data:'));
+      console.log(chalk.cyan.bold('\n📤 Request:'));
       console.log(JSON.stringify(data, null, 2));
     }
+    
     if (response) {
-      console.log(chalk.green.bold('\n📥 Response Data:'));
+      console.log(chalk.green.bold('\n📥 Response:'));
       console.log(JSON.stringify(response, null, 2));
     }
-    console.log(chalk.gray('─'.repeat(60)) + '\n');
+    
+    console.log(chalk.gray('─'.repeat(60)));
   },
+
   // JSON with syntax highlighting
   json: (obj, label = 'JSON') => {
     if (!isDev) return;
-    console.log('\n' + chalk.yellow.bold(`📄 ${label}`));
+    
+    console.log(`\n${chalk.yellow.bold(`📄 ${label}`)}`);
     console.log(chalk.gray('─'.repeat(30)));
-    const jsonString = JSON.stringify(obj, null, 2);
-    const highlighted = jsonString
-      .replace(/"([^\"]+)":/g, chalk.cyan('"$1"') + ':')
-      .replace(/: "([^\"]*)"/g, ': ' + chalk.green('"$1"'))
-      .replace(/: (\d+(\.\d+)?)/g, ': ' + chalk.blue('$1'))
+    
+    const jsonString = JSON.stringify(obj, null, 2)
+      .replace(/"([^"]+)":/g, chalk.cyan('"$1"') + ':')
+      .replace(/: "([^"]*)"/g, ': ' + chalk.green('"$1"'))
+      .replace(/: (\d+(?:\.\d+)?)/g, ': ' + chalk.blue('$1'))
       .replace(/: (true|false)/g, ': ' + chalk.red('$1'))
       .replace(/: null/g, ': ' + chalk.gray('null'));
-    console.log(highlighted);
-    console.log(chalk.gray('─'.repeat(30)) + '\n');
+    
+    console.log(jsonString);
+    console.log(chalk.gray('─'.repeat(30)));
   },
-  // Table format with colors
+
+  // Table logging
   table: (data, label = 'Table') => {
     if (!isDev) return;
-    console.log('\n' + chalk.blue.bold(`📋 ${label}`));
+    
+    console.log(`\n${chalk.blue.bold(`📋 ${label}`)}`);
     console.log(chalk.gray('─'.repeat(40)));
+    
     if (Array.isArray(data)) {
       console.table(data);
-    } else if (typeof data === 'object' && data !== null) {
+    } else if (data && typeof data === 'object') {
       const tableData = Object.entries(data).map(([key, value]) => ({
-        Property: chalk.yellow(key),
-        Value: typeof value === 'object' ? JSON.stringify(value) : value,
-        Type: chalk.dim(typeof value)
+        Property: key,
+        Value: typeof value === 'object' ? JSON.stringify(value) : String(value),
+        Type: typeof value
       }));
       console.table(tableData);
     } else {
-        console.log(chalk.yellow('Data is not an array or object, cannot display as table.'));
-        chalkLog.object(data, label);
+      console.log(chalk.yellow('Data is not an object or array'));
+      this.object(data, label);
     }
-    console.log(chalk.gray('─'.repeat(40)) + '\n');
+    
+    console.log(chalk.gray('─'.repeat(40)));
   },
-  // Error logging with stack trace
+
+  // Error logging
   error: (error, context = {}) => {
-    console.log('\n' + chalk.bgRed.white.bold(' ❌ ERROR '));
+    console.log(`\n${chalk.bgRed.white.bold(' ❌ ERROR ')}`);
+    
     if (error instanceof Error) {
-        console.log(chalk.red.bold(`Message: ${error.message}`));
-        if (error.stack) {
-          console.log(chalk.red('\nStack Trace:'));
-          console.log(chalk.dim(error.stack));
-        }
+      console.log(chalk.red.bold(`Message: ${error.message}`));
+      if (error.stack) {
+        console.log(chalk.red('\nStack Trace:'));
+        console.log(chalk.dim(error.stack));
+      }
     } else {
-        console.log(chalk.red.bold(`Error Data:`));
-        console.log(JSON.stringify(error, null, 2));
+      console.log(chalk.red.bold('Error Data:'));
+      console.log(JSON.stringify(error, null, 2));
     }
+    
     if (Object.keys(context).length > 0) {
       console.log(chalk.yellow.bold('\nContext:'));
       console.log(JSON.stringify(context, null, 2));
     }
-    console.log(chalk.gray('─'.repeat(60)) + '\n');
+    
+    console.log(chalk.gray('─'.repeat(60)));
   },
+
   // Success logging
   success: (message, data = null) => {
     if (!isDev && !process.env.FORCE_LOG) return;
-    console.log('\n' + chalk.bgGreen.black.bold(' ✅ SUCCESS '));
+    
+    console.log(`\n${chalk.bgGreen.black.bold(' ✅ SUCCESS ')}`);
     console.log(chalk.green.bold(message));
-    if (data !== null) {
+    
+    if (data) {
       console.log(JSON.stringify(data, null, 2));
     }
     console.log('');
   },
-  // Debug with timestamp
-  debug: (obj, label = 'Debug') => {
+
+  // Debug logging
+  debug: (data, label = 'Debug') => {
     if (!isDev) return;
+    
     const timestamp = new Date().toISOString();
-    console.log('\n' + chalk.gray(`[${timestamp}]`) + ' ' + chalk.magenta.bold(`🐛 ${label}`));
-    console.log(JSON.stringify(obj, null, 2));
+    console.log(`\n${chalk.gray(`[${timestamp}]`)} ${chalk.magenta.bold(`🐛 ${label}`)}`);
+    console.log(JSON.stringify(data, null, 2));
     console.log('');
   },
-  // Universal logger from previous step
+
+  // Universal logger - auto-detects type and uses appropriate method
   log: function(label, data) {
+    if (!isDev) return;
+
+    // Handle error objects
     if (data instanceof Error) {
-      this.error(data, { contextFromAutoLog: label });
+      this.error(data, { context: label });
       return;
     }
-    if (!isDev) {
-      return;
-    }
+
+    // Handle success messages
     if (typeof label === 'string' && label.toLowerCase().includes('success')) {
-      if (typeof data === 'string') {
-        this.success(data);
-      } else {
-        this.success(label, data);
-      }
+      this.success(typeof data === 'string' ? data : label, typeof data === 'string' ? null : data);
       return;
     }
-    if (data === null || data === undefined) {
-      this.object(data, label);
+
+    // Handle complex data structures
+    if (Array.isArray(data) || (data && typeof data === 'object')) {
+      this.structured(data, label);
       return;
     }
-    if (Array.isArray(data)) {
-      this.structured(data, label); // Using the updated structured logger
-      return;
-    }
-    if (typeof data === 'object') {
-      this.structured(data, label); // Using the updated structured logger
-      return;
-    }
-    if (typeof data === 'string' || typeof data === 'number' || typeof data === 'boolean' || typeof data === 'function') {
-      this.object(data, label);
-      return;
-    }
-    this.debug(data, label);
+
+    // Handle primitives
+    this.object(data, label);
   }
 };
 
-// Example of how the updated `structured` log would look:
+// Usage examples:
 /*
+// Basic object logging
+chalkLog.object({ name: 'John', age: 30 }, 'User Data');
+
+// Structured logging with nested objects
 chalkLog.structured({
-  user: "john.doe",
+  user: 'john.doe',
   active: true,
   profile: {
-    firstName: "John",
-    lastName: "Doe",
-    address: {
-      street: "123 Main St",
-      city: "Anytown",
-      zip: "12345",
-      coords: {
-        lat: 34.0522,
-        lon: -118.2437
-      }
-    },
-    roles: ["user", "editor"],
-    preferences: null
-  },
-  lastLogin: new Date()
-});
+    name: 'John Doe',
+    roles: ['user', 'admin'],
+    settings: { theme: 'dark', notifications: true }
+  }
+}, 'User Profile');
+
+// API logging
+chalkLog.api('POST', '/api/users', { name: 'John' }, { id: 1, name: 'John' });
+
+// Auto-detection
+chalkLog.log('Homepage Data', courses); // Will use structured logging for arrays/objects
+chalkLog.log('Simple Message', 'Hello World'); // Will use object logging for primitives
 */

@@ -26,14 +26,16 @@ model User {
   email     String   @unique
   password  String
   role      Role
+  isActive  Boolean @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // Relationships
-  instructor Instructor? @relation("UserInstructor")
-  student    Student?    @relation("UserStudent")
-  admin      Admin?      @relation("UserAdmin")
-  courses    Course[]    @relation("UserCourses") // Added: User can have multiple courses (if they are instructor)
+  instructor   Instructor?   @relation("UserInstructor")
+  student      Student?      @relation("UserStudent")
+  admin        Admin?        @relation("UserAdmin")
+  courses      Course[]      @relation("UserCourses") // User can have multiple courses (if they are instructor)
+  testimonials Testimonial[] @relation("UserTestimonials") // Added: Missing relation field
 }
 
 // MARK: Course
@@ -58,7 +60,7 @@ model Course {
   category Category @relation(fields: [categoryId], references: [id])
 
   weeks          Week[]
-  testimonials   Testimonial[]
+  testimonials   Testimonial[]   @relation("CourseTestimonials")
   enrollments    Enrollment[]
   certificates   Certificate[]
   reports        Report[]
@@ -113,7 +115,7 @@ model Student {
   enrollments    Enrollment[]
   certificates   Certificate[]
   watches        Watch[]
-  testimonials   Testimonial[]
+ 
   reports        Report[]
   feedbacks      Feedback[]
   participations Participation[]
@@ -200,21 +202,20 @@ model Watch {
 
 // MARK: Testimonial 
 model Testimonial {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   content   String
-  rating    Int
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
+  rating    Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Foreign Keys
-  courseId  String @db.ObjectId
-  studentId String @db.ObjectId
+  userId   String @db.ObjectId
+  courseId String @db.ObjectId
 
-  // Relations
-  course  Course  @relation(fields: [courseId], references: [id])
-  student Student @relation(fields: [studentId], references: [id])
+  // Relationships
+  user   User   @relation("UserTestimonials", fields: [userId], references: [id])
+  course Course @relation("CourseTestimonials", fields: [courseId], references: [id])
 }
-
 // MARK: Report
 model Report {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId

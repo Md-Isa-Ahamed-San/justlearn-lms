@@ -4,31 +4,25 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { formatPrice } from "@/lib/formatPrice";
 import { cn } from "@/lib/utils";
 import {
-  ArrowRightIcon,
   ArrowRight,
-  BookOpen,
-  CheckCircle,
-  Calendar,
-  Brain,
-  BarChart3,
-  Users,
-  Star,
-  Sparkles,
-  GraduationCap,
+  ArrowRightIcon,
   Award,
-  Search,
-  Filter,
+  BarChart3,
+  BookOpen,
+  Brain,
+  Calendar,
+  GraduationCap,
+  Users
 } from "lucide-react";
 
 import Image from "next/image";
 import Link from "next/link";
 
-import { getCourseDetails, getCourseList } from "../../queries/courses";
+import { getCourseList } from "../../queries/courses";
 
-import { getCategories } from "../../queries/categories";
+import { chalkLog } from "../../utils/logger";
 import HeroLottieWrapper from "./_components/HeroLottieWrapper";
-import HeroLottie from "./_components/HeroLottie";
-import { getAllUsers } from "../../queries/users";
+import { getCategories } from "../../queries/categories";
 
 //MARK: CATEGORIES
 
@@ -98,9 +92,9 @@ const HomePage = async () => {
 
   // const user = await getAllUsers()
   const courses = await getCourseList();
-  const categories = []
+  const categories = await getCategories();
   // const cc = await getCourseDetails("664aca881387e2ad2e8be484")
-  console.log(" HomePage ~ courses:", courses)
+  // chalkLog.log(" HomePage ~ courses:", courses)
   // console.log(" HomePage ~ categories:", categories)
 
   // console.log("HomePage ~ course:", JSON.stringify(courseList, null, 2));

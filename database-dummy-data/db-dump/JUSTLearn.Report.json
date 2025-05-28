@@ -10,7 +10,7 @@
       "$oid": "663a0806bfe65e5778eedf36"
     }
   ],
-  "totalCompletedWeeks": [
+  "totalCompletedModeules": [
     {
       "$oid": "663a0893bfe65e5778eedf3c"
     }
@@ -18,10 +18,16 @@
   "courseId": {
     "$oid": "664aca881387e2ad2e8be484"
   },
-  "quizAssessmentId": {
+  "assessmentId": {
     "$oid": "663b144d94bdaddfbf619390"
   },
   "studentId": {
     "$oid": "66504fc6171d3fa703e7e05b"
+  },
+  "createdAt": {
+    "$date": "2024-05-07T14:20:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-15T18:45:00.000Z"
   }
 }]

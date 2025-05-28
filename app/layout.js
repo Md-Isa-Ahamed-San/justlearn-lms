@@ -37,7 +37,7 @@ export default async function RootLayout({ children }) {
       <body className={cn(inter.className, poppins.className, delius.variable)}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange={false}
         >

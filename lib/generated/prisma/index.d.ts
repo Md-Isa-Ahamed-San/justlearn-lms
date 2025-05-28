@@ -3026,10 +3026,12 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     courses: number
+    testimonials: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     courses?: boolean | UserCountOutputTypeCountCoursesArgs
+    testimonials?: boolean | UserCountOutputTypeCountTestimonialsArgs
   }
 
   // Custom InputTypes
@@ -3048,6 +3050,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountCoursesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CourseWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountTestimonialsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TestimonialWhereInput
   }
 
 
@@ -3144,7 +3153,6 @@ export namespace Prisma {
     enrollments: number
     certificates: number
     watches: number
-    testimonials: number
     reports: number
     feedbacks: number
     participations: number
@@ -3154,7 +3162,6 @@ export namespace Prisma {
     enrollments?: boolean | StudentCountOutputTypeCountEnrollmentsArgs
     certificates?: boolean | StudentCountOutputTypeCountCertificatesArgs
     watches?: boolean | StudentCountOutputTypeCountWatchesArgs
-    testimonials?: boolean | StudentCountOutputTypeCountTestimonialsArgs
     reports?: boolean | StudentCountOutputTypeCountReportsArgs
     feedbacks?: boolean | StudentCountOutputTypeCountFeedbacksArgs
     participations?: boolean | StudentCountOutputTypeCountParticipationsArgs
@@ -3190,13 +3197,6 @@ export namespace Prisma {
    */
   export type StudentCountOutputTypeCountWatchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: WatchWhereInput
-  }
-
-  /**
-   * StudentCountOutputType without action
-   */
-  export type StudentCountOutputTypeCountTestimonialsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TestimonialWhereInput
   }
 
   /**
@@ -3553,6 +3553,7 @@ export namespace Prisma {
     email: string | null
     password: string | null
     role: $Enums.Role | null
+    isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3564,6 +3565,7 @@ export namespace Prisma {
     email: string | null
     password: string | null
     role: $Enums.Role | null
+    isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3575,6 +3577,7 @@ export namespace Prisma {
     email: number
     password: number
     role: number
+    isActive: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -3588,6 +3591,7 @@ export namespace Prisma {
     email?: true
     password?: true
     role?: true
+    isActive?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3599,6 +3603,7 @@ export namespace Prisma {
     email?: true
     password?: true
     role?: true
+    isActive?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3610,6 +3615,7 @@ export namespace Prisma {
     email?: true
     password?: true
     role?: true
+    isActive?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -3694,6 +3700,7 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.Role
+    isActive: boolean
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
@@ -3722,12 +3729,14 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     role?: boolean
+    isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     instructor?: boolean | User$instructorArgs<ExtArgs>
     student?: boolean | User$studentArgs<ExtArgs>
     admin?: boolean | User$adminArgs<ExtArgs>
     courses?: boolean | User$coursesArgs<ExtArgs>
+    testimonials?: boolean | User$testimonialsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3740,16 +3749,18 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     role?: boolean
+    isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "password" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "password" | "role" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     instructor?: boolean | User$instructorArgs<ExtArgs>
     student?: boolean | User$studentArgs<ExtArgs>
     admin?: boolean | User$adminArgs<ExtArgs>
     courses?: boolean | User$coursesArgs<ExtArgs>
+    testimonials?: boolean | User$testimonialsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -3760,6 +3771,7 @@ export namespace Prisma {
       student: Prisma.$StudentPayload<ExtArgs> | null
       admin: Prisma.$AdminPayload<ExtArgs> | null
       courses: Prisma.$CoursePayload<ExtArgs>[]
+      testimonials: Prisma.$TestimonialPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3768,6 +3780,7 @@ export namespace Prisma {
       email: string
       password: string
       role: $Enums.Role
+      isActive: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["user"]>
@@ -4137,6 +4150,7 @@ export namespace Prisma {
     student<T extends User$studentArgs<ExtArgs> = {}>(args?: Subset<T, User$studentArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     admin<T extends User$adminArgs<ExtArgs> = {}>(args?: Subset<T, User$adminArgs<ExtArgs>>): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     courses<T extends User$coursesArgs<ExtArgs> = {}>(args?: Subset<T, User$coursesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    testimonials<T extends User$testimonialsArgs<ExtArgs> = {}>(args?: Subset<T, User$testimonialsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestimonialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4172,6 +4186,7 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
+    readonly isActive: FieldRef<"User", 'Boolean'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
@@ -4622,6 +4637,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CourseScalarFieldEnum | CourseScalarFieldEnum[]
+  }
+
+  /**
+   * User.testimonials
+   */
+  export type User$testimonialsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Testimonial
+     */
+    select?: TestimonialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Testimonial
+     */
+    omit?: TestimonialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestimonialInclude<ExtArgs> | null
+    where?: TestimonialWhereInput
+    orderBy?: TestimonialOrderByWithRelationInput | TestimonialOrderByWithRelationInput[]
+    cursor?: TestimonialWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TestimonialScalarFieldEnum | TestimonialScalarFieldEnum[]
   }
 
   /**
@@ -7309,7 +7348,6 @@ export namespace Prisma {
     enrollments?: boolean | Student$enrollmentsArgs<ExtArgs>
     certificates?: boolean | Student$certificatesArgs<ExtArgs>
     watches?: boolean | Student$watchesArgs<ExtArgs>
-    testimonials?: boolean | Student$testimonialsArgs<ExtArgs>
     reports?: boolean | Student$reportsArgs<ExtArgs>
     feedbacks?: boolean | Student$feedbacksArgs<ExtArgs>
     participations?: boolean | Student$participationsArgs<ExtArgs>
@@ -7341,7 +7379,6 @@ export namespace Prisma {
     enrollments?: boolean | Student$enrollmentsArgs<ExtArgs>
     certificates?: boolean | Student$certificatesArgs<ExtArgs>
     watches?: boolean | Student$watchesArgs<ExtArgs>
-    testimonials?: boolean | Student$testimonialsArgs<ExtArgs>
     reports?: boolean | Student$reportsArgs<ExtArgs>
     feedbacks?: boolean | Student$feedbacksArgs<ExtArgs>
     participations?: boolean | Student$participationsArgs<ExtArgs>
@@ -7355,7 +7392,6 @@ export namespace Prisma {
       enrollments: Prisma.$EnrollmentPayload<ExtArgs>[]
       certificates: Prisma.$CertificatePayload<ExtArgs>[]
       watches: Prisma.$WatchPayload<ExtArgs>[]
-      testimonials: Prisma.$TestimonialPayload<ExtArgs>[]
       reports: Prisma.$ReportPayload<ExtArgs>[]
       feedbacks: Prisma.$FeedbackPayload<ExtArgs>[]
       participations: Prisma.$ParticipationPayload<ExtArgs>[]
@@ -7742,7 +7778,6 @@ export namespace Prisma {
     enrollments<T extends Student$enrollmentsArgs<ExtArgs> = {}>(args?: Subset<T, Student$enrollmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     certificates<T extends Student$certificatesArgs<ExtArgs> = {}>(args?: Subset<T, Student$certificatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CertificatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     watches<T extends Student$watchesArgs<ExtArgs> = {}>(args?: Subset<T, Student$watchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    testimonials<T extends Student$testimonialsArgs<ExtArgs> = {}>(args?: Subset<T, Student$testimonialsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestimonialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reports<T extends Student$reportsArgs<ExtArgs> = {}>(args?: Subset<T, Student$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     feedbacks<T extends Student$feedbacksArgs<ExtArgs> = {}>(args?: Subset<T, Student$feedbacksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FeedbackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     participations<T extends Student$participationsArgs<ExtArgs> = {}>(args?: Subset<T, Student$participationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParticipationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -8228,30 +8263,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: WatchScalarFieldEnum | WatchScalarFieldEnum[]
-  }
-
-  /**
-   * Student.testimonials
-   */
-  export type Student$testimonialsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Testimonial
-     */
-    select?: TestimonialSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Testimonial
-     */
-    omit?: TestimonialOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TestimonialInclude<ExtArgs> | null
-    where?: TestimonialWhereInput
-    orderBy?: TestimonialOrderByWithRelationInput | TestimonialOrderByWithRelationInput[]
-    cursor?: TestimonialWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: TestimonialScalarFieldEnum | TestimonialScalarFieldEnum[]
   }
 
   /**
@@ -12607,8 +12618,8 @@ export namespace Prisma {
     rating: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    userId: string | null
     courseId: string | null
-    studentId: string | null
   }
 
   export type TestimonialMaxAggregateOutputType = {
@@ -12617,8 +12628,8 @@ export namespace Prisma {
     rating: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    userId: string | null
     courseId: string | null
-    studentId: string | null
   }
 
   export type TestimonialCountAggregateOutputType = {
@@ -12627,8 +12638,8 @@ export namespace Prisma {
     rating: number
     createdAt: number
     updatedAt: number
+    userId: number
     courseId: number
-    studentId: number
     _all: number
   }
 
@@ -12647,8 +12658,8 @@ export namespace Prisma {
     rating?: true
     createdAt?: true
     updatedAt?: true
+    userId?: true
     courseId?: true
-    studentId?: true
   }
 
   export type TestimonialMaxAggregateInputType = {
@@ -12657,8 +12668,8 @@ export namespace Prisma {
     rating?: true
     createdAt?: true
     updatedAt?: true
+    userId?: true
     courseId?: true
-    studentId?: true
   }
 
   export type TestimonialCountAggregateInputType = {
@@ -12667,8 +12678,8 @@ export namespace Prisma {
     rating?: true
     createdAt?: true
     updatedAt?: true
+    userId?: true
     courseId?: true
-    studentId?: true
     _all?: true
   }
 
@@ -12761,11 +12772,11 @@ export namespace Prisma {
   export type TestimonialGroupByOutputType = {
     id: string
     content: string
-    rating: number
-    createdAt: Date | null
-    updatedAt: Date | null
+    rating: number | null
+    createdAt: Date
+    updatedAt: Date
+    userId: string
     courseId: string
-    studentId: string
     _count: TestimonialCountAggregateOutputType | null
     _avg: TestimonialAvgAggregateOutputType | null
     _sum: TestimonialSumAggregateOutputType | null
@@ -12793,10 +12804,10 @@ export namespace Prisma {
     rating?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    userId?: boolean
     courseId?: boolean
-    studentId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
     course?: boolean | CourseDefaultArgs<ExtArgs>
-    student?: boolean | StudentDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["testimonial"]>
 
 
@@ -12807,30 +12818,30 @@ export namespace Prisma {
     rating?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    userId?: boolean
     courseId?: boolean
-    studentId?: boolean
   }
 
-  export type TestimonialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "rating" | "createdAt" | "updatedAt" | "courseId" | "studentId", ExtArgs["result"]["testimonial"]>
+  export type TestimonialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "rating" | "createdAt" | "updatedAt" | "userId" | "courseId", ExtArgs["result"]["testimonial"]>
   export type TestimonialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
     course?: boolean | CourseDefaultArgs<ExtArgs>
-    student?: boolean | StudentDefaultArgs<ExtArgs>
   }
 
   export type $TestimonialPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Testimonial"
     objects: {
+      user: Prisma.$UserPayload<ExtArgs>
       course: Prisma.$CoursePayload<ExtArgs>
-      student: Prisma.$StudentPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       content: string
-      rating: number
-      createdAt: Date | null
-      updatedAt: Date | null
+      rating: number | null
+      createdAt: Date
+      updatedAt: Date
+      userId: string
       courseId: string
-      studentId: string
     }, ExtArgs["result"]["testimonial"]>
     composites: {}
   }
@@ -13194,8 +13205,8 @@ export namespace Prisma {
    */
   export interface Prisma__TestimonialClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     course<T extends CourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CourseDefaultArgs<ExtArgs>>): Prisma__CourseClient<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    student<T extends StudentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudentDefaultArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13230,8 +13241,8 @@ export namespace Prisma {
     readonly rating: FieldRef<"Testimonial", 'Int'>
     readonly createdAt: FieldRef<"Testimonial", 'DateTime'>
     readonly updatedAt: FieldRef<"Testimonial", 'DateTime'>
+    readonly userId: FieldRef<"Testimonial", 'String'>
     readonly courseId: FieldRef<"Testimonial", 'String'>
-    readonly studentId: FieldRef<"Testimonial", 'String'>
   }
     
 
@@ -30374,6 +30385,7 @@ export namespace Prisma {
     email: 'email',
     password: 'password',
     role: 'role',
+    isActive: 'isActive',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -30506,8 +30518,8 @@ export namespace Prisma {
     rating: 'rating',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    courseId: 'courseId',
-    studentId: 'studentId'
+    userId: 'userId',
+    courseId: 'courseId'
   };
 
   export type TestimonialScalarFieldEnum = (typeof TestimonialScalarFieldEnum)[keyof typeof TestimonialScalarFieldEnum]
@@ -30780,6 +30792,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -30804,13 +30823,6 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -30855,12 +30867,14 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    isActive?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     instructor?: XOR<InstructorNullableScalarRelationFilter, InstructorWhereInput> | null
     student?: XOR<StudentNullableScalarRelationFilter, StudentWhereInput> | null
     admin?: XOR<AdminNullableScalarRelationFilter, AdminWhereInput> | null
     courses?: CourseListRelationFilter
+    testimonials?: TestimonialListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -30870,12 +30884,14 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     instructor?: InstructorOrderByWithRelationInput
     student?: StudentOrderByWithRelationInput
     admin?: AdminOrderByWithRelationInput
     courses?: CourseOrderByRelationAggregateInput
+    testimonials?: TestimonialOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -30888,12 +30904,14 @@ export namespace Prisma {
     lastName?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    isActive?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     instructor?: XOR<InstructorNullableScalarRelationFilter, InstructorWhereInput> | null
     student?: XOR<StudentNullableScalarRelationFilter, StudentWhereInput> | null
     admin?: XOR<AdminNullableScalarRelationFilter, AdminWhereInput> | null
     courses?: CourseListRelationFilter
+    testimonials?: TestimonialListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -30903,6 +30921,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -30920,6 +30939,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     password?: StringWithAggregatesFilter<"User"> | string
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
+    isActive?: BoolWithAggregatesFilter<"User"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
@@ -31164,7 +31184,6 @@ export namespace Prisma {
     enrollments?: EnrollmentListRelationFilter
     certificates?: CertificateListRelationFilter
     watches?: WatchListRelationFilter
-    testimonials?: TestimonialListRelationFilter
     reports?: ReportListRelationFilter
     feedbacks?: FeedbackListRelationFilter
     participations?: ParticipationListRelationFilter
@@ -31189,7 +31208,6 @@ export namespace Prisma {
     enrollments?: EnrollmentOrderByRelationAggregateInput
     certificates?: CertificateOrderByRelationAggregateInput
     watches?: WatchOrderByRelationAggregateInput
-    testimonials?: TestimonialOrderByRelationAggregateInput
     reports?: ReportOrderByRelationAggregateInput
     feedbacks?: FeedbackOrderByRelationAggregateInput
     participations?: ParticipationOrderByRelationAggregateInput
@@ -31217,7 +31235,6 @@ export namespace Prisma {
     enrollments?: EnrollmentListRelationFilter
     certificates?: CertificateListRelationFilter
     watches?: WatchListRelationFilter
-    testimonials?: TestimonialListRelationFilter
     reports?: ReportListRelationFilter
     feedbacks?: FeedbackListRelationFilter
     participations?: ParticipationListRelationFilter
@@ -31598,13 +31615,13 @@ export namespace Prisma {
     NOT?: TestimonialWhereInput | TestimonialWhereInput[]
     id?: StringFilter<"Testimonial"> | string
     content?: StringFilter<"Testimonial"> | string
-    rating?: IntFilter<"Testimonial"> | number
-    createdAt?: DateTimeNullableFilter<"Testimonial"> | Date | string | null
-    updatedAt?: DateTimeNullableFilter<"Testimonial"> | Date | string | null
+    rating?: IntNullableFilter<"Testimonial"> | number | null
+    createdAt?: DateTimeFilter<"Testimonial"> | Date | string
+    updatedAt?: DateTimeFilter<"Testimonial"> | Date | string
+    userId?: StringFilter<"Testimonial"> | string
     courseId?: StringFilter<"Testimonial"> | string
-    studentId?: StringFilter<"Testimonial"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
-    student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
   }
 
   export type TestimonialOrderByWithRelationInput = {
@@ -31613,10 +31630,10 @@ export namespace Prisma {
     rating?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    userId?: SortOrder
     courseId?: SortOrder
-    studentId?: SortOrder
+    user?: UserOrderByWithRelationInput
     course?: CourseOrderByWithRelationInput
-    student?: StudentOrderByWithRelationInput
   }
 
   export type TestimonialWhereUniqueInput = Prisma.AtLeast<{
@@ -31625,13 +31642,13 @@ export namespace Prisma {
     OR?: TestimonialWhereInput[]
     NOT?: TestimonialWhereInput | TestimonialWhereInput[]
     content?: StringFilter<"Testimonial"> | string
-    rating?: IntFilter<"Testimonial"> | number
-    createdAt?: DateTimeNullableFilter<"Testimonial"> | Date | string | null
-    updatedAt?: DateTimeNullableFilter<"Testimonial"> | Date | string | null
+    rating?: IntNullableFilter<"Testimonial"> | number | null
+    createdAt?: DateTimeFilter<"Testimonial"> | Date | string
+    updatedAt?: DateTimeFilter<"Testimonial"> | Date | string
+    userId?: StringFilter<"Testimonial"> | string
     courseId?: StringFilter<"Testimonial"> | string
-    studentId?: StringFilter<"Testimonial"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
-    student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
   }, "id">
 
   export type TestimonialOrderByWithAggregationInput = {
@@ -31640,8 +31657,8 @@ export namespace Prisma {
     rating?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    userId?: SortOrder
     courseId?: SortOrder
-    studentId?: SortOrder
     _count?: TestimonialCountOrderByAggregateInput
     _avg?: TestimonialAvgOrderByAggregateInput
     _max?: TestimonialMaxOrderByAggregateInput
@@ -31655,11 +31672,11 @@ export namespace Prisma {
     NOT?: TestimonialScalarWhereWithAggregatesInput | TestimonialScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Testimonial"> | string
     content?: StringWithAggregatesFilter<"Testimonial"> | string
-    rating?: IntWithAggregatesFilter<"Testimonial"> | number
-    createdAt?: DateTimeNullableWithAggregatesFilter<"Testimonial"> | Date | string | null
-    updatedAt?: DateTimeNullableWithAggregatesFilter<"Testimonial"> | Date | string | null
+    rating?: IntNullableWithAggregatesFilter<"Testimonial"> | number | null
+    createdAt?: DateTimeWithAggregatesFilter<"Testimonial"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Testimonial"> | Date | string
+    userId?: StringWithAggregatesFilter<"Testimonial"> | string
     courseId?: StringWithAggregatesFilter<"Testimonial"> | string
-    studentId?: StringWithAggregatesFilter<"Testimonial"> | string
   }
 
   export type ReportWhereInput = {
@@ -32820,12 +32837,14 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.Role
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     instructor?: InstructorCreateNestedOneWithoutUserInput
     student?: StudentCreateNestedOneWithoutUserInput
     admin?: AdminCreateNestedOneWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUserInput
+    testimonials?: TestimonialCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -32835,12 +32854,14 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.Role
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     instructor?: InstructorUncheckedCreateNestedOneWithoutUserInput
     student?: StudentUncheckedCreateNestedOneWithoutUserInput
     admin?: AdminUncheckedCreateNestedOneWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUserInput
+    testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -32849,12 +32870,14 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     instructor?: InstructorUpdateOneWithoutUserNestedInput
     student?: StudentUpdateOneWithoutUserNestedInput
     admin?: AdminUpdateOneWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUserNestedInput
+    testimonials?: TestimonialUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -32863,12 +32886,14 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     instructor?: InstructorUncheckedUpdateOneWithoutUserNestedInput
     student?: StudentUncheckedUpdateOneWithoutUserNestedInput
     admin?: AdminUncheckedUpdateOneWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
+    testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -32878,6 +32903,7 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.Role
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -32888,6 +32914,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -32898,6 +32925,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -33161,7 +33189,6 @@ export namespace Prisma {
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     certificates?: CertificateCreateNestedManyWithoutStudentInput
     watches?: WatchCreateNestedManyWithoutStudentInput
-    testimonials?: TestimonialCreateNestedManyWithoutStudentInput
     reports?: ReportCreateNestedManyWithoutStudentInput
     feedbacks?: FeedbackCreateNestedManyWithoutStudentInput
     participations?: ParticipationCreateNestedManyWithoutStudentInput
@@ -33185,7 +33212,6 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutStudentInput
     watches?: WatchUncheckedCreateNestedManyWithoutStudentInput
-    testimonials?: TestimonialUncheckedCreateNestedManyWithoutStudentInput
     reports?: ReportUncheckedCreateNestedManyWithoutStudentInput
     feedbacks?: FeedbackUncheckedCreateNestedManyWithoutStudentInput
     participations?: ParticipationUncheckedCreateNestedManyWithoutStudentInput
@@ -33208,7 +33234,6 @@ export namespace Prisma {
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     certificates?: CertificateUpdateManyWithoutStudentNestedInput
     watches?: WatchUpdateManyWithoutStudentNestedInput
-    testimonials?: TestimonialUpdateManyWithoutStudentNestedInput
     reports?: ReportUpdateManyWithoutStudentNestedInput
     feedbacks?: FeedbackUpdateManyWithoutStudentNestedInput
     participations?: ParticipationUpdateManyWithoutStudentNestedInput
@@ -33231,7 +33256,6 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutStudentNestedInput
     watches?: WatchUncheckedUpdateManyWithoutStudentNestedInput
-    testimonials?: TestimonialUncheckedUpdateManyWithoutStudentNestedInput
     reports?: ReportUncheckedUpdateManyWithoutStudentNestedInput
     feedbacks?: FeedbackUncheckedUpdateManyWithoutStudentNestedInput
     participations?: ParticipationUncheckedUpdateManyWithoutStudentNestedInput
@@ -33610,65 +33634,65 @@ export namespace Prisma {
   export type TestimonialCreateInput = {
     id?: string
     content: string
-    rating: number
-    createdAt?: Date | string | null
-    updatedAt?: Date | string | null
+    rating?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutTestimonialsInput
     course: CourseCreateNestedOneWithoutTestimonialsInput
-    student: StudentCreateNestedOneWithoutTestimonialsInput
   }
 
   export type TestimonialUncheckedCreateInput = {
     id?: string
     content: string
-    rating: number
-    createdAt?: Date | string | null
-    updatedAt?: Date | string | null
+    rating?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
     courseId: string
-    studentId: string
   }
 
   export type TestimonialUpdateInput = {
     content?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutTestimonialsNestedInput
     course?: CourseUpdateOneRequiredWithoutTestimonialsNestedInput
-    student?: StudentUpdateOneRequiredWithoutTestimonialsNestedInput
   }
 
   export type TestimonialUncheckedUpdateInput = {
     content?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
-    studentId?: StringFieldUpdateOperationsInput | string
   }
 
   export type TestimonialCreateManyInput = {
     id?: string
     content: string
-    rating: number
-    createdAt?: Date | string | null
-    updatedAt?: Date | string | null
+    rating?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
     courseId: string
-    studentId: string
   }
 
   export type TestimonialUpdateManyMutationInput = {
     content?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TestimonialUncheckedUpdateManyInput = {
     content?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
-    studentId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ReportCreateInput = {
@@ -34853,6 +34877,11 @@ export namespace Prisma {
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -34885,7 +34914,17 @@ export namespace Prisma {
     none?: CourseWhereInput
   }
 
+  export type TestimonialListRelationFilter = {
+    every?: TestimonialWhereInput
+    some?: TestimonialWhereInput
+    none?: TestimonialWhereInput
+  }
+
   export type CourseOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TestimonialOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -34896,6 +34935,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -34907,6 +34947,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -34918,6 +34959,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -34948,6 +34990,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRoleFilter<$PrismaModel>
     _max?: NestedEnumRoleFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -34991,11 +35041,6 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type StringNullableListFilter<$PrismaModel = never> = {
     equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     has?: string | StringFieldRefInput<$PrismaModel> | null
@@ -35018,12 +35063,6 @@ export namespace Prisma {
     every?: WeekWhereInput
     some?: WeekWhereInput
     none?: WeekWhereInput
-  }
-
-  export type TestimonialListRelationFilter = {
-    every?: TestimonialWhereInput
-    some?: TestimonialWhereInput
-    none?: TestimonialWhereInput
   }
 
   export type EnrollmentListRelationFilter = {
@@ -35057,10 +35096,6 @@ export namespace Prisma {
   }
 
   export type WeekOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type TestimonialOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -35168,14 +35203,6 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -35552,14 +35579,26 @@ export namespace Prisma {
     lastTime?: SortOrder
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+    isSet?: boolean
+  }
+
   export type TestimonialCountOrderByAggregateInput = {
     id?: SortOrder
     content?: SortOrder
     rating?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    userId?: SortOrder
     courseId?: SortOrder
-    studentId?: SortOrder
   }
 
   export type TestimonialAvgOrderByAggregateInput = {
@@ -35572,8 +35611,8 @@ export namespace Prisma {
     rating?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    userId?: SortOrder
     courseId?: SortOrder
-    studentId?: SortOrder
   }
 
   export type TestimonialMinOrderByAggregateInput = {
@@ -35582,12 +35621,29 @@ export namespace Prisma {
     rating?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    userId?: SortOrder
     courseId?: SortOrder
-    studentId?: SortOrder
   }
 
   export type TestimonialSumOrderByAggregateInput = {
     rating?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type AssessmentNullableScalarRelationFilter = {
@@ -36310,6 +36366,13 @@ export namespace Prisma {
     connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
   }
 
+  export type TestimonialCreateNestedManyWithoutUserInput = {
+    create?: XOR<TestimonialCreateWithoutUserInput, TestimonialUncheckedCreateWithoutUserInput> | TestimonialCreateWithoutUserInput[] | TestimonialUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TestimonialCreateOrConnectWithoutUserInput | TestimonialCreateOrConnectWithoutUserInput[]
+    createMany?: TestimonialCreateManyUserInputEnvelope
+    connect?: TestimonialWhereUniqueInput | TestimonialWhereUniqueInput[]
+  }
+
   export type InstructorUncheckedCreateNestedOneWithoutUserInput = {
     create?: XOR<InstructorCreateWithoutUserInput, InstructorUncheckedCreateWithoutUserInput>
     connectOrCreate?: InstructorCreateOrConnectWithoutUserInput
@@ -36335,12 +36398,23 @@ export namespace Prisma {
     connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
   }
 
+  export type TestimonialUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<TestimonialCreateWithoutUserInput, TestimonialUncheckedCreateWithoutUserInput> | TestimonialCreateWithoutUserInput[] | TestimonialUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TestimonialCreateOrConnectWithoutUserInput | TestimonialCreateOrConnectWithoutUserInput[]
+    createMany?: TestimonialCreateManyUserInputEnvelope
+    connect?: TestimonialWhereUniqueInput | TestimonialWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
 
   export type EnumRoleFieldUpdateOperationsInput = {
     set?: $Enums.Role
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -36391,6 +36465,20 @@ export namespace Prisma {
     deleteMany?: CourseScalarWhereInput | CourseScalarWhereInput[]
   }
 
+  export type TestimonialUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TestimonialCreateWithoutUserInput, TestimonialUncheckedCreateWithoutUserInput> | TestimonialCreateWithoutUserInput[] | TestimonialUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TestimonialCreateOrConnectWithoutUserInput | TestimonialCreateOrConnectWithoutUserInput[]
+    upsert?: TestimonialUpsertWithWhereUniqueWithoutUserInput | TestimonialUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TestimonialCreateManyUserInputEnvelope
+    set?: TestimonialWhereUniqueInput | TestimonialWhereUniqueInput[]
+    disconnect?: TestimonialWhereUniqueInput | TestimonialWhereUniqueInput[]
+    delete?: TestimonialWhereUniqueInput | TestimonialWhereUniqueInput[]
+    connect?: TestimonialWhereUniqueInput | TestimonialWhereUniqueInput[]
+    update?: TestimonialUpdateWithWhereUniqueWithoutUserInput | TestimonialUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TestimonialUpdateManyWithWhereWithoutUserInput | TestimonialUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TestimonialScalarWhereInput | TestimonialScalarWhereInput[]
+  }
+
   export type InstructorUncheckedUpdateOneWithoutUserNestedInput = {
     create?: XOR<InstructorCreateWithoutUserInput, InstructorUncheckedCreateWithoutUserInput>
     connectOrCreate?: InstructorCreateOrConnectWithoutUserInput
@@ -36433,6 +36521,20 @@ export namespace Prisma {
     update?: CourseUpdateWithWhereUniqueWithoutUserInput | CourseUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: CourseUpdateManyWithWhereWithoutUserInput | CourseUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: CourseScalarWhereInput | CourseScalarWhereInput[]
+  }
+
+  export type TestimonialUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TestimonialCreateWithoutUserInput, TestimonialUncheckedCreateWithoutUserInput> | TestimonialCreateWithoutUserInput[] | TestimonialUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TestimonialCreateOrConnectWithoutUserInput | TestimonialCreateOrConnectWithoutUserInput[]
+    upsert?: TestimonialUpsertWithWhereUniqueWithoutUserInput | TestimonialUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TestimonialCreateManyUserInputEnvelope
+    set?: TestimonialWhereUniqueInput | TestimonialWhereUniqueInput[]
+    disconnect?: TestimonialWhereUniqueInput | TestimonialWhereUniqueInput[]
+    delete?: TestimonialWhereUniqueInput | TestimonialWhereUniqueInput[]
+    connect?: TestimonialWhereUniqueInput | TestimonialWhereUniqueInput[]
+    update?: TestimonialUpdateWithWhereUniqueWithoutUserInput | TestimonialUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TestimonialUpdateManyWithWhereWithoutUserInput | TestimonialUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TestimonialScalarWhereInput | TestimonialScalarWhereInput[]
   }
 
   export type CourseCreatelearningInput = {
@@ -36560,10 +36662,6 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type CourseUpdatelearningInput = {
@@ -36829,13 +36927,6 @@ export namespace Prisma {
     connect?: WatchWhereUniqueInput | WatchWhereUniqueInput[]
   }
 
-  export type TestimonialCreateNestedManyWithoutStudentInput = {
-    create?: XOR<TestimonialCreateWithoutStudentInput, TestimonialUncheckedCreateWithoutStudentInput> | TestimonialCreateWithoutStudentInput[] | TestimonialUncheckedCreateWithoutStudentInput[]
-    connectOrCreate?: TestimonialCreateOrConnectWithoutStudentInput | TestimonialCreateOrConnectWithoutStudentInput[]
-    createMany?: TestimonialCreateManyStudentInputEnvelope
-    connect?: TestimonialWhereUniqueInput | TestimonialWhereUniqueInput[]
-  }
-
   export type ReportCreateNestedManyWithoutStudentInput = {
     create?: XOR<ReportCreateWithoutStudentInput, ReportUncheckedCreateWithoutStudentInput> | ReportCreateWithoutStudentInput[] | ReportUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: ReportCreateOrConnectWithoutStudentInput | ReportCreateOrConnectWithoutStudentInput[]
@@ -36876,13 +36967,6 @@ export namespace Prisma {
     connectOrCreate?: WatchCreateOrConnectWithoutStudentInput | WatchCreateOrConnectWithoutStudentInput[]
     createMany?: WatchCreateManyStudentInputEnvelope
     connect?: WatchWhereUniqueInput | WatchWhereUniqueInput[]
-  }
-
-  export type TestimonialUncheckedCreateNestedManyWithoutStudentInput = {
-    create?: XOR<TestimonialCreateWithoutStudentInput, TestimonialUncheckedCreateWithoutStudentInput> | TestimonialCreateWithoutStudentInput[] | TestimonialUncheckedCreateWithoutStudentInput[]
-    connectOrCreate?: TestimonialCreateOrConnectWithoutStudentInput | TestimonialCreateOrConnectWithoutStudentInput[]
-    createMany?: TestimonialCreateManyStudentInputEnvelope
-    connect?: TestimonialWhereUniqueInput | TestimonialWhereUniqueInput[]
   }
 
   export type ReportUncheckedCreateNestedManyWithoutStudentInput = {
@@ -36954,20 +37038,6 @@ export namespace Prisma {
     update?: WatchUpdateWithWhereUniqueWithoutStudentInput | WatchUpdateWithWhereUniqueWithoutStudentInput[]
     updateMany?: WatchUpdateManyWithWhereWithoutStudentInput | WatchUpdateManyWithWhereWithoutStudentInput[]
     deleteMany?: WatchScalarWhereInput | WatchScalarWhereInput[]
-  }
-
-  export type TestimonialUpdateManyWithoutStudentNestedInput = {
-    create?: XOR<TestimonialCreateWithoutStudentInput, TestimonialUncheckedCreateWithoutStudentInput> | TestimonialCreateWithoutStudentInput[] | TestimonialUncheckedCreateWithoutStudentInput[]
-    connectOrCreate?: TestimonialCreateOrConnectWithoutStudentInput | TestimonialCreateOrConnectWithoutStudentInput[]
-    upsert?: TestimonialUpsertWithWhereUniqueWithoutStudentInput | TestimonialUpsertWithWhereUniqueWithoutStudentInput[]
-    createMany?: TestimonialCreateManyStudentInputEnvelope
-    set?: TestimonialWhereUniqueInput | TestimonialWhereUniqueInput[]
-    disconnect?: TestimonialWhereUniqueInput | TestimonialWhereUniqueInput[]
-    delete?: TestimonialWhereUniqueInput | TestimonialWhereUniqueInput[]
-    connect?: TestimonialWhereUniqueInput | TestimonialWhereUniqueInput[]
-    update?: TestimonialUpdateWithWhereUniqueWithoutStudentInput | TestimonialUpdateWithWhereUniqueWithoutStudentInput[]
-    updateMany?: TestimonialUpdateManyWithWhereWithoutStudentInput | TestimonialUpdateManyWithWhereWithoutStudentInput[]
-    deleteMany?: TestimonialScalarWhereInput | TestimonialScalarWhereInput[]
   }
 
   export type ReportUpdateManyWithoutStudentNestedInput = {
@@ -37052,20 +37122,6 @@ export namespace Prisma {
     update?: WatchUpdateWithWhereUniqueWithoutStudentInput | WatchUpdateWithWhereUniqueWithoutStudentInput[]
     updateMany?: WatchUpdateManyWithWhereWithoutStudentInput | WatchUpdateManyWithWhereWithoutStudentInput[]
     deleteMany?: WatchScalarWhereInput | WatchScalarWhereInput[]
-  }
-
-  export type TestimonialUncheckedUpdateManyWithoutStudentNestedInput = {
-    create?: XOR<TestimonialCreateWithoutStudentInput, TestimonialUncheckedCreateWithoutStudentInput> | TestimonialCreateWithoutStudentInput[] | TestimonialUncheckedCreateWithoutStudentInput[]
-    connectOrCreate?: TestimonialCreateOrConnectWithoutStudentInput | TestimonialCreateOrConnectWithoutStudentInput[]
-    upsert?: TestimonialUpsertWithWhereUniqueWithoutStudentInput | TestimonialUpsertWithWhereUniqueWithoutStudentInput[]
-    createMany?: TestimonialCreateManyStudentInputEnvelope
-    set?: TestimonialWhereUniqueInput | TestimonialWhereUniqueInput[]
-    disconnect?: TestimonialWhereUniqueInput | TestimonialWhereUniqueInput[]
-    delete?: TestimonialWhereUniqueInput | TestimonialWhereUniqueInput[]
-    connect?: TestimonialWhereUniqueInput | TestimonialWhereUniqueInput[]
-    update?: TestimonialUpdateWithWhereUniqueWithoutStudentInput | TestimonialUpdateWithWhereUniqueWithoutStudentInput[]
-    updateMany?: TestimonialUpdateManyWithWhereWithoutStudentInput | TestimonialUpdateManyWithWhereWithoutStudentInput[]
-    deleteMany?: TestimonialScalarWhereInput | TestimonialScalarWhereInput[]
   }
 
   export type ReportUncheckedUpdateManyWithoutStudentNestedInput = {
@@ -37280,16 +37336,33 @@ export namespace Prisma {
     update?: XOR<XOR<WeekUpdateToOneWithWhereWithoutWatchesInput, WeekUpdateWithoutWatchesInput>, WeekUncheckedUpdateWithoutWatchesInput>
   }
 
+  export type UserCreateNestedOneWithoutTestimonialsInput = {
+    create?: XOR<UserCreateWithoutTestimonialsInput, UserUncheckedCreateWithoutTestimonialsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTestimonialsInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type CourseCreateNestedOneWithoutTestimonialsInput = {
     create?: XOR<CourseCreateWithoutTestimonialsInput, CourseUncheckedCreateWithoutTestimonialsInput>
     connectOrCreate?: CourseCreateOrConnectWithoutTestimonialsInput
     connect?: CourseWhereUniqueInput
   }
 
-  export type StudentCreateNestedOneWithoutTestimonialsInput = {
-    create?: XOR<StudentCreateWithoutTestimonialsInput, StudentUncheckedCreateWithoutTestimonialsInput>
-    connectOrCreate?: StudentCreateOrConnectWithoutTestimonialsInput
-    connect?: StudentWhereUniqueInput
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+    unset?: boolean
+  }
+
+  export type UserUpdateOneRequiredWithoutTestimonialsNestedInput = {
+    create?: XOR<UserCreateWithoutTestimonialsInput, UserUncheckedCreateWithoutTestimonialsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTestimonialsInput
+    upsert?: UserUpsertWithoutTestimonialsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTestimonialsInput, UserUpdateWithoutTestimonialsInput>, UserUncheckedUpdateWithoutTestimonialsInput>
   }
 
   export type CourseUpdateOneRequiredWithoutTestimonialsNestedInput = {
@@ -37298,14 +37371,6 @@ export namespace Prisma {
     upsert?: CourseUpsertWithoutTestimonialsInput
     connect?: CourseWhereUniqueInput
     update?: XOR<XOR<CourseUpdateToOneWithWhereWithoutTestimonialsInput, CourseUpdateWithoutTestimonialsInput>, CourseUncheckedUpdateWithoutTestimonialsInput>
-  }
-
-  export type StudentUpdateOneRequiredWithoutTestimonialsNestedInput = {
-    create?: XOR<StudentCreateWithoutTestimonialsInput, StudentUncheckedCreateWithoutTestimonialsInput>
-    connectOrCreate?: StudentCreateOrConnectWithoutTestimonialsInput
-    upsert?: StudentUpsertWithoutTestimonialsInput
-    connect?: StudentWhereUniqueInput
-    update?: XOR<XOR<StudentUpdateToOneWithWhereWithoutTestimonialsInput, StudentUpdateWithoutTestimonialsInput>, StudentUncheckedUpdateWithoutTestimonialsInput>
   }
 
   export type ReportCreatetotalCompletedLessonsInput = {
@@ -38254,6 +38319,11 @@ export namespace Prisma {
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -38303,6 +38373,14 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -38330,11 +38408,6 @@ export namespace Prisma {
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
     isSet?: boolean
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -38394,14 +38467,6 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -38438,6 +38503,35 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+    isSet?: boolean
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+    isSet?: boolean
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
     isSet?: boolean
   }
 
@@ -38511,7 +38605,6 @@ export namespace Prisma {
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     certificates?: CertificateCreateNestedManyWithoutStudentInput
     watches?: WatchCreateNestedManyWithoutStudentInput
-    testimonials?: TestimonialCreateNestedManyWithoutStudentInput
     reports?: ReportCreateNestedManyWithoutStudentInput
     feedbacks?: FeedbackCreateNestedManyWithoutStudentInput
     participations?: ParticipationCreateNestedManyWithoutStudentInput
@@ -38534,7 +38627,6 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutStudentInput
     watches?: WatchUncheckedCreateNestedManyWithoutStudentInput
-    testimonials?: TestimonialUncheckedCreateNestedManyWithoutStudentInput
     reports?: ReportUncheckedCreateNestedManyWithoutStudentInput
     feedbacks?: FeedbackUncheckedCreateNestedManyWithoutStudentInput
     participations?: ParticipationUncheckedCreateNestedManyWithoutStudentInput
@@ -38631,6 +38723,33 @@ export namespace Prisma {
     data: CourseCreateManyUserInput | CourseCreateManyUserInput[]
   }
 
+  export type TestimonialCreateWithoutUserInput = {
+    id?: string
+    content: string
+    rating?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    course: CourseCreateNestedOneWithoutTestimonialsInput
+  }
+
+  export type TestimonialUncheckedCreateWithoutUserInput = {
+    id?: string
+    content: string
+    rating?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    courseId: string
+  }
+
+  export type TestimonialCreateOrConnectWithoutUserInput = {
+    where: TestimonialWhereUniqueInput
+    create: XOR<TestimonialCreateWithoutUserInput, TestimonialUncheckedCreateWithoutUserInput>
+  }
+
+  export type TestimonialCreateManyUserInputEnvelope = {
+    data: TestimonialCreateManyUserInput | TestimonialCreateManyUserInput[]
+  }
+
   export type InstructorUpsertWithoutUserInput = {
     update: XOR<InstructorUpdateWithoutUserInput, InstructorUncheckedUpdateWithoutUserInput>
     create: XOR<InstructorCreateWithoutUserInput, InstructorUncheckedCreateWithoutUserInput>
@@ -38699,7 +38818,6 @@ export namespace Prisma {
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     certificates?: CertificateUpdateManyWithoutStudentNestedInput
     watches?: WatchUpdateManyWithoutStudentNestedInput
-    testimonials?: TestimonialUpdateManyWithoutStudentNestedInput
     reports?: ReportUpdateManyWithoutStudentNestedInput
     feedbacks?: FeedbackUpdateManyWithoutStudentNestedInput
     participations?: ParticipationUpdateManyWithoutStudentNestedInput
@@ -38721,7 +38839,6 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutStudentNestedInput
     watches?: WatchUncheckedUpdateManyWithoutStudentNestedInput
-    testimonials?: TestimonialUncheckedUpdateManyWithoutStudentNestedInput
     reports?: ReportUncheckedUpdateManyWithoutStudentNestedInput
     feedbacks?: FeedbackUncheckedUpdateManyWithoutStudentNestedInput
     participations?: ParticipationUncheckedUpdateManyWithoutStudentNestedInput
@@ -38800,6 +38917,35 @@ export namespace Prisma {
     categoryId?: StringFilter<"Course"> | string
   }
 
+  export type TestimonialUpsertWithWhereUniqueWithoutUserInput = {
+    where: TestimonialWhereUniqueInput
+    update: XOR<TestimonialUpdateWithoutUserInput, TestimonialUncheckedUpdateWithoutUserInput>
+    create: XOR<TestimonialCreateWithoutUserInput, TestimonialUncheckedCreateWithoutUserInput>
+  }
+
+  export type TestimonialUpdateWithWhereUniqueWithoutUserInput = {
+    where: TestimonialWhereUniqueInput
+    data: XOR<TestimonialUpdateWithoutUserInput, TestimonialUncheckedUpdateWithoutUserInput>
+  }
+
+  export type TestimonialUpdateManyWithWhereWithoutUserInput = {
+    where: TestimonialScalarWhereInput
+    data: XOR<TestimonialUpdateManyMutationInput, TestimonialUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type TestimonialScalarWhereInput = {
+    AND?: TestimonialScalarWhereInput | TestimonialScalarWhereInput[]
+    OR?: TestimonialScalarWhereInput[]
+    NOT?: TestimonialScalarWhereInput | TestimonialScalarWhereInput[]
+    id?: StringFilter<"Testimonial"> | string
+    content?: StringFilter<"Testimonial"> | string
+    rating?: IntNullableFilter<"Testimonial"> | number | null
+    createdAt?: DateTimeFilter<"Testimonial"> | Date | string
+    updatedAt?: DateTimeFilter<"Testimonial"> | Date | string
+    userId?: StringFilter<"Testimonial"> | string
+    courseId?: StringFilter<"Testimonial"> | string
+  }
+
   export type UserCreateWithoutCoursesInput = {
     id?: string
     firstName: string
@@ -38807,11 +38953,13 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.Role
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     instructor?: InstructorCreateNestedOneWithoutUserInput
     student?: StudentCreateNestedOneWithoutUserInput
     admin?: AdminCreateNestedOneWithoutUserInput
+    testimonials?: TestimonialCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCoursesInput = {
@@ -38821,11 +38969,13 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.Role
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     instructor?: InstructorUncheckedCreateNestedOneWithoutUserInput
     student?: StudentUncheckedCreateNestedOneWithoutUserInput
     admin?: AdminUncheckedCreateNestedOneWithoutUserInput
+    testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCoursesInput = {
@@ -38904,19 +39054,19 @@ export namespace Prisma {
   export type TestimonialCreateWithoutCourseInput = {
     id?: string
     content: string
-    rating: number
-    createdAt?: Date | string | null
-    updatedAt?: Date | string | null
-    student: StudentCreateNestedOneWithoutTestimonialsInput
+    rating?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutTestimonialsInput
   }
 
   export type TestimonialUncheckedCreateWithoutCourseInput = {
     id?: string
     content: string
-    rating: number
-    createdAt?: Date | string | null
-    updatedAt?: Date | string | null
-    studentId: string
+    rating?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
   }
 
   export type TestimonialCreateOrConnectWithoutCourseInput = {
@@ -39082,11 +39232,13 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     instructor?: InstructorUpdateOneWithoutUserNestedInput
     student?: StudentUpdateOneWithoutUserNestedInput
     admin?: AdminUpdateOneWithoutUserNestedInput
+    testimonials?: TestimonialUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCoursesInput = {
@@ -39095,11 +39247,13 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     instructor?: InstructorUncheckedUpdateOneWithoutUserNestedInput
     student?: StudentUncheckedUpdateOneWithoutUserNestedInput
     admin?: AdminUncheckedUpdateOneWithoutUserNestedInput
+    testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CategoryUpsertWithoutCoursesInput = {
@@ -39176,19 +39330,6 @@ export namespace Prisma {
   export type TestimonialUpdateManyWithWhereWithoutCourseInput = {
     where: TestimonialScalarWhereInput
     data: XOR<TestimonialUpdateManyMutationInput, TestimonialUncheckedUpdateManyWithoutCourseInput>
-  }
-
-  export type TestimonialScalarWhereInput = {
-    AND?: TestimonialScalarWhereInput | TestimonialScalarWhereInput[]
-    OR?: TestimonialScalarWhereInput[]
-    NOT?: TestimonialScalarWhereInput | TestimonialScalarWhereInput[]
-    id?: StringFilter<"Testimonial"> | string
-    content?: StringFilter<"Testimonial"> | string
-    rating?: IntFilter<"Testimonial"> | number
-    createdAt?: DateTimeNullableFilter<"Testimonial"> | Date | string | null
-    updatedAt?: DateTimeNullableFilter<"Testimonial"> | Date | string | null
-    courseId?: StringFilter<"Testimonial"> | string
-    studentId?: StringFilter<"Testimonial"> | string
   }
 
   export type EnrollmentUpsertWithWhereUniqueWithoutCourseInput = {
@@ -39343,11 +39484,13 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.Role
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     student?: StudentCreateNestedOneWithoutUserInput
     admin?: AdminCreateNestedOneWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUserInput
+    testimonials?: TestimonialCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutInstructorInput = {
@@ -39357,11 +39500,13 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.Role
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     student?: StudentUncheckedCreateNestedOneWithoutUserInput
     admin?: AdminUncheckedCreateNestedOneWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUserInput
+    testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutInstructorInput = {
@@ -39386,11 +39531,13 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: StudentUpdateOneWithoutUserNestedInput
     admin?: AdminUpdateOneWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUserNestedInput
+    testimonials?: TestimonialUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInstructorInput = {
@@ -39399,11 +39546,13 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: StudentUncheckedUpdateOneWithoutUserNestedInput
     admin?: AdminUncheckedUpdateOneWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
+    testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutStudentInput = {
@@ -39413,11 +39562,13 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.Role
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     instructor?: InstructorCreateNestedOneWithoutUserInput
     admin?: AdminCreateNestedOneWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUserInput
+    testimonials?: TestimonialCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutStudentInput = {
@@ -39427,11 +39578,13 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.Role
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     instructor?: InstructorUncheckedCreateNestedOneWithoutUserInput
     admin?: AdminUncheckedCreateNestedOneWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUserInput
+    testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutStudentInput = {
@@ -39526,33 +39679,6 @@ export namespace Prisma {
 
   export type WatchCreateManyStudentInputEnvelope = {
     data: WatchCreateManyStudentInput | WatchCreateManyStudentInput[]
-  }
-
-  export type TestimonialCreateWithoutStudentInput = {
-    id?: string
-    content: string
-    rating: number
-    createdAt?: Date | string | null
-    updatedAt?: Date | string | null
-    course: CourseCreateNestedOneWithoutTestimonialsInput
-  }
-
-  export type TestimonialUncheckedCreateWithoutStudentInput = {
-    id?: string
-    content: string
-    rating: number
-    createdAt?: Date | string | null
-    updatedAt?: Date | string | null
-    courseId: string
-  }
-
-  export type TestimonialCreateOrConnectWithoutStudentInput = {
-    where: TestimonialWhereUniqueInput
-    create: XOR<TestimonialCreateWithoutStudentInput, TestimonialUncheckedCreateWithoutStudentInput>
-  }
-
-  export type TestimonialCreateManyStudentInputEnvelope = {
-    data: TestimonialCreateManyStudentInput | TestimonialCreateManyStudentInput[]
   }
 
   export type ReportCreateWithoutStudentInput = {
@@ -39653,11 +39779,13 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     instructor?: InstructorUpdateOneWithoutUserNestedInput
     admin?: AdminUpdateOneWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUserNestedInput
+    testimonials?: TestimonialUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStudentInput = {
@@ -39666,11 +39794,13 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     instructor?: InstructorUncheckedUpdateOneWithoutUserNestedInput
     admin?: AdminUncheckedUpdateOneWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
+    testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type EnrollmentUpsertWithWhereUniqueWithoutStudentInput = {
@@ -39733,22 +39863,6 @@ export namespace Prisma {
     lessonId?: StringFilter<"Watch"> | string
     studentId?: StringFilter<"Watch"> | string
     weekId?: StringNullableFilter<"Watch"> | string | null
-  }
-
-  export type TestimonialUpsertWithWhereUniqueWithoutStudentInput = {
-    where: TestimonialWhereUniqueInput
-    update: XOR<TestimonialUpdateWithoutStudentInput, TestimonialUncheckedUpdateWithoutStudentInput>
-    create: XOR<TestimonialCreateWithoutStudentInput, TestimonialUncheckedCreateWithoutStudentInput>
-  }
-
-  export type TestimonialUpdateWithWhereUniqueWithoutStudentInput = {
-    where: TestimonialWhereUniqueInput
-    data: XOR<TestimonialUpdateWithoutStudentInput, TestimonialUncheckedUpdateWithoutStudentInput>
-  }
-
-  export type TestimonialUpdateManyWithWhereWithoutStudentInput = {
-    where: TestimonialScalarWhereInput
-    data: XOR<TestimonialUpdateManyMutationInput, TestimonialUncheckedUpdateManyWithoutStudentInput>
   }
 
   export type ReportUpsertWithWhereUniqueWithoutStudentInput = {
@@ -39819,11 +39933,13 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.Role
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     instructor?: InstructorCreateNestedOneWithoutUserInput
     student?: StudentCreateNestedOneWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUserInput
+    testimonials?: TestimonialCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAdminInput = {
@@ -39833,11 +39949,13 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.Role
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     instructor?: InstructorUncheckedCreateNestedOneWithoutUserInput
     student?: StudentUncheckedCreateNestedOneWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUserInput
+    testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAdminInput = {
@@ -39862,11 +39980,13 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     instructor?: InstructorUpdateOneWithoutUserNestedInput
     student?: StudentUpdateOneWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUserNestedInput
+    testimonials?: TestimonialUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAdminInput = {
@@ -39875,11 +39995,13 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     instructor?: InstructorUncheckedUpdateOneWithoutUserNestedInput
     student?: StudentUncheckedUpdateOneWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
+    testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseCreateWithoutEnrollmentsInput = {
@@ -39946,7 +40068,6 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutStudentInput
     certificates?: CertificateCreateNestedManyWithoutStudentInput
     watches?: WatchCreateNestedManyWithoutStudentInput
-    testimonials?: TestimonialCreateNestedManyWithoutStudentInput
     reports?: ReportCreateNestedManyWithoutStudentInput
     feedbacks?: FeedbackCreateNestedManyWithoutStudentInput
     participations?: ParticipationCreateNestedManyWithoutStudentInput
@@ -39969,7 +40090,6 @@ export namespace Prisma {
     userId: string
     certificates?: CertificateUncheckedCreateNestedManyWithoutStudentInput
     watches?: WatchUncheckedCreateNestedManyWithoutStudentInput
-    testimonials?: TestimonialUncheckedCreateNestedManyWithoutStudentInput
     reports?: ReportUncheckedCreateNestedManyWithoutStudentInput
     feedbacks?: FeedbackUncheckedCreateNestedManyWithoutStudentInput
     participations?: ParticipationUncheckedCreateNestedManyWithoutStudentInput
@@ -40085,7 +40205,6 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutStudentNestedInput
     certificates?: CertificateUpdateManyWithoutStudentNestedInput
     watches?: WatchUpdateManyWithoutStudentNestedInput
-    testimonials?: TestimonialUpdateManyWithoutStudentNestedInput
     reports?: ReportUpdateManyWithoutStudentNestedInput
     feedbacks?: FeedbackUpdateManyWithoutStudentNestedInput
     participations?: ParticipationUpdateManyWithoutStudentNestedInput
@@ -40107,7 +40226,6 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     certificates?: CertificateUncheckedUpdateManyWithoutStudentNestedInput
     watches?: WatchUncheckedUpdateManyWithoutStudentNestedInput
-    testimonials?: TestimonialUncheckedUpdateManyWithoutStudentNestedInput
     reports?: ReportUncheckedUpdateManyWithoutStudentNestedInput
     feedbacks?: FeedbackUncheckedUpdateManyWithoutStudentNestedInput
     participations?: ParticipationUncheckedUpdateManyWithoutStudentNestedInput
@@ -40146,7 +40264,6 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutStudentInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     watches?: WatchCreateNestedManyWithoutStudentInput
-    testimonials?: TestimonialCreateNestedManyWithoutStudentInput
     reports?: ReportCreateNestedManyWithoutStudentInput
     feedbacks?: FeedbackCreateNestedManyWithoutStudentInput
     participations?: ParticipationCreateNestedManyWithoutStudentInput
@@ -40169,7 +40286,6 @@ export namespace Prisma {
     userId: string
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     watches?: WatchUncheckedCreateNestedManyWithoutStudentInput
-    testimonials?: TestimonialUncheckedCreateNestedManyWithoutStudentInput
     reports?: ReportUncheckedCreateNestedManyWithoutStudentInput
     feedbacks?: FeedbackUncheckedCreateNestedManyWithoutStudentInput
     participations?: ParticipationUncheckedCreateNestedManyWithoutStudentInput
@@ -40283,7 +40399,6 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutStudentNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     watches?: WatchUpdateManyWithoutStudentNestedInput
-    testimonials?: TestimonialUpdateManyWithoutStudentNestedInput
     reports?: ReportUpdateManyWithoutStudentNestedInput
     feedbacks?: FeedbackUpdateManyWithoutStudentNestedInput
     participations?: ParticipationUpdateManyWithoutStudentNestedInput
@@ -40305,7 +40420,6 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     watches?: WatchUncheckedUpdateManyWithoutStudentNestedInput
-    testimonials?: TestimonialUncheckedUpdateManyWithoutStudentNestedInput
     reports?: ReportUncheckedUpdateManyWithoutStudentNestedInput
     feedbacks?: FeedbackUncheckedUpdateManyWithoutStudentNestedInput
     participations?: ParticipationUncheckedUpdateManyWithoutStudentNestedInput
@@ -40445,7 +40559,6 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutStudentInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     certificates?: CertificateCreateNestedManyWithoutStudentInput
-    testimonials?: TestimonialCreateNestedManyWithoutStudentInput
     reports?: ReportCreateNestedManyWithoutStudentInput
     feedbacks?: FeedbackCreateNestedManyWithoutStudentInput
     participations?: ParticipationCreateNestedManyWithoutStudentInput
@@ -40468,7 +40581,6 @@ export namespace Prisma {
     userId: string
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutStudentInput
-    testimonials?: TestimonialUncheckedCreateNestedManyWithoutStudentInput
     reports?: ReportUncheckedCreateNestedManyWithoutStudentInput
     feedbacks?: FeedbackUncheckedCreateNestedManyWithoutStudentInput
     participations?: ParticipationUncheckedCreateNestedManyWithoutStudentInput
@@ -40584,7 +40696,6 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutStudentNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     certificates?: CertificateUpdateManyWithoutStudentNestedInput
-    testimonials?: TestimonialUpdateManyWithoutStudentNestedInput
     reports?: ReportUpdateManyWithoutStudentNestedInput
     feedbacks?: FeedbackUpdateManyWithoutStudentNestedInput
     participations?: ParticipationUpdateManyWithoutStudentNestedInput
@@ -40606,7 +40717,6 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutStudentNestedInput
-    testimonials?: TestimonialUncheckedUpdateManyWithoutStudentNestedInput
     reports?: ReportUncheckedUpdateManyWithoutStudentNestedInput
     feedbacks?: FeedbackUncheckedUpdateManyWithoutStudentNestedInput
     participations?: ParticipationUncheckedUpdateManyWithoutStudentNestedInput
@@ -40657,6 +40767,43 @@ export namespace Prisma {
     quizzes?: QuizUncheckedUpdateManyWithoutWeekNestedInput
   }
 
+  export type UserCreateWithoutTestimonialsInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    email: string
+    password: string
+    role: $Enums.Role
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    instructor?: InstructorCreateNestedOneWithoutUserInput
+    student?: StudentCreateNestedOneWithoutUserInput
+    admin?: AdminCreateNestedOneWithoutUserInput
+    courses?: CourseCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutTestimonialsInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    email: string
+    password: string
+    role: $Enums.Role
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    instructor?: InstructorUncheckedCreateNestedOneWithoutUserInput
+    student?: StudentUncheckedCreateNestedOneWithoutUserInput
+    admin?: AdminUncheckedCreateNestedOneWithoutUserInput
+    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutTestimonialsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutTestimonialsInput, UserUncheckedCreateWithoutTestimonialsInput>
+  }
+
   export type CourseCreateWithoutTestimonialsInput = {
     id?: string
     title: string
@@ -40704,55 +40851,45 @@ export namespace Prisma {
     create: XOR<CourseCreateWithoutTestimonialsInput, CourseUncheckedCreateWithoutTestimonialsInput>
   }
 
-  export type StudentCreateWithoutTestimonialsInput = {
-    id?: string
-    idNumber: number
-    session: string
-    department: string
-    isActive?: boolean
-    phone?: string | null
-    bio?: string | null
-    profilePicture?: string | null
-    socialMedia?: InputJsonValue | null
-    resetPasswordToken?: string | null
-    resetPasswordExpires?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutStudentInput
-    enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
-    certificates?: CertificateCreateNestedManyWithoutStudentInput
-    watches?: WatchCreateNestedManyWithoutStudentInput
-    reports?: ReportCreateNestedManyWithoutStudentInput
-    feedbacks?: FeedbackCreateNestedManyWithoutStudentInput
-    participations?: ParticipationCreateNestedManyWithoutStudentInput
+  export type UserUpsertWithoutTestimonialsInput = {
+    update: XOR<UserUpdateWithoutTestimonialsInput, UserUncheckedUpdateWithoutTestimonialsInput>
+    create: XOR<UserCreateWithoutTestimonialsInput, UserUncheckedCreateWithoutTestimonialsInput>
+    where?: UserWhereInput
   }
 
-  export type StudentUncheckedCreateWithoutTestimonialsInput = {
-    id?: string
-    idNumber: number
-    session: string
-    department: string
-    isActive?: boolean
-    phone?: string | null
-    bio?: string | null
-    profilePicture?: string | null
-    socialMedia?: InputJsonValue | null
-    resetPasswordToken?: string | null
-    resetPasswordExpires?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    userId: string
-    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
-    certificates?: CertificateUncheckedCreateNestedManyWithoutStudentInput
-    watches?: WatchUncheckedCreateNestedManyWithoutStudentInput
-    reports?: ReportUncheckedCreateNestedManyWithoutStudentInput
-    feedbacks?: FeedbackUncheckedCreateNestedManyWithoutStudentInput
-    participations?: ParticipationUncheckedCreateNestedManyWithoutStudentInput
+  export type UserUpdateToOneWithWhereWithoutTestimonialsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutTestimonialsInput, UserUncheckedUpdateWithoutTestimonialsInput>
   }
 
-  export type StudentCreateOrConnectWithoutTestimonialsInput = {
-    where: StudentWhereUniqueInput
-    create: XOR<StudentCreateWithoutTestimonialsInput, StudentUncheckedCreateWithoutTestimonialsInput>
+  export type UserUpdateWithoutTestimonialsInput = {
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    instructor?: InstructorUpdateOneWithoutUserNestedInput
+    student?: StudentUpdateOneWithoutUserNestedInput
+    admin?: AdminUpdateOneWithoutUserNestedInput
+    courses?: CourseUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutTestimonialsInput = {
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    instructor?: InstructorUncheckedUpdateOneWithoutUserNestedInput
+    student?: StudentUncheckedUpdateOneWithoutUserNestedInput
+    admin?: AdminUncheckedUpdateOneWithoutUserNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseUpsertWithoutTestimonialsInput = {
@@ -40804,61 +40941,6 @@ export namespace Prisma {
     reports?: ReportUncheckedUpdateManyWithoutCourseNestedInput
     participations?: ParticipationUncheckedUpdateManyWithoutCourseNestedInput
     courseQuizSets?: CourseQuizSetUncheckedUpdateManyWithoutCourseNestedInput
-  }
-
-  export type StudentUpsertWithoutTestimonialsInput = {
-    update: XOR<StudentUpdateWithoutTestimonialsInput, StudentUncheckedUpdateWithoutTestimonialsInput>
-    create: XOR<StudentCreateWithoutTestimonialsInput, StudentUncheckedCreateWithoutTestimonialsInput>
-    where?: StudentWhereInput
-  }
-
-  export type StudentUpdateToOneWithWhereWithoutTestimonialsInput = {
-    where?: StudentWhereInput
-    data: XOR<StudentUpdateWithoutTestimonialsInput, StudentUncheckedUpdateWithoutTestimonialsInput>
-  }
-
-  export type StudentUpdateWithoutTestimonialsInput = {
-    idNumber?: IntFieldUpdateOperationsInput | number
-    session?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
-    socialMedia?: InputJsonValue | InputJsonValue | null
-    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
-    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutStudentNestedInput
-    enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
-    certificates?: CertificateUpdateManyWithoutStudentNestedInput
-    watches?: WatchUpdateManyWithoutStudentNestedInput
-    reports?: ReportUpdateManyWithoutStudentNestedInput
-    feedbacks?: FeedbackUpdateManyWithoutStudentNestedInput
-    participations?: ParticipationUpdateManyWithoutStudentNestedInput
-  }
-
-  export type StudentUncheckedUpdateWithoutTestimonialsInput = {
-    idNumber?: IntFieldUpdateOperationsInput | number
-    session?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
-    socialMedia?: InputJsonValue | InputJsonValue | null
-    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
-    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: StringFieldUpdateOperationsInput | string
-    enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
-    certificates?: CertificateUncheckedUpdateManyWithoutStudentNestedInput
-    watches?: WatchUncheckedUpdateManyWithoutStudentNestedInput
-    reports?: ReportUncheckedUpdateManyWithoutStudentNestedInput
-    feedbacks?: FeedbackUncheckedUpdateManyWithoutStudentNestedInput
-    participations?: ParticipationUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type CourseCreateWithoutReportsInput = {
@@ -40926,7 +41008,6 @@ export namespace Prisma {
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     certificates?: CertificateCreateNestedManyWithoutStudentInput
     watches?: WatchCreateNestedManyWithoutStudentInput
-    testimonials?: TestimonialCreateNestedManyWithoutStudentInput
     feedbacks?: FeedbackCreateNestedManyWithoutStudentInput
     participations?: ParticipationCreateNestedManyWithoutStudentInput
   }
@@ -40949,7 +41030,6 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutStudentInput
     watches?: WatchUncheckedCreateNestedManyWithoutStudentInput
-    testimonials?: TestimonialUncheckedCreateNestedManyWithoutStudentInput
     feedbacks?: FeedbackUncheckedCreateNestedManyWithoutStudentInput
     participations?: ParticipationUncheckedCreateNestedManyWithoutStudentInput
   }
@@ -41059,7 +41139,6 @@ export namespace Prisma {
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     certificates?: CertificateUpdateManyWithoutStudentNestedInput
     watches?: WatchUpdateManyWithoutStudentNestedInput
-    testimonials?: TestimonialUpdateManyWithoutStudentNestedInput
     feedbacks?: FeedbackUpdateManyWithoutStudentNestedInput
     participations?: ParticipationUpdateManyWithoutStudentNestedInput
   }
@@ -41081,7 +41160,6 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutStudentNestedInput
     watches?: WatchUncheckedUpdateManyWithoutStudentNestedInput
-    testimonials?: TestimonialUncheckedUpdateManyWithoutStudentNestedInput
     feedbacks?: FeedbackUncheckedUpdateManyWithoutStudentNestedInput
     participations?: ParticipationUncheckedUpdateManyWithoutStudentNestedInput
   }
@@ -41129,7 +41207,6 @@ export namespace Prisma {
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     certificates?: CertificateCreateNestedManyWithoutStudentInput
     watches?: WatchCreateNestedManyWithoutStudentInput
-    testimonials?: TestimonialCreateNestedManyWithoutStudentInput
     reports?: ReportCreateNestedManyWithoutStudentInput
     participations?: ParticipationCreateNestedManyWithoutStudentInput
   }
@@ -41152,7 +41229,6 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutStudentInput
     watches?: WatchUncheckedCreateNestedManyWithoutStudentInput
-    testimonials?: TestimonialUncheckedCreateNestedManyWithoutStudentInput
     reports?: ReportUncheckedCreateNestedManyWithoutStudentInput
     participations?: ParticipationUncheckedCreateNestedManyWithoutStudentInput
   }
@@ -41231,7 +41307,6 @@ export namespace Prisma {
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     certificates?: CertificateUpdateManyWithoutStudentNestedInput
     watches?: WatchUpdateManyWithoutStudentNestedInput
-    testimonials?: TestimonialUpdateManyWithoutStudentNestedInput
     reports?: ReportUpdateManyWithoutStudentNestedInput
     participations?: ParticipationUpdateManyWithoutStudentNestedInput
   }
@@ -41253,7 +41328,6 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutStudentNestedInput
     watches?: WatchUncheckedUpdateManyWithoutStudentNestedInput
-    testimonials?: TestimonialUncheckedUpdateManyWithoutStudentNestedInput
     reports?: ReportUncheckedUpdateManyWithoutStudentNestedInput
     participations?: ParticipationUncheckedUpdateManyWithoutStudentNestedInput
   }
@@ -41368,7 +41442,6 @@ export namespace Prisma {
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     certificates?: CertificateCreateNestedManyWithoutStudentInput
     watches?: WatchCreateNestedManyWithoutStudentInput
-    testimonials?: TestimonialCreateNestedManyWithoutStudentInput
     reports?: ReportCreateNestedManyWithoutStudentInput
     feedbacks?: FeedbackCreateNestedManyWithoutStudentInput
   }
@@ -41391,7 +41464,6 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutStudentInput
     watches?: WatchUncheckedCreateNestedManyWithoutStudentInput
-    testimonials?: TestimonialUncheckedCreateNestedManyWithoutStudentInput
     reports?: ReportUncheckedCreateNestedManyWithoutStudentInput
     feedbacks?: FeedbackUncheckedCreateNestedManyWithoutStudentInput
   }
@@ -41480,7 +41552,6 @@ export namespace Prisma {
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     certificates?: CertificateUpdateManyWithoutStudentNestedInput
     watches?: WatchUpdateManyWithoutStudentNestedInput
-    testimonials?: TestimonialUpdateManyWithoutStudentNestedInput
     reports?: ReportUpdateManyWithoutStudentNestedInput
     feedbacks?: FeedbackUpdateManyWithoutStudentNestedInput
   }
@@ -41502,7 +41573,6 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutStudentNestedInput
     watches?: WatchUncheckedUpdateManyWithoutStudentNestedInput
-    testimonials?: TestimonialUncheckedUpdateManyWithoutStudentNestedInput
     reports?: ReportUncheckedUpdateManyWithoutStudentNestedInput
     feedbacks?: FeedbackUncheckedUpdateManyWithoutStudentNestedInput
   }
@@ -43195,6 +43265,15 @@ export namespace Prisma {
     categoryId: string
   }
 
+  export type TestimonialCreateManyUserInput = {
+    id?: string
+    content: string
+    rating?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    courseId: string
+  }
+
   export type CourseUpdateWithoutUserInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -43248,6 +43327,30 @@ export namespace Prisma {
     categoryId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type TestimonialUpdateWithoutUserInput = {
+    content?: StringFieldUpdateOperationsInput | string
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    course?: CourseUpdateOneRequiredWithoutTestimonialsNestedInput
+  }
+
+  export type TestimonialUncheckedUpdateWithoutUserInput = {
+    content?: StringFieldUpdateOperationsInput | string
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    courseId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TestimonialUncheckedUpdateManyWithoutUserInput = {
+    content?: StringFieldUpdateOperationsInput | string
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    courseId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type WeekCreateManyCourseInput = {
     id?: string
     title: string
@@ -43264,10 +43367,10 @@ export namespace Prisma {
   export type TestimonialCreateManyCourseInput = {
     id?: string
     content: string
-    rating: number
-    createdAt?: Date | string | null
-    updatedAt?: Date | string | null
-    studentId: string
+    rating?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
   }
 
   export type EnrollmentCreateManyCourseInput = {
@@ -43363,26 +43466,26 @@ export namespace Prisma {
 
   export type TestimonialUpdateWithoutCourseInput = {
     content?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    student?: StudentUpdateOneRequiredWithoutTestimonialsNestedInput
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutTestimonialsNestedInput
   }
 
   export type TestimonialUncheckedUpdateWithoutCourseInput = {
     content?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    studentId?: StringFieldUpdateOperationsInput | string
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type TestimonialUncheckedUpdateManyWithoutCourseInput = {
     content?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    studentId?: StringFieldUpdateOperationsInput | string
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type EnrollmentUpdateWithoutCourseInput = {
@@ -43537,15 +43640,6 @@ export namespace Prisma {
     weekId?: string | null
   }
 
-  export type TestimonialCreateManyStudentInput = {
-    id?: string
-    content: string
-    rating: number
-    createdAt?: Date | string | null
-    updatedAt?: Date | string | null
-    courseId: string
-  }
-
   export type ReportCreateManyStudentInput = {
     id?: string
     createdAt?: Date | string | null
@@ -43654,30 +43748,6 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lessonId?: StringFieldUpdateOperationsInput | string
     weekId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type TestimonialUpdateWithoutStudentInput = {
-    content?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    course?: CourseUpdateOneRequiredWithoutTestimonialsNestedInput
-  }
-
-  export type TestimonialUncheckedUpdateWithoutStudentInput = {
-    content?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    courseId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type TestimonialUncheckedUpdateManyWithoutStudentInput = {
-    content?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    courseId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ReportUpdateWithoutStudentInput = {

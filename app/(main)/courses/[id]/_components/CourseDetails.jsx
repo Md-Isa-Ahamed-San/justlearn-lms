@@ -30,7 +30,7 @@ import { formatPrice } from "../../../../../lib/formatPrice";
 import { formatDate } from "../../../../../lib/formatDate";
 
 const CourseDetails = ({ courseDetails }) => {
-  console.log(" CourseDetails ~ courseDetails:", courseDetails)
+  // console.log(" CourseDetails ~ courseDetails:", courseDetails)
   
 
   // Format date to readable format

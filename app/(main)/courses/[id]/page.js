@@ -10,6 +10,7 @@ const SingleCoursePage = async ({ params }) => {
   const { id } = await params;
 
   const courseDetails = await getCourseDetails(id);
+  console.log(" SingleCoursePage ~ courseDetails:", courseDetails)
 
   return (
     <div>
