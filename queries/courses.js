@@ -11,18 +11,29 @@ export const getCourseList = unstable_cache(
       const courses = await db.course.findMany({
         include: {
           category: true,
-          instructor: {
+          user: {
             select: {
               id: true,
               firstName: true,
               lastName: true,
               email: true,
-              profilePicture: true,
-              designation: true,
-              bio: true,
+              role: true,
+              instructor: {
+                select: {
+                  id: true,
+                  designation: true,
+                  bio: true,
+                  profilePicture: true,
+                  department: true,
+                },
+              },
             },
           },
-          quizSet: true,
+          courseQuizSets: {
+            include: {
+              quizSet: true,
+            },
+          },
         },
       });
 
@@ -37,7 +48,6 @@ export const getCourseList = unstable_cache(
     revalidate: REVALIDATE_TIME,
   }
 );
-
 // ✅ Get Course Details by ID (Cached per Course)
 // Modify your database query to ensure proper relations are loaded
 export const getCourseDetails = unstable_cache(

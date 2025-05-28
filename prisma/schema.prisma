@@ -18,131 +18,130 @@ enum Role {
   ADMIN      @map("admin")
 }
 
-// MARK: User 
+// MARK: User
 model User {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   firstName String
   lastName  String
+  email     String   @unique
   password  String
-  email     String @unique
-  role      Role   @default(STUDENT)
+  role      Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  // Relations to specific user types
-  student    Student?
-  instructor Instructor?
-  admin      Admin?
-
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
+  // Relationships
+  instructor Instructor? @relation("UserInstructor")
+  student    Student?    @relation("UserStudent")
+  admin      Admin?      @relation("UserAdmin")
+  courses    Course[]    @relation("UserCourses") // Added: User can have multiple courses (if they are instructor)
 }
 
-// MARK: Student 
-model Student {
-  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
-  idNumber             Int      @unique
-  session              String
-  department           String
-  isActive             Boolean   @default(true)
-  phone                String
-  bio                  String
-  profilePicture       String
-  socialMedia          Json?
-  resetPasswordToken   String?
-  resetPasswordExpires DateTime?
+// MARK: Course
+model Course {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  subtitle    String?
+  thumbnail   String
+  price       Int
+  active      Boolean  @default(true)
+  learning    String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  // Relations
-  userId         String          @unique @db.ObjectId
-  user           User            @relation(fields: [userId], references: [id])
-  enrollments    Enrollment[]
+  // Foreign Keys
+  userId     String @db.ObjectId // References User.id
+  categoryId String @db.ObjectId
+
+  // Relationships
+  user     User     @relation("UserCourses", fields: [userId], references: [id]) // Added: Course belongs to User
+  category Category @relation(fields: [categoryId], references: [id])
+
+  weeks          Week[]
   testimonials   Testimonial[]
-  watches        Watch[]
+  enrollments    Enrollment[]
   certificates   Certificate[]
   reports        Report[]
-  feedback       Feedback[]
   participations Participation[]
-
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
+  courseQuizSets CourseQuizSet[] // Junction table relation
 }
 
 // MARK: Instructor
 model Instructor {
   id                   String    @id @default(auto()) @map("_id") @db.ObjectId
-  idNumber             Int      @unique
+  idNumber             Int       @unique
   department           String
   isActive             Boolean   @default(true)
-  phone                String
-  bio                  String
-  designation          String
-  profilePicture       String
-  socialMedia          Json
+  phone                String?
+  bio                  String?
+  designation          String?
+  profilePicture       String?
+  socialMedia          Json?
   resetPasswordToken   String?
   resetPasswordExpires DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
 
-  // Relations
-  userId  String   @unique @db.ObjectId
-  user    User     @relation(fields: [userId], references: [id])
-  courses Course[] @relation("InstructorCourses")
-
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
-}
-
-// MARK: Admin 
-model Admin {
-  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
-  idNumber             Int?      @unique
-  isActive             Boolean   @default(true)
-  phone                String
-  bio                  String
-  designation          String
-  profilePicture       String
-  socialMedia          Json
-  resetPasswordToken   String?
-  resetPasswordExpires DateTime?
-
-  // Relations
+  // Foreign Key
   userId String @unique @db.ObjectId
-  user   User   @relation(fields: [userId], references: [id])
 
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
+  // Relationships
+  user User @relation("UserInstructor", fields: [userId], references: [id])
 }
 
-// MARK: Course 
-model Course {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  subtitle    String
-  description String
-  thumbnail   String?
-  price       Int       @default(0)
-  active      Boolean   @default(false)
-  learning    String[]
-  isActive    Boolean?  @default(true)
-  rating      Float?
-  popularity  Int?
-  lastUpdated DateTime?
-  createdAt   DateTime? @default(now())
-  updatedAt   DateTime? @updatedAt
+// MARK: Student
+model Student {
+  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
+  idNumber             Int       @unique
+  session              String
+  department           String
+  isActive             Boolean   @default(true)
+  phone                String?
+  bio                  String?
+  profilePicture       String?
+  socialMedia          Json?
+  resetPasswordToken   String?
+  resetPasswordExpires DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
 
-  // Relations
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId String   @db.ObjectId
+  // Foreign Key
+  userId String @unique @db.ObjectId
 
-  instructor   Instructor @relation("InstructorCourses", fields: [instructorId], references: [id])
-  instructorId String     @db.ObjectId
-
-  weeks          Week[]
-  testimonials   Testimonial[]
+  // Relationships
+  user           User            @relation("UserStudent", fields: [userId], references: [id])
   enrollments    Enrollment[]
-  quizSet        QuizSet?        @relation(fields: [quizSetId], references: [id])
-  quizSetId      String?         @db.ObjectId
+  certificates   Certificate[]
+  watches        Watch[]
+  testimonials   Testimonial[]
   reports        Report[]
+  feedbacks      Feedback[]
   participations Participation[]
 }
 
-// MARK:Enrollment table
+// MARK: Admin
+model Admin {
+  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
+  idNumber             Int       @unique
+  isActive             Boolean   @default(true)
+  phone                String?
+  bio                  String?
+  designation          String?
+  profilePicture       String?
+  socialMedia          Json?
+  resetPasswordToken   String?
+  resetPasswordExpires DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  // Foreign Key
+  userId String @unique @db.ObjectId
+
+  // Relationships
+  user User @relation("UserAdmin", fields: [userId], references: [id])
+}
+
+// MARK: Enrollment
 model Enrollment {
   id             String    @id @default(auto()) @map("_id") @db.ObjectId
   enrollmentDate DateTime  @map("enrollment_date")
@@ -152,27 +151,32 @@ model Enrollment {
   createdAt      DateTime? @default(now())
   updatedAt      DateTime? @updatedAt
 
+  // Foreign Keys
+  courseId  String @db.ObjectId
+  studentId String @db.ObjectId
+
   // Relations
-  courseId     String        @db.ObjectId
   course       Course        @relation(fields: [courseId], references: [id])
-  studentId    String        @db.ObjectId
   student      Student       @relation(fields: [studentId], references: [id])
   certificates Certificate[]
 }
 
-//MARK: Certificate 
+// MARK: Certificate 
 model Certificate {
   id              String    @id @default(auto()) @map("_id") @db.ObjectId
   certificateLink String    @map("certificate_link")
   createdAt       DateTime? @default(now())
   updatedAt       DateTime? @updatedAt
 
+  // Foreign Keys
+  studentId    String @db.ObjectId
+  courseId     String @db.ObjectId
+  enrollmentId String @db.ObjectId
+
   // Relations
-  studentId    String     @db.ObjectId
-  student      Student    @relation(fields: [studentId], references: [id])
-  courseId     String     @db.ObjectId
-  enrollmentId String     @db.ObjectId
-  enrollment   Enrollment @relation(fields: [enrollmentId], references: [id])
+  student    Student    @relation(fields: [studentId], references: [id])
+  course     Course     @relation(fields: [courseId], references: [id])
+  enrollment Enrollment @relation(fields: [enrollmentId], references: [id])
 }
 
 // MARK: Watch
@@ -183,16 +187,18 @@ model Watch {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 
-  // Relations
+  // Foreign Keys
   lessonId  String  @db.ObjectId
-  lesson    Lesson  @relation(fields: [lessonId], references: [id])
   studentId String  @db.ObjectId
-  student   Student @relation(fields: [studentId], references: [id])
   weekId    String? @db.ObjectId
-  week      Week?   @relation(fields: [weekId], references: [id])
+
+  // Relations
+  lesson  Lesson  @relation(fields: [lessonId], references: [id])
+  student Student @relation(fields: [studentId], references: [id])
+  week    Week?   @relation(fields: [weekId], references: [id])
 }
 
-// MARK:Testimonial 
+// MARK: Testimonial 
 model Testimonial {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
   content   String
@@ -200,14 +206,16 @@ model Testimonial {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 
+  // Foreign Keys
+  courseId  String @db.ObjectId
+  studentId String @db.ObjectId
+
   // Relations
-  courseId  String  @db.ObjectId
-  course    Course  @relation(fields: [courseId], references: [id])
-  studentId String  @db.ObjectId
-  student   Student @relation(fields: [studentId], references: [id])
+  course  Course  @relation(fields: [courseId], references: [id])
+  student Student @relation(fields: [studentId], references: [id])
 }
 
-// MARK:Report
+// MARK: Report
 model Report {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
   createdAt DateTime? @default(now())
@@ -216,14 +224,15 @@ model Report {
   totalCompletedLessons String[] @db.ObjectId
   totalCompletedModules String[] @map("totalCompletedModeules") @db.ObjectId
 
-  courseId String @db.ObjectId
-  course   Course @relation(fields: [courseId], references: [id])
+  // Foreign Keys
+  courseId     String  @db.ObjectId
+  studentId    String  @db.ObjectId
+  assessmentId String? @unique @db.ObjectId
 
-  studentId String  @db.ObjectId
-  student   Student @relation(fields: [studentId], references: [id])
-
-  assessmentId String?     @unique @db.ObjectId
-  assessment   Assessment? @relation(name: "ReportAssessment", fields: [assessmentId], references: [id])
+  // Relations
+  course     Course      @relation(fields: [courseId], references: [id])
+  student    Student     @relation(fields: [studentId], references: [id])
+  assessment Assessment? @relation(name: "ReportAssessment", fields: [assessmentId], references: [id])
 }
 
 // MARK: Feedback 
@@ -234,28 +243,32 @@ model Feedback {
   createdAt   DateTime? @default(now())
   updatedAt   DateTime? @updatedAt
 
+  // Foreign Keys
+  studentId String @db.ObjectId
+  weekId    String @db.ObjectId
+
   // Relations
-  studentId String  @db.ObjectId
-  student   Student @relation(fields: [studentId], references: [id])
-  weekId    String  @db.ObjectId
-  week      Week    @relation(fields: [weekId], references: [id])
+  student Student @relation(fields: [studentId], references: [id])
+  week    Week    @relation(fields: [weekId], references: [id])
 }
 
-// Updated Participation table (affected by Student relation change)
+// MARK: Participation
 model Participation {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
   progress  Json[] // Array of {weekId, completed, score}
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 
+  // Foreign Keys
+  courseId  String @db.ObjectId
+  studentId String @db.ObjectId
+
   // Relations
-  courseId  String  @db.ObjectId
-  course    Course  @relation(fields: [courseId], references: [id])
-  studentId String  @db.ObjectId
-  student   Student @relation(fields: [studentId], references: [id])
+  course  Course  @relation(fields: [courseId], references: [id])
+  student Student @relation(fields: [studentId], references: [id])
 }
 
-// MARK: Category C
+// MARK: Category 
 model Category {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   title       String
@@ -279,13 +292,15 @@ model Week {
   createdAt   DateTime? @default(now())
   updatedAt   DateTime? @updatedAt
 
+  // Foreign Keys
+  courseId String @db.ObjectId
+
   // Relations
   course    Course     @relation(fields: [courseId], references: [id])
-  courseId  String     @db.ObjectId
   lessons   Lesson[]
   resources Resource[] // Added relation
   watches   Watch[]
-  feedback  Feedback[] // Added relation
+  feedbacks Feedback[] // Added relation
   quizzes   Quiz[] // Added relation
 }
 
@@ -302,11 +317,11 @@ model Lesson {
   createdAt   DateTime? @default(now())
   updatedAt   DateTime? @updatedAt
 
-  // Relations - fixed relation to be many-to-one with Week
-
-  week   Week   @relation(fields: [weekId], references: [id]) // ✅ Foreign key & relation name
+  // Foreign Keys
   weekId String @db.ObjectId
 
+  // Relations
+  week    Week    @relation(fields: [weekId], references: [id])
   watches Watch[]
 }
 
@@ -321,12 +336,13 @@ model Quiz {
   createdAt   DateTime? @default(now())
   updatedAt   DateTime? @updatedAt
 
+  // Foreign Keys
+  weekId String? @db.ObjectId
+
   // Relations
-  weekId          String?          @db.ObjectId
   week            Week?            @relation(fields: [weekId], references: [id])
   questions       Question[] // Added relation
-  quizSets        QuizSet[]        @relation(fields: [quizSetIds], references: [id])
-  quizSetIds      String[]         @db.ObjectId
+  quizSetItems    QuizSetItem[] // Junction table relation
   assessmentItems AssessmentItem[]
 }
 
@@ -341,9 +357,38 @@ model QuizSet {
   updatedAt   DateTime? @updatedAt
 
   // Relations
-  quizzes Quiz[]   @relation(fields: [quizIds], references: [id])
-  quizIds String[] @db.ObjectId
-  courses Course[]
+  quizSetItems QuizSetItem[] // Junction table relation
+  courseItems  CourseQuizSet[] // Junction table relation
+}
+
+// MARK: QuizSetItem (Junction table for Quiz <-> QuizSet)
+model QuizSetItem {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  // Foreign Keys
+  quizId    String @db.ObjectId
+  quizSetId String @db.ObjectId
+
+  // Relations
+  quiz    Quiz    @relation(fields: [quizId], references: [id])
+  quizSet QuizSet @relation(fields: [quizSetId], references: [id])
+}
+
+// MARK: CourseQuizSet (Junction table for Course <-> QuizSet)
+model CourseQuizSet {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  // Foreign Keys
+  courseId  String @db.ObjectId
+  quizSetId String @db.ObjectId
+
+  // Relations
+  course  Course  @relation(fields: [courseId], references: [id])
+  quizSet QuizSet @relation(fields: [quizSetId], references: [id])
 }
 
 // MARK: Question
@@ -358,9 +403,11 @@ model Question {
   createdAt   DateTime? @default(now())
   updatedAt   DateTime? @updatedAt
 
-  // Relations
+  // Foreign Keys
   quizId String @db.ObjectId
-  quiz   Quiz   @relation(fields: [quizId], references: [id])
+
+  // Relations
+  quiz Quiz @relation(fields: [quizId], references: [id])
 }
 
 // MARK: Resource
@@ -373,9 +420,11 @@ model Resource {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 
-  // Relations
+  // Foreign Keys
   weekId String @db.ObjectId
-  week   Week   @relation(fields: [weekId], references: [id])
+
+  // Relations
+  week Week @relation(fields: [weekId], references: [id])
 }
 
 // MARK: Assessment
@@ -397,26 +446,30 @@ model AssessmentItem {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 
+  // Foreign Keys
+  quizId       String @db.ObjectId
+  assessmentId String @db.ObjectId
+
   // Relations
-  quizId String @db.ObjectId
-  quiz   Quiz   @relation(fields: [quizId], references: [id])
-
-  assessmentId String     @db.ObjectId
-  assessment   Assessment @relation(fields: [assessmentId], references: [id])
-
-  options Option[] // one-to-many
+  quiz       Quiz       @relation(fields: [quizId], references: [id])
+  assessment Assessment @relation(fields: [assessmentId], references: [id])
+  options    Option[] // one-to-many
 }
 
 // MARK: Option
 model Option {
-  id               String         @id @default(auto()) @map("_id") @db.ObjectId
-  option           String
-  isCorrect        Boolean
-  isSelected       Boolean
-  createdAt        DateTime?      @default(now())
-  updatedAt        DateTime?      @updatedAt
-  assessmentItemId String         @db.ObjectId
-  assessmentItem   AssessmentItem @relation(fields: [assessmentItemId], references: [id])
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  option     String
+  isCorrect  Boolean
+  isSelected Boolean
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @updatedAt
+
+  // Foreign Keys
+  assessmentItemId String @db.ObjectId
+
+  // Relations
+  assessmentItem AssessmentItem @relation(fields: [assessmentItemId], references: [id])
 }
 
 // MARK: Live Sessions
@@ -429,7 +482,10 @@ model Live {
   slug         String
   schedule     DateTime
   quizId       String?   @map("quiz_id")
-  instructorId String    @map("instructor_id")
+  instructorId String    @map("instructor_id") @db.ObjectId // Fixed: Added @db.ObjectId and should reference Instructor.id
   createdAt    DateTime? @default(now())
   updatedAt    DateTime? @updatedAt
+
+  // Relations (Optional: Add if you want to enforce referential integrity)
+  // instructor   Instructor @relation(fields: [instructorId], references: [id])
 }

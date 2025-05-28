@@ -23,11 +23,12 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-import { getCourseList } from "../../queries/courses";
+import { getCourseDetails, getCourseList } from "../../queries/courses";
 
 import { getCategories } from "../../queries/categories";
 import HeroLottieWrapper from "./_components/HeroLottieWrapper";
 import HeroLottie from "./_components/HeroLottie";
+import { getAllUsers } from "../../queries/users";
 
 //MARK: CATEGORIES
 
@@ -93,8 +94,13 @@ const howItWorks = [
 
 const HomePage = async () => {
   // const courseList = await getCourseList();
-  const categories = await getCategories();
+  console.log("inside home page........")
+
+  // const user = await getAllUsers()
   const courses = await getCourseList();
+  const categories = []
+  // const cc = await getCourseDetails("664aca881387e2ad2e8be484")
+  console.log(" HomePage ~ courses:", courses)
   // console.log(" HomePage ~ categories:", categories)
 
   // console.log("HomePage ~ course:", JSON.stringify(courseList, null, 2));

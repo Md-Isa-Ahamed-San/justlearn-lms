@@ -1,0 +1,134 @@
+[
+  {
+    "_id": {
+      "$oid": "675a1d2e3f4a5b678901234a"
+    },
+    "idNumber": 2001,
+    "session": "2023-2024",
+    "department": "Computer Science",
+    "isActive": true,
+    "phone": "+4455667788",
+    "bio": "Passionate about finance and investing, currently learning programming to combine both interests.",
+    "profilePicture": "https://i.pravatar.cc/150?u=michael.brown",
+    "socialMedia": {
+      "linkedin": "https://linkedin.com/in/michaelbrown"
+    },
+    "resetPasswordToken": null,
+    "resetPasswordExpires": null,
+    "userId": {
+      "$oid": "663a0b36bfe65e5778eedf7e"
+    },
+    "createdAt": {
+      "$date": "2023-01-03T19:25:02.609Z"
+    },
+    "updatedAt": {
+      "$date": "2024-07-12T10:42:07.192Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "675a1d2e3f4a5b678901234b"
+    },
+    "idNumber": 2002,
+    "session": "2023-2024",
+    "department": "Software Engineering",
+    "isActive": true,
+    "phone": "+42255667788",
+    "bio": "I love programming, I eat JavaScript for breakfast and code React for dinner!",
+    "profilePicture": "https://i.pravatar.cc/150?u=alex.brown",
+    "socialMedia": {
+      "linkedin": "https://linkedin.com/in/alexbrown",
+      "github": "https://github.com/alexbrown"
+    },
+    "resetPasswordToken": null,
+    "resetPasswordExpires": null,
+    "userId": {
+      "$oid": "664accf41387e2ad2e8be488"
+    },
+    "createdAt": {
+      "$date": "2023-07-28T18:10:11.412Z"
+    },
+    "updatedAt": {
+      "$date": "2024-10-04T15:47:31.209Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "675a1d2e3f4a5b678901234c"
+    },
+    "idNumber": 2003,
+    "session": "2022-2023",
+    "department": "Information Technology",
+    "isActive": true,
+    "phone": "+88255667788",
+    "bio": "Love coding and gaming. Always exploring new technologies and frameworks.",
+    "profilePicture": "https://i.pravatar.cc/150?u=fatima.sheikh",
+    "socialMedia": {
+      "linkedin": "https://linkedin.com/in/fatima",
+      "twitter": "@fatima_codes"
+    },
+    "resetPasswordToken": null,
+    "resetPasswordExpires": null,
+    "userId": {
+      "$oid": "664adddc1387e2ad2e8be4a0"
+    },
+    "createdAt": {
+      "$date": "2022-04-19T03:52:19.023Z"
+    },
+    "updatedAt": {
+      "$date": "2024-11-11T21:06:44.573Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "675a1d2e3f4a5b678901234d"
+    },
+    "idNumber": 2004,
+    "session": "2023-2024",
+    "department": "Computer Science",
+    "isActive": true,
+    "phone": "+1555999888",
+    "bio": "Open Source enthusiast with 1K+ GitHub stars. Building the future of React development.",
+    "profilePicture": "https://res.cloudinary.com/reactplay/image/upload/v1686126339/logos/twitter-thumb_fiuv8m.png",
+    "socialMedia": {
+      "github": "https://github.com/reactplay",
+      "twitter": "@reactplayio",
+      "website": "https://reactplay.io"
+    },
+    "resetPasswordToken": null,
+    "resetPasswordExpires": null,
+    "userId": {
+      "$oid": "66504fc6171d3fa703e7e05b"
+    },
+    "createdAt": {
+      "$date": "2023-02-10T10:07:20.491Z"
+    },
+    "updatedAt": {
+      "$date": "2024-05-06T13:58:14.178Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "675a1d2e3f4a5b678901234e"
+    },
+    "idNumber": 2005,
+    "session": "2022-2023",
+    "department": "Computer Science",
+    "isActive": true,
+    "phone": "+1234567000",
+    "bio": "Testing new technologies and learning programming fundamentals.",
+    "profilePicture": "https://i.pravatar.cc/150?u=test.user",
+    "socialMedia": null,
+    "resetPasswordToken": null,
+    "resetPasswordExpires": null,
+    "userId": {
+      "$oid": "664d8582439c45ebdc6f0e26"
+    },
+    "createdAt": {
+      "$date": "2022-08-12T17:18:40.809Z"
+    },
+    "updatedAt": {
+      "$date": "2024-01-25T22:09:33.962Z"
+    }
+  }
+]

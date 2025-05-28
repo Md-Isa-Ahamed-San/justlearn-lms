@@ -44,7 +44,7 @@ function generateTokens(user) {
 // Function to refresh access token for credentials
 async function refreshCredentialsToken(token) {
   try {
-    console.log("Refreshing credentials token...");
+    // console.log("Refreshing credentials token...");
 
     // Verify the refresh token
     const decoded = jwt.verify(
@@ -124,7 +124,7 @@ async function refreshGoogleAccessToken(token) {
       refreshToken: refreshedTokens?.refresh_token ?? token.refreshToken,
     };
   } catch (error) {
-    console.log("Google token refresh error:", error);
+    // console.log("Google token refresh error:", error);
     return {
       ...token,
       error: "RefreshAccessTokenError",
@@ -177,8 +177,8 @@ export const {
       // console.log(`JWT Account: ${JSON.stringify(account)}`);
       //  chalkLog.structured(token)
       //  chalkLog.structured(account)
-      chalkLog.log("token",token);
-      chalkLog.log("account",account);
+      // chalkLog.log("token",token);
+      // chalkLog.log("account",account);
       // Initial sign in
       if (account && user) {
         if (account.provider === "google") {
@@ -216,8 +216,8 @@ export const {
       }
 
       // Access token has expired, try to update it
-      console.log(`⚠️ Token expired at ${new Date(Date.now())}, refreshing...`);
-      console.log(`📊 Token expiry was: ${new Date(token.accessTokenExpires)}`);
+      // console.log(`⚠️ Token expired at ${new Date(Date.now())}, refreshing...`);
+      // console.log(`📊 Token expiry was: ${new Date(token.accessTokenExpires)}`);
 
       if (token.provider === "google") {
         return refreshGoogleAccessToken(token);
