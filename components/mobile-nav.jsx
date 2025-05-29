@@ -6,13 +6,16 @@ import { useLockBody } from "@/hooks/use-lock-body";
 
 import { Button, buttonVariants } from "./ui/button";
 import { useSession, signOut } from "next-auth/react";
+import { useUserData } from "../provider/user-data-provider";
 export function MobileNav({ items, children }) {
+  const { setUserData } = useUserData()
   useLockBody();
   const { data: session, status } = useSession();
 
   if (session?.error === "RefreshAccessTokenError") {
     console.log("RefreshAccessTokenError... Signing out...");
     signOut();
+    setUserData(null);
     redirect("/login");
     
   }

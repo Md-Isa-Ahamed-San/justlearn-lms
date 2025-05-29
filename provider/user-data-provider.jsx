@@ -44,6 +44,7 @@ export function UserDataProvider({ children, initialUserData }) {
     refreshUserData,
     isAuthenticated: status === "authenticated",
     session,
+    setUserData
   };
 
   return (

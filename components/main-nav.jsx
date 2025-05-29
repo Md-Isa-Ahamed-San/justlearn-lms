@@ -25,7 +25,7 @@ import { useUserData } from "../provider/user-data-provider";
 export function MainNav({ items, children }) {
   const { data: session, status, update } = useSession();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const { userData } = useUserData()
+  const { userData,setUserData } = useUserData()
   
 
   const router = useRouter();
@@ -34,6 +34,7 @@ export function MainNav({ items, children }) {
     await signOut({ redirect: false });
     // Manually trigger a session update on the client
     await update();
+    setUserData(null);
 
     router.push("/");
   };
