@@ -367,7 +367,7 @@ const AnimatedForm = memo(function AnimatedForm({
       {/* //#MARK:google */}
       {googleLogin && (
         <>
-        <form  action={doSocialLogin}><BoxReveal
+        <form action={doSocialLogin}><BoxReveal
             boxColor="hsl(var(--muted))"
             duration={0.3}
             overflow="visible"
@@ -381,12 +381,13 @@ const AnimatedForm = memo(function AnimatedForm({
               onClick={() => console.log("Google login clicked")}
             >
               <span className="flex items-center justify-center w-full h-full gap-3">
-                <Image
+                {/* <Image
                   src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png"
                   width={26}
                   height={26}
                   alt="Google Icon"
-                />
+                  unoptimized
+                /> */}
                 {googleLogin}
               </span>
 

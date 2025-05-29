@@ -15,16 +15,26 @@ const nextConfig = {
         hostname: "avatars.githubusercontent.com",
         pathname: '/**',
       },
-      // {
-      //   protocol: 'https',
-      //   hostname: "i.pravatar.cc",
-      //   pathname: '/**',
-      // },
       {
         protocol: 'https',
         hostname: "res.cloudinary.com",
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: "developers.google.com",
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: "cdn.jsdelivr.net",
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: "cdn1.iconfinder.com",
+        pathname: '/**',
+      }
     ],
   },
 };

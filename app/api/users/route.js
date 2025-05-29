@@ -1,8 +1,8 @@
 // app/api/users/route.js
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 import { db } from "../../../lib/prisma";
-import { getAllUsers, postUser } from "../../../queries/users";
+import { getAllUsers} from "../../../queries/users";
 export async function GET() {
   try {
     const users = await getAllUsers();

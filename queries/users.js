@@ -1,17 +1,18 @@
+import { auth } from "@/auth";
+import bcrypt from "bcryptjs";
 import { db } from "../lib/prisma";
-import bcrypt from "bcrypt";
 
 // Helper function to get include options based on role
 const getIncludeByRole = (role) => {
   const includeOptions = {};
-  switch (role?.toUpperCase()) {
-    case 'STUDENT':
+  switch (role) {
+    case "student":
       includeOptions.student = true;
       break;
-    case 'INSTRUCTOR':
+    case "instructor":
       includeOptions.instructor = true;
       break;
-    case 'ADMIN':
+    case "admin":
       includeOptions.admin = true;
       break;
     default:
@@ -25,103 +26,47 @@ const getIncludeByRole = (role) => {
 
 // =================== BASIC USER OPERATIONS ===================
 
-// MARK:Login user and check profile completion
-export const loginUser = async (email, password) => {
+// MARK: Get server user data
+export async function getServerUserData() {
   try {
-    // First get user to determine role
-    const userBasic = await db.user.findUnique({
-      where: { email },
-      select: { id: true, email: true, password: true, role: true },
-    });
+    const session = await auth();
 
-    if (!userBasic) {
-      throw new Error("Invalid credentials");
+    if (!session?.user?.email) {
+      return null;
     }
 
-    const isPasswordValid = await bcrypt.compare(password, userBasic.password);
-    if (!isPasswordValid) {
-      throw new Error("Invalid credentials");
-    }
 
-    // Now get user with appropriate role data
-    const user = await db.user.findUnique({
-      where: { email },
-      include: getIncludeByRole(userBasic.role),
-    });
+    const userData = await getUserByEmail(session.user.email);
 
-    // Check if profile is complete
-    let isProfileComplete = false;
-    let roleData = null;
-
-    switch (user.role) {
-      case "STUDENT":
-        isProfileComplete = !!user.student;
-        roleData = user.student;
-        break;
-      case "INSTRUCTOR":
-        isProfileComplete = !!user.instructor;
-        roleData = user.instructor;
-        break;
-      case "ADMIN":
-        isProfileComplete = !!user.admin;
-        roleData = user.admin;
-        break;
-    }
-
-    // Remove password from response
-    const { password: _, ...userWithoutPassword } = user;
-
+    // Combine session and database data
     return {
-      user: userWithoutPassword,
-      isProfileComplete,
-      roleData,
+      ...session,
+      userData,
     };
   } catch (error) {
-    throw new Error(`Error during login: ${error.message}`);
+    console.error("Error fetching server user data:", error);
+    return null;
+  }
+}
+//MARK: POST USER
+export const postUser = async (data) => {
+  try {
+    const user = await db.user.create({
+      data: {
+        name: data.name,
+
+        email: data.email,
+        password: await bcrypt.hash(data.password, 10),
+        role: data.role,
+      },
+    });
+    return user;
+  } catch (error) {
+    throw new Error(`Error creating user: ${error.message}`);
   }
 };
 
 // MARK:Check if user profile is complete (middleware helper)
-export const checkProfileCompletion = async (userId) => {
-  try {
-    // First get user to determine role
-    const userBasic = await db.user.findUnique({
-      where: { id: userId },
-      select: { id: true, role: true },
-    });
-
-    if (!userBasic) {
-      throw new Error("User not found");
-    }
-
-    // Now get user with appropriate role data
-    const user = await db.user.findUnique({
-      where: { id: userId },
-      include: getIncludeByRole(userBasic.role),
-    });
-
-    let isComplete = false;
-    switch (user.role) {
-      case "STUDENT":
-        isComplete = !!user.student;
-        break;
-      case "INSTRUCTOR":
-        isComplete = !!user.instructor;
-        break;
-      case "ADMIN":
-        isComplete = !!user.admin;
-        break;
-    }
-
-    return {
-      isComplete,
-      role: user.role,
-      missingProfile: !isComplete,
-    };
-  } catch (error) {
-    throw new Error(`Error checking profile completion: ${error.message}`);
-  }
-};
 
 // =================== ROLE-SPECIFIC PROFILE CREATION ===================
 
@@ -138,7 +83,7 @@ export const completeStudentProfile = async (userId, studentData) => {
       throw new Error("User not found");
     }
 
-    if (user.role !== "STUDENT") {
+    if (user.role !== "student") {
       throw new Error("User is not a student");
     }
 
@@ -184,7 +129,7 @@ export const completeInstructorProfile = async (userId, instructorData) => {
       throw new Error("User not found");
     }
 
-    if (user.role !== "INSTRUCTOR") {
+    if (user.role !== "instructor") {
       throw new Error("User is not an instructor");
     }
 
@@ -230,7 +175,7 @@ export const completeAdminProfile = async (userId, adminData) => {
       throw new Error("User not found");
     }
 
-    if (user.role !== "ADMIN") {
+    if (user.role !== "admin") {
       throw new Error("User is not an admin");
     }
 
@@ -280,7 +225,7 @@ export const getAllUsers = async () => {
           where: { id: user.id },
           include: getIncludeByRole(user.role),
         });
-        
+
         // Remove password from response
         const { password, ...userWithoutPassword } = userWithRole;
         return userWithoutPassword;
@@ -357,13 +302,13 @@ export const getUsersByRole = async (role) => {
 
     // Only include the relevant role table for efficiency
     switch (role.toUpperCase()) {
-      case "STUDENT":
+      case "student":
         includeOptions.student = true;
         break;
-      case "INSTRUCTOR":
+      case "instructor":
         includeOptions.instructor = true;
         break;
-      case "ADMIN":
+      case "admin":
         includeOptions.admin = true;
         break;
       default:
@@ -496,15 +441,15 @@ export const deleteUser = async (id) => {
       }
 
       // Delete role-specific record first (due to foreign key constraints)
-      if (user.role === "STUDENT" && user.student) {
+      if (user.role === "student" && user.student) {
         await prisma.student.delete({
           where: { userId: id },
         });
-      } else if (user.role === "INSTRUCTOR" && user.instructor) {
+      } else if (user.role === "instructor" && user.instructor) {
         await prisma.instructor.delete({
           where: { userId: id },
         });
-      } else if (user.role === "ADMIN" && user.admin) {
+      } else if (user.role === "admin" && user.admin) {
         await prisma.admin.delete({
           where: { userId: id },
         });
@@ -530,60 +475,60 @@ export const deleteUser = async (id) => {
 export const createUser = async (data) => {
   try {
     const { role, roleData, ...userData } = data;
-    
+
     // Create user with transaction to ensure data consistency
     const result = await db.$transaction(async (prisma) => {
       // Create the base user with role
       const user = await prisma.user.create({
         data: {
-          firstName: userData.firstName,
-          lastName: userData.lastName,
+          name: userData.name,
+
           email: userData.email,
           password: await bcrypt.hash(userData.password, 10),
-          role: role || 'STUDENT', // Default to STUDENT if not provided
+          role: role || "student", // Default to STUDENT if not provided
         },
       });
 
       // Create role-specific record based on the role
       let roleRecord = null;
-      
-      if (role === 'STUDENT') {
+
+      if (role === "student") {
         roleRecord = await prisma.student.create({
           data: {
             userId: user.id,
             idNumber: roleData.idNumber,
             session: roleData.session,
             department: roleData.department,
-            phone: roleData.phone || '',
-            bio: roleData.bio || '',
-            profilePicture: roleData.profilePicture || '',
+            phone: roleData.phone || "",
+            bio: roleData.bio || "",
+            profilePicture: roleData.profilePicture || "",
             socialMedia: roleData.socialMedia || null,
             isActive: roleData.isActive ?? true,
           },
         });
-      } else if (role === 'INSTRUCTOR') {
+      } else if (role === "instructor") {
         roleRecord = await prisma.instructor.create({
           data: {
             userId: user.id,
             idNumber: roleData.idNumber,
             department: roleData.department,
-            phone: roleData.phone || '',
-            bio: roleData.bio || '',
+            phone: roleData.phone || "",
+            bio: roleData.bio || "",
             designation: roleData.designation,
-            profilePicture: roleData.profilePicture || '',
+            profilePicture: roleData.profilePicture || "",
             socialMedia: roleData.socialMedia || {},
             isActive: roleData.isActive ?? true,
           },
         });
-      } else if (role === 'ADMIN') {
+      } else if (role === "admin") {
         roleRecord = await prisma.admin.create({
           data: {
             userId: user.id,
             idNumber: roleData.idNumber || null,
-            phone: roleData.phone || '',
-            bio: roleData.bio || '',
+            phone: roleData.phone || "",
+            bio: roleData.bio || "",
             designation: roleData.designation,
-            profilePicture: roleData.profilePicture || '',
+            profilePicture: roleData.profilePicture || "",
             socialMedia: roleData.socialMedia || {},
             isActive: roleData.isActive ?? true,
           },
@@ -615,25 +560,25 @@ export const getActiveUsersByRole = async (role) => {
     };
 
     // Add role-specific active condition
-    if (role.toUpperCase() === 'STUDENT') {
+    if (role.toUpperCase() === "student") {
       whereCondition.student = { isActive: true };
-    } else if (role.toUpperCase() === 'INSTRUCTOR') {
+    } else if (role.toUpperCase() === "instructor") {
       whereCondition.instructor = { isActive: true };
-    } else if (role.toUpperCase() === 'ADMIN') {
+    } else if (role.toUpperCase() === "admin") {
       whereCondition.admin = { isActive: true };
     }
 
     const includeOptions = {};
     includeOptions[role.toLowerCase()] = true;
-    
+
     const users = await db.user.findMany({
       where: whereCondition,
       include: includeOptions,
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
     });
-    
+
     // Remove passwords from response
     return users.map((user) => {
       const { password, ...userWithoutPassword } = user;
@@ -648,23 +593,23 @@ export const getActiveUsersByRole = async (role) => {
 export const getUserCountByRole = async () => {
   try {
     const counts = await db.user.groupBy({
-      by: ['role'],
+      by: ["role"],
       _count: {
         role: true,
       },
     });
-    
+
     // Transform to more readable format
     const result = {
-      STUDENT: 0,
-      INSTRUCTOR: 0,
-      ADMIN: 0,
+      student: 0,
+      instructor: 0,
+      admin: 0,
     };
-    
-    counts.forEach(count => {
+
+    counts.forEach((count) => {
       result[count.role] = count._count.role;
     });
-    
+
     return result;
   } catch (error) {
     throw new Error(`Error getting user count by role: ${error.message}`);
@@ -674,40 +619,48 @@ export const getUserCountByRole = async () => {
 // MARK: Search users with filters
 export const searchUsers = async (filters = {}) => {
   try {
-    const { 
-      search, 
-      role, 
-      isActive, 
+    const {
+      search,
+      role,
+      isActive,
       department,
-      page = 1, 
-      limit = 10 
+      page = 1,
+      limit = 10,
     } = filters;
-    
+
     const whereCondition = {};
-    
+
     // Search in name or email
     if (search) {
       whereCondition.OR = [
-        { firstName: { contains: search, mode: 'insensitive' } },
-        { lastName: { contains: search, mode: 'insensitive' } },
-        { email: { contains: search, mode: 'insensitive' } },
+        { name: { contains: search, mode: "insensitive" } },
+
+        { email: { contains: search, mode: "insensitive" } },
       ];
     }
-    
+
     // Filter by role
     if (role) {
       whereCondition.role = role.toUpperCase();
     }
-    
+
     // Filter by department (works for students and instructors)
     if (department) {
       whereCondition.OR = [
         ...(whereCondition.OR || []),
-        { student: { department: { contains: department, mode: 'insensitive' } } },
-        { instructor: { department: { contains: department, mode: 'insensitive' } } },
+        {
+          student: {
+            department: { contains: department, mode: "insensitive" },
+          },
+        },
+        {
+          instructor: {
+            department: { contains: department, mode: "insensitive" },
+          },
+        },
       ];
     }
-    
+
     // Filter by active status
     if (isActive !== undefined) {
       whereCondition.OR = [
@@ -717,9 +670,9 @@ export const searchUsers = async (filters = {}) => {
         { admin: { isActive } },
       ];
     }
-    
+
     const skip = (page - 1) * limit;
-    
+
     // First get users without role data to determine roles
     const [usersBasic, total] = await Promise.all([
       db.user.findMany({
@@ -727,14 +680,14 @@ export const searchUsers = async (filters = {}) => {
         skip,
         take: limit,
         orderBy: {
-          createdAt: 'desc',
+          createdAt: "desc",
         },
       }),
       db.user.count({
         where: whereCondition,
       }),
     ]);
-    
+
     // Then fetch each user with their specific role data
     const users = await Promise.all(
       usersBasic.map(async (user) => {
@@ -742,13 +695,13 @@ export const searchUsers = async (filters = {}) => {
           where: { id: user.id },
           include: getIncludeByRole(user.role),
         });
-        
+
         // Remove password from response
         const { password, ...userWithoutPassword } = userWithRole;
         return userWithoutPassword;
       })
     );
-    
+
     return {
       users,
       pagination: {

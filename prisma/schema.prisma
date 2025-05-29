@@ -13,22 +13,24 @@ datasource db {
 }
 
 enum Role {
-  STUDENT    @map("student")
-  INSTRUCTOR @map("instructor")
-  ADMIN      @map("admin")
+  student
+  instructor
+  admin
 }
 
 // MARK: User
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  firstName String
-  lastName  String
-  email     String   @unique
-  password  String
-  role      Role
-  isActive  Boolean @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  email      String   @unique
+  password   String? //Optional for Oauth users(google signin users)
+  provider   String? // "google", "credentials", etc.
+  providerId String? // Provider's user ID
+  image String?
+  role       Role?
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   // Relationships
   instructor   Instructor?   @relation("UserInstructor")
@@ -111,11 +113,11 @@ model Student {
   userId String @unique @db.ObjectId
 
   // Relationships
-  user           User            @relation("UserStudent", fields: [userId], references: [id])
-  enrollments    Enrollment[]
-  certificates   Certificate[]
-  watches        Watch[]
- 
+  user         User          @relation("UserStudent", fields: [userId], references: [id])
+  enrollments  Enrollment[]
+  certificates Certificate[]
+  watches      Watch[]
+
   reports        Report[]
   feedbacks      Feedback[]
   participations Participation[]
@@ -216,6 +218,7 @@ model Testimonial {
   user   User   @relation("UserTestimonials", fields: [userId], references: [id])
   course Course @relation("CourseTestimonials", fields: [courseId], references: [id])
 }
+
 // MARK: Report
 model Report {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId

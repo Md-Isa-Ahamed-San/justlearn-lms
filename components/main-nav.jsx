@@ -19,11 +19,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { useUserData } from "../provider/user-data-provider";
 
 
 export function MainNav({ items, children }) {
   const { data: session, status, update } = useSession();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const { userData } = useUserData()
+  
+
   const router = useRouter();
   const handleSignOut = async () => {
     // Call signOut with redirect: false to prevent full page reload
@@ -38,6 +42,7 @@ export function MainNav({ items, children }) {
   }
 
   console.log(" MainNav ~ session:", session);
+  console.log(" MainNav ~ userData:", userData)
   return (
     <div className="flex justify-between items-center w-full px-4 py-3">
       {/* Left: Logo */}

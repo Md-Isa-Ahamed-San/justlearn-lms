@@ -14,8 +14,8 @@ export const getCourseList = unstable_cache(
           user: {
             select: {
               id: true,
-              firstName: true,
-              lastName: true,
+              name: true,
+              
               email: true,
               role: true,
               isActive : true,

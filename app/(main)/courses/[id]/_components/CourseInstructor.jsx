@@ -33,7 +33,7 @@ const CourseInstructor = async ({ courseDetails }) => {
     await getInstructorDetailedStats(instructorProfile.id);
 
   // Extract commonly used values
-  const fullName = `${userProfile.firstName} ${userProfile.lastName}`;
+  const fullName = `${userProfile.name}`;
   const profileImage = instructorProfile.profilePicture || "/placeholder.svg?height=250&width=250";
   const socialMedia = instructorProfile.socialMedia;
 

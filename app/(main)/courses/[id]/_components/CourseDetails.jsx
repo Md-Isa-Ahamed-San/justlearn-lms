@@ -39,9 +39,9 @@ const CourseDetails = ({ courseDetails }) => {
   // Get instructor initials for avatar fallback
   const getInstructorInitials = () => {
     if (!courseDetails?.instructor) return "IN";
-    return `${courseDetails.instructor.firstName.charAt(
+    return `${courseDetails.instructor.name.charAt(
       0
-    )}${courseDetails.instructor.lastName.charAt(0)}`;
+    )}`;
   };
 
   // Calculate total lessons from modules
@@ -78,14 +78,14 @@ const CourseDetails = ({ courseDetails }) => {
                         courseDetails?.instructor?.profilePicture ||
                         "/placeholder.svg"
                       }
-                      alt={`${courseDetails?.instructor?.firstName} ${courseDetails?.instructor?.lastName}`}
+                      alt={`${courseDetails?.instructor?.name} `}
                     />
                     <AvatarFallback>{getInstructorInitials()}</AvatarFallback>
                   </Avatar>
                   <div>
                     <p className="text-sm font-medium">
-                      {courseDetails?.instructor?.firstName}{" "}
-                      {courseDetails?.instructor?.lastName}
+                      {courseDetails?.instructor?.name}
+                      
                     </p>
                     <p className="text-xs text-muted-foreground">
                       {courseDetails?.instructor?.designation}

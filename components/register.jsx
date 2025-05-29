@@ -156,8 +156,8 @@ const iconsArray = [
 
 export function Register() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+   
+    name: "",
     email: "",
     password: "",
     role:"student"
@@ -210,18 +210,11 @@ export function Register() {
     subHeader: "Sign up to your account",
     fields: [
       {
-        label: "First Name",
+        label: "Name",
         required: true,
         type: "text",
         placeholder: "Enter your first name",
-        onChange: (event) => handleInputChange(event, "firstName"),
-      },
-      {
-        label: "Last Name",
-        required: true,
-        type: "text",
-        placeholder: "Enter your last name",
-        onChange: (event) => handleInputChange(event, "lastName"),
+        onChange: (event) => handleInputChange(event, "name"),
       },
       {
         label: "Email",

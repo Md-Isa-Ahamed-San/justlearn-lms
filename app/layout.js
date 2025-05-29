@@ -8,6 +8,8 @@ import "./globals.css";
 import { ThemeProvider } from "../provider/theme-provider";
 import ThemeSwitcher from "../components/theme-switcher";
 import { SessionProvider } from "next-auth/react";
+import { getServerUserData } from "../queries/users";
+import { UserDataProvider } from "../provider/user-data-provider";
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Inter({ subsets: ["latin"], variable: "--font-poppins" });
 
@@ -23,6 +25,8 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   // const conn = await dbConnect();
+  const serverUserData = await getServerUserData();
+  console.log(" RootLayout ~ serverUserData:", serverUserData)
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <Head>
@@ -41,7 +45,13 @@ export default async function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange={false}
         >
-          <SessionProvider>{children}</SessionProvider>
+
+          <SessionProvider>
+            <UserDataProvider initialUserData={serverUserData}>
+
+            {children}
+            </UserDataProvider>
+            </SessionProvider>
           <ThemeSwitcher />
         </ThemeProvider>
         <Toaster richColors position="top-center" />

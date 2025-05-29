@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "../../../lib/prisma";
 import { postUser } from "../../../queries/users";
 
+
 export async function POST(request) {
   try {
     const data = await request.json();
@@ -9,8 +10,8 @@ export async function POST(request) {
 
     // Basic validation
     if (
-      !data.firstName ||
-      !data.lastName ||
+      !data.name ||
+     
       !data.email ||
       !data.password ||
       !data.role

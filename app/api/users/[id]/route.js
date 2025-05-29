@@ -1,88 +1,43 @@
+// app/api/user/[email]/route.js
+import { auth } from "@/auth";
+import { NextResponse } from "next/server";
+import { getUserByEmail } from "../../../../queries/users";
+
 export async function GET(request, { params }) {
   try {
-    const user = await db.user.findUnique({
-      where: { id: params.id },
-      select: {
-        id: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-        phone: true,
-        role: true,
-        bio: true,
-        socialMedia: true,
-        profilePicture: true,
-        designation: true,
-        // Include role-specific relations based on the user's role
-        ...(await shouldIncludeRoleSpecificData(params.id)),
-      },
-    });
-
-    if (!user) {
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    // Verify authentication
+    const session = await auth();
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    return NextResponse.json(user, { status: 200 });
+    // Decode the email parameter (in case it was URL encoded)
+    const requestedEmail = decodeURIComponent(params.email);
+
+    // Ensure user can only access their own data
+    if (session.user.email !== requestedEmail) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    // Fetch user data
+    const userData = await getUserByEmail(requestedEmail);
+    
+    if (!userData) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    // Combine session and database data
+    const responseData = {
+      ...session,
+      userData,
+    };
+
+    return NextResponse.json(responseData);
   } catch (error) {
-    console.error("Error fetching user:", error);
+    console.error("Error fetching user data:", error);
     return NextResponse.json(
-      { message: "Internal Server Error" },
+      { error: "Internal server error" },
       { status: 500 }
     );
-  }
-}
-
-// Helper function to determine which relations to include based on user role
-async function shouldIncludeRoleSpecificData(userId) {
-  try {
-    const user = await db.user.findUnique({
-      where: { id: userId },
-      select: { role: true },
-    });
-
-    if (!user) return {};
-
-    switch (user.role) {
-      case "instructor":
-        return {
-          taughtCourses: {
-            select: {
-              id: true,
-              title: true,
-              description: true,
-              thumbnail: true,
-              status: true,
-            },
-          },
-        };
-      case "student":
-        return {
-          enrollments: {
-            include: {
-              course: {
-                select: {
-                  id: true,
-                  title: true,
-                  thumbnail: true,
-                },
-              },
-            },
-          },
-          reports: true,
-          watches: true,
-        };
-      case "admin":
-        // Admin might need access to everything
-        return {
-          taughtCourses: true,
-          enrollments: true,
-          reports: true,
-        };
-      default:
-        return {};
-    }
-  } catch (error) {
-    console.error("Error determining role-specific data:", error);
-    return {};
   }
 }

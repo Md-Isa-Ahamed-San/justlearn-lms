@@ -34,16 +34,16 @@ const Testimonials = ({ testimonials = [] }) => {
                         <Avatar className="h-12 w-12">
                           <AvatarImage
                             src={user.profilePicture || "/placeholder.svg"}
-                            alt={`${user.firstName || 'User'} ${user.lastName || ''}`}
+                            alt={`${user.name || 'User'}`}
                             quality={50}
                           />
                           <AvatarFallback>
-                            {(user.firstName?.charAt(0) || 'U').toUpperCase()}
+                            {(user.name?.charAt(0) || 'U').toUpperCase()}
                           </AvatarFallback>
                         </Avatar>
                         <div>
                           <p className="font-medium">
-                            {user.firstName} {user.lastName}
+                            {user.name} 
                           </p>
                           {user.designation && (
                             <p className="text-sm text-gray-500">

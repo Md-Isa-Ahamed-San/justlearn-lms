@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -12,7 +12,7 @@ function generateTokens(user) {
   const accessTokenPayload = {
     userId: user.id,
     email: user.email,
-    name: `${user.firstName} ${user.lastName}`,
+    name: `${user.name}`,
     type: "access",
   };
 
@@ -66,7 +66,7 @@ async function refreshCredentialsToken(token) {
       {
         userId: user.id,
         email: user.email,
-        name: `${user.firstName} ${user.lastName}`,
+        name: `${user.name}`,
         type: "access",
       },
       process.env.JWT_SECRET,
@@ -79,7 +79,7 @@ async function refreshCredentialsToken(token) {
       accessTokenExpires: Date.now() + 60 * 1000, // 1 minute from now
       user: {
         ...user,
-        name: `${user.firstName} ${user.lastName}`,
+        name: `${user.name}`,
         image: user.profilePicture,
       },
     };
@@ -236,6 +236,85 @@ export const {
 
       console.log(`Returning Session ${JSON.stringify(session)}`);
       return session;
+    },
+
+    async signIn({ user, account, profile }) {
+      console.log("🔐 SignIn callback triggered");
+      console.log("Provider:", account?.provider);
+      console.log("User data:", user);
+
+      // 🎯 THIS IS THE GOOGLE SIGNIN LOGIC
+      if (account?.provider === "google") {
+        try {
+          console.log("🚀 Processing Google OAuth signin for:", user.email);
+
+          // Check if user already exists in your database
+          const existingUser = await db.user.findUnique({
+            where: { email: user.email },
+          });
+
+          if (!existingUser) {
+            // 🆕 CREATE NEW USER FOR GOOGLE OAUTH
+            console.log("Creating new Google user in database...");
+            const newUser = await db.user.create({
+              data: {
+                email: user.email,
+                name: user.name,
+                image: user.image,
+                provider: "google",
+                providerId: account.providerAccountId,
+                // Note: no password field for OAuth users
+              },
+            });
+            console.log("✅ Successfully created Google user:", newUser);
+          } else {
+            console.log("✅ Google user already exists:", existingUser.email);
+
+            // Optionally update user info from Google
+            await db.user.update({
+              where: { email: user.email },
+              data: {
+                email: user.email,
+                name: user.name,
+                image: user.image,
+                provider: "google",
+                providerId: account.providerAccountId,
+              },
+            });
+          }
+
+          return true; // Allow signin
+        } catch (error) {
+          console.error("❌ Error creating/updating Google user:", error);
+          return false; // Deny signin
+        }
+      }
+
+      // For credentials provider, user is already validated in authorize()
+      if (account?.provider === "credentials") {
+        try {
+          console.log("🚀 Processing credentials signin for:", user.email);
+
+          // Update the credentials user to set provider info
+          const updatedUser = await db.user.update({
+            where: { email: user.email },
+            data: {
+              provider: "credentials",
+              providerId: user.id, // Use the user's database ID as providerId for credentials
+              // Alternatively, you could use: providerId: `credentials_${user.id}`
+            },
+          });
+
+          // console.log("✅ Updated credentials user with provider info:", updatedUser.email);
+          return true;
+        } catch (error) {
+          console.error("❌ Error updating credentials user:", error);
+          // Don't block signin for this - it's not critical
+          return true;
+        }
+      }
+
+      return true;
     },
   },
   session: {

@@ -1,16 +1,19 @@
 "use client";
-import { useState, ChangeEvent, FormEvent, ReactNode } from "react";
+import { useState } from "react";
 
 import {
-  Ripple,
   AuthTabs,
+  Ripple,
   TechOrbitDisplay,
 } from "@/components/modern-animated-sign-in";
 import Image from "next/image";
-import { credentialLogin } from "../app/actions/authActions";
+import {
+  checkProfileCompletion,
+  credentialLogin,
+} from "../app/actions/authActions";
 
-import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const iconsArray = [
   {
@@ -144,9 +147,9 @@ const iconsArray = [
 export function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loginError, setLoginError] = useState(null);
-    const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
-  const { update } = useSession();
+  const { data: session, status, update } = useSession();
   const handleInputChange = (event, name) => {
     const value = event.target.value;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
@@ -156,13 +159,30 @@ export function Login() {
     event.preventDefault();
     try {
       const res = await credentialLogin(formData);
+      console.log(" handleSubmit ~ res of credentialLogin:", res);
       if (res?.error) {
         setLoginError(res.error); // Display the error message from NextAuth.js
       } else {
-        // Login successful
-        await update(); // Force session update on the client
-        router.push("/")
-        // setSubmitting(false)
+        
+        await update(); 
+        const res = await fetch("/api/checkProfileCompletion",{
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email: formData.email }),
+        })
+        const profileCompletionStatus = await res.json();
+        // console.log("handleSubmit ~ profileCompletion:", profileData);
+        
+        if (profileCompletionStatus.success) {
+          router.push(profileCompletionStatus.redirectTo);
+        } else {
+          setLoginError("Failed to check profile completion");
+          setSubmitting(false);
+        }
+
+      
       }
       console.log("handleSubmit ~ res:", res);
     } catch (err) {
