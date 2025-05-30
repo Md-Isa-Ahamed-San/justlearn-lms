@@ -1,4 +1,4 @@
-import React from "react";
+export const dynamic = 'force-dynamic';
 import "./not-found.css";
 
 import NotFoundGoBackButton from "../components/not-found-go-back-button";
@@ -84,7 +84,7 @@ const NotFound = () => {
       </div>
 
       <NotFoundGoBackButton />
-      {/* Go Back Button */}
+   
     </div>
   );
 };

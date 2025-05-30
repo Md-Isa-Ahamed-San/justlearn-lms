@@ -11,6 +11,7 @@ export default auth((req) => {
  
   chalkLog.log("isAuthenticated", isAuthenticated);
   chalkLog.log("nextUrl.pathname", nextUrl.pathname);
+  chalkLog.log("req.auth", req?.auth);
   
   const isPublicRoute =
     PUBLIC_ROUTES.find((route) => nextUrl.pathname.startsWith(route)) ||

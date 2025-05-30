@@ -25,8 +25,20 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   // const conn = await dbConnect();
-  const serverUserData = await getServerUserData();
-  console.log(" RootLayout ~ serverUserData:", serverUserData)
+  let serverUserData = null;
+
+  try {
+    serverUserData = await getServerUserData();
+  } catch (error) {
+    // During static generation, this might fail
+    console.log(
+      "Could not fetch server user data during build:",
+      error.message
+    );
+    serverUserData = null;
+  }
+
+  console.log("RootLayout ~ serverUserData:", serverUserData);
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <Head>
@@ -45,13 +57,11 @@ export default async function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange={false}
         >
-
           <SessionProvider>
             <UserDataProvider initialUserData={serverUserData}>
-
-            {children}
+              {children}
             </UserDataProvider>
-            </SessionProvider>
+          </SessionProvider>
           <ThemeSwitcher />
         </ThemeProvider>
         <Toaster richColors position="top-center" />
