@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { CourseProgress } from "@/components/course-progress";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen } from "lucide-react";
