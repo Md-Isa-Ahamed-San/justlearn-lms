@@ -25,7 +25,7 @@ import { useUserData } from "../provider/user-data-provider";
 export function MainNav({ items, children }) {
   const { data: session, status, update } = useSession();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const { userData,setUserData } = useUserData()
+  const { userData,setUserData } = useUserData();
   
 
   const router = useRouter();
