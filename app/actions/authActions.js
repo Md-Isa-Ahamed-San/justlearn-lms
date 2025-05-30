@@ -61,3 +61,15 @@ export const checkProfileCompletion = async (email) => {
     redirectTo: isComplete ? "/courses" : "/account",
   };
 };
+
+export async function submitRole(formData) {
+  const role = formData.get("role")
+
+  if (!role) {
+    throw new Error("Role not selected")
+  }
+
+  // Optionally: update DB here
+
+  redirect(`/account?role=${role}`) // Navigate without reload
+}

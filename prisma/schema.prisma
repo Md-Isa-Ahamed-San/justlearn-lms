@@ -21,12 +21,12 @@ enum Role {
 // MARK: User
 model User {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  name  String
+  name       String
   email      String   @unique
   password   String? //Optional for Oauth users(google signin users)
   provider   String? // "google", "credentials", etc.
   providerId String? // Provider's user ID
-  image String?
+  image      String?
   role       Role?
   isActive   Boolean  @default(true)
   createdAt  DateTime @default(now())
@@ -127,6 +127,7 @@ model Student {
 model Admin {
   id                   String    @id @default(auto()) @map("_id") @db.ObjectId
   idNumber             Int       @unique
+  department           String
   isActive             Boolean   @default(true)
   phone                String?
   bio                  String?

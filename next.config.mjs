@@ -34,6 +34,11 @@ const nextConfig = {
         protocol: 'https',
         hostname: "cdn1.iconfinder.com",
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: "lh3.googleusercontent.com",
+        pathname: '/**',
       }
     ],
   },

@@ -18,6 +18,6 @@ export default async function AuthCallback() {
   if (profileCheck.isComplete) {
     redirect("/courses");
   } else {
-    redirect("/account");
+    redirect("/roleSelection");
   }
 }

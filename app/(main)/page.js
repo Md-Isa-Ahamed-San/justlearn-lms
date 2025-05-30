@@ -20,9 +20,8 @@ import Link from "next/link";
 
 import { getCourseList } from "../../queries/courses";
 
-import { chalkLog } from "../../utils/logger";
-import HeroLottieWrapper from "./_components/HeroLottieWrapper";
 import { getCategories } from "../../queries/categories";
+import HeroLottieWrapper from "./_components/HeroLottieWrapper";
 
 //MARK: CATEGORIES
 

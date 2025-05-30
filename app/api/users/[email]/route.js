@@ -13,6 +13,8 @@ export async function GET(request, { params }) {
 
     // Decode the email parameter (in case it was URL encoded)
     const requestedEmail = decodeURIComponent(params.email);
+    console.log(" GET ~ requestedEmail:", requestedEmail)
+    console.log(" GET ~ session.user.email:", session.user.email)
 
     // Ensure user can only access their own data
     if (session.user.email !== requestedEmail) {
