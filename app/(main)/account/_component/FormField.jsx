@@ -1,9 +1,12 @@
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+"use client";
+
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function FormField({
   id,
+  name,
   label,
   type = "text",
   placeholder,
@@ -18,10 +21,13 @@ export default function FormField({
       <Label htmlFor={id} className="text-sm font-medium">
         {label}
       </Label>
+
       <div className="relative">
         {isTextarea ? (
           <Textarea
             id={id}
+            name={name}
+            required={required}
             defaultValue={defaultValue}
             placeholder={placeholder}
             className={`resize-none ${icon ? "pl-9 pt-3" : ""}`}
@@ -30,13 +36,15 @@ export default function FormField({
         ) : (
           <Input
             id={id}
+            name={name}
             type={type}
+            required={required}
             defaultValue={defaultValue}
             placeholder={placeholder}
             className={icon ? "pl-9" : ""}
-            required={required}
           />
         )}
+
         {icon && (
           <div className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground flex items-center justify-center">
             {icon}
@@ -44,5 +52,5 @@ export default function FormField({
         )}
       </div>
     </div>
-  )
+  );
 }

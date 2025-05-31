@@ -64,7 +64,7 @@ export default async function RootLayout({ children }) {
           </SessionProvider>
           <ThemeSwitcher />
         </ThemeProvider>
-        <Toaster richColors position="top-center" />
+        <Toaster />
       </body>
     </html>
   );

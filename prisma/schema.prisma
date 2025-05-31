@@ -40,35 +40,7 @@ model User {
   testimonials Testimonial[] @relation("UserTestimonials") // Added: Missing relation field
 }
 
-// MARK: Course
-model Course {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  description String
-  subtitle    String?
-  thumbnail   String
-  price       Int
-  active      Boolean  @default(true)
-  learning    String[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
 
-  // Foreign Keys
-  userId     String @db.ObjectId // References User.id
-  categoryId String @db.ObjectId
-
-  // Relationships
-  user     User     @relation("UserCourses", fields: [userId], references: [id]) // Added: Course belongs to User
-  category Category @relation(fields: [categoryId], references: [id])
-
-  weeks          Week[]
-  testimonials   Testimonial[]   @relation("CourseTestimonials")
-  enrollments    Enrollment[]
-  certificates   Certificate[]
-  reports        Report[]
-  participations Participation[]
-  courseQuizSets CourseQuizSet[] // Junction table relation
-}
 
 // MARK: Instructor
 model Instructor {
@@ -145,7 +117,35 @@ model Admin {
   // Relationships
   user User @relation("UserAdmin", fields: [userId], references: [id])
 }
+// MARK: Course
+model Course {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  subtitle    String?
+  thumbnail   String
+  price       Int
+  active      Boolean  @default(true)
+  learning    String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
+  // Foreign Keys
+  userId     String @db.ObjectId // References User.id
+  categoryId String @db.ObjectId
+
+  // Relationships
+  user     User     @relation("UserCourses", fields: [userId], references: [id]) // Added: Course belongs to User
+  category Category @relation(fields: [categoryId], references: [id])
+
+  weeks          Week[]
+  testimonials   Testimonial[]   @relation("CourseTestimonials")
+  enrollments    Enrollment[]
+  certificates   Certificate[]
+  reports        Report[]
+  participations Participation[]
+  courseQuizSets CourseQuizSet[] // Junction table relation
+}
 // MARK: Enrollment
 model Enrollment {
   id             String    @id @default(auto()) @map("_id") @db.ObjectId
