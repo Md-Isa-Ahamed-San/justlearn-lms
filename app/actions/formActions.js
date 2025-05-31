@@ -1,6 +1,4 @@
 'use server';
-
-
 import { revalidatePath } from 'next/cache';
 import { db } from '../../lib/prisma';
 
@@ -22,10 +20,6 @@ export async function handlePersonalDetails(formData) {
     github,
     role,
   } = data;
-
-  if (!email || !name) {
-    throw new Error("Email and name are required.");
-  }
 
   // Convert idNumber to int if present
   const parsedIdNumber = idNumber ? parseInt(idNumber, 10) : undefined;
@@ -50,8 +44,13 @@ export async function handlePersonalDetails(formData) {
   if (!existingUser) {
     throw new Error("User not found.");
   }
-
-  // 2. Update user name (other common fields can be added if needed)
+  if (!existingUser.role) {
+    await db.user.update({
+      where: { email },
+      data: { role },
+    });
+  }
+  
   await db.user.update({
     where: { email },
     data: {
@@ -60,11 +59,10 @@ export async function handlePersonalDetails(formData) {
     },
   });
 
-  // 3. Update or create role-specific data
   switch (role) {
     case "instructor":
       if (existingUser.instructor) {
-        // update instructor
+       
         await db.instructor.update({
           where: { userId: existingUser.id },
           data: {
@@ -77,7 +75,7 @@ export async function handlePersonalDetails(formData) {
           },
         });
       } else {
-        // create instructor
+       
         await db.instructor.create({
           data: {
             userId: existingUser.id,
@@ -94,7 +92,7 @@ export async function handlePersonalDetails(formData) {
 
     case "student":
       if (existingUser.student) {
-        // update student
+     
         await db.student.update({
           where: { userId: existingUser.id },
           data: {
@@ -107,7 +105,7 @@ export async function handlePersonalDetails(formData) {
           },
         });
       } else {
-        // create student
+        
         await db.student.create({
           data: {
             userId: existingUser.id,
@@ -124,7 +122,7 @@ export async function handlePersonalDetails(formData) {
 
     case "admin":
       if (existingUser.admin) {
-        // update admin
+      
         await db.admin.update({
           where: { userId: existingUser.id },
           data: {
@@ -137,7 +135,7 @@ export async function handlePersonalDetails(formData) {
           },
         });
       } else {
-        // create admin
+      
         await db.admin.create({
           data: {
             userId: existingUser.id,

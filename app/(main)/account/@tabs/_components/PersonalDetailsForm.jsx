@@ -24,20 +24,26 @@ import SocialMediaField from "../../_component/SocialMediaField";
 import { toast } from "sonner";
 import { handlePersonalDetails } from "../../../../actions/formActions";
 import { useState } from "react";
+import { uploadToCloudinary } from "../../../../../utils/uploadToCloudinary";
 
 export default function PersonalDetailsForm({ userData, academicSessions }) {
   const role = userData?.role;
+  const email = userData?.email;
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  let userRoleData = null;
+  if (role === "instructor") {
+    userRoleData = userData?.instructor;
+  } else if (role === "student") {
+    userRoleData = userData?.student;
+  } else if (role === "admin") {
+    userRoleData = userData?.admin;
+  }
+
   const handleSubmit = async (e) => {
     setIsSubmitting(true);
     e.preventDefault();
     const formData = new FormData(e.target);
-    console.log(" handleSubmit ~ formData:", e);
-
-    console.log("----- Form Data -----");
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
 
     const socialFields = ["linkedin", "facebook", "github"];
     const hasSocialMedia = socialFields.some((field) =>
@@ -46,9 +52,22 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
 
     if (!hasSocialMedia) {
       toast.error("Please fill in at least one social media profile.");
+      setIsSubmitting(false);
       return;
     }
+
     try {
+      const profilePicture = formData.get("profilePicture");
+      let profilePictureLink = null;
+
+      if (profilePicture && profilePicture.size > 0) {
+        profilePictureLink = await uploadToCloudinary(profilePicture);
+      }
+
+      formData.set("profilePicture", profilePictureLink || "");
+      formData.set("email", email);
+      formData.set("role", role); // Ensure role is passed
+
       const result = await handlePersonalDetails(formData);
 
       if (result.success) {
@@ -59,8 +78,6 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
     } finally {
       setIsSubmitting(false);
     }
-    // Process form data
-    // toast.success("Form submitted successfully.");
   };
 
   return (
@@ -70,10 +87,7 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
           src={userData?.image}
           alt="Profile"
           fallback={
-            userData?.name
-              ?.split(" ")
-              .map((n) => n[0])
-              .join("") || "U"
+            userData?.name?.split(" ").map((n) => n[0]).join("") || "U"
           }
         />
 
@@ -100,7 +114,7 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
             <input
               id="email"
               type="email"
-              value={userData?.email || ""}
+              value={email || ""}
               readOnly
               className="w-full px-3 py-2 bg-muted border border-input rounded-md text-sm cursor-not-allowed opacity-60"
             />
@@ -115,7 +129,7 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
             label="Phone Number *"
             type="tel"
             placeholder="Enter your phone number"
-            defaultValue={userData?.phone}
+            defaultValue={userRoleData?.phone}
             required
             icon={<Phone />}
           />
@@ -126,7 +140,7 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
             label="ID Number *"
             type="number"
             placeholder="Enter your ID number"
-            defaultValue={userData?.idNumber}
+            defaultValue={userRoleData?.idNumber}
             required
             icon={<FileText />}
           />
@@ -137,7 +151,7 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
             </label>
             <Select
               name="department"
-              defaultValue={userData?.department}
+              defaultValue={userRoleData?.department || ""}
               required
             >
               <SelectTrigger>
@@ -170,7 +184,7 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
                   ? "e.g., Associate Professor"
                   : "e.g., System Administrator"
               }
-              defaultValue={userData?.designation}
+              defaultValue={userRoleData?.designation}
               required
               icon={<Briefcase />}
             />
@@ -181,7 +195,11 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
               <label htmlFor="session" className="text-sm font-medium">
                 Academic Session *
               </label>
-              <Select name="session" defaultValue={userData?.session} required>
+              <Select
+                name="session"
+                defaultValue={userRoleData?.session || ""}
+                required
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select session" />
                 </SelectTrigger>
@@ -201,7 +219,7 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
             name="bio"
             label="Bio *"
             placeholder="Tell us about yourself"
-            defaultValue={userData?.bio}
+            defaultValue={userRoleData?.bio}
             required
             isTextarea
             icon={<FileText />}
@@ -221,21 +239,21 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
               name="linkedin"
               label="LinkedIn"
               placeholder="https://linkedin.com/in/username"
-              defaultValue={userData?.socialMedia?.linkedin}
+              defaultValue={userRoleData?.socialMedia?.linkedin}
             />
             <SocialMediaField
               id="facebook"
               name="facebook"
               label="Facebook"
               placeholder="https://facebook.com/username"
-              defaultValue={userData?.socialMedia?.facebook}
+              defaultValue={userRoleData?.socialMedia?.facebook}
             />
             <SocialMediaField
               id="github"
               name="github"
               label={role === "student" ? "GitHub (Recommended)" : "GitHub"}
               placeholder="https://github.com/username"
-              defaultValue={userData?.socialMedia?.github}
+              defaultValue={userRoleData?.socialMedia?.github}
             />
           </div>
         </div>
