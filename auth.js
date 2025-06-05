@@ -25,19 +25,19 @@ function generateTokens(user) {
   const accessToken = jwt.sign(
     accessTokenPayload,
     process.env.JWT_SECRET,
-    { expiresIn: "5m" } // 1 minute for testing
+    { expiresIn: "15m" } // 15 minute for testing
   );
 
   const refreshToken = jwt.sign(
     refreshTokenPayload,
     process.env.JWT_REFRESH_SECRET,
-    { expiresIn: "10m" } // 3 minutes for testing
+    { expiresIn: "1d" } // 1 day for testing
   );
 
   return {
     accessToken,
     refreshToken,
-    accessTokenExpires: Date.now() + 60 * 1000, // 1 minute from now
+    accessTokenExpires: Date.now() + 60 * 1000 * 15, // 15 minute from now because currently 15 min set
   };
 }
 
@@ -70,13 +70,13 @@ async function refreshCredentialsToken(token) {
         type: "access",
       },
       process.env.JWT_SECRET,
-      { expiresIn: "1m" } // 1 minute for testing
+      { expiresIn: "1d" } // 1 day for testing
     );
 
     return {
       ...token,
       accessToken: newAccessToken,
-      accessTokenExpires: Date.now() + 60 * 1000, // 1 minute from now
+      accessTokenExpires: Date.now() + 60 * 1000*15, // 15 minute from now
       user: {
         ...user,
         name: `${user.name}`,
@@ -120,7 +120,7 @@ async function refreshGoogleAccessToken(token) {
     return {
       ...token,
       accessToken: refreshedTokens?.access_token,
-      accessTokenExpires: Date.now() + refreshedTokens?.expires_in * 1000,
+      accessTokenExpires: Date.now() + refreshedTokens?.expires_in * 1000*15, //expires in 15 min
       refreshToken: refreshedTokens?.refresh_token ?? token.refreshToken,
     };
   } catch (error) {

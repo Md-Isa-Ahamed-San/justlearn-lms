@@ -1,0 +1,197 @@
+[{
+  "_id": {
+    "$oid": "663a06e7bfe65e5778eedf2a"
+  },
+  "password": "$2a$05$8B0y89Z7Gt/RlepneilmY.GRnX/G6O7RfvA61QpOG2M.H0r3PLdIG",
+  "email": "isaahamedsan@gmail.com",
+  "role": "instructor",
+  "createdAt": {
+    "$date": "2022-11-21T14:36:08.345Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-15T09:12:51.777Z"
+  },
+  "isActive": true,
+  "name": "Isa Ahamed San"
+},
+{
+  "_id": {
+    "$oid": "66504f85171d3fa703e7e043"
+  },
+  "password": "$2a$05$Kih1jnVYNDlNoABVmmxVceVnyY8Yr0kmOS6rIX/uzrWLBCQEi5i0S",
+  "email": "mrbob@gmail.com",
+  "role": "instructor",
+  "createdAt": {
+    "$date": "2022-03-02T08:50:12.628Z"
+  },
+  "updatedAt": {
+    "$date": "2023-09-19T05:17:48.354Z"
+  },
+  "isActive": true,
+  "name": "Mr. Bob"
+},
+{
+  "_id": {
+    "$oid": "66509f695f7ef01511c20c7b"
+  },
+  "password": "$2a$05$J3lCpL8ZLIhFW9.rwrDy6.UNqzhtEumUbyJ5SycwK/en5XBitf0Ia",
+  "email": "t@t.com",
+  "role": "instructor",
+  "createdAt": {
+    "$date": "2024-04-23T00:41:45.264Z"
+  },
+  "updatedAt": {
+    "$date": "2025-01-03T11:32:08.187Z"
+  },
+  "isActive": true,
+  "name": "Mr. T"
+},
+{
+  "_id": {
+    "$oid": "663a0b36bfe65e5778eedf7e"
+  },
+  "password": "$2a$05$eGyHsDPi.Ib0DGPJPlSQd.XFxvp4bmp3SLu.T.A7eOR/2gXVMc6My",
+  "email": "michael.brown@example.com",
+  "role": "student",
+  "createdAt": {
+    "$date": "2023-01-03T19:25:02.609Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-12T10:42:07.192Z"
+  },
+  "isActive": true,
+  "name": "Michael Brown"
+},
+{
+  "_id": {
+    "$oid": "664accf41387e2ad2e8be488"
+  },
+  "password": "$2a$05$8B0y89Z7Gt/RlepneilmY.GRnX/G6O7RfvA61QpOG2M.H0r3PLdIG",
+  "email": "alex.brown@example.com",
+  "role": "student",
+  "createdAt": {
+    "$date": "2023-07-28T18:10:11.412Z"
+  },
+  "updatedAt": {
+    "$date": "2024-10-04T15:47:31.209Z"
+  },
+  "isActive": true,
+  "name": "Alex Brown"
+},
+{
+  "_id": {
+    "$oid": "664adddc1387e2ad2e8be4a0"
+  },
+  "password": "$2a$05$8B0y89Z7Gt/RlepneilmY.GRnX/G6O7RfvA61QpOG2M.H0r3PLdIG",
+  "email": "fatima.shekh@example.com",
+  "role": "student",
+  "createdAt": {
+    "$date": "2022-04-19T03:52:19.023Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-11T21:06:44.573Z"
+  },
+  "isActive": true,
+  "name": "Fatima Sheikh"
+},
+{
+  "_id": {
+    "$oid": "66504fc6171d3fa703e7e05b"
+  },
+  "password": "$2a$05$eGyHsDPi.Ib0DGPJPlSQd.XFxvp4bmp3SLu.T.A7eOR/2gXVMc6My",
+  "email": "ioreactplay@gmail.com",
+  "role": "student",
+  "createdAt": {
+    "$date": "2023-02-10T10:07:20.491Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-06T13:58:14.178Z"
+  },
+  "isActive": true,
+  "name": "ReactPlay"
+},
+{
+  "_id": {
+    "$oid": "675a1b2c3d4e5f6789012345"
+  },
+  "password": "$2a$05$AdminHashedPasswordExample123456789",
+  "email": "admin@justlearn.com",
+  "role": "admin",
+  "createdAt": {
+    "$date": "2024-01-15T08:00:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-15T08:00:00.000Z"
+  },
+  "isActive": true,
+  "name": "Admin 1"
+},
+{
+  "_id": {
+    "$oid": "675a1b2c3d4e5f6789012346"
+  },
+  "password": "$2a$05$SystemAdminHashedPassword123456789",
+  "email": "sysadmin@justlearn.com",
+  "role": "admin",
+  "createdAt": {
+    "$date": "2024-01-01T00:00:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-01T00:00:00.000Z"
+  },
+  "isActive": true,
+  "name": "System Administrator"
+},
+{
+  "_id": {
+    "$oid": "6838010a263f2cf4ffea8736"
+  },
+  "email": "isa@gmail.com",
+  "password": "$2b$10$tZ.G12GdRm9d7SGoQLFzl.UyPDRiXEOfnzb.A/55F3LuIpI4z.vFW",
+  "role": "student",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-05-29T06:39:06.206Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-31T06:58:20.187Z"
+  },
+  "name": "isa ahamed",
+  "provider": "credentials",
+  "providerId": "6838010a263f2cf4ffea8736"
+},
+{
+  "_id": {
+    "$oid": "68382491a9e63f5721d84fef"
+  },
+  "name": "Isa Ahmed",
+  "email": "glordisagtav@gmail.com",
+  "provider": "google",
+  "providerId": "102892541209123137319",
+  "image": "https://lh3.googleusercontent.com/a/ACg8ocLLmbPnzBDMBn3WsscxRtLa-G5Cruuj9PRmnkoMv_iAUO5OaQ=s96-c",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-05-29T09:10:41.121Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-29T10:55:26.356Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68384e999a55f6386a28bd03"
+  },
+  "name": "Isa Ahmed Shan",
+  "email": "isaahmedshan190138@gmail.com",
+  "provider": "google",
+  "providerId": "112149093724608599328",
+  "image": "https://lh3.googleusercontent.com/a/ACg8ocIZZqbK8Rw27uQBa3Xl5Ln82vYM_wJolq5vuAQzW9FQFbz9HI28=s96-c",
+  "isActive": true,
+  "createdAt": {
+    "$date": "2025-05-29T12:10:01.816Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-03T16:35:51.138Z"
+  },
+  "role": "instructor"
+}]

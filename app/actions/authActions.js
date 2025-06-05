@@ -58,7 +58,7 @@ export const checkProfileCompletion = async (email) => {
   return {
     isComplete,
     role: user.role,
-    redirectTo: isComplete ? "/courses" : "/account",
+    redirectTo: isComplete ? "/courses" : "/roleSelection",
   };
 };
 

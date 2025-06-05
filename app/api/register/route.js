@@ -2,20 +2,13 @@ import { NextResponse } from "next/server";
 import { db } from "../../../lib/prisma";
 import { postUser } from "../../../queries/users";
 
-
 export async function POST(request) {
   try {
     const data = await request.json();
-    console.log(" POST ~ data:", data)
+    console.log(" POST ~ data:", data);
 
     // Basic validation
-    if (
-      !data.name ||
-     
-      !data.email ||
-      !data.password ||
-      !data.role
-    ) {
+    if (!data.name || !data.email || !data.password) {
       return NextResponse.json(
         { message: "Missing required fields" },
         { status: 400 }

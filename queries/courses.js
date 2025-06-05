@@ -30,11 +30,7 @@ export const getCourseList = unstable_cache(
               },
             },
           },
-          courseQuizSets: {
-            include: {
-              quizSet: true,
-            },
-          },
+         
         },
       });
 
@@ -66,11 +62,7 @@ export const getCourseDetails = unstable_cache(
               instructor: true, // Get instructor details through user
             },
           },
-          courseQuizSets: {
-            include: {
-              quizSet: true,
-            },
-          },
+        
           weeks: {
             include: {
               lessons: true,

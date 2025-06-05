@@ -159,8 +159,7 @@ export function Register() {
    
     name: "",
     email: "",
-    password: "",
-    role:"student"
+    password: ""
   });
   const [registerError, setRegisterError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
@@ -229,19 +228,8 @@ export function Register() {
         type: "password",
         placeholder: "Enter your password",
         onChange: (event) => handleInputChange(event, "password"),
-      },
-      {
-        label: "Role",
-        required: true,
-        type: "select",
-        placeholder: "Select your role",
-        options: [
-          { label: "Student", value: "student" },
-          { label: "Instructor", value: "instructor" },
-          { label: "Admin", value: "admin" },
-        ],
-        onChange: (event) => handleInputChange(event, "role"),
-      },
+      }
+    
     ],
     submitButton: "Sign Up",
     textVariantButton: "Have account? Sign In",

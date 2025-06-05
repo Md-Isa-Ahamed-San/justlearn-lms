@@ -1,0 +1,98 @@
+[{
+  "_id": {
+    "$oid": "663a0a2ebfe65e5778eedf60"
+  },
+  "enrollment_date": {
+    "$date": "2024-04-20T00:00:00.000Z"
+  },
+  "status": "complete",
+  "completion_date": {
+    "$date": "2024-05-15T00:00:00.000Z"
+  },
+  "method": "paypal",
+  "courseId": {
+    "$oid": "6648184a6fe803e9128d7fba"
+  },
+  "studentId": {
+    "$oid": "663a0b36bfe65e5778eedf7e"
+  },
+  "createdAt": {
+    "$date": "2024-04-20T08:30:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-15T12:45:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "664acbd81387e2ad2e8be486"
+  },
+  "enrollment_date": {
+    "$date": "2024-04-20T00:00:00.000Z"
+  },
+  "status": "complete",
+  "completion_date": {
+    "$date": "2024-05-15T00:00:00.000Z"
+  },
+  "method": "stripe",
+  "courseId": {
+    "$oid": "664aca881387e2ad2e8be484"
+  },
+  "studentId": {
+    "$oid": "664accf41387e2ad2e8be488"
+  },
+  "createdAt": {
+    "$date": "2024-04-20T09:15:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-15T14:20:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "664adedb1387e2ad2e8be4a4"
+  },
+  "enrollment_date": {
+    "$date": "2024-04-20T00:00:00.000Z"
+  },
+  "status": "complete",
+  "completion_date": {
+    "$date": "2024-05-15T00:00:00.000Z"
+  },
+  "method": "stripe",
+  "courseId": {
+    "$oid": "664aca881387e2ad2e8be484"
+  },
+  "studentId": {
+    "$oid": "664adddc1387e2ad2e8be4a0"
+  },
+  "createdAt": {
+    "$date": "2024-04-20T10:30:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-15T16:10:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6652afcf797cc3d6720dfeb2"
+  },
+  "enrollment_date": {
+    "$date": "2024-05-26T03:43:11.415Z"
+  },
+  "status": "not-started",
+  "method": "stripe",
+  "__v": 0,
+  "courseId": {
+    "$oid": "664aca881387e2ad2e8be484"
+  },
+  "studentId": {
+    "$oid": "66504fc6171d3fa703e7e05b"
+  },
+  "createdAt": {
+    "$date": "2024-05-26T03:43:11.415Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-26T03:43:11.415Z"
+  }
+}]

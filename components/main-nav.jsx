@@ -65,7 +65,7 @@ export function MainNav({ items, children }) {
             <DropdownMenuTrigger asChild>
               <div className="cursor-pointer">
                 <Avatar>
-                  <AvatarImage src={userData?.userData?.image} alt="User" />
+                  <AvatarImage src={userData?.userData?.image || null} alt="User" />
                   <AvatarFallback>JL</AvatarFallback>
                 </Avatar>
               </div>

@@ -51,7 +51,7 @@ export default function ProfilePicture({ src, alt, fallback }) {
         onClick={triggerFileInput}
         aria-label="Click to upload profile picture"
       >
-        <AvatarImage src={preview} alt={alt} />
+        <AvatarImage src={preview || null} alt={alt} />
         <AvatarFallback className="text-lg font-medium">{fallback}</AvatarFallback>
       </Avatar>
 
