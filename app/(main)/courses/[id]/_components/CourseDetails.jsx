@@ -38,8 +38,8 @@ const CourseDetails = ({ courseDetails }) => {
 
   // Get instructor initials for avatar fallback
   const getInstructorInitials = () => {
-    if (!courseDetails?.instructor) return "IN";
-    return `${courseDetails.instructor.name.charAt(
+    if (!courseDetails?.user) return "IN";
+    return `${courseDetails.user.name.charAt(
       0
     )}`;
   };
@@ -75,20 +75,20 @@ const CourseDetails = ({ courseDetails }) => {
                   <Avatar className="h-10 w-10">
                     <AvatarImage
                       src={
-                        courseDetails?.instructor?.profilePicture ||
+                        courseDetails?.user?.image ||
                         "/placeholder.svg"
                       }
-                      alt={`${courseDetails?.instructor?.name} `}
+                      alt={`${courseDetails?.user?.name} `}
                     />
                     <AvatarFallback>{getInstructorInitials()}</AvatarFallback>
                   </Avatar>
                   <div>
                     <p className="text-sm font-medium">
-                      {courseDetails?.instructor?.name}
+                      {courseDetails?.user?.name}
                       
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {courseDetails?.instructor?.designation}
+                      {courseDetails?.user?.designation}
                     </p>
                   </div>
                 </div>
@@ -114,11 +114,7 @@ const CourseDetails = ({ courseDetails }) => {
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <Button className="rounded-full">
-                Enroll for {formatPrice(courseDetails?.price || 0)}
-              </Button>
-            </div>
+           
           </div>
 
           <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4">

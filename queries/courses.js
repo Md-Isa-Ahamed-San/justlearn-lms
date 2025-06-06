@@ -158,6 +158,112 @@ export const getInstructorDetailedStats = unstable_cache(
         };
       }
 
+      // Get student statistics using CourseProgress (instead of enrollment)
+      const courseProgressStats = await db.courseProgress.groupBy({
+        by: ["courseId"],
+        where: {
+          courseId: { in: courseIds },
+        },
+        _count: { id: true },
+      });
+
+      const totalStudents = courseProgressStats.reduce(
+        (total, item) => total + item._count.id,
+        0
+      );
+
+      // Alternative: Get unique students from Participation table
+      // const participationStats = await db.participation.groupBy({
+      //   by: ["courseId"],
+      //   where: {
+      //     courseId: { in: courseIds },
+      //   },
+      //   _count: { id: true },
+      // });
+
+      // Get testimonials for instructor's courses
+      const testimonials = await db.testimonial.findMany({
+        where: {
+          courseId: { in: courseIds },
+          rating: { 
+            not: null,
+            gte: 1 
+          }, // Get all testimonials with valid ratings
+        },
+        select: { rating: true },
+      });
+
+      const testimonialCount = testimonials.length;
+      const totalRating = testimonials.reduce((sum, t) => sum + (t.rating || 0), 0);
+      const averageRating =
+        testimonialCount > 0 ? totalRating / testimonialCount : 0;
+
+      return {
+        courseCount,
+        totalStudents,
+        averageRating: parseFloat(averageRating.toFixed(2)),
+        testimonialCount,
+      };
+    } catch (error) {
+      console.error(
+        `❌ Error fetching stats for instructor ${instructorId}:`,
+        error
+      );
+      throw error;
+    }
+  },
+  (instructorId) => [`instructor-details-${instructorId}`],
+  {
+    revalidate: REVALIDATE_TIME,
+  }
+);
+export const getInstructorDetailedStats2 = unstable_cache(
+  async (instructorId) => {
+    try {
+      // Add validation for instructorId
+      if (!instructorId) {
+        console.error("❌ No instructorId provided");
+        throw new Error("Instructor ID is required");
+      }
+
+      console.log("🔄 Fetching instructor stats for:", instructorId);
+
+      // First, get the instructor record with user relationship
+      const instructor = await db.instructor.findUnique({
+        where: { id: instructorId },
+        include: {
+          user: {
+            select: { id: true }
+          }
+        },
+      });
+
+      if (!instructor) {
+        throw new Error(`Instructor with ID ${instructorId} not found`);
+      }
+
+      // Get all courses created by this instructor's user account
+      const courses = await db.course.findMany({
+        where: {
+          userId: instructor.user.id, // Use the user.id from the instructor
+          active: true // Only count active courses
+        },
+        select: { id: true },
+      });
+
+      const courseIds = courses.map((course) => course.id);
+      const courseCount = courseIds.length;
+
+      // If no courses, return early with zero stats
+      if (courseCount === 0) {
+        return {
+          courseCount: 0,
+          totalStudents: 0,
+          averageRating: 0,
+          testimonialCount: 0,
+        };
+      }
+
       // Get enrollment statistics
       const enrollmentStats = await db.enrollment.groupBy({
         by: ["courseId"],

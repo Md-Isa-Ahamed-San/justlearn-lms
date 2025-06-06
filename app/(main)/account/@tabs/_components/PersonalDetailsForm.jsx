@@ -8,6 +8,7 @@ import {
   Save,
   Lock,
   User,
+  Edit,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,7 +31,7 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
   const role = userData?.role;
   const email = userData?.email;
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const [isEditing, setIsEditing] = useState(false);
   let userRoleData = null;
   if (role === "instructor") {
     userRoleData = userData?.instructor;
@@ -39,13 +40,27 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
   } else if (role === "admin") {
     userRoleData = userData?.admin;
   }
+  const handleEditClick = (event) => {
+    event.preventDefault();
+    setIsEditing(true);
+  };
+  const handleCancelClick = (event) => {
+    event.preventDefault();
+    setIsEditing(false);
+  };
 
   const handleSubmit = async (e) => {
     setIsSubmitting(true);
     e.preventDefault();
     const formData = new FormData(e.target);
 
-    const socialFields = ["linkedin", "facebook", "github"];
+    const socialFields = [
+      "linkedin",
+      "facebook",
+      "github",
+      "googleScholar",
+      "personalWebsite",
+    ];
     const hasSocialMedia = socialFields.some((field) =>
       formData.get(field)?.trim()
     );
@@ -77,6 +92,7 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
       toast.error(error.message || "Failed to update details.");
     } finally {
       setIsSubmitting(false);
+      setIsEditing(false);
     }
   };
 
@@ -87,7 +103,10 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
           src={userData?.image}
           alt="Profile"
           fallback={
-            userData?.name?.split(" ").map((n) => n[0]).join("") || "U"
+            userData?.name
+              ?.split(" ")
+              .map((n) => n[0])
+              .join("") || "U"
           }
         />
 
@@ -98,6 +117,7 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
             label="Full Name *"
             placeholder="Enter your full name"
             defaultValue={userData?.name}
+            disabled={!isEditing}
             required
             icon={<User />}
           />
@@ -131,6 +151,7 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
             placeholder="Enter your phone number"
             defaultValue={userRoleData?.phone}
             required
+            disabled={!isEditing}
             icon={<Phone />}
           />
 
@@ -142,6 +163,7 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
             placeholder="Enter your ID number"
             defaultValue={userRoleData?.idNumber}
             required
+            disabled={!isEditing}
             icon={<FileText />}
           />
 
@@ -153,9 +175,13 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
               name="department"
               defaultValue={userRoleData?.department || ""}
               required
+              disabled={!isEditing}
             >
-              <SelectTrigger>
-                <SelectValue placeholder="Select department" />
+              <SelectTrigger className={!userRoleData?.department ? "text-muted-foreground" : "text-foreground"}>
+                <SelectValue 
+                  placeholder="Select department"
+                  className="text-muted-foreground"
+                />
               </SelectTrigger>
               <SelectContent>
                 {[
@@ -186,6 +212,7 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
               }
               defaultValue={userRoleData?.designation}
               required
+              disabled={!isEditing}
               icon={<Briefcase />}
             />
           )}
@@ -199,9 +226,13 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
                 name="session"
                 defaultValue={userRoleData?.session || ""}
                 required
+                disabled={!isEditing}
               >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select session" />
+                <SelectTrigger className={!userRoleData?.session ? "text-muted-foreground" : "text-foreground"}>
+                  <SelectValue 
+                    placeholder="Select session"
+                    className="text-muted-foreground"
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   {academicSessions.map((session) => (
@@ -223,6 +254,7 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
             required
             isTextarea
             icon={<FileText />}
+            disabled={!isEditing}
             className="sm:col-span-2 lg:col-span-3"
           />
         </div>
@@ -240,6 +272,7 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
               label="LinkedIn"
               placeholder="https://linkedin.com/in/username"
               defaultValue={userRoleData?.socialMedia?.linkedin}
+              disabled={!isEditing}
             />
             <SocialMediaField
               id="facebook"
@@ -247,6 +280,7 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
               label="Facebook"
               placeholder="https://facebook.com/username"
               defaultValue={userRoleData?.socialMedia?.facebook}
+              disabled={!isEditing}
             />
             <SocialMediaField
               id="github"
@@ -254,15 +288,67 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
               label={role === "student" ? "GitHub (Recommended)" : "GitHub"}
               placeholder="https://github.com/username"
               defaultValue={userRoleData?.socialMedia?.github}
+              disabled={!isEditing}
             />
+            {role === "instructor" && (
+              <SocialMediaField
+                id="researchGate"
+                name="researchGate"
+                label="Research Gate"
+                placeholder="https://researchgate.net/profile/name"
+                defaultValue={userRoleData?.socialMedia?.researchGate}
+                disabled={!isEditing}
+              />
+            )}
+            {role === "instructor" && (
+              <SocialMediaField
+                id="googleScholar"
+                name="googleScholar"
+                label="Google Scholar"
+                placeholder="https://scholar.google.com/citations?user=name"
+                defaultValue={userRoleData?.socialMedia?.googleScholar}
+                disabled={!isEditing}
+              />
+            )}
+            {role === "instructor" && (
+              <SocialMediaField
+                id="personalWebsite"
+                name="personalWebsite"
+                label="Personal Website"
+                placeholder="https://personalWebsite.com"
+                defaultValue={userRoleData?.socialMedia?.personalWebsite}
+                disabled={!isEditing}
+              />
+            )}
           </div>
         </div>
 
-        <div className="flex justify-end">
-          <Button type="submit" className="gap-2">
-            <Save className="h-4 w-4" />
-            {isSubmitting ? "Processing..." : "Save Changes"}
-          </Button>
+        <div className="flex justify-end gap-2">
+          {isEditing === true ? (
+            <>
+              <Button type="submit" className="gap-2" disabled={isSubmitting}>
+                <Save className="h-4 w-4" />
+                {isSubmitting ? "Processing..." : "Save Changes"}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleCancelClick}
+                className="gap-2"
+              >
+                Cancel
+              </Button>
+            </>
+          ) : (
+            <Button
+              onClick={handleEditClick}
+              type="button"
+              className="gap-2"
+            >
+              <Edit className="h-4 w-4" />
+              Edit Profile
+            </Button>
+          )}
         </div>
       </div>
     </form>

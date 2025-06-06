@@ -18,6 +18,9 @@ export async function handlePersonalDetails(formData) {
     linkedin,
     facebook,
     github,
+    googleScholar ,
+    personalWebsite,
+    researchGate,
     role,
   } = data;
 
@@ -29,6 +32,9 @@ export async function handlePersonalDetails(formData) {
     linkedin: linkedin || null,
     facebook: facebook || null,
     github: github || null,
+    googleScholar: googleScholar || null,
+    personalWebsite: personalWebsite || null,
+    researchGate: researchGate || null
   };
 
   // 1. Find user by email

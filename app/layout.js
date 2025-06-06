@@ -38,7 +38,7 @@ export default async function RootLayout({ children }) {
     serverUserData = null;
   }
 
-  console.log("RootLayout ~ serverUserData:", serverUserData);
+  // console.log("RootLayout ~ serverUserData:", serverUserData);
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <Head>

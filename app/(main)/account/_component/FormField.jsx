@@ -15,6 +15,7 @@ export default function FormField({
   icon,
   isTextarea = false,
   className = "",
+  disabled
 }) {
   return (
     <div className={`space-y-2 ${className}`}>
@@ -30,6 +31,7 @@ export default function FormField({
             required={required}
             defaultValue={defaultValue}
             placeholder={placeholder}
+            disabled={disabled}
             className={`resize-none ${icon ? "pl-9 pt-3" : ""}`}
             rows={3}
           />
@@ -40,6 +42,7 @@ export default function FormField({
             type={type}
             required={required}
             defaultValue={defaultValue}
+             disabled={disabled}
             placeholder={placeholder}
             className={icon ? "pl-9" : ""}
           />

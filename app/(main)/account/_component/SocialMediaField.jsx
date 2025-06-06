@@ -8,6 +8,7 @@ export default function SocialMediaField({
   placeholder,
   defaultValue,
   icon,
+  disabled
 }) {
   return (
     <div className="space-y-2">
@@ -21,6 +22,7 @@ export default function SocialMediaField({
           defaultValue={defaultValue}
           placeholder={placeholder}
           className="pl-9"
+          disabled={disabled}
         />
         <div className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground flex items-center justify-center">
           {icon}
