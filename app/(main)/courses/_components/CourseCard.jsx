@@ -12,7 +12,7 @@ const CourseCard = ({ course }) => {
                 <div>
                     <div className="relative w-full aspect-video rounded-md overflow-hidden">
                         <Image
-                            src={`/assets/images/courses/${course?.thumbnail}`}
+                            src={`${course?.thumbnail}`}
                             alt={course?.title}
                             className="object-cover"
                             fill
@@ -25,23 +25,11 @@ const CourseCard = ({ course }) => {
                         <p className="text-xs text-muted-foreground">
                             {course?.category?.title}
                         </p>
-                        <div className="my-3 flex items-center gap-x-2 text-sm md:text-xs">
-                            <div className="flex items-center gap-x-1 text-slate-500">
-                                <div>
-                                    <BookOpen className="w-4" />
-                                </div>
-                                <span>{course?.weeks?.length} Chapters</span>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </Link>
-            <div className="flex items-center justify-between mt-4">
-                <p className="text-md md:text-sm font-medium text-slate-700">
-                    {formatPrice(course?.price)}
-                </p>
-                <EnrollCourse asLink={true} courseId={course?.id} />
-            </div>
+            
         </div>
     );
 };

@@ -98,8 +98,8 @@ function IconContainer({ mouseX, title, icon, href }) {
     return val - bounds.x - bounds.width / 2;
   });
 
-  let widthTransform = useTransform(distance, [-150, 0, 150], [40, 60, 40]);
-  let heightTransform = useTransform(distance, [-150, 0, 150], [40, 60, 40]);
+  let widthTransform = useTransform(distance, [-150, 0, 150], [40, 55, 40]);
+  let heightTransform = useTransform(distance, [-150, 0, 150], [40, 55, 40]);
 
   let widthTransformIcon = useTransform(distance, [-150, 0, 150], [20, 40, 20]);
   let heightTransformIcon = useTransform(

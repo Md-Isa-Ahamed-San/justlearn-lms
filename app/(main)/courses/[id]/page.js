@@ -5,6 +5,7 @@ import Testimonials from "./_components/Testimonials";
 import { getCourseDetails } from "../../../../queries/courses";
 
 import React from "react";
+import ScrollToTop from "./_components/ScrollToTop";
 
 const SingleCoursePage = async ({ params }) => {
   const { id } = await params;
@@ -14,6 +15,7 @@ const SingleCoursePage = async ({ params }) => {
 
   return (
     <div>
+      <ScrollToTop/>
       <CourseDetailsHero
         categoryTitle={courseDetails?.category.title}
         title={courseDetails?.title}

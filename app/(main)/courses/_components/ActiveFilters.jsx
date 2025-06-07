@@ -20,19 +20,7 @@ const ActiveFilters = ({filter}) => {
               <X className="w-3" />
             </Button>
           ))}
-        {/* active prices */}
-        {filter.price.length > 0 &&
-          filter.price.map((price) => (
-            <Button
-              key={price}
-              variant="ghost"
-              className="text-xs h-7 bg-muted rounded-full gap-1 text-sky-700"
-              onClick={() => applyArrayFilter({ type: "price", value: price })}
-            >
-              {price}
-              <X className="w-3" />
-            </Button>
-          ))}
+     
       </div>
   )
 }

@@ -14,10 +14,32 @@ import FilterCourse from "./_components/FilterCourse";
 
 import { getCourseList } from "@/queries/courses";
 import CourseCard from "./_components/CourseCard";
+import { getCategories } from "../../../queries/categories";
 
-const CoursesPage = async () => {
-  const courses = await getCourseList();
-  // console.dir(courses)
+const CoursesPage = async ({ searchParams }) => {
+  // Get search parameters
+  const { categories: selectedCategories } = await searchParams;
+  
+  // Parse selected categories from URL
+  const categoryFilters = selectedCategories 
+    ? (Array.isArray(selectedCategories) ? selectedCategories : [selectedCategories])
+    : [];
+
+  // Fetch all courses and categories
+  const [courses, categories] = await Promise.all([
+    getCourseList(),
+    getCategories()
+  ]);
+
+  // Filter courses based on selected categories
+  const filteredCourses = categoryFilters.length > 0 
+    ? courses.filter(course => 
+        categoryFilters.includes(course.category.title)
+      )
+    : courses;
+
+  console.log("Selected categories:", categoryFilters);
+  console.log("Filtered courses count:", filteredCourses.length);
 
   return (
     <section id="courses" className="container space-y-6 dark:bg-transparent py-6">
@@ -31,24 +53,33 @@ const CoursesPage = async () => {
       </div>
 
       {/* active filters */}
-      <ActiveFilters
+      {/* <ActiveFilters
         filter={{
-          categories: ["development"],
-          price: ["free"],
+          categories: categoryFilters,
+          price: [],
           sort: "",
         }}
-      />
+      /> */}
 
       <section className="pb-24 pt-6">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
           {/* Filters */}
-          <FilterCourse />
+          <FilterCourse 
+            categories={categories} 
+            selectedCategories={categoryFilters}
+          />
 
           {/* Course grid */}
           <div className="lg:col-span-3 grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
-            {courses.map((course) => (
-              <CourseCard key={course.id} course={course} />
-            ))}
+            {filteredCourses.length > 0 ? (
+              filteredCourses.map((course) => (
+                <CourseCard key={course.id} course={course} />
+              ))
+            ) : (
+              <div className="col-span-full text-center py-8">
+                <p className="text-gray-500">No courses found for the selected categories.</p>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -57,4 +88,3 @@ const CoursesPage = async () => {
 };
 
 export default CoursesPage;
-

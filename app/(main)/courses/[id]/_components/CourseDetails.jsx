@@ -31,17 +31,13 @@ import { formatDate } from "../../../../../lib/formatDate";
 
 const CourseDetails = ({ courseDetails }) => {
   // console.log(" CourseDetails ~ courseDetails:", courseDetails)
-  
 
   // Format date to readable format
-
 
   // Get instructor initials for avatar fallback
   const getInstructorInitials = () => {
     if (!courseDetails?.user) return "IN";
-    return `${courseDetails.user.name.charAt(
-      0
-    )}`;
+    return `${courseDetails.user.name.charAt(0)}`;
   };
 
   // Calculate total lessons from modules
@@ -67,27 +63,23 @@ const CourseDetails = ({ courseDetails }) => {
     <section className="py-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl">
-          <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-            <div>
-              <h2 className="text-3xl font-bold">{courseDetails?.title}</h2>
+          <div className="mb-8 flex flex-wrap items-center justify-center gap-4">
+            <div className="mb-10">
+              {/* <h2 className="text-3xl font-bold text-center">{courseDetails?.title}</h2> */}
               <div className="mt-2 flex items-center gap-6">
                 <div className="flex items-center gap-2">
-                  <Avatar className="h-10 w-10">
+                  <Avatar className="h-20 w-20 rounded-lg">
                     <AvatarImage
-                      src={
-                        courseDetails?.user?.image ||
-                        "/placeholder.svg"
-                      }
+                      src={courseDetails?.user?.image || "/placeholder.svg"}
                       alt={`${courseDetails?.user?.name} `}
                     />
                     <AvatarFallback>{getInstructorInitials()}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="text-sm font-medium">
+                    <p className="text-sm md:text-xl lg:text-2xl font-medium ">
                       {courseDetails?.user?.name}
-                      
                     </p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs md:text-lg lg:text-xl text-muted-foreground">
                       {courseDetails?.user?.designation}
                     </p>
                   </div>
@@ -105,16 +97,15 @@ const CourseDetails = ({ courseDetails }) => {
                         }`}
                       />
                     ))}
-                  <span className="ml-1 text-xs">
+                  <span className="ml-1 text-xs md:text-lg lg:text-xl">
                     ({courseDetails?.testimonials?.[0]?.rating || 5})
                   </span>
                 </div>
-                <div className="text-sm">
+                <div className=" text-sm md:text-lg lg:text-xl">
                   Last updated: {formatDate(courseDetails?.updatedAt)}
                 </div>
               </div>
             </div>
-           
           </div>
 
           <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -196,10 +187,14 @@ const CourseDetails = ({ courseDetails }) => {
               </TabsTrigger>
             </TabsList>
 
-            <CourseOverview courseDetails={courseDetails}/>
-            <CourseCurriculum courseDetails={courseDetails} getTotalDuration ={getTotalDuration } getTotalLessons={getTotalLessons}/>
+            <CourseOverview courseDetails={courseDetails} />
+            <CourseCurriculum
+              courseDetails={courseDetails}
+              getTotalDuration={getTotalDuration}
+              getTotalLessons={getTotalLessons}
+            />
 
-            <CourseInstructor courseDetails={courseDetails}/>
+            <CourseInstructor courseDetails={courseDetails} />
           </Tabs>
         </div>
       </div>
