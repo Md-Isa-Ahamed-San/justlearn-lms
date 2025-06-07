@@ -19,23 +19,29 @@ const FilterCourse = ({ categories, selectedCategories = [] }) => {
   console.log("FilterCourse ~ selectedCategories:", selectedCategories);
 
   // Handle category filter changes
-  const handleCategoryChange = useCallback((categoryTitle) => {
-    const params = new URLSearchParams(searchParams);
-    const currentCategories = params.getAll('categories');
-    
-    if (currentCategories.includes(categoryTitle)) {
-      // Remove category
-      params.delete('categories');
-      const newCategories = currentCategories.filter(cat => cat !== categoryTitle);
-      newCategories.forEach(cat => params.append('categories', cat));
-    } else {
-      // Add category
-      params.append('categories', categoryTitle);
-    }
+  const handleCategoryChange = useCallback(
+    (categoryTitle) => {
+      const params = new URLSearchParams(searchParams);
+      const currentCategories = params.getAll("categories");
 
-    // Update URL
-    router.push(`?${params.toString()}`, { scroll: false });
-  }, [router, searchParams]);
+      if (currentCategories.includes(categoryTitle)) {
+        params.delete("categories");
+        const newCategories = currentCategories.filter(
+          (category) => category !== categoryTitle
+        );
+        newCategories.forEach((category) =>
+          params.append("categories", category)
+        );
+      } else {
+        //current category not added. so added to the search params
+        params.append("categories", categoryTitle);
+      }
+
+      // Update URL
+      router.push(`?${params.toString()}`, { scroll: false });
+    },
+    [router, searchParams]
+  );
 
   return (
     <div className="hidden lg:block">
@@ -52,7 +58,9 @@ const FilterCourse = ({ categories, selectedCategories = [] }) => {
                 <li key={category?.id} className="flex items-center">
                   <Checkbox
                     id={`category-${optionIdx}`}
-                    onCheckedChange={() => handleCategoryChange(category?.title)}
+                    onCheckedChange={() =>
+                      handleCategoryChange(category?.title)
+                    }
                     checked={selectedCategories.includes(category?.title)}
                   />
                   <label
@@ -67,7 +75,7 @@ const FilterCourse = ({ categories, selectedCategories = [] }) => {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-      
+
       {/* Debug: Show selected categories */}
       {/* {selectedCategories.length > 0 && (
         <div className="mt-4 p-2 bg-gray-100 rounded text-xs">
