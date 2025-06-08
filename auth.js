@@ -25,11 +25,9 @@ function generateTokens(user) {
     type: "refresh",
   };
 
-  const accessToken = jwt.sign(
-    accessTokenPayload,
-    process.env.JWT_SECRET,
-    { expiresIn: "15m" }
-  );
+  const accessToken = jwt.sign(accessTokenPayload, process.env.JWT_SECRET, {
+    expiresIn: "15m",
+  });
 
   const refreshToken = jwt.sign(
     refreshTokenPayload,
@@ -132,7 +130,7 @@ async function refreshGoogleAccessToken(token) {
     return {
       ...token,
       accessToken: refreshedTokens.access_token,
-      accessTokenExpires: Date.now() + (refreshedTokens.expires_in * 1000),
+      accessTokenExpires: Date.now() + refreshedTokens.expires_in * 1000,
       refreshToken: refreshedTokens.refresh_token ?? token.refreshToken,
     };
   } catch (error) {
@@ -156,7 +154,7 @@ export const {
       name: "credentials",
       credentials: {
         email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         try {
@@ -185,7 +183,10 @@ export const {
             throw new Error("Invalid password");
           }
 
-          console.log("✅ Credentials authentication successful for:", user.email);
+          console.log(
+            "✅ Credentials authentication successful for:",
+            user.email
+          );
 
           return {
             id: user.id,
@@ -216,11 +217,11 @@ export const {
       // Initial sign in
       if (account && user) {
         console.log(`🔐 Initial sign in - Provider: ${account.provider}`);
-        
+
         if (account.provider === "google") {
           return {
             accessToken: account.access_token,
-            accessTokenExpires: Date.now() + (account.expires_in * 1000),
+            accessTokenExpires: Date.now() + account.expires_in * 1000,
             refreshToken: account.refresh_token,
             provider: "google",
             user: {
@@ -256,16 +257,21 @@ export const {
       // Return previous token if the access token has not expired yet
       if (token?.accessTokenExpires && Date.now() < token.accessTokenExpires) {
         // Only log occasionally to reduce noise
-        if (Math.random() < 0.1) { // 10% chance to log
+        if (Math.random() < 0.1) {
+          // 10% chance to log
           console.log(
-            `⏰ Using valid token (expires: ${new Date(token.accessTokenExpires).toLocaleString()})`
+            `⏰ Using valid token (expires: ${new Date(
+              token.accessTokenExpires
+            ).toLocaleString()})`
           );
         }
         return token;
       }
 
       // Access token has expired, try to update it
-      console.log(`🔄 Token expired, refreshing... (Provider: ${token.provider})`);
+      console.log(
+        `🔄 Token expired, refreshing... (Provider: ${token.provider})`
+      );
 
       if (token.provider === "google") {
         return refreshGoogleAccessToken(token);
@@ -287,7 +293,8 @@ export const {
       }
 
       // Only log occasionally to reduce noise
-      if (Math.random() < 0.05) { // 5% chance to log
+      if (Math.random() < 0.05) {
+        // 5% chance to log
         console.log(`📋 Session created for: ${session.user?.email}`);
       }
 
@@ -308,7 +315,7 @@ export const {
 
           if (!existingUser) {
             console.log("➕ Creating new Google user...");
-            
+
             await db.user.create({
               data: {
                 email: user.email,
@@ -319,11 +326,11 @@ export const {
                 // No password for OAuth users
               },
             });
-            
+
             console.log("✅ Successfully created Google user");
           } else {
             console.log("✅ Google user exists, updating info...");
-            
+
             // Update user info from Google (keep existing password if any)
             await db.user.update({
               where: { email: user.email },
@@ -354,7 +361,10 @@ export const {
             console.log("✅ Updated credentials user provider info");
           } catch (updateError) {
             // Don't block signin if provider update fails
-            console.warn("⚠️ Failed to update provider info:", updateError.message);
+            console.warn(
+              "⚠️ Failed to update provider info:",
+              updateError.message
+            );
           }
 
           return true;
@@ -368,8 +378,8 @@ export const {
     },
   },
   pages: {
-    signIn: '/auth/signin',
-    error: '/auth/error',
+    signIn: "/auth/signin",
+    error: "/auth/error",
   },
   session: {
     strategy: "jwt",

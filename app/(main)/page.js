@@ -1,10 +1,7 @@
-import { CourseProgress } from "@/components/course-progress";
 import { SectionTitle } from "@/components/section-title";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { formatPrice } from "@/lib/formatPrice";
+import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
-  ArrowRight,
   ArrowRightIcon,
   Award,
   BarChart3,
@@ -12,7 +9,7 @@ import {
   Brain,
   Calendar,
   GraduationCap,
-  Users,
+  Users
 } from "lucide-react";
 
 import Image from "next/image";
@@ -237,7 +234,7 @@ const HomePage = async () => {
         <div className="flex items-center justify-between">
           <SectionTitle>Categories</SectionTitle>
           <Link
-            href={""}
+            href="/courses"
             className=" text-sm font-medium  hover:opacity-80 flex items-center gap-1"
           >
             Browse All <ArrowRightIcon className="h-4 w-4" />
@@ -246,7 +243,7 @@ const HomePage = async () => {
         <div className="mx-auto grid justify-center gap-4 grid-cols-2  md:grid-cols-3 2xl:grid-cols-4">
           {categories.map((category) => (
             <Link
-              href={`/category/${category.id}`}
+              href={`/courses?categories=${encodeURIComponent(category.title)}`}
               key={category.id}
               className="relative overflow-hidden rounded-lg border bg-background p-2 hover:scale-105 transition-all duration-500 ease-in-out"
             >

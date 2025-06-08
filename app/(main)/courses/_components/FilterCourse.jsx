@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/accordion";
 
 import { Checkbox } from "@/components/ui/checkbox";
+import { List } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 
@@ -49,13 +50,16 @@ const FilterCourse = ({ categories, selectedCategories = [] }) => {
         {/* Categories filter */}
         <AccordionItem value="categories">
           <AccordionTrigger className="py-3 text-sm">
-            <span className="font-medium">Categories</span>
+            <span className="font-medium flex items-center gap-2 pl-3">
+              <List className="w-4 h-4" />
+              Categories
+            </span>
           </AccordionTrigger>
 
           <AccordionContent className="pt-6 animate-none">
             <ul className="space-y-4">
               {categories?.map((category, optionIdx) => (
-                <li key={category?.id} className="flex items-center">
+                <li key={category?.id} className="flex items-center pl-3">
                   <Checkbox
                     id={`category-${optionIdx}`}
                     onCheckedChange={() =>
