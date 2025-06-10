@@ -1,7 +1,6 @@
 import { db } from "@/lib/prisma";
 import { unstable_cache } from "next/cache";
 
-// ⏱ TTL in seconds
 const REVALIDATE_TIME = 300;
 
 // ✅ Get All Courses (Cached)
@@ -15,22 +14,20 @@ export const getCourseList = unstable_cache(
             select: {
               id: true,
               name: true,
-              
               email: true,
               role: true,
-              isActive : true,
+              isActive: true,
               instructor: {
                 select: {
                   id: true,
                   designation: true,
                   bio: true,
-                  profilePicture: true,
+
                   department: true,
                 },
               },
             },
           },
-         
         },
       });
 
@@ -62,7 +59,7 @@ export const getCourseDetails = unstable_cache(
               instructor: true, // Get instructor details through user
             },
           },
-        
+
           weeks: {
             include: {
               lessons: true,
@@ -127,8 +124,8 @@ export const getInstructorDetailedStats = unstable_cache(
         where: { id: instructorId },
         include: {
           user: {
-            select: { id: true }
-          }
+            select: { id: true },
+          },
         },
       });
 
@@ -140,7 +137,7 @@ export const getInstructorDetailedStats = unstable_cache(
       const courses = await db.course.findMany({
         where: {
           userId: instructor.user.id, // Use the user.id from the instructor
-          active: true // Only count active courses
+          active: true, // Only count active courses
         },
         select: { id: true },
       });
@@ -185,16 +182,19 @@ export const getInstructorDetailedStats = unstable_cache(
       const testimonials = await db.testimonial.findMany({
         where: {
           courseId: { in: courseIds },
-          rating: { 
+          rating: {
             not: null,
-            gte: 1 
+            gte: 1,
           }, // Get all testimonials with valid ratings
         },
         select: { rating: true },
       });
 
       const testimonialCount = testimonials.length;
-      const totalRating = testimonials.reduce((sum, t) => sum + (t.rating || 0), 0);
+      const totalRating = testimonials.reduce(
+        (sum, t) => sum + (t.rating || 0),
+        0
+      );
       const averageRating =
         testimonialCount > 0 ? totalRating / testimonialCount : 0;
 
@@ -217,99 +217,337 @@ export const getInstructorDetailedStats = unstable_cache(
     revalidate: REVALIDATE_TIME,
   }
 );
-export const getInstructorDetailedStats2 = unstable_cache(
-  async (instructorId) => {
+
+// ✅ Get User's Enrolled Courses (Cached per User)
+export const getUserEnrolledCourses = unstable_cache(
+  async (userId) => {
     try {
-      // Add validation for instructorId
-      if (!instructorId) {
-        console.error("❌ No instructorId provided");
-        throw new Error("Instructor ID is required");
+      // Add validation for userId
+      if (!userId) {
+        console.error("❌ No userId provided");
+        throw new Error("User ID is required");
       }
 
-      console.log("🔄 Fetching instructor stats for:", instructorId);
+      console.log("🔄 Fetching enrolled courses for user:", userId);
 
-      // First, get the instructor record with user relationship
-      const instructor = await db.instructor.findUnique({
-        where: { id: instructorId },
+      // Get all course progress records for the user (which represents enrollment)
+      const enrolledCourses = await db.courseProgress.findMany({
+        where: {
+          userId: userId,
+        },
         include: {
-          user: {
-            select: { id: true }
-          }
+          course: {
+            include: {
+              category: {
+                select: {
+                  id: true,
+                  title: true,
+                  thumbnail: true,
+                },
+              },
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                  email: true,
+                  role: true,
+                  image: true,
+                  instructor: {
+                    select: {
+                      id: true,
+                      designation: true,
+                      bio: true,
+
+                      department: true,
+                    },
+                  },
+                },
+              },
+              weeks: {
+                select: {
+                  id: true,
+                  title: true,
+                  order: true,
+                  duration: true,
+                  lessons: {
+                    select: {
+                      id: true,
+                      title: true,
+                      duration: true,
+                      order: true,
+                      active: true,
+                    },
+                    orderBy: {
+                      order: "asc",
+                    },
+                  },
+                },
+                orderBy: {
+                  order: "asc",
+                },
+              },
+              _count: {
+                select: {
+                  testimonials: true,
+                  courseProgress: true, // Total enrolled students
+                },
+              },
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc", // Most recently enrolled first
         },
       });
 
-      if (!instructor) {
-        throw new Error(`Instructor with ID ${instructorId} not found`);
-      }
+      // Transform the data to include additional calculated fields
+      const transformedCourses = enrolledCourses.map((enrollment) => {
+        const course = enrollment.course;
 
-      // Get all courses created by this instructor's user account
-      const courses = await db.course.findMany({
-        where: {
-          userId: instructor.user.id, // Use the user.id from the instructor
-          active: true // Only count active courses
-        },
-        select: { id: true },
-      });
+        // Calculate total course duration
+        const totalDuration = course.weeks.reduce((total, week) => {
+          const weekDuration = week.lessons.reduce((weekTotal, lesson) => {
+            return weekTotal + (lesson.duration || 0);
+          }, 0);
+          return total + weekDuration;
+        }, 0);
 
-      const courseIds = courses.map((course) => course.id);
-      const courseCount = courseIds.length;
+        // Calculate total lessons
+        const totalLessons = course.weeks.reduce((total, week) => {
+          return total + week.lessons.length;
+        }, 0);
 
-      // If no courses, return early with zero stats
-      if (courseCount === 0) {
         return {
-          courseCount: 0,
-          totalStudents: 0,
-          averageRating: 0,
-          testimonialCount: 0,
+          enrollmentId: enrollment.id,
+          enrollmentStatus: enrollment.status,
+          progress: enrollment.progress,
+          enrolledAt: enrollment.createdAt,
+          lastUpdated: enrollment.updatedAt,
+          course: {
+            ...course,
+            totalDuration,
+            totalLessons,
+            totalWeeks: course.weeks.length,
+            totalStudents: course._count.courseProgress,
+            totalTestimonials: course._count.testimonials,
+          },
         };
-      }
-
-      // Get enrollment statistics
-      const enrollmentStats = await db.enrollment.groupBy({
-        by: ["courseId"],
-        where: {
-          courseId: { in: courseIds },
-        },
-        _count: { id: true },
       });
 
-      const totalStudents = enrollmentStats.reduce(
-        (total, item) => total + item._count.id,
-        0
+      console.log(
+        `✅ Found ${transformedCourses.length} enrolled courses for user ${userId}`
       );
 
-      // Get testimonials for instructor's courses
-      const testimonials = await db.testimonial.findMany({
-        where: {
-          courseId: { in: courseIds },
-          rating: { 
-            not: null,
-            gte: 1 
-          }, // Get all testimonials with valid ratings
-        },
-        select: { rating: true },
-      });
-
-      const testimonialCount = testimonials.length;
-      const totalRating = testimonials.reduce((sum, t) => sum + (t.rating || 0), 0);
-      const averageRating =
-        testimonialCount > 0 ? totalRating / testimonialCount : 0;
-
-      return {
-        courseCount,
-        totalStudents,
-        averageRating: parseFloat(averageRating.toFixed(2)),
-        testimonialCount,
-      };
+      return transformedCourses;
     } catch (error) {
       console.error(
-        `❌ Error fetching stats for instructor ${instructorId}:`,
+        `❌ Error fetching enrolled courses for user ${userId}:`,
         error
       );
       throw error;
     }
   },
-  (instructorId) => [`instructor-details-${instructorId}`],
+  (userId) => [`user-enrolled-courses-${userId}`],
+  {
+    revalidate: REVALIDATE_TIME,
+  }
+);
+
+// ✅ Get User's Enrolled Courses with Detailed Progress (Alternative version)
+export const getUserEnrolledCoursesWithProgress = unstable_cache(
+  async (userId) => {
+    try {
+      if (!userId) {
+        throw new Error("User ID is required");
+      }
+
+      console.log(
+        "🔄 Fetching detailed enrolled courses with progress for user:",
+        userId
+      );
+
+      const enrolledCourses = await db.courseProgress.findMany({
+        where: {
+          userId: userId,
+        },
+        include: {
+          course: {
+            include: {
+              category: true,
+              user: {
+                include: {
+                  instructor: true,
+                },
+              },
+              weeks: {
+                include: {
+                  lessons: {
+                    select: {
+                      id: true,
+                      title: true,
+                      duration: true,
+                      order: true,
+                      active: true,
+                      // Get user's watch progress for each lesson
+                      watches: {
+                        where: {
+                          userId: userId,
+                        },
+                        select: {
+                          id: true,
+                          state: true,
+                          lastTime: true,
+                        },
+                      },
+                    },
+                    orderBy: {
+                      order: "asc",
+                    },
+                  },
+                  // Get user's quiz attempts for each week
+                  quizzes: {
+                    select: {
+                      id: true,
+                      title: true,
+                      status: true,
+                      submissions: {
+                        where: {
+                          userId: userId,
+                        },
+                        select: {
+                          id: true,
+                          status: true,
+                          score: true,
+                          attemptNumber: true,
+                          endTime: true,
+                        },
+                        orderBy: {
+                          attemptNumber: "desc",
+                        },
+                        take: 1, // Get latest attempt
+                      },
+                    },
+                  },
+                },
+                orderBy: {
+                  order: "asc",
+                },
+              },
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+
+      // Transform with detailed progress information
+      const detailedCourses = enrolledCourses.map((enrollment) => {
+        const course = enrollment.course;
+
+        // Calculate watched lessons
+        let totalWatchedLessons = 0;
+        let totalCompletedQuizzes = 0;
+        let totalLessons = 0;
+        let totalQuizzes = 0;
+
+        course.weeks.forEach((week) => {
+          totalLessons += week.lessons.length;
+          totalQuizzes += week.quizzes.length;
+
+          // Count watched lessons (state === 'completed' or similar)
+          week.lessons.forEach((lesson) => {
+            if (
+              lesson.watches.length > 0 &&
+              lesson.watches[0].state === "completed"
+            ) {
+              totalWatchedLessons++;
+            }
+          });
+
+          // Count completed quizzes
+          week.quizzes.forEach((quiz) => {
+            if (
+              quiz.submissions.length > 0 &&
+              quiz.submissions[0].status === "completed"
+            ) {
+              totalCompletedQuizzes++;
+            }
+          });
+        });
+
+        const lessonsCompletionRate =
+          totalLessons > 0 ? (totalWatchedLessons / totalLessons) * 100 : 0;
+        const quizzesCompletionRate =
+          totalQuizzes > 0 ? (totalCompletedQuizzes / totalQuizzes) * 100 : 0;
+
+        return {
+          enrollmentId: enrollment.id,
+          enrollmentStatus: enrollment.status,
+          progress: enrollment.progress,
+          enrolledAt: enrollment.createdAt,
+          lastUpdated: enrollment.updatedAt,
+          progressDetails: {
+            totalLessons,
+            watchedLessons: totalWatchedLessons,
+            lessonsCompletionRate:
+              Math.round(lessonsCompletionRate * 100) / 100,
+            totalQuizzes,
+            completedQuizzes: totalCompletedQuizzes,
+            quizzesCompletionRate:
+              Math.round(quizzesCompletionRate * 100) / 100,
+          },
+          course,
+        };
+      });
+
+      return detailedCourses;
+    } catch (error) {
+      console.error(
+        `❌ Error fetching detailed enrolled courses for user ${userId}:`,
+        error
+      );
+      throw error;
+    }
+  },
+  (userId) => [`user-enrolled-courses-detailed-${userId}`],
+  {
+    revalidate: REVALIDATE_TIME,
+  }
+);
+
+// ✅ Get User's Course Enrollment Status (Check if enrolled in specific course)
+export const getUserCourseEnrollmentStatus = unstable_cache(
+  async (userId, courseId) => {
+    try {
+      if (!userId || !courseId) {
+        throw new Error("Both User ID and Course ID are required");
+      }
+
+      const enrollment = await db.courseProgress.findFirst({
+        where: {
+          userId: userId,
+          courseId: courseId,
+        },
+        select: {
+          id: true,
+          status: true,
+          progress: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      });
+
+      return {
+        isEnrolled: !!enrollment,
+        enrollment: enrollment || null,
+      };
+    } catch (error) {
+      console.error(`❌ Error checking enrollment status:`, error);
+      throw error;
+    }
+  },
+  (userId, courseId) => [`enrollment-status-${userId}-${courseId}`],
   {
     revalidate: REVALIDATE_TIME,
   }

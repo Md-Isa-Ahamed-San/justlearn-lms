@@ -6,6 +6,7 @@ import { SiteFooter } from './site-footer';
 // List of routes or route patterns where the footer should be hidden
 const HIDE_FOOTER_PATHS = [
   '/account',
+  "/admin-dashboard",
 ];
 
 export function FooterController() {

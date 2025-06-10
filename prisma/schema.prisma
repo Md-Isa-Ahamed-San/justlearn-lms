@@ -56,7 +56,7 @@ model User {
   email      String   @unique
   password   String? // Optional for OAuth users
   provider   String? // "google", "credentials", etc.
-  providerId String? 
+  providerId String?
   image      String?
   role       Role?
   isActive   Boolean  @default(true)
@@ -64,21 +64,24 @@ model User {
   updatedAt  DateTime @updatedAt
 
   // Relationships
-  instructor      Instructor?      @relation("UserInstructor")
-  student         Student?         @relation("UserStudent")
-  admin           Admin?           @relation("UserAdmin")
-  courses         Course[]         @relation("UserCourses")
-  testimonials    Testimonial[]    @relation("UserTestimonials")
-  quizSubmissions QuizSubmission[] @relation("UserQuizSubmissions")
-  createdQuizzes  Quiz[]           @relation("UserCreatedQuizzes")
+  instructor       Instructor?       @relation("UserInstructor")
+  student          Student?          @relation("UserStudent")
+  admin            Admin?            @relation("UserAdmin")
+  courses          Course[]          @relation("UserCourses")
+  testimonials     Testimonial[]     @relation("UserTestimonials")
+  quizSubmissions  QuizSubmission[]  @relation("UserQuizSubmissions")
+  createdQuizzes   Quiz[]            @relation("UserCreatedQuizzes")
   aiGenerationLogs AIGenerationLog[] @relation("UserAILogs")
-  courseProgress  CourseProgress[] @relation("UserCourseProgress")
-  certificates    Certificate[]    @relation("UserCertificates")
-  reports         Report[]         @relation("UserReports")
-  participations  Participation[]  @relation("UserParticipations")
-  watches         Watch[]          @relation("UserWatches")
-  liveSessions   Live[]           @relation("UserLiveSessions")
-  aiQuizTemplates AIQuizTemplate[]  @relation("UserAIQuizTemplates")
+  courseProgress   CourseProgress[]  @relation("UserCourseProgress")
+  certificates     Certificate[]     @relation("UserCertificates")
+  reports          Report[]          @relation("UserReports")
+  participations   Participation[]   @relation("UserParticipations")
+  watches          Watch[]           @relation("UserWatches")
+  liveSessions     Live[]            @relation("UserLiveSessions")
+  aiQuizTemplates  AIQuizTemplate[]  @relation("UserAIQuizTemplates")
+
+  @@index([role, isActive])
+  @@index([createdAt])
 }
 
 // MARK: Instructor
@@ -90,7 +93,6 @@ model Instructor {
   phone                String?
   bio                  String?
   designation          String?
-  profilePicture       String?
   socialMedia          Json?
   resetPasswordToken   String?
   resetPasswordExpires DateTime?
@@ -101,8 +103,7 @@ model Instructor {
   userId String @unique @db.ObjectId
 
   // Relationships
-  user            User              @relation("UserInstructor", fields: [userId], references: [id])
-  
+  user User @relation("UserInstructor", fields: [userId], references: [id])
 }
 
 // MARK: Student
@@ -125,8 +126,8 @@ model Student {
   userId String @unique @db.ObjectId
 
   // Relationships
-  user                   User         @relation("UserStudent", fields: [userId], references: [id])
-  personalQuizzes        Quiz[]       @relation("StudentPersonalQuizzes")
+  user            User   @relation("UserStudent", fields: [userId], references: [id])
+  personalQuizzes Quiz[] @relation("StudentPersonalQuizzes")
 }
 
 // MARK: Admin
@@ -154,12 +155,12 @@ model Admin {
 
 // MARK: Category
 model Category {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String?
   thumbnail   String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   // Relationships
   courses Course[]
@@ -173,10 +174,11 @@ model Course {
   subtitle    String?
   thumbnail   String
   active      Boolean  @default(true)
-  learning    Json     // Array of learning outcomes
+  learning    Json // Array of learning outcomes
   rating      Float?   @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  code        String
 
   // Foreign Keys
   userId     String @db.ObjectId
@@ -195,24 +197,24 @@ model Course {
 
 // MARK: Week
 model Week {
-  id                       String    @id @default(auto()) @map("_id") @db.ObjectId
-  title                    String
-  description              String?
-  status                   String    @default("not-active")
-  slug                     String    
-  duration                 Int
-  order                    Int
-  aiQuizContextPrompt      String?   // Context prompt for AI quiz generation
-  aiQuizDefaultNumMCQ      Int?      @default(5)
-  aiQuizDefaultNumShortAnswer Int?   @default(2)
-  createdAt                DateTime  @default(now())
-  updatedAt                DateTime  @updatedAt
+  id                          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title                       String
+  description                 String?
+  status                      String   @default("not-active")
+  slug                        String
+  duration                    Int
+  order                       Int
+  aiQuizContextPrompt         String? // Context prompt for AI quiz generation
+  aiQuizDefaultNumMCQ         Int?     @default(5)
+  aiQuizDefaultNumShortAnswer Int?     @default(2)
+  createdAt                   DateTime @default(now())
+  updatedAt                   DateTime @updatedAt
 
   // Foreign Keys
   courseId String @db.ObjectId
 
   // Relationships
-  course          Course           @relation(fields: [courseId], references: [id])
+  course          Course           @relation(fields: [courseId], references: [id],onDelete: Cascade)
   lessons         Lesson[]
   resources       Resource[]
   watches         Watch[]
@@ -222,18 +224,18 @@ model Week {
 
 // MARK: Lesson
 model Lesson {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String?
-  duration    Int       @default(0)
-  videoUrl    String?   @map("video_url")
-  active      Boolean   @default(false)
-  slug        String    
-  access      String    @default("private")
-  order       Int       @default(0)
-  attachments Json?     // Array of attachment objects
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  duration    Int      @default(0)
+  videoUrl    String?  @map("video_url")
+  active      Boolean  @default(false)
+  slug        String
+  access      String   @default("private")
+  order       Int      @default(0)
+  attachments Json? // Array of attachment objects
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   // Foreign Keys
   weekId String @db.ObjectId
@@ -245,47 +247,52 @@ model Lesson {
 
 // MARK: Quiz (Merged Quiz and QuizSet functionality)
 model Quiz {
-  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  id          String         @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
-  slug        String       
-  status      QuizStatus    @default(draft)
-  source      QuizSource    @default(manual)
+  slug        String
+  status      QuizStatus     @default(draft)
+  source      QuizSource     @default(manual)
   accessType  QuizAccessType @default(instructor_created)
-  active      Boolean       @default(true)
+  active      Boolean        @default(true)
 
   // AI Generation fields
-  aiPrompt                 String? // Custom prompt from instructor or stored prompt
-  aiContextData            Json?   // Week content, lessons, resources for AI context
-  targetMcqCount           Int?    @default(5)
-  targetShortAnswerCount   Int?    @default(2)
-  targetLongAnswerCount    Int?    @default(1)
-  aiGenerationStatus       String? // 'pending', 'in_progress', 'completed', 'failed'
-  aiGenerationError        String? // Error message if generation fails
+  aiPrompt               String? // Custom prompt from instructor or stored prompt
+  aiContextData          Json? // Week content, lessons, resources for AI context
+  targetMcqCount         Int?    @default(5)
+  targetShortAnswerCount Int?    @default(2)
+  targetLongAnswerCount  Int?    @default(1)
+  aiGenerationStatus     String? // 'pending', 'in_progress', 'completed', 'failed'
+  aiGenerationError      String? // Error message if generation fails
 
   // Time and attempt controls
-  timeLimit                Int?    // Time limit in minutes
-  maxAttempts              Int?    @default(3)
-  showResultsImmediately   Boolean @default(true)
-  shuffleQuestions         Boolean @default(false)
-  shuffleOptions           Boolean @default(false)
+  timeLimit              Int? // Time limit in minutes
+  maxAttempts            Int?    @default(3)
+  showResultsImmediately Boolean @default(true)
+  shuffleQuestions       Boolean @default(false)
+  shuffleOptions         Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // Foreign Keys
-  weekId           String? @db.ObjectId
-  createdByUserId  String  @db.ObjectId
-  targetStudentId  String? @db.ObjectId // For student-personal quizzes
+  weekId          String? @db.ObjectId
+  createdByUserId String  @db.ObjectId
+  targetStudentId String? @db.ObjectId // For student-personal quizzes
 
   // Relationships
-  week            Week?            @relation("WeekQuizzes", fields: [weekId], references: [id])
-  createdBy       User             @relation("UserCreatedQuizzes", fields: [createdByUserId], references: [id])
-  targetStudent   Student?         @relation("StudentPersonalQuizzes", fields: [targetStudentId], references: [id])
-  questions       Question[]
-  submissions     QuizSubmission[]
+  week             Week?             @relation("WeekQuizzes", fields: [weekId], references: [id])
+  createdBy        User              @relation("UserCreatedQuizzes", fields: [createdByUserId], references: [id])
+  targetStudent    Student?          @relation("StudentPersonalQuizzes", fields: [targetStudentId], references: [id])
+  questions        Question[]
+  submissions      QuizSubmission[]
   aiGenerationLogs AIGenerationLog[]
-  liveSession     Live?            @relation("QuizLiveSession")
+  liveSession      Live?             @relation("QuizLiveSession")
+
+  //Indexing to speed up queries
+  @@index([status, active])
+  @@index([weekId, status])
+  @@index([createdByUserId, createdAt])
 }
 
 // MARK: Question
@@ -293,8 +300,8 @@ model Question {
   id            String       @id @default(auto()) @map("_id") @db.ObjectId
   type          QuestionType
   prompt        String
-  options       Json?        // Array of options for MCQ
-  correctAnswer Json         // Correct answer(s), e.g., "A", or ["A", "C"]
+  options       Json? // Array of options for MCQ
+  correctAnswer Json // Correct answer(s), e.g., "A", or ["A", "C"]
   explanation   String?
   mark          Int          @default(1)
   order         Int          @default(0)
@@ -314,7 +321,7 @@ model AIQuizTemplate {
   id                      String   @id @default(auto()) @map("_id") @db.ObjectId
   title                   String
   description             String?
-  instructorPrompt        String   // Pre-recorded instructor prompt
+  instructorPrompt        String // Pre-recorded instructor prompt
   defaultMcqCount         Int      @default(5)
   defaultShortAnswerCount Int      @default(2)
   defaultLongAnswerCount  Int      @default(1)
@@ -323,12 +330,12 @@ model AIQuizTemplate {
   updatedAt               DateTime @updatedAt
 
   // Foreign Keys
-  weekId   String @db.ObjectId
-  userId   String @db.ObjectId  // This is the foreign key field
+  weekId String @db.ObjectId
+  userId String @db.ObjectId // This is the foreign key field
 
   // Relationships
-  week     Week @relation("WeekAITemplates", fields: [weekId], references: [id])
-  user     User @relation("UserAIQuizTemplates", fields: [userId], references: [id])
+  week Week @relation("WeekAITemplates", fields: [weekId], references: [id])
+  user User @relation("UserAIQuizTemplates", fields: [userId], references: [id])
 }
 
 // MARK: QuizSubmission
@@ -339,7 +346,7 @@ model QuizSubmission {
   status        AttemptStatus @default(not_started)
   score         Float?        @default(0)
   attemptNumber Int           @default(1)
-  timeSpent     Int?          // Time spent in seconds
+  timeSpent     Int? // Time spent in seconds
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 
@@ -355,10 +362,10 @@ model QuizSubmission {
 
 // MARK: StudentAnswer
 model StudentAnswer {
-  id              String  @id @default(auto()) @map("_id") @db.ObjectId
-  submittedAnswer Json    // What the student chose/wrote
-  isCorrect       Boolean @default(false)
-  marksAwarded    Float   @default(0)
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  submittedAnswer Json // What the student chose/wrote
+  isCorrect       Boolean  @default(false)
+  marksAwarded    Float    @default(0)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
@@ -374,11 +381,11 @@ model StudentAnswer {
 // MARK: AIGenerationLog
 model AIGenerationLog {
   id               String   @id @default(auto()) @map("_id") @db.ObjectId
-  requestType      String   // 'instructor_quiz', 'student_quiz'
+  requestType      String // 'instructor_quiz', 'student_quiz'
   prompt           String
   contextData      Json?
   response         Json?
-  status           String   // 'success', 'failed', 'partial'
+  status           String // 'success', 'failed', 'partial'
   errorMessage     String?
   tokensUsed       Int?
   processingTimeMs Int?
@@ -389,8 +396,8 @@ model AIGenerationLog {
   requestedByUserId String  @db.ObjectId
 
   // Relationships
-  quiz          Quiz? @relation(fields: [quizId], references: [id])
-  requestedBy   User  @relation("UserAILogs", fields: [requestedByUserId], references: [id])
+  quiz        Quiz? @relation(fields: [quizId], references: [id])
+  requestedBy User  @relation("UserAILogs", fields: [requestedByUserId], references: [id])
 }
 
 // MARK: CourseProgress
@@ -446,8 +453,8 @@ model Testimonial {
 // MARK: Report
 model Report {
   id                    String   @id @default(auto()) @map("_id") @db.ObjectId
-  totalCompletedLessons Json     // JSON array tracking lesson completion
-  totalCompletedModules Json     // JSON array tracking module completion
+  totalCompletedLessons Json // JSON array tracking lesson completion
+  totalCompletedModules Json // JSON array tracking module completion
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 
@@ -463,7 +470,7 @@ model Report {
 // MARK: Participation
 model Participation {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  progress  Json     // JSON storing various engagement data
+  progress  Json // JSON storing various engagement data
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -499,9 +506,9 @@ model Watch {
 model Resource {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   title     String
-  type      String   // "text", "pdf", "video", "link"
+  type      String // "text", "pdf", "video", "link"
   url       String?
-  content   String?  // For text resources
+  content   String? // For text resources
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -519,7 +526,7 @@ model Live {
   description String
   thumbnail   String?
   videoId     String   @map("video_id")
-  slug        String  
+  slug        String
   schedule    DateTime
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

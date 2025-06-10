@@ -4769,7 +4769,6 @@ export namespace Prisma {
     phone: string | null
     bio: string | null
     designation: string | null
-    profilePicture: string | null
     resetPasswordToken: string | null
     resetPasswordExpires: Date | null
     createdAt: Date | null
@@ -4785,7 +4784,6 @@ export namespace Prisma {
     phone: string | null
     bio: string | null
     designation: string | null
-    profilePicture: string | null
     resetPasswordToken: string | null
     resetPasswordExpires: Date | null
     createdAt: Date | null
@@ -4801,7 +4799,6 @@ export namespace Prisma {
     phone: number
     bio: number
     designation: number
-    profilePicture: number
     socialMedia: number
     resetPasswordToken: number
     resetPasswordExpires: number
@@ -4828,7 +4825,6 @@ export namespace Prisma {
     phone?: true
     bio?: true
     designation?: true
-    profilePicture?: true
     resetPasswordToken?: true
     resetPasswordExpires?: true
     createdAt?: true
@@ -4844,7 +4840,6 @@ export namespace Prisma {
     phone?: true
     bio?: true
     designation?: true
-    profilePicture?: true
     resetPasswordToken?: true
     resetPasswordExpires?: true
     createdAt?: true
@@ -4860,7 +4855,6 @@ export namespace Prisma {
     phone?: true
     bio?: true
     designation?: true
-    profilePicture?: true
     socialMedia?: true
     resetPasswordToken?: true
     resetPasswordExpires?: true
@@ -4964,7 +4958,6 @@ export namespace Prisma {
     phone: string | null
     bio: string | null
     designation: string | null
-    profilePicture: string | null
     socialMedia: JsonValue | null
     resetPasswordToken: string | null
     resetPasswordExpires: Date | null
@@ -5000,7 +4993,6 @@ export namespace Prisma {
     phone?: boolean
     bio?: boolean
     designation?: boolean
-    profilePicture?: boolean
     socialMedia?: boolean
     resetPasswordToken?: boolean
     resetPasswordExpires?: boolean
@@ -5020,7 +5012,6 @@ export namespace Prisma {
     phone?: boolean
     bio?: boolean
     designation?: boolean
-    profilePicture?: boolean
     socialMedia?: boolean
     resetPasswordToken?: boolean
     resetPasswordExpires?: boolean
@@ -5029,7 +5020,7 @@ export namespace Prisma {
     userId?: boolean
   }
 
-  export type InstructorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "idNumber" | "department" | "isActive" | "phone" | "bio" | "designation" | "profilePicture" | "socialMedia" | "resetPasswordToken" | "resetPasswordExpires" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["instructor"]>
+  export type InstructorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "idNumber" | "department" | "isActive" | "phone" | "bio" | "designation" | "socialMedia" | "resetPasswordToken" | "resetPasswordExpires" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["instructor"]>
   export type InstructorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -5047,7 +5038,6 @@ export namespace Prisma {
       phone: string | null
       bio: string | null
       designation: string | null
-      profilePicture: string | null
       socialMedia: Prisma.JsonValue | null
       resetPasswordToken: string | null
       resetPasswordExpires: Date | null
@@ -5454,7 +5444,6 @@ export namespace Prisma {
     readonly phone: FieldRef<"Instructor", 'String'>
     readonly bio: FieldRef<"Instructor", 'String'>
     readonly designation: FieldRef<"Instructor", 'String'>
-    readonly profilePicture: FieldRef<"Instructor", 'String'>
     readonly socialMedia: FieldRef<"Instructor", 'Json'>
     readonly resetPasswordToken: FieldRef<"Instructor", 'String'>
     readonly resetPasswordExpires: FieldRef<"Instructor", 'DateTime'>
@@ -9141,6 +9130,7 @@ export namespace Prisma {
     rating: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    code: string | null
     userId: string | null
     categoryId: string | null
   }
@@ -9155,6 +9145,7 @@ export namespace Prisma {
     rating: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    code: string | null
     userId: string | null
     categoryId: string | null
   }
@@ -9170,6 +9161,7 @@ export namespace Prisma {
     rating: number
     createdAt: number
     updatedAt: number
+    code: number
     userId: number
     categoryId: number
     _all: number
@@ -9194,6 +9186,7 @@ export namespace Prisma {
     rating?: true
     createdAt?: true
     updatedAt?: true
+    code?: true
     userId?: true
     categoryId?: true
   }
@@ -9208,6 +9201,7 @@ export namespace Prisma {
     rating?: true
     createdAt?: true
     updatedAt?: true
+    code?: true
     userId?: true
     categoryId?: true
   }
@@ -9223,6 +9217,7 @@ export namespace Prisma {
     rating?: true
     createdAt?: true
     updatedAt?: true
+    code?: true
     userId?: true
     categoryId?: true
     _all?: true
@@ -9325,6 +9320,7 @@ export namespace Prisma {
     rating: number | null
     createdAt: Date
     updatedAt: Date
+    code: string
     userId: string
     categoryId: string
     _count: CourseCountAggregateOutputType | null
@@ -9359,6 +9355,7 @@ export namespace Prisma {
     rating?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    code?: boolean
     userId?: boolean
     categoryId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -9385,11 +9382,12 @@ export namespace Prisma {
     rating?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    code?: boolean
     userId?: boolean
     categoryId?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "subtitle" | "thumbnail" | "active" | "learning" | "rating" | "createdAt" | "updatedAt" | "userId" | "categoryId", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "subtitle" | "thumbnail" | "active" | "learning" | "rating" | "createdAt" | "updatedAt" | "code" | "userId" | "categoryId", ExtArgs["result"]["course"]>
   export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -9425,6 +9423,7 @@ export namespace Prisma {
       rating: number | null
       createdAt: Date
       updatedAt: Date
+      code: string
       userId: string
       categoryId: string
     }, ExtArgs["result"]["course"]>
@@ -9837,6 +9836,7 @@ export namespace Prisma {
     readonly rating: FieldRef<"Course", 'Float'>
     readonly createdAt: FieldRef<"Course", 'DateTime'>
     readonly updatedAt: FieldRef<"Course", 'DateTime'>
+    readonly code: FieldRef<"Course", 'String'>
     readonly userId: FieldRef<"Course", 'String'>
     readonly categoryId: FieldRef<"Course", 'String'>
   }
@@ -27881,7 +27881,6 @@ export namespace Prisma {
     phone: 'phone',
     bio: 'bio',
     designation: 'designation',
-    profilePicture: 'profilePicture',
     socialMedia: 'socialMedia',
     resetPasswordToken: 'resetPasswordToken',
     resetPasswordExpires: 'resetPasswordExpires',
@@ -27956,6 +27955,7 @@ export namespace Prisma {
     rating: 'rating',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
+    code: 'code',
     userId: 'userId',
     categoryId: 'categoryId'
   };
@@ -28540,7 +28540,6 @@ export namespace Prisma {
     phone?: StringNullableFilter<"Instructor"> | string | null
     bio?: StringNullableFilter<"Instructor"> | string | null
     designation?: StringNullableFilter<"Instructor"> | string | null
-    profilePicture?: StringNullableFilter<"Instructor"> | string | null
     socialMedia?: JsonNullableFilter<"Instructor">
     resetPasswordToken?: StringNullableFilter<"Instructor"> | string | null
     resetPasswordExpires?: DateTimeNullableFilter<"Instructor"> | Date | string | null
@@ -28558,7 +28557,6 @@ export namespace Prisma {
     phone?: SortOrder
     bio?: SortOrder
     designation?: SortOrder
-    profilePicture?: SortOrder
     socialMedia?: SortOrder
     resetPasswordToken?: SortOrder
     resetPasswordExpires?: SortOrder
@@ -28580,7 +28578,6 @@ export namespace Prisma {
     phone?: StringNullableFilter<"Instructor"> | string | null
     bio?: StringNullableFilter<"Instructor"> | string | null
     designation?: StringNullableFilter<"Instructor"> | string | null
-    profilePicture?: StringNullableFilter<"Instructor"> | string | null
     socialMedia?: JsonNullableFilter<"Instructor">
     resetPasswordToken?: StringNullableFilter<"Instructor"> | string | null
     resetPasswordExpires?: DateTimeNullableFilter<"Instructor"> | Date | string | null
@@ -28597,7 +28594,6 @@ export namespace Prisma {
     phone?: SortOrder
     bio?: SortOrder
     designation?: SortOrder
-    profilePicture?: SortOrder
     socialMedia?: SortOrder
     resetPasswordToken?: SortOrder
     resetPasswordExpires?: SortOrder
@@ -28622,7 +28618,6 @@ export namespace Prisma {
     phone?: StringNullableWithAggregatesFilter<"Instructor"> | string | null
     bio?: StringNullableWithAggregatesFilter<"Instructor"> | string | null
     designation?: StringNullableWithAggregatesFilter<"Instructor"> | string | null
-    profilePicture?: StringNullableWithAggregatesFilter<"Instructor"> | string | null
     socialMedia?: JsonNullableWithAggregatesFilter<"Instructor">
     resetPasswordToken?: StringNullableWithAggregatesFilter<"Instructor"> | string | null
     resetPasswordExpires?: DateTimeNullableWithAggregatesFilter<"Instructor"> | Date | string | null
@@ -28912,6 +28907,7 @@ export namespace Prisma {
     rating?: FloatNullableFilter<"Course"> | number | null
     createdAt?: DateTimeFilter<"Course"> | Date | string
     updatedAt?: DateTimeFilter<"Course"> | Date | string
+    code?: StringFilter<"Course"> | string
     userId?: StringFilter<"Course"> | string
     categoryId?: StringFilter<"Course"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -28935,6 +28931,7 @@ export namespace Prisma {
     rating?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    code?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -28961,6 +28958,7 @@ export namespace Prisma {
     rating?: FloatNullableFilter<"Course"> | number | null
     createdAt?: DateTimeFilter<"Course"> | Date | string
     updatedAt?: DateTimeFilter<"Course"> | Date | string
+    code?: StringFilter<"Course"> | string
     userId?: StringFilter<"Course"> | string
     categoryId?: StringFilter<"Course"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -28984,6 +28982,7 @@ export namespace Prisma {
     rating?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    code?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrder
     _count?: CourseCountOrderByAggregateInput
@@ -29007,6 +29006,7 @@ export namespace Prisma {
     rating?: FloatNullableWithAggregatesFilter<"Course"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"Course"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Course"> | Date | string
+    code?: StringWithAggregatesFilter<"Course"> | string
     userId?: StringWithAggregatesFilter<"Course"> | string
     categoryId?: StringWithAggregatesFilter<"Course"> | string
   }
@@ -30578,7 +30578,6 @@ export namespace Prisma {
     phone?: string | null
     bio?: string | null
     designation?: string | null
-    profilePicture?: string | null
     socialMedia?: InputJsonValue | null
     resetPasswordToken?: string | null
     resetPasswordExpires?: Date | string | null
@@ -30595,7 +30594,6 @@ export namespace Prisma {
     phone?: string | null
     bio?: string | null
     designation?: string | null
-    profilePicture?: string | null
     socialMedia?: InputJsonValue | null
     resetPasswordToken?: string | null
     resetPasswordExpires?: Date | string | null
@@ -30611,7 +30609,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
-    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
     resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30627,7 +30624,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
-    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
     resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30644,7 +30640,6 @@ export namespace Prisma {
     phone?: string | null
     bio?: string | null
     designation?: string | null
-    profilePicture?: string | null
     socialMedia?: InputJsonValue | null
     resetPasswordToken?: string | null
     resetPasswordExpires?: Date | string | null
@@ -30660,7 +30655,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
-    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
     resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30675,7 +30669,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
-    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
     resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30990,6 +30983,7 @@ export namespace Prisma {
     rating?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    code: string
     user: UserCreateNestedOneWithoutCoursesInput
     category: CategoryCreateNestedOneWithoutCoursesInput
     weeks?: WeekCreateNestedManyWithoutCourseInput
@@ -31011,6 +31005,7 @@ export namespace Prisma {
     rating?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    code: string
     userId: string
     categoryId: string
     weeks?: WeekUncheckedCreateNestedManyWithoutCourseInput
@@ -31031,6 +31026,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutCoursesNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     weeks?: WeekUpdateManyWithoutCourseNestedInput
@@ -31051,6 +31047,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     weeks?: WeekUncheckedUpdateManyWithoutCourseNestedInput
@@ -31072,6 +31069,7 @@ export namespace Prisma {
     rating?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    code: string
     userId: string
     categoryId: string
   }
@@ -31086,6 +31084,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
   }
 
   export type CourseUncheckedUpdateManyInput = {
@@ -31098,6 +31097,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
   }
@@ -32897,7 +32897,6 @@ export namespace Prisma {
     phone?: SortOrder
     bio?: SortOrder
     designation?: SortOrder
-    profilePicture?: SortOrder
     socialMedia?: SortOrder
     resetPasswordToken?: SortOrder
     resetPasswordExpires?: SortOrder
@@ -32918,7 +32917,6 @@ export namespace Prisma {
     phone?: SortOrder
     bio?: SortOrder
     designation?: SortOrder
-    profilePicture?: SortOrder
     resetPasswordToken?: SortOrder
     resetPasswordExpires?: SortOrder
     createdAt?: SortOrder
@@ -32934,7 +32932,6 @@ export namespace Prisma {
     phone?: SortOrder
     bio?: SortOrder
     designation?: SortOrder
-    profilePicture?: SortOrder
     resetPasswordToken?: SortOrder
     resetPasswordExpires?: SortOrder
     createdAt?: SortOrder
@@ -33182,6 +33179,7 @@ export namespace Prisma {
     rating?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    code?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrder
   }
@@ -33200,6 +33198,7 @@ export namespace Prisma {
     rating?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    code?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrder
   }
@@ -33214,6 +33213,7 @@ export namespace Prisma {
     rating?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    code?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrder
   }
@@ -36601,7 +36601,6 @@ export namespace Prisma {
     phone?: string | null
     bio?: string | null
     designation?: string | null
-    profilePicture?: string | null
     socialMedia?: InputJsonValue | null
     resetPasswordToken?: string | null
     resetPasswordExpires?: Date | string | null
@@ -36617,7 +36616,6 @@ export namespace Prisma {
     phone?: string | null
     bio?: string | null
     designation?: string | null
-    profilePicture?: string | null
     socialMedia?: InputJsonValue | null
     resetPasswordToken?: string | null
     resetPasswordExpires?: Date | string | null
@@ -36717,6 +36715,7 @@ export namespace Prisma {
     rating?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    code: string
     category: CategoryCreateNestedOneWithoutCoursesInput
     weeks?: WeekCreateNestedManyWithoutCourseInput
     testimonials?: TestimonialCreateNestedManyWithoutCourseInput
@@ -36737,6 +36736,7 @@ export namespace Prisma {
     rating?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    code: string
     categoryId: string
     weeks?: WeekUncheckedCreateNestedManyWithoutCourseInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutCourseInput
@@ -37150,7 +37150,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
-    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
     resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37165,7 +37164,6 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
-    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
     resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37287,6 +37285,7 @@ export namespace Prisma {
     rating?: FloatNullableFilter<"Course"> | number | null
     createdAt?: DateTimeFilter<"Course"> | Date | string
     updatedAt?: DateTimeFilter<"Course"> | Date | string
+    code?: StringFilter<"Course"> | string
     userId?: StringFilter<"Course"> | string
     categoryId?: StringFilter<"Course"> | string
   }
@@ -38121,6 +38120,7 @@ export namespace Prisma {
     rating?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    code: string
     user: UserCreateNestedOneWithoutCoursesInput
     weeks?: WeekCreateNestedManyWithoutCourseInput
     testimonials?: TestimonialCreateNestedManyWithoutCourseInput
@@ -38141,6 +38141,7 @@ export namespace Prisma {
     rating?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    code: string
     userId: string
     weeks?: WeekUncheckedCreateNestedManyWithoutCourseInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutCourseInput
@@ -38657,6 +38658,7 @@ export namespace Prisma {
     rating?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    code: string
     user: UserCreateNestedOneWithoutCoursesInput
     category: CategoryCreateNestedOneWithoutCoursesInput
     testimonials?: TestimonialCreateNestedManyWithoutCourseInput
@@ -38677,6 +38679,7 @@ export namespace Prisma {
     rating?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    code: string
     userId: string
     categoryId: string
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutCourseInput
@@ -38919,6 +38922,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutCoursesNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     testimonials?: TestimonialUpdateManyWithoutCourseNestedInput
@@ -38938,6 +38942,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     testimonials?: TestimonialUncheckedUpdateManyWithoutCourseNestedInput
@@ -40945,6 +40950,7 @@ export namespace Prisma {
     rating?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    code: string
     user: UserCreateNestedOneWithoutCoursesInput
     category: CategoryCreateNestedOneWithoutCoursesInput
     weeks?: WeekCreateNestedManyWithoutCourseInput
@@ -40965,6 +40971,7 @@ export namespace Prisma {
     rating?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    code: string
     userId: string
     categoryId: string
     weeks?: WeekUncheckedCreateNestedManyWithoutCourseInput
@@ -41065,6 +41072,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutCoursesNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     weeks?: WeekUpdateManyWithoutCourseNestedInput
@@ -41084,6 +41092,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     weeks?: WeekUncheckedUpdateManyWithoutCourseNestedInput
@@ -41165,6 +41174,7 @@ export namespace Prisma {
     rating?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    code: string
     user: UserCreateNestedOneWithoutCoursesInput
     category: CategoryCreateNestedOneWithoutCoursesInput
     weeks?: WeekCreateNestedManyWithoutCourseInput
@@ -41185,6 +41195,7 @@ export namespace Prisma {
     rating?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    code: string
     userId: string
     categoryId: string
     weeks?: WeekUncheckedCreateNestedManyWithoutCourseInput
@@ -41285,6 +41296,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutCoursesNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     weeks?: WeekUpdateManyWithoutCourseNestedInput
@@ -41304,6 +41316,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     weeks?: WeekUncheckedUpdateManyWithoutCourseNestedInput
@@ -41385,6 +41398,7 @@ export namespace Prisma {
     rating?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    code: string
     user: UserCreateNestedOneWithoutCoursesInput
     category: CategoryCreateNestedOneWithoutCoursesInput
     weeks?: WeekCreateNestedManyWithoutCourseInput
@@ -41405,6 +41419,7 @@ export namespace Prisma {
     rating?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    code: string
     userId: string
     categoryId: string
     weeks?: WeekUncheckedCreateNestedManyWithoutCourseInput
@@ -41505,6 +41520,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutCoursesNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     weeks?: WeekUpdateManyWithoutCourseNestedInput
@@ -41524,6 +41540,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     weeks?: WeekUncheckedUpdateManyWithoutCourseNestedInput
@@ -41544,6 +41561,7 @@ export namespace Prisma {
     rating?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    code: string
     user: UserCreateNestedOneWithoutCoursesInput
     category: CategoryCreateNestedOneWithoutCoursesInput
     weeks?: WeekCreateNestedManyWithoutCourseInput
@@ -41564,6 +41582,7 @@ export namespace Prisma {
     rating?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    code: string
     userId: string
     categoryId: string
     weeks?: WeekUncheckedCreateNestedManyWithoutCourseInput
@@ -41660,6 +41679,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutCoursesNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     weeks?: WeekUpdateManyWithoutCourseNestedInput
@@ -41679,6 +41699,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     weeks?: WeekUncheckedUpdateManyWithoutCourseNestedInput
@@ -41764,6 +41785,7 @@ export namespace Prisma {
     rating?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    code: string
     user: UserCreateNestedOneWithoutCoursesInput
     category: CategoryCreateNestedOneWithoutCoursesInput
     weeks?: WeekCreateNestedManyWithoutCourseInput
@@ -41784,6 +41806,7 @@ export namespace Prisma {
     rating?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    code: string
     userId: string
     categoryId: string
     weeks?: WeekUncheckedCreateNestedManyWithoutCourseInput
@@ -41880,6 +41903,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutCoursesNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     weeks?: WeekUpdateManyWithoutCourseNestedInput
@@ -41899,6 +41923,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     weeks?: WeekUncheckedUpdateManyWithoutCourseNestedInput
@@ -42640,6 +42665,7 @@ export namespace Prisma {
     rating?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    code: string
     categoryId: string
   }
 
@@ -42787,6 +42813,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     weeks?: WeekUpdateManyWithoutCourseNestedInput
     testimonials?: TestimonialUpdateManyWithoutCourseNestedInput
@@ -42806,6 +42833,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     weeks?: WeekUncheckedUpdateManyWithoutCourseNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutCourseNestedInput
@@ -42825,6 +42853,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -43331,6 +43360,7 @@ export namespace Prisma {
     rating?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    code: string
     userId: string
   }
 
@@ -43344,6 +43374,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutCoursesNestedInput
     weeks?: WeekUpdateManyWithoutCourseNestedInput
     testimonials?: TestimonialUpdateManyWithoutCourseNestedInput
@@ -43363,6 +43394,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     weeks?: WeekUncheckedUpdateManyWithoutCourseNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutCourseNestedInput
@@ -43382,6 +43414,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
   }
 

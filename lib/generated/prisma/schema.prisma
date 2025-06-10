@@ -79,6 +79,9 @@ model User {
   watches          Watch[]           @relation("UserWatches")
   liveSessions     Live[]            @relation("UserLiveSessions")
   aiQuizTemplates  AIQuizTemplate[]  @relation("UserAIQuizTemplates")
+
+  @@index([role, isActive])
+  @@index([createdAt])
 }
 
 // MARK: Instructor
@@ -90,7 +93,6 @@ model Instructor {
   phone                String?
   bio                  String?
   designation          String?
-  profilePicture       String?
   socialMedia          Json?
   resetPasswordToken   String?
   resetPasswordExpires DateTime?
@@ -176,6 +178,7 @@ model Course {
   rating      Float?   @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  code        String
 
   // Foreign Keys
   userId     String @db.ObjectId
@@ -211,7 +214,7 @@ model Week {
   courseId String @db.ObjectId
 
   // Relationships
-  course          Course           @relation(fields: [courseId], references: [id])
+  course          Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
   lessons         Lesson[]
   resources       Resource[]
   watches         Watch[]
@@ -285,6 +288,11 @@ model Quiz {
   submissions      QuizSubmission[]
   aiGenerationLogs AIGenerationLog[]
   liveSession      Live?             @relation("QuizLiveSession")
+
+  //Indexing to speed up queries
+  @@index([status, active])
+  @@index([weekId, status])
+  @@index([createdByUserId, createdAt])
 }
 
 // MARK: Question

@@ -85,7 +85,7 @@ async function refreshCredentialsToken(token) {
         id: user.id,
         email: user.email,
         name: user.name,
-        image: user.profilePicture || user.image,
+        image: user.image,
       },
     };
   } catch (error) {
@@ -192,7 +192,7 @@ export const {
             id: user.id,
             email: user.email,
             name: user.name,
-            image: user.profilePicture || user.image,
+            image: user.image,
           };
         } catch (error) {
           console.error("❌ Credentials authentication failed:", error.message);

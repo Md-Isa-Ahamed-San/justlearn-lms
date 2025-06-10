@@ -1,7 +1,4 @@
-"use client"
-export const dynamic = "force-dynamic" 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import Link from "next/link";
 import {
   User,
   BookOpen,
@@ -11,7 +8,13 @@ import {
   BadgeIcon as Certificate,
   LogOut,
   ChevronRight,
-} from "lucide-react"
+} from "lucide-react";
+
+import SignOutButton from "./SignOutButton";
+import { getServerUserData } from "../../../../queries/users";
+import { getUserEnrolledCourses } from "../../../../queries/courses";
+
+export const dynamic = "force-dynamic";
 
 const menuItems = [
   {
@@ -29,76 +32,101 @@ const menuItems = [
     href: "/account/certificates",
     icon: <Certificate className="h-4 w-4" />,
   },
-  {
-    label: "Notifications",
-    href: "/account/notifications",
-    icon: <Bell className="h-4 w-4" />,
-    badge: "3",
-  },
-  {
-    label: "Billing",
-    href: "/account/billing",
-    icon: <CreditCard className="h-4 w-4" />,
-  },
-  {
-    label: "Settings",
-    href: "/account/settings",
-    icon: <Settings className="h-4 w-4" />,
-  },
-]
+];
 
-function Menu() {
-  const pathname = usePathname()
+async function Menu({ currentPath }) {
+  try {
+    const { userData } = await getServerUserData();
 
-  return (
-    <nav className="space-y-1">
-      {menuItems.map((item, index) => {
-        const isActive = pathname === item.href
+    if (!userData?.id) {
+      console.warn("⚠️ No user data found");
+      return (
+        <nav className="space-y-1">
+          <div className="text-sm text-muted-foreground px-3 py-2">
+            Please sign in to view menu
+          </div>
+        </nav>
+      );
+    }
 
-        return (
-          <Link
-            key={index}
-            href={item.href}
-            className={`
-              flex items-center justify-between px-3 py-2.5 rounded-md text-sm font-medium
-               group relative
-             
-            `}
-          >
-            <div className="flex items-center gap-3">
-              <span >
-                {item.icon}
-              </span>
-              {item.label}
-            </div>
+    const enrolledCourses = await getUserEnrolledCourses(userData.id);
+    const enrolledCoursesCount = enrolledCourses?.length || 0;
 
-            {item.badge && (
-              <span className=" text-xs rounded-full h-5 min-w-5 flex items-center justify-center px-1.5">
-                {item.badge}
-              </span>
-            )}
+    const menuItemsWithBadges = menuItems.map((item) => {
+      if (item.href === "/account/enrolled-courses") {
+        return {
+          ...item,
+          badge: enrolledCoursesCount > 0 ? enrolledCoursesCount : undefined,
+        };
+      }
+      return item;
+    });
 
-            {isActive && <span className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-8  rounded-l-md" />}
+    return (
+      <nav className="space-y-1">
+        {menuItemsWithBadges.map((item, index) => {
+          const isActive = currentPath === item.href;
 
-            {!item.badge && !isActive && (
-              <ChevronRight className="h-4 w-4 opacity-0 group-hover:opacity-70 transition-opacity" />
-            )}
-          </Link>
-        )
-      })}
+          return (
+            <Link
+              key={index}
+              href={item.href}
+              className={`
+                flex items-center justify-between px-3 py-2.5 rounded-md text-sm font-medium
+                group relative transition-colors hover:bg-accent hover:text-accent-foreground
+                ${
+                  isActive
+                    ? "bg-accent text-accent-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }
+              `}
+            >
+              <div className="flex items-center gap-3">
+                <span
+                  className={
+                    isActive
+                      ? "text-primary"
+                      : "text-muted-foreground group-hover:text-primary"
+                  }
+                >
+                  {item.icon}
+                </span>
+                {item.label}
+              </div>
 
-      {/* Sign Out Button - Separated from navigation items */}
-      <div className="pt-4 mt-4 border-t border-border">
-        <Link
-          href="/logout"
-          className="flex items-center px-3 py-2.5 rounded-md text-sm font-medium transition-colors group"
-        >
-          <LogOut className="h-4 w-4 mr-3" />
-          Sign Out
-        </Link>
-      </div>
-    </nav>
-  )
+              {item.badge && (
+                <span className="bg-primary text-primary-foreground text-xs rounded-full h-5 min-w-5 flex items-center justify-center px-1.5">
+                  {item.badge}
+                </span>
+              )}
+
+              {isActive && (
+                <span className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-l-md" />
+              )}
+
+              {!item.badge && !isActive && (
+                <ChevronRight className="h-4 w-4 opacity-0 group-hover:opacity-70 transition-opacity" />
+              )}
+            </Link>
+          );
+        })}
+
+        <div className="pt-4 mt-4 border-t border-border">
+          <SignOutButton />
+        </div>
+      </nav>
+    );
+  } catch (error) {
+    console.error("❌ Error in Menu component:", error);
+
+    return (
+      <nav className="space-y-1">
+        <div className="text-sm text-muted-foreground px-3 py-2">
+          Error loading menu
+        </div>
+      </nav>
+    );
+  }
 }
 
-export default Menu
+export default Menu;

@@ -2,6 +2,7 @@ import React from 'react';
 // import Menu from './account-menu';
 import Image from 'next/image';
 import { getServerUserData } from '../../../../queries/users';
+import Menu from './account-menu';
 
 const ProfileSummery = async () => {
     const serverUserData = await getServerUserData();
@@ -43,7 +44,7 @@ const ProfileSummery = async () => {
 									</div>
 								</div>
 								<div className="border-t border-gray-100 dark:border-gray-700">
-									{/* <Menu /> */}
+									<Menu/>
 								</div>
 							</div>
     );

@@ -22,13 +22,10 @@ import {
 import { useUserData } from "../provider/user-data-provider";
 import Image from "next/image";
 
-
 export function MainNav({ items, children }) {
   const { data: session, status, update } = useSession();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const { userData,setUserData } = useUserData();
-
-  
+  const { userData, setUserData } = useUserData();
 
   const router = useRouter();
   const handleSignOut = async () => {
@@ -45,8 +42,8 @@ export function MainNav({ items, children }) {
   }
 
   console.log(" MainNav ~ session:", session);
-  console.log(" MainNav ~ userData:", userData)
-  console.log(" MainNav ~ IMAGE:", userData?.userData?.image)
+  console.log(" MainNav ~ userData:", userData);
+  console.log(" MainNav ~ IMAGE:", userData?.userData?.image);
   return (
     <div className="flex justify-between items-center w-full px-4 py-3">
       {/* Left: Logo */}
@@ -68,7 +65,10 @@ export function MainNav({ items, children }) {
             <DropdownMenuTrigger asChild>
               <div className="cursor-pointer">
                 <Avatar>
-                  <AvatarImage src={userData?.userData?.image || null} alt="User" />
+                  <AvatarImage
+                    src={userData?.userData?.image || null}
+                    alt="User"
+                  />
                   <AvatarFallback>JL</AvatarFallback>
                 </Avatar>
                 {/* <Image src={userData?.userData?.image || null} alt="User" width={100} height={100} /> */}
