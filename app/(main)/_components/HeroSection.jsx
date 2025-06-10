@@ -7,12 +7,13 @@ import { getServerUserData } from "../../../queries/users";
 
 const HeroSection = async () => {
   
-  let userData = null;
+  let user = null;
   try{
-    userData = await getServerUserData();
+    user = await getServerUserData();
   }catch(error){
-    userData = null;
+    user = null;
   }
+  console.log(" HeroSection ~ userData:", user)
 
   return (
     <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32 ">
@@ -61,7 +62,7 @@ const HeroSection = async () => {
           </h1>
 
           <div className="flex items-start gap-3 flex-wrap justify-start">
-            {userData?.role === "admin" && (
+            {user?.userData?.role === "admin" && (
               <>
                 
                 <Link
@@ -81,7 +82,7 @@ const HeroSection = async () => {
               </>
             )}
 
-            {userData?.role === "student" && (
+            {user?.userData?.role === "student" && (
               <>
                 
                 <Link
@@ -101,7 +102,7 @@ const HeroSection = async () => {
               </>
             )}
 
-            {userData?.role === "instructor" && (
+            {user?.userData?.role === "instructor" && (
               <>
                 
                 <Link
@@ -121,7 +122,7 @@ const HeroSection = async () => {
               </>
             )}
 
-            {!userData && (
+            {!user?.userData && (
               <>
                
                 <Link
