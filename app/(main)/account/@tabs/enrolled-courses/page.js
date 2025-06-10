@@ -35,7 +35,7 @@ async function EnrolledCourses() {
         <div className="text-center">
           <h2 className="text-2xl font-bold  mb-2">Enrolled Courses</h2>
           <div className="text-muted-foreground mb-4">
-            You haven't enrolled in any courses yet.
+            You haven&apos;t enrolled in any courses yet.
           </div>
           <Link 
             href="/courses" 
