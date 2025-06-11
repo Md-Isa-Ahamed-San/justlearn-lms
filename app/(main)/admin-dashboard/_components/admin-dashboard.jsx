@@ -1,12 +1,10 @@
 import { Suspense } from "react";
-import AdminSidebar from "./admin-sidebar";
-import AdminHeader from "./admin-header";
-import UserManagement from "./user-management";
 import CourseManagement from "./course-management";
+import UserManagement from "./user-management/user-management";
 
 import { IconBook2, IconUsers } from "@tabler/icons-react";
-import { getAllUsers } from "../../../../queries/users";
 import { getCourseList } from "../../../../queries/courses";
+import { getAllUsers } from "../../../../queries/users";
 import { chalkLog } from "../../../../utils/logger";
 
 // This is a Server Component that serves as the main layout

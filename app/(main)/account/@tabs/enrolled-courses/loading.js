@@ -2,7 +2,6 @@ import { cn } from "@/lib/utils";
 import "./_css/loading.css";
 export default function LoadingCoursePage() {
 
-
   return (
     <div className="flex items-center justify-center w-full min-h-[70dvh] max-h-[70dvh]">
       <div className={cn("flex flex-col items-center")}>

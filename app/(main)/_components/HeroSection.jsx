@@ -13,7 +13,7 @@ const HeroSection = async () => {
   }catch(error){
     user = null;
   }
-  console.log(" HeroSection ~ userData:", user)
+  // console.log(" HeroSection ~ userData:", user)
 
   return (
     <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32 ">

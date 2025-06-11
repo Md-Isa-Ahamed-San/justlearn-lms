@@ -1,16 +1,10 @@
-import { Users, UserCheck, Clock } from "lucide-react"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import UserTable from "./user-table"
-import { getUserData } from "@/lib/data"
+import React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Clock, UserCheck, Users } from "lucide-react";
 
-// This is a Server Component that fetches and displays user data
-export default async function UserManagement({users}) {
-  
-
-  return (
-    <div className="space-y-4 sm:space-y-6">
-     
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+const UserManagementStats = ({users}) => {
+    return (
+         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-xs sm:text-sm font-medium">Total Users</CardTitle>
@@ -55,9 +49,7 @@ export default async function UserManagement({users}) {
           </CardContent>
         </Card>
       </div>
+    );
+};
 
-      {/* User Management Table */}
-      <UserTable users={users} />
-    </div>
-  )
-}
+export default UserManagementStats;

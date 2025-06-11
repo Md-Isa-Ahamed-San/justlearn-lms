@@ -65,6 +65,13 @@ export default function PersonalDetailsForm({ userData, academicSessions }) {
       formData.get(field)?.trim()
     );
 
+
+
+
+
+
+
+    
     if (!hasSocialMedia) {
       toast.error("Please fill in at least one social media profile.");
       setIsSubmitting(false);
