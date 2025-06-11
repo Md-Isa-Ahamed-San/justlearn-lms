@@ -49,6 +49,11 @@ enum Role {
   admin
 }
 
+enum Visibility {
+  public
+  private
+}
+
 // MARK: User
 model User {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -86,10 +91,10 @@ model User {
 
 // MARK: Instructor
 model Instructor {
-  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
-  idNumber             Int       @unique
-  department           String
-  isActive             Boolean   @default(true)
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  idNumber   Int    @unique
+  department String
+
   phone                String?
   bio                  String?
   designation          String?
@@ -108,11 +113,11 @@ model Instructor {
 
 // MARK: Student
 model Student {
-  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
-  idNumber             Int       @unique
-  session              String
-  department           String
-  isActive             Boolean   @default(true)
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  idNumber   Int    @unique
+  session    String
+  department String
+
   phone                String?
   bio                  String?
   profilePicture       String?
@@ -132,10 +137,10 @@ model Student {
 
 // MARK: Admin
 model Admin {
-  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
-  idNumber             Int       @unique
-  department           String
-  isActive             Boolean   @default(true)
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  idNumber   Int    @unique
+  department String
+
   phone                String?
   bio                  String?
   designation          String?
@@ -168,17 +173,18 @@ model Category {
 
 // MARK: Course
 model Course {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
   subtitle    String?
   thumbnail   String
-  active      Boolean  @default(true)
+  active      Boolean    @default(true)
   learning    Json // Array of learning outcomes
-  rating      Float?   @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  rating      Float?     @default(0)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
   code        String
+  visibility  Visibility
 
   // Foreign Keys
   userId     String @db.ObjectId

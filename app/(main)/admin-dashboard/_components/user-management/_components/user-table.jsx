@@ -12,7 +12,7 @@ import {
   MoreHorizontal,
   Search,
   ToggleLeft,
-  XCircle
+  XCircle,
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -43,6 +43,8 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 
 // Import toast components
@@ -149,8 +151,8 @@ export default function UserTable({ users }) {
 
     try {
       setIsProcessing(true);
-toast.success("Action Processing...");
-      
+      toast.success("Action Processing...");
+
       const result = await toggleUserStatus(userId);
 
       if (result.success) {
@@ -163,20 +165,17 @@ toast.success("Action Processing...");
         setUserData([...updatedAllUsers, updatedUser]);
         setFilteredCache({});
 
-toast.success("Action Complete...");
-     
+        toast.success("Action Complete...");
       } else {
         console.error("Failed to toggle user status:", result.error);
       }
     } catch (err) {
       console.log(err);
-     toast.error("Action failed...");
+      toast.error("Action failed...");
     } finally {
       setIsProcessing(false);
-      
     }
   };
- 
 
   const getInitials = (name) => {
     return name
@@ -415,6 +414,10 @@ toast.success("Action Complete...");
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
+                            {/* <DropdownMenuSeparator /> */}
+                            <DropdownMenuLabel className="text-xs">
+                              Admin Actions
+                            </DropdownMenuLabel>
                             <DropdownMenuItem
                               onClick={() => handleToggleUserStatus(user.id)}
                               disabled={isProcessing}

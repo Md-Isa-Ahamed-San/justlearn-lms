@@ -181,6 +181,14 @@ export const Role: {
 
 export type Role = (typeof Role)[keyof typeof Role]
 
+
+export const Visibility: {
+  public: 'public',
+  private: 'private'
+};
+
+export type Visibility = (typeof Visibility)[keyof typeof Visibility]
+
 }
 
 export type QuizSource = $Enums.QuizSource
@@ -206,6 +214,10 @@ export const QuizAccessType: typeof $Enums.QuizAccessType
 export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
+
+export type Visibility = $Enums.Visibility
+
+export const Visibility: typeof $Enums.Visibility
 
 /**
  * ##  Prisma Client ʲˢ
@@ -4765,7 +4777,6 @@ export namespace Prisma {
     id: string | null
     idNumber: number | null
     department: string | null
-    isActive: boolean | null
     phone: string | null
     bio: string | null
     designation: string | null
@@ -4780,7 +4791,6 @@ export namespace Prisma {
     id: string | null
     idNumber: number | null
     department: string | null
-    isActive: boolean | null
     phone: string | null
     bio: string | null
     designation: string | null
@@ -4795,7 +4805,6 @@ export namespace Prisma {
     id: number
     idNumber: number
     department: number
-    isActive: number
     phone: number
     bio: number
     designation: number
@@ -4821,7 +4830,6 @@ export namespace Prisma {
     id?: true
     idNumber?: true
     department?: true
-    isActive?: true
     phone?: true
     bio?: true
     designation?: true
@@ -4836,7 +4844,6 @@ export namespace Prisma {
     id?: true
     idNumber?: true
     department?: true
-    isActive?: true
     phone?: true
     bio?: true
     designation?: true
@@ -4851,7 +4858,6 @@ export namespace Prisma {
     id?: true
     idNumber?: true
     department?: true
-    isActive?: true
     phone?: true
     bio?: true
     designation?: true
@@ -4954,7 +4960,6 @@ export namespace Prisma {
     id: string
     idNumber: number
     department: string
-    isActive: boolean
     phone: string | null
     bio: string | null
     designation: string | null
@@ -4989,7 +4994,6 @@ export namespace Prisma {
     id?: boolean
     idNumber?: boolean
     department?: boolean
-    isActive?: boolean
     phone?: boolean
     bio?: boolean
     designation?: boolean
@@ -5008,7 +5012,6 @@ export namespace Prisma {
     id?: boolean
     idNumber?: boolean
     department?: boolean
-    isActive?: boolean
     phone?: boolean
     bio?: boolean
     designation?: boolean
@@ -5020,7 +5023,7 @@ export namespace Prisma {
     userId?: boolean
   }
 
-  export type InstructorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "idNumber" | "department" | "isActive" | "phone" | "bio" | "designation" | "socialMedia" | "resetPasswordToken" | "resetPasswordExpires" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["instructor"]>
+  export type InstructorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "idNumber" | "department" | "phone" | "bio" | "designation" | "socialMedia" | "resetPasswordToken" | "resetPasswordExpires" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["instructor"]>
   export type InstructorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -5034,7 +5037,6 @@ export namespace Prisma {
       id: string
       idNumber: number
       department: string
-      isActive: boolean
       phone: string | null
       bio: string | null
       designation: string | null
@@ -5440,7 +5442,6 @@ export namespace Prisma {
     readonly id: FieldRef<"Instructor", 'String'>
     readonly idNumber: FieldRef<"Instructor", 'Int'>
     readonly department: FieldRef<"Instructor", 'String'>
-    readonly isActive: FieldRef<"Instructor", 'Boolean'>
     readonly phone: FieldRef<"Instructor", 'String'>
     readonly bio: FieldRef<"Instructor", 'String'>
     readonly designation: FieldRef<"Instructor", 'String'>
@@ -5863,7 +5864,6 @@ export namespace Prisma {
     idNumber: number | null
     session: string | null
     department: string | null
-    isActive: boolean | null
     phone: string | null
     bio: string | null
     profilePicture: string | null
@@ -5879,7 +5879,6 @@ export namespace Prisma {
     idNumber: number | null
     session: string | null
     department: string | null
-    isActive: boolean | null
     phone: string | null
     bio: string | null
     profilePicture: string | null
@@ -5895,7 +5894,6 @@ export namespace Prisma {
     idNumber: number
     session: number
     department: number
-    isActive: number
     phone: number
     bio: number
     profilePicture: number
@@ -5922,7 +5920,6 @@ export namespace Prisma {
     idNumber?: true
     session?: true
     department?: true
-    isActive?: true
     phone?: true
     bio?: true
     profilePicture?: true
@@ -5938,7 +5935,6 @@ export namespace Prisma {
     idNumber?: true
     session?: true
     department?: true
-    isActive?: true
     phone?: true
     bio?: true
     profilePicture?: true
@@ -5954,7 +5950,6 @@ export namespace Prisma {
     idNumber?: true
     session?: true
     department?: true
-    isActive?: true
     phone?: true
     bio?: true
     profilePicture?: true
@@ -6058,7 +6053,6 @@ export namespace Prisma {
     idNumber: number
     session: string
     department: string
-    isActive: boolean
     phone: string | null
     bio: string | null
     profilePicture: string | null
@@ -6094,7 +6088,6 @@ export namespace Prisma {
     idNumber?: boolean
     session?: boolean
     department?: boolean
-    isActive?: boolean
     phone?: boolean
     bio?: boolean
     profilePicture?: boolean
@@ -6116,7 +6109,6 @@ export namespace Prisma {
     idNumber?: boolean
     session?: boolean
     department?: boolean
-    isActive?: boolean
     phone?: boolean
     bio?: boolean
     profilePicture?: boolean
@@ -6128,7 +6120,7 @@ export namespace Prisma {
     userId?: boolean
   }
 
-  export type StudentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "idNumber" | "session" | "department" | "isActive" | "phone" | "bio" | "profilePicture" | "socialMedia" | "resetPasswordToken" | "resetPasswordExpires" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["student"]>
+  export type StudentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "idNumber" | "session" | "department" | "phone" | "bio" | "profilePicture" | "socialMedia" | "resetPasswordToken" | "resetPasswordExpires" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["student"]>
   export type StudentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     personalQuizzes?: boolean | Student$personalQuizzesArgs<ExtArgs>
@@ -6146,7 +6138,6 @@ export namespace Prisma {
       idNumber: number
       session: string
       department: string
-      isActive: boolean
       phone: string | null
       bio: string | null
       profilePicture: string | null
@@ -6554,7 +6545,6 @@ export namespace Prisma {
     readonly idNumber: FieldRef<"Student", 'Int'>
     readonly session: FieldRef<"Student", 'String'>
     readonly department: FieldRef<"Student", 'String'>
-    readonly isActive: FieldRef<"Student", 'Boolean'>
     readonly phone: FieldRef<"Student", 'String'>
     readonly bio: FieldRef<"Student", 'String'>
     readonly profilePicture: FieldRef<"Student", 'String'>
@@ -7000,7 +6990,6 @@ export namespace Prisma {
     id: string | null
     idNumber: number | null
     department: string | null
-    isActive: boolean | null
     phone: string | null
     bio: string | null
     designation: string | null
@@ -7016,7 +7005,6 @@ export namespace Prisma {
     id: string | null
     idNumber: number | null
     department: string | null
-    isActive: boolean | null
     phone: string | null
     bio: string | null
     designation: string | null
@@ -7032,7 +7020,6 @@ export namespace Prisma {
     id: number
     idNumber: number
     department: number
-    isActive: number
     phone: number
     bio: number
     designation: number
@@ -7059,7 +7046,6 @@ export namespace Prisma {
     id?: true
     idNumber?: true
     department?: true
-    isActive?: true
     phone?: true
     bio?: true
     designation?: true
@@ -7075,7 +7061,6 @@ export namespace Prisma {
     id?: true
     idNumber?: true
     department?: true
-    isActive?: true
     phone?: true
     bio?: true
     designation?: true
@@ -7091,7 +7076,6 @@ export namespace Prisma {
     id?: true
     idNumber?: true
     department?: true
-    isActive?: true
     phone?: true
     bio?: true
     designation?: true
@@ -7195,7 +7179,6 @@ export namespace Prisma {
     id: string
     idNumber: number
     department: string
-    isActive: boolean
     phone: string | null
     bio: string | null
     designation: string | null
@@ -7231,7 +7214,6 @@ export namespace Prisma {
     id?: boolean
     idNumber?: boolean
     department?: boolean
-    isActive?: boolean
     phone?: boolean
     bio?: boolean
     designation?: boolean
@@ -7251,7 +7233,6 @@ export namespace Prisma {
     id?: boolean
     idNumber?: boolean
     department?: boolean
-    isActive?: boolean
     phone?: boolean
     bio?: boolean
     designation?: boolean
@@ -7264,7 +7245,7 @@ export namespace Prisma {
     userId?: boolean
   }
 
-  export type AdminOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "idNumber" | "department" | "isActive" | "phone" | "bio" | "designation" | "profilePicture" | "socialMedia" | "resetPasswordToken" | "resetPasswordExpires" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["admin"]>
+  export type AdminOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "idNumber" | "department" | "phone" | "bio" | "designation" | "profilePicture" | "socialMedia" | "resetPasswordToken" | "resetPasswordExpires" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["admin"]>
   export type AdminInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -7278,7 +7259,6 @@ export namespace Prisma {
       id: string
       idNumber: number
       department: string
-      isActive: boolean
       phone: string | null
       bio: string | null
       designation: string | null
@@ -7685,7 +7665,6 @@ export namespace Prisma {
     readonly id: FieldRef<"Admin", 'String'>
     readonly idNumber: FieldRef<"Admin", 'Int'>
     readonly department: FieldRef<"Admin", 'String'>
-    readonly isActive: FieldRef<"Admin", 'Boolean'>
     readonly phone: FieldRef<"Admin", 'String'>
     readonly bio: FieldRef<"Admin", 'String'>
     readonly designation: FieldRef<"Admin", 'String'>
@@ -9131,6 +9110,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     code: string | null
+    visibility: $Enums.Visibility | null
     userId: string | null
     categoryId: string | null
   }
@@ -9146,6 +9126,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     code: string | null
+    visibility: $Enums.Visibility | null
     userId: string | null
     categoryId: string | null
   }
@@ -9162,6 +9143,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     code: number
+    visibility: number
     userId: number
     categoryId: number
     _all: number
@@ -9187,6 +9169,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     code?: true
+    visibility?: true
     userId?: true
     categoryId?: true
   }
@@ -9202,6 +9185,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     code?: true
+    visibility?: true
     userId?: true
     categoryId?: true
   }
@@ -9218,6 +9202,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     code?: true
+    visibility?: true
     userId?: true
     categoryId?: true
     _all?: true
@@ -9321,6 +9306,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     code: string
+    visibility: $Enums.Visibility
     userId: string
     categoryId: string
     _count: CourseCountAggregateOutputType | null
@@ -9356,6 +9342,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     code?: boolean
+    visibility?: boolean
     userId?: boolean
     categoryId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -9383,11 +9370,12 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     code?: boolean
+    visibility?: boolean
     userId?: boolean
     categoryId?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "subtitle" | "thumbnail" | "active" | "learning" | "rating" | "createdAt" | "updatedAt" | "code" | "userId" | "categoryId", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "subtitle" | "thumbnail" | "active" | "learning" | "rating" | "createdAt" | "updatedAt" | "code" | "visibility" | "userId" | "categoryId", ExtArgs["result"]["course"]>
   export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -9424,6 +9412,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       code: string
+      visibility: $Enums.Visibility
       userId: string
       categoryId: string
     }, ExtArgs["result"]["course"]>
@@ -9837,6 +9826,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Course", 'DateTime'>
     readonly updatedAt: FieldRef<"Course", 'DateTime'>
     readonly code: FieldRef<"Course", 'String'>
+    readonly visibility: FieldRef<"Course", 'Visibility'>
     readonly userId: FieldRef<"Course", 'String'>
     readonly categoryId: FieldRef<"Course", 'String'>
   }
@@ -27877,7 +27867,6 @@ export namespace Prisma {
     id: 'id',
     idNumber: 'idNumber',
     department: 'department',
-    isActive: 'isActive',
     phone: 'phone',
     bio: 'bio',
     designation: 'designation',
@@ -27897,7 +27886,6 @@ export namespace Prisma {
     idNumber: 'idNumber',
     session: 'session',
     department: 'department',
-    isActive: 'isActive',
     phone: 'phone',
     bio: 'bio',
     profilePicture: 'profilePicture',
@@ -27916,7 +27904,6 @@ export namespace Prisma {
     id: 'id',
     idNumber: 'idNumber',
     department: 'department',
-    isActive: 'isActive',
     phone: 'phone',
     bio: 'bio',
     designation: 'designation',
@@ -27956,6 +27943,7 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     code: 'code',
+    visibility: 'visibility',
     userId: 'userId',
     categoryId: 'categoryId'
   };
@@ -28330,6 +28318,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Visibility'
+   */
+  export type EnumVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Visibility'>
+    
+
+
+  /**
+   * Reference to a field of type 'Visibility[]'
+   */
+  export type ListEnumVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Visibility[]'>
+    
+
+
+  /**
    * Reference to a field of type 'QuizStatus'
    */
   export type EnumQuizStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuizStatus'>
@@ -28536,7 +28538,6 @@ export namespace Prisma {
     id?: StringFilter<"Instructor"> | string
     idNumber?: IntFilter<"Instructor"> | number
     department?: StringFilter<"Instructor"> | string
-    isActive?: BoolFilter<"Instructor"> | boolean
     phone?: StringNullableFilter<"Instructor"> | string | null
     bio?: StringNullableFilter<"Instructor"> | string | null
     designation?: StringNullableFilter<"Instructor"> | string | null
@@ -28553,7 +28554,6 @@ export namespace Prisma {
     id?: SortOrder
     idNumber?: SortOrder
     department?: SortOrder
-    isActive?: SortOrder
     phone?: SortOrder
     bio?: SortOrder
     designation?: SortOrder
@@ -28574,7 +28574,6 @@ export namespace Prisma {
     OR?: InstructorWhereInput[]
     NOT?: InstructorWhereInput | InstructorWhereInput[]
     department?: StringFilter<"Instructor"> | string
-    isActive?: BoolFilter<"Instructor"> | boolean
     phone?: StringNullableFilter<"Instructor"> | string | null
     bio?: StringNullableFilter<"Instructor"> | string | null
     designation?: StringNullableFilter<"Instructor"> | string | null
@@ -28590,7 +28589,6 @@ export namespace Prisma {
     id?: SortOrder
     idNumber?: SortOrder
     department?: SortOrder
-    isActive?: SortOrder
     phone?: SortOrder
     bio?: SortOrder
     designation?: SortOrder
@@ -28614,7 +28612,6 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Instructor"> | string
     idNumber?: IntWithAggregatesFilter<"Instructor"> | number
     department?: StringWithAggregatesFilter<"Instructor"> | string
-    isActive?: BoolWithAggregatesFilter<"Instructor"> | boolean
     phone?: StringNullableWithAggregatesFilter<"Instructor"> | string | null
     bio?: StringNullableWithAggregatesFilter<"Instructor"> | string | null
     designation?: StringNullableWithAggregatesFilter<"Instructor"> | string | null
@@ -28634,7 +28631,6 @@ export namespace Prisma {
     idNumber?: IntFilter<"Student"> | number
     session?: StringFilter<"Student"> | string
     department?: StringFilter<"Student"> | string
-    isActive?: BoolFilter<"Student"> | boolean
     phone?: StringNullableFilter<"Student"> | string | null
     bio?: StringNullableFilter<"Student"> | string | null
     profilePicture?: StringNullableFilter<"Student"> | string | null
@@ -28653,7 +28649,6 @@ export namespace Prisma {
     idNumber?: SortOrder
     session?: SortOrder
     department?: SortOrder
-    isActive?: SortOrder
     phone?: SortOrder
     bio?: SortOrder
     profilePicture?: SortOrder
@@ -28676,7 +28671,6 @@ export namespace Prisma {
     NOT?: StudentWhereInput | StudentWhereInput[]
     session?: StringFilter<"Student"> | string
     department?: StringFilter<"Student"> | string
-    isActive?: BoolFilter<"Student"> | boolean
     phone?: StringNullableFilter<"Student"> | string | null
     bio?: StringNullableFilter<"Student"> | string | null
     profilePicture?: StringNullableFilter<"Student"> | string | null
@@ -28694,7 +28688,6 @@ export namespace Prisma {
     idNumber?: SortOrder
     session?: SortOrder
     department?: SortOrder
-    isActive?: SortOrder
     phone?: SortOrder
     bio?: SortOrder
     profilePicture?: SortOrder
@@ -28719,7 +28712,6 @@ export namespace Prisma {
     idNumber?: IntWithAggregatesFilter<"Student"> | number
     session?: StringWithAggregatesFilter<"Student"> | string
     department?: StringWithAggregatesFilter<"Student"> | string
-    isActive?: BoolWithAggregatesFilter<"Student"> | boolean
     phone?: StringNullableWithAggregatesFilter<"Student"> | string | null
     bio?: StringNullableWithAggregatesFilter<"Student"> | string | null
     profilePicture?: StringNullableWithAggregatesFilter<"Student"> | string | null
@@ -28738,7 +28730,6 @@ export namespace Prisma {
     id?: StringFilter<"Admin"> | string
     idNumber?: IntFilter<"Admin"> | number
     department?: StringFilter<"Admin"> | string
-    isActive?: BoolFilter<"Admin"> | boolean
     phone?: StringNullableFilter<"Admin"> | string | null
     bio?: StringNullableFilter<"Admin"> | string | null
     designation?: StringNullableFilter<"Admin"> | string | null
@@ -28756,7 +28747,6 @@ export namespace Prisma {
     id?: SortOrder
     idNumber?: SortOrder
     department?: SortOrder
-    isActive?: SortOrder
     phone?: SortOrder
     bio?: SortOrder
     designation?: SortOrder
@@ -28778,7 +28768,6 @@ export namespace Prisma {
     OR?: AdminWhereInput[]
     NOT?: AdminWhereInput | AdminWhereInput[]
     department?: StringFilter<"Admin"> | string
-    isActive?: BoolFilter<"Admin"> | boolean
     phone?: StringNullableFilter<"Admin"> | string | null
     bio?: StringNullableFilter<"Admin"> | string | null
     designation?: StringNullableFilter<"Admin"> | string | null
@@ -28795,7 +28784,6 @@ export namespace Prisma {
     id?: SortOrder
     idNumber?: SortOrder
     department?: SortOrder
-    isActive?: SortOrder
     phone?: SortOrder
     bio?: SortOrder
     designation?: SortOrder
@@ -28820,7 +28808,6 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Admin"> | string
     idNumber?: IntWithAggregatesFilter<"Admin"> | number
     department?: StringWithAggregatesFilter<"Admin"> | string
-    isActive?: BoolWithAggregatesFilter<"Admin"> | boolean
     phone?: StringNullableWithAggregatesFilter<"Admin"> | string | null
     bio?: StringNullableWithAggregatesFilter<"Admin"> | string | null
     designation?: StringNullableWithAggregatesFilter<"Admin"> | string | null
@@ -28908,6 +28895,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Course"> | Date | string
     updatedAt?: DateTimeFilter<"Course"> | Date | string
     code?: StringFilter<"Course"> | string
+    visibility?: EnumVisibilityFilter<"Course"> | $Enums.Visibility
     userId?: StringFilter<"Course"> | string
     categoryId?: StringFilter<"Course"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -28932,6 +28920,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     code?: SortOrder
+    visibility?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -28959,6 +28948,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Course"> | Date | string
     updatedAt?: DateTimeFilter<"Course"> | Date | string
     code?: StringFilter<"Course"> | string
+    visibility?: EnumVisibilityFilter<"Course"> | $Enums.Visibility
     userId?: StringFilter<"Course"> | string
     categoryId?: StringFilter<"Course"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -28983,6 +28973,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     code?: SortOrder
+    visibility?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrder
     _count?: CourseCountOrderByAggregateInput
@@ -29007,6 +28998,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Course"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Course"> | Date | string
     code?: StringWithAggregatesFilter<"Course"> | string
+    visibility?: EnumVisibilityWithAggregatesFilter<"Course"> | $Enums.Visibility
     userId?: StringWithAggregatesFilter<"Course"> | string
     categoryId?: StringWithAggregatesFilter<"Course"> | string
   }
@@ -30574,7 +30566,6 @@ export namespace Prisma {
     id?: string
     idNumber: number
     department: string
-    isActive?: boolean
     phone?: string | null
     bio?: string | null
     designation?: string | null
@@ -30590,7 +30581,6 @@ export namespace Prisma {
     id?: string
     idNumber: number
     department: string
-    isActive?: boolean
     phone?: string | null
     bio?: string | null
     designation?: string | null
@@ -30605,7 +30595,6 @@ export namespace Prisma {
   export type InstructorUpdateInput = {
     idNumber?: IntFieldUpdateOperationsInput | number
     department?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30620,7 +30609,6 @@ export namespace Prisma {
   export type InstructorUncheckedUpdateInput = {
     idNumber?: IntFieldUpdateOperationsInput | number
     department?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30636,7 +30624,6 @@ export namespace Prisma {
     id?: string
     idNumber: number
     department: string
-    isActive?: boolean
     phone?: string | null
     bio?: string | null
     designation?: string | null
@@ -30651,7 +30638,6 @@ export namespace Prisma {
   export type InstructorUpdateManyMutationInput = {
     idNumber?: IntFieldUpdateOperationsInput | number
     department?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30665,7 +30651,6 @@ export namespace Prisma {
   export type InstructorUncheckedUpdateManyInput = {
     idNumber?: IntFieldUpdateOperationsInput | number
     department?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30682,7 +30667,6 @@ export namespace Prisma {
     idNumber: number
     session: string
     department: string
-    isActive?: boolean
     phone?: string | null
     bio?: string | null
     profilePicture?: string | null
@@ -30700,7 +30684,6 @@ export namespace Prisma {
     idNumber: number
     session: string
     department: string
-    isActive?: boolean
     phone?: string | null
     bio?: string | null
     profilePicture?: string | null
@@ -30717,7 +30700,6 @@ export namespace Prisma {
     idNumber?: IntFieldUpdateOperationsInput | number
     session?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30734,7 +30716,6 @@ export namespace Prisma {
     idNumber?: IntFieldUpdateOperationsInput | number
     session?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30752,7 +30733,6 @@ export namespace Prisma {
     idNumber: number
     session: string
     department: string
-    isActive?: boolean
     phone?: string | null
     bio?: string | null
     profilePicture?: string | null
@@ -30768,7 +30748,6 @@ export namespace Prisma {
     idNumber?: IntFieldUpdateOperationsInput | number
     session?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30783,7 +30762,6 @@ export namespace Prisma {
     idNumber?: IntFieldUpdateOperationsInput | number
     session?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30799,7 +30777,6 @@ export namespace Prisma {
     id?: string
     idNumber: number
     department: string
-    isActive?: boolean
     phone?: string | null
     bio?: string | null
     designation?: string | null
@@ -30816,7 +30793,6 @@ export namespace Prisma {
     id?: string
     idNumber: number
     department: string
-    isActive?: boolean
     phone?: string | null
     bio?: string | null
     designation?: string | null
@@ -30832,7 +30808,6 @@ export namespace Prisma {
   export type AdminUpdateInput = {
     idNumber?: IntFieldUpdateOperationsInput | number
     department?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30848,7 +30823,6 @@ export namespace Prisma {
   export type AdminUncheckedUpdateInput = {
     idNumber?: IntFieldUpdateOperationsInput | number
     department?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30865,7 +30839,6 @@ export namespace Prisma {
     id?: string
     idNumber: number
     department: string
-    isActive?: boolean
     phone?: string | null
     bio?: string | null
     designation?: string | null
@@ -30881,7 +30854,6 @@ export namespace Prisma {
   export type AdminUpdateManyMutationInput = {
     idNumber?: IntFieldUpdateOperationsInput | number
     department?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30896,7 +30868,6 @@ export namespace Prisma {
   export type AdminUncheckedUpdateManyInput = {
     idNumber?: IntFieldUpdateOperationsInput | number
     department?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30984,6 +30955,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     code: string
+    visibility: $Enums.Visibility
     user: UserCreateNestedOneWithoutCoursesInput
     category: CategoryCreateNestedOneWithoutCoursesInput
     weeks?: WeekCreateNestedManyWithoutCourseInput
@@ -31006,6 +30978,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     code: string
+    visibility: $Enums.Visibility
     userId: string
     categoryId: string
     weeks?: WeekUncheckedCreateNestedManyWithoutCourseInput
@@ -31027,6 +31000,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     code?: StringFieldUpdateOperationsInput | string
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
     user?: UserUpdateOneRequiredWithoutCoursesNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     weeks?: WeekUpdateManyWithoutCourseNestedInput
@@ -31048,6 +31022,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     code?: StringFieldUpdateOperationsInput | string
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     weeks?: WeekUncheckedUpdateManyWithoutCourseNestedInput
@@ -31070,6 +31045,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     code: string
+    visibility: $Enums.Visibility
     userId: string
     categoryId: string
   }
@@ -31085,6 +31061,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     code?: StringFieldUpdateOperationsInput | string
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
   }
 
   export type CourseUncheckedUpdateManyInput = {
@@ -31098,6 +31075,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     code?: StringFieldUpdateOperationsInput | string
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
   }
@@ -32893,7 +32871,6 @@ export namespace Prisma {
     id?: SortOrder
     idNumber?: SortOrder
     department?: SortOrder
-    isActive?: SortOrder
     phone?: SortOrder
     bio?: SortOrder
     designation?: SortOrder
@@ -32913,7 +32890,6 @@ export namespace Prisma {
     id?: SortOrder
     idNumber?: SortOrder
     department?: SortOrder
-    isActive?: SortOrder
     phone?: SortOrder
     bio?: SortOrder
     designation?: SortOrder
@@ -32928,7 +32904,6 @@ export namespace Prisma {
     id?: SortOrder
     idNumber?: SortOrder
     department?: SortOrder
-    isActive?: SortOrder
     phone?: SortOrder
     bio?: SortOrder
     designation?: SortOrder
@@ -32994,7 +32969,6 @@ export namespace Prisma {
     idNumber?: SortOrder
     session?: SortOrder
     department?: SortOrder
-    isActive?: SortOrder
     phone?: SortOrder
     bio?: SortOrder
     profilePicture?: SortOrder
@@ -33015,7 +32989,6 @@ export namespace Prisma {
     idNumber?: SortOrder
     session?: SortOrder
     department?: SortOrder
-    isActive?: SortOrder
     phone?: SortOrder
     bio?: SortOrder
     profilePicture?: SortOrder
@@ -33031,7 +33004,6 @@ export namespace Prisma {
     idNumber?: SortOrder
     session?: SortOrder
     department?: SortOrder
-    isActive?: SortOrder
     phone?: SortOrder
     bio?: SortOrder
     profilePicture?: SortOrder
@@ -33050,7 +33022,6 @@ export namespace Prisma {
     id?: SortOrder
     idNumber?: SortOrder
     department?: SortOrder
-    isActive?: SortOrder
     phone?: SortOrder
     bio?: SortOrder
     designation?: SortOrder
@@ -33071,7 +33042,6 @@ export namespace Prisma {
     id?: SortOrder
     idNumber?: SortOrder
     department?: SortOrder
-    isActive?: SortOrder
     phone?: SortOrder
     bio?: SortOrder
     designation?: SortOrder
@@ -33087,7 +33057,6 @@ export namespace Prisma {
     id?: SortOrder
     idNumber?: SortOrder
     department?: SortOrder
-    isActive?: SortOrder
     phone?: SortOrder
     bio?: SortOrder
     designation?: SortOrder
@@ -33153,6 +33122,13 @@ export namespace Prisma {
     isSet?: boolean
   }
 
+  export type EnumVisibilityFilter<$PrismaModel = never> = {
+    equals?: $Enums.Visibility | EnumVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.Visibility[] | ListEnumVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Visibility[] | ListEnumVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumVisibilityFilter<$PrismaModel> | $Enums.Visibility
+  }
+
   export type CategoryScalarRelationFilter = {
     is?: CategoryWhereInput
     isNot?: CategoryWhereInput
@@ -33180,6 +33156,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     code?: SortOrder
+    visibility?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrder
   }
@@ -33199,6 +33176,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     code?: SortOrder
+    visibility?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrder
   }
@@ -33214,6 +33192,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     code?: SortOrder
+    visibility?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrder
   }
@@ -33251,6 +33230,16 @@ export namespace Prisma {
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
     isSet?: boolean
+  }
+
+  export type EnumVisibilityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Visibility | EnumVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.Visibility[] | ListEnumVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Visibility[] | ListEnumVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumVisibilityWithAggregatesFilter<$PrismaModel> | $Enums.Visibility
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVisibilityFilter<$PrismaModel>
+    _max?: NestedEnumVisibilityFilter<$PrismaModel>
   }
 
   export type IntNullableFilter<$PrismaModel = never> = {
@@ -35080,6 +35069,10 @@ export namespace Prisma {
     unset?: boolean
   }
 
+  export type EnumVisibilityFieldUpdateOperationsInput = {
+    set?: $Enums.Visibility
+  }
+
   export type UserUpdateOneRequiredWithoutCoursesNestedInput = {
     create?: XOR<UserCreateWithoutCoursesInput, UserUncheckedCreateWithoutCoursesInput>
     connectOrCreate?: UserCreateOrConnectWithoutCoursesInput
@@ -36446,6 +36439,13 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
     isSet?: boolean
   }
+
+  export type NestedEnumVisibilityFilter<$PrismaModel = never> = {
+    equals?: $Enums.Visibility | EnumVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.Visibility[] | ListEnumVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Visibility[] | ListEnumVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumVisibilityFilter<$PrismaModel> | $Enums.Visibility
+  }
   export type NestedJsonFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
@@ -36473,6 +36473,16 @@ export namespace Prisma {
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
     isSet?: boolean
+  }
+
+  export type NestedEnumVisibilityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Visibility | EnumVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.Visibility[] | ListEnumVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Visibility[] | ListEnumVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumVisibilityWithAggregatesFilter<$PrismaModel> | $Enums.Visibility
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVisibilityFilter<$PrismaModel>
+    _max?: NestedEnumVisibilityFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -36597,7 +36607,6 @@ export namespace Prisma {
     id?: string
     idNumber: number
     department: string
-    isActive?: boolean
     phone?: string | null
     bio?: string | null
     designation?: string | null
@@ -36612,7 +36621,6 @@ export namespace Prisma {
     id?: string
     idNumber: number
     department: string
-    isActive?: boolean
     phone?: string | null
     bio?: string | null
     designation?: string | null
@@ -36633,7 +36641,6 @@ export namespace Prisma {
     idNumber: number
     session: string
     department: string
-    isActive?: boolean
     phone?: string | null
     bio?: string | null
     profilePicture?: string | null
@@ -36650,7 +36657,6 @@ export namespace Prisma {
     idNumber: number
     session: string
     department: string
-    isActive?: boolean
     phone?: string | null
     bio?: string | null
     profilePicture?: string | null
@@ -36671,7 +36677,6 @@ export namespace Prisma {
     id?: string
     idNumber: number
     department: string
-    isActive?: boolean
     phone?: string | null
     bio?: string | null
     designation?: string | null
@@ -36687,7 +36692,6 @@ export namespace Prisma {
     id?: string
     idNumber: number
     department: string
-    isActive?: boolean
     phone?: string | null
     bio?: string | null
     designation?: string | null
@@ -36716,6 +36720,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     code: string
+    visibility: $Enums.Visibility
     category: CategoryCreateNestedOneWithoutCoursesInput
     weeks?: WeekCreateNestedManyWithoutCourseInput
     testimonials?: TestimonialCreateNestedManyWithoutCourseInput
@@ -36737,6 +36742,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     code: string
+    visibility: $Enums.Visibility
     categoryId: string
     weeks?: WeekUncheckedCreateNestedManyWithoutCourseInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutCourseInput
@@ -37146,7 +37152,6 @@ export namespace Prisma {
   export type InstructorUpdateWithoutUserInput = {
     idNumber?: IntFieldUpdateOperationsInput | number
     department?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37160,7 +37165,6 @@ export namespace Prisma {
   export type InstructorUncheckedUpdateWithoutUserInput = {
     idNumber?: IntFieldUpdateOperationsInput | number
     department?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37186,7 +37190,6 @@ export namespace Prisma {
     idNumber?: IntFieldUpdateOperationsInput | number
     session?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37202,7 +37205,6 @@ export namespace Prisma {
     idNumber?: IntFieldUpdateOperationsInput | number
     session?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37228,7 +37230,6 @@ export namespace Prisma {
   export type AdminUpdateWithoutUserInput = {
     idNumber?: IntFieldUpdateOperationsInput | number
     department?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37243,7 +37244,6 @@ export namespace Prisma {
   export type AdminUncheckedUpdateWithoutUserInput = {
     idNumber?: IntFieldUpdateOperationsInput | number
     department?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37286,6 +37286,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Course"> | Date | string
     updatedAt?: DateTimeFilter<"Course"> | Date | string
     code?: StringFilter<"Course"> | string
+    visibility?: EnumVisibilityFilter<"Course"> | $Enums.Visibility
     userId?: StringFilter<"Course"> | string
     categoryId?: StringFilter<"Course"> | string
   }
@@ -38121,6 +38122,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     code: string
+    visibility: $Enums.Visibility
     user: UserCreateNestedOneWithoutCoursesInput
     weeks?: WeekCreateNestedManyWithoutCourseInput
     testimonials?: TestimonialCreateNestedManyWithoutCourseInput
@@ -38142,6 +38144,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     code: string
+    visibility: $Enums.Visibility
     userId: string
     weeks?: WeekUncheckedCreateNestedManyWithoutCourseInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutCourseInput
@@ -38659,6 +38662,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     code: string
+    visibility: $Enums.Visibility
     user: UserCreateNestedOneWithoutCoursesInput
     category: CategoryCreateNestedOneWithoutCoursesInput
     testimonials?: TestimonialCreateNestedManyWithoutCourseInput
@@ -38680,6 +38684,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     code: string
+    visibility: $Enums.Visibility
     userId: string
     categoryId: string
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutCourseInput
@@ -38923,6 +38928,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     code?: StringFieldUpdateOperationsInput | string
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
     user?: UserUpdateOneRequiredWithoutCoursesNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     testimonials?: TestimonialUpdateManyWithoutCourseNestedInput
@@ -38943,6 +38949,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     code?: StringFieldUpdateOperationsInput | string
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     testimonials?: TestimonialUncheckedUpdateManyWithoutCourseNestedInput
@@ -39315,7 +39322,6 @@ export namespace Prisma {
     idNumber: number
     session: string
     department: string
-    isActive?: boolean
     phone?: string | null
     bio?: string | null
     profilePicture?: string | null
@@ -39332,7 +39338,6 @@ export namespace Prisma {
     idNumber: number
     session: string
     department: string
-    isActive?: boolean
     phone?: string | null
     bio?: string | null
     profilePicture?: string | null
@@ -39620,7 +39625,6 @@ export namespace Prisma {
     idNumber?: IntFieldUpdateOperationsInput | number
     session?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -39636,7 +39640,6 @@ export namespace Prisma {
     idNumber?: IntFieldUpdateOperationsInput | number
     session?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
@@ -40951,6 +40954,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     code: string
+    visibility: $Enums.Visibility
     user: UserCreateNestedOneWithoutCoursesInput
     category: CategoryCreateNestedOneWithoutCoursesInput
     weeks?: WeekCreateNestedManyWithoutCourseInput
@@ -40972,6 +40976,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     code: string
+    visibility: $Enums.Visibility
     userId: string
     categoryId: string
     weeks?: WeekUncheckedCreateNestedManyWithoutCourseInput
@@ -41073,6 +41078,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     code?: StringFieldUpdateOperationsInput | string
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
     user?: UserUpdateOneRequiredWithoutCoursesNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     weeks?: WeekUpdateManyWithoutCourseNestedInput
@@ -41093,6 +41099,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     code?: StringFieldUpdateOperationsInput | string
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     weeks?: WeekUncheckedUpdateManyWithoutCourseNestedInput
@@ -41175,6 +41182,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     code: string
+    visibility: $Enums.Visibility
     user: UserCreateNestedOneWithoutCoursesInput
     category: CategoryCreateNestedOneWithoutCoursesInput
     weeks?: WeekCreateNestedManyWithoutCourseInput
@@ -41196,6 +41204,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     code: string
+    visibility: $Enums.Visibility
     userId: string
     categoryId: string
     weeks?: WeekUncheckedCreateNestedManyWithoutCourseInput
@@ -41297,6 +41306,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     code?: StringFieldUpdateOperationsInput | string
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
     user?: UserUpdateOneRequiredWithoutCoursesNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     weeks?: WeekUpdateManyWithoutCourseNestedInput
@@ -41317,6 +41327,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     code?: StringFieldUpdateOperationsInput | string
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     weeks?: WeekUncheckedUpdateManyWithoutCourseNestedInput
@@ -41399,6 +41410,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     code: string
+    visibility: $Enums.Visibility
     user: UserCreateNestedOneWithoutCoursesInput
     category: CategoryCreateNestedOneWithoutCoursesInput
     weeks?: WeekCreateNestedManyWithoutCourseInput
@@ -41420,6 +41432,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     code: string
+    visibility: $Enums.Visibility
     userId: string
     categoryId: string
     weeks?: WeekUncheckedCreateNestedManyWithoutCourseInput
@@ -41521,6 +41534,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     code?: StringFieldUpdateOperationsInput | string
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
     user?: UserUpdateOneRequiredWithoutCoursesNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     weeks?: WeekUpdateManyWithoutCourseNestedInput
@@ -41541,6 +41555,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     code?: StringFieldUpdateOperationsInput | string
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     weeks?: WeekUncheckedUpdateManyWithoutCourseNestedInput
@@ -41562,6 +41577,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     code: string
+    visibility: $Enums.Visibility
     user: UserCreateNestedOneWithoutCoursesInput
     category: CategoryCreateNestedOneWithoutCoursesInput
     weeks?: WeekCreateNestedManyWithoutCourseInput
@@ -41583,6 +41599,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     code: string
+    visibility: $Enums.Visibility
     userId: string
     categoryId: string
     weeks?: WeekUncheckedCreateNestedManyWithoutCourseInput
@@ -41680,6 +41697,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     code?: StringFieldUpdateOperationsInput | string
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
     user?: UserUpdateOneRequiredWithoutCoursesNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     weeks?: WeekUpdateManyWithoutCourseNestedInput
@@ -41700,6 +41718,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     code?: StringFieldUpdateOperationsInput | string
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     weeks?: WeekUncheckedUpdateManyWithoutCourseNestedInput
@@ -41786,6 +41805,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     code: string
+    visibility: $Enums.Visibility
     user: UserCreateNestedOneWithoutCoursesInput
     category: CategoryCreateNestedOneWithoutCoursesInput
     weeks?: WeekCreateNestedManyWithoutCourseInput
@@ -41807,6 +41827,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     code: string
+    visibility: $Enums.Visibility
     userId: string
     categoryId: string
     weeks?: WeekUncheckedCreateNestedManyWithoutCourseInput
@@ -41904,6 +41925,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     code?: StringFieldUpdateOperationsInput | string
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
     user?: UserUpdateOneRequiredWithoutCoursesNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     weeks?: WeekUpdateManyWithoutCourseNestedInput
@@ -41924,6 +41946,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     code?: StringFieldUpdateOperationsInput | string
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     weeks?: WeekUncheckedUpdateManyWithoutCourseNestedInput
@@ -42666,6 +42689,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     code: string
+    visibility: $Enums.Visibility
     categoryId: string
   }
 
@@ -42814,6 +42838,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     code?: StringFieldUpdateOperationsInput | string
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     weeks?: WeekUpdateManyWithoutCourseNestedInput
     testimonials?: TestimonialUpdateManyWithoutCourseNestedInput
@@ -42834,6 +42859,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     code?: StringFieldUpdateOperationsInput | string
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
     categoryId?: StringFieldUpdateOperationsInput | string
     weeks?: WeekUncheckedUpdateManyWithoutCourseNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutCourseNestedInput
@@ -42854,6 +42880,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     code?: StringFieldUpdateOperationsInput | string
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
     categoryId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -43361,6 +43388,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     code: string
+    visibility: $Enums.Visibility
     userId: string
   }
 
@@ -43375,6 +43403,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     code?: StringFieldUpdateOperationsInput | string
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
     user?: UserUpdateOneRequiredWithoutCoursesNestedInput
     weeks?: WeekUpdateManyWithoutCourseNestedInput
     testimonials?: TestimonialUpdateManyWithoutCourseNestedInput
@@ -43395,6 +43424,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     code?: StringFieldUpdateOperationsInput | string
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
     userId?: StringFieldUpdateOperationsInput | string
     weeks?: WeekUncheckedUpdateManyWithoutCourseNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutCourseNestedInput
@@ -43415,6 +43445,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     code?: StringFieldUpdateOperationsInput | string
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
     userId?: StringFieldUpdateOperationsInput | string
   }
 

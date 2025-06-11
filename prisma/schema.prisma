@@ -48,6 +48,10 @@ enum Role {
   instructor
   admin
 }
+enum Visibility{
+  public
+  private
+}
 
 // MARK: User
 model User {
@@ -89,7 +93,7 @@ model Instructor {
   id                   String    @id @default(auto()) @map("_id") @db.ObjectId
   idNumber             Int       @unique
   department           String
-  isActive             Boolean   @default(true)
+  
   phone                String?
   bio                  String?
   designation          String?
@@ -112,7 +116,7 @@ model Student {
   idNumber             Int       @unique
   session              String
   department           String
-  isActive             Boolean   @default(true)
+
   phone                String?
   bio                  String?
   profilePicture       String?
@@ -135,7 +139,7 @@ model Admin {
   id                   String    @id @default(auto()) @map("_id") @db.ObjectId
   idNumber             Int       @unique
   department           String
-  isActive             Boolean   @default(true)
+ 
   phone                String?
   bio                  String?
   designation          String?
@@ -179,6 +183,7 @@ model Course {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   code        String
+  visibility Visibility
 
   // Foreign Keys
   userId     String @db.ObjectId
