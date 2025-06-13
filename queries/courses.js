@@ -552,3 +552,199 @@ export const getUserCourseEnrollmentStatus = unstable_cache(
     revalidate: REVALIDATE_TIME,
   }
 );
+
+
+export async function getInstructorAnalytics(instructorUserId) {
+  try {
+    // Get instructor's courses with related data
+    const instructorCourses = await db.course.findMany({
+      where: {
+        userId: instructorUserId,
+        active: true
+      },
+      include: {
+        weeks: {
+          include: {
+            lessons: true,
+            quizzes: {
+              include: {
+                submissions: {
+                  include: {
+                    user: true
+                  }
+                }
+              }
+            }
+          }
+        },
+        testimonials: true,
+        certificates: true,
+        courseProgress: {
+          include: {
+            user: true
+          }
+        },
+        participations: {
+          include: {
+            user: true
+          }
+        }
+      }
+    });
+
+    // Calculate total courses
+    const totalCourses = instructorCourses.length;
+
+    // Calculate unique students across all courses (based on course progress and participations)
+    const uniqueStudentIds = new Set();
+    instructorCourses.forEach(course => {
+      course.courseProgress.forEach(progress => {
+        uniqueStudentIds.add(progress.userId);
+      });
+      course.participations.forEach(participation => {
+        uniqueStudentIds.add(participation.userId);
+      });
+    });
+    const totalStudents = uniqueStudentIds.size;
+
+    // Calculate total lessons and quizzes
+    let totalLessons = 0;
+    let totalQuizzes = 0;
+    let totalQuizSubmissions = 0;
+    let completedCourses = 0;
+
+    instructorCourses.forEach(course => {
+      course.weeks.forEach(week => {
+        totalLessons += week.lessons.length;
+        totalQuizzes += week.quizzes.length;
+        week.quizzes.forEach(quiz => {
+          totalQuizSubmissions += quiz.submissions.length;
+        });
+      });
+      
+      // Count completed courses (progress = 100)
+      completedCourses += course.courseProgress.filter(progress => progress.progress === 100).length;
+    });
+
+    // Calculate average rating
+    const allTestimonials = instructorCourses.flatMap(course => course.testimonials);
+    const averageRating = allTestimonials.length > 0 
+      ? allTestimonials.reduce((sum, testimonial) => sum + (testimonial.rating || 0), 0) / allTestimonials.length
+      : 0;
+
+    // Calculate completion rate
+    const completionRate = totalStudents > 0 ? (completedCourses / totalStudents) * 100 : 0;
+
+    // Get recent activity (recent quiz submissions)
+    const recentActivity = await db.quizSubmission.findMany({
+      where: {
+        quiz: {
+          week: {
+            course: {
+              userId: instructorUserId
+            }
+          }
+        }
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+            email: true
+          }
+        },
+        quiz: {
+          include: {
+            week: {
+              include: {
+                course: {
+                  select: {
+                    title: true
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      orderBy: {
+        createdAt: 'desc'
+      },
+      take: 10
+    });
+
+    // Get course performance data
+    const coursePerformance = instructorCourses.map(course => {
+      const courseStudents = course.courseProgress.length;
+      const courseCompletions = course.courseProgress.filter(progress => progress.progress === 100).length;
+      const courseRating = course.testimonials.length > 0 
+        ? course.testimonials.reduce((sum, testimonial) => sum + (testimonial.rating || 0), 0) / course.testimonials.length
+        : 0;
+      
+      return {
+        id: course.id,
+        title: course.title,
+        students: courseStudents,
+        completions: courseCompletions,
+        completionRate: courseStudents > 0 ? (courseCompletions / courseStudents) * 100 : 0,
+        rating: courseRating,
+        totalLessons: course.weeks.reduce((sum, week) => sum + week.lessons.length, 0),
+        totalQuizzes: course.weeks.reduce((sum, week) => sum + week.quizzes.length, 0)
+      };
+    });
+
+    // Monthly statistics (last 6 months)
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+    const monthlyStats = await prisma.courseProgress.groupBy({
+      by: ['createdAt'],
+      where: {
+        course: {
+          userId: instructorUserId
+        },
+        createdAt: {
+          gte: sixMonthsAgo
+        }
+      },
+      _count: {
+        id: true
+      }
+    });
+
+    return {
+      totalCourses,
+      totalStudents,
+      totalLessons,
+      totalQuizzes,
+      totalQuizSubmissions,
+      completedCourses,
+      averageRating: Math.round(averageRating * 10) / 10, // Round to 1 decimal
+      completionRate: Math.round(completionRate * 10) / 10, // Round to 1 decimal
+      totalCertificates: instructorCourses.reduce((sum, course) => sum + course.certificates.length, 0),
+      recentActivity,
+      coursePerformance,
+      monthlyStats,
+      // Additional metrics
+      totalTestimonials: allTestimonials.length,
+      publishedCourses: instructorCourses.filter(course => course.active).length,
+      averageStudentsPerCourse: totalCourses > 0 ? Math.round(totalStudents / totalCourses) : 0
+    };
+
+  } catch (error) {
+    console.error("Error fetching instructor analytics:", error);
+    throw new Error("Failed to fetch analytics data");
+  }
+}
+
+export async function getAllCategories() {
+  try {
+    const categories = await db.category.findMany();
+    // console.log(" getAllCategories ~ categories:", categories)
+
+    return categories;
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    throw new Error(`Failed to fetch categories: ${error.message}`);
+  }
+}

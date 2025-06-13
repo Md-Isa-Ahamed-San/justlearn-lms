@@ -1,29 +1,29 @@
 "use client";
 
-import { useState, useEffect, useMemo, useCallback } from "react";
 import {
-  Search,
-  Filter,
-  Download,
-  MoreHorizontal,
-  Edit,
   CheckCircle,
-  Eye,
-  EyeOff,
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
+  Download,
+  Edit,
+  Eye,
+  EyeOff,
+  Filter,
+  MoreHorizontal,
   Power,
   PowerOff,
+  Search,
 } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import {
   Card,
+  CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
 } from "@/components/ui/card";
 
 // Other UI components
@@ -36,9 +36,9 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 // Alert Dialog components
@@ -52,8 +52,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { toggleCourseVisibilityStatus } from "../../../../queries/admin";
 import { toast } from "sonner";
+import { toggleCourseVisibilityStatus } from "../../../../queries/admin";
 export default function CourseTable({ courses }) {
   console.log(" CourseTable ~ courses:", courses);
   const [searchTerm, setSearchTerm] = useState("");
@@ -355,7 +355,7 @@ export default function CourseTable({ courses }) {
                           ) : (
                             <Badge
                               variant="outline"
-                              className="bg-gray-50 text-gray-700 border-gray-200 text-xs"
+                              className=" text-gray-700 border-gray-200 text-xs"
                             >
                               <EyeOff className="h-3 w-3 mr-1" />
                               Deactivate

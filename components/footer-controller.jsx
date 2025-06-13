@@ -7,6 +7,7 @@ import { SiteFooter } from './site-footer';
 const HIDE_FOOTER_PATHS = [
   '/account',
   "/admin-dashboard",
+  "/courses"
 ];
 
 export function FooterController() {
