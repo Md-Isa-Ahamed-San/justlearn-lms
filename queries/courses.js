@@ -748,3 +748,163 @@ export async function getAllCategories() {
     throw new Error(`Failed to fetch categories: ${error.message}`);
   }
 }
+
+// ✅ Get Instructor's Courses (Cached per Instructor)
+export const getInstructorCourses = unstable_cache(
+  async (instructorId) => {
+    try {
+      // Add validation for instructorId
+      if (!instructorId) {
+        console.error("❌ No instructorId provided");
+        throw new Error("Instructor ID is required");
+      }
+
+      console.log("🔄 Fetching courses for instructor:", instructorId);
+
+      // First, get the instructor record to get the userId
+      const instructor = await db.instructor.findUnique({
+        where: { id: instructorId },
+        select: {
+          userId: true,
+        },
+      });
+
+      if (!instructor) {
+        throw new Error(`Instructor with ID ${instructorId} not found`);
+      }
+
+      // Get all courses created by this instructor's user account
+      const courses = await db.course.findMany({
+        where: {
+          userId: instructor.userId,
+        },
+        include: {
+          category: {
+            select: {
+              id: true,
+              title: true,
+              description: true,
+              thumbnail: true,
+            },
+          },
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              role: true,
+              image: true,
+              instructor: {
+                select: {
+                  id: true,
+                  designation: true,
+                  bio: true,
+                  department: true,
+                },
+              },
+            },
+          },
+          weeks: {
+            include: {
+              lessons: {
+                select: {
+                  id: true,
+                  title: true,
+                  duration: true,
+                  order: true,
+                  active: true,
+                },
+                orderBy: {
+                  order: "asc",
+                },
+              },
+              quizzes: {
+                select: {
+                  id: true,
+                  title: true,
+                  status: true,
+                  active: true,
+                },
+              },
+            },
+            orderBy: {
+              order: "asc",
+            },
+          },
+          testimonials: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                  image: true,
+                },
+              },
+            },
+            orderBy: {
+              createdAt: "desc",
+            },
+          },
+          _count: {
+            select: {
+              testimonials: true,
+              courseProgress: true,
+              certificates: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+
+      // Transform the data to include additional calculated fields
+      const transformedCourses = courses.map((course) => {
+        // Calculate total course duration
+        const totalDuration = course.weeks.reduce((total, week) => {
+          const weekDuration = week.lessons.reduce((weekTotal, lesson) => {
+            return weekTotal + (lesson.duration || 0);
+          }, 0);
+          return total + weekDuration;
+        }, 0);
+
+        // Calculate total lessons and quizzes
+        const totalLessons = course.weeks.reduce((total, week) => {
+          return total + week.lessons.length;
+        }, 0);
+
+        const totalQuizzes = course.weeks.reduce((total, week) => {
+          return total + week.quizzes.length;
+        }, 0);
+
+        // Calculate average rating
+        const averageRating = course.testimonials.length > 0 
+          ? course.testimonials.reduce((sum, testimonial) => sum + (testimonial.rating || 0), 0) / course.testimonials.length
+          : 0;
+
+        return {
+          ...course,
+          totalDuration,
+          totalLessons,
+          totalQuizzes,
+          totalWeeks: course.weeks.length,
+          totalStudents: course._count.courseProgress,
+          totalTestimonials: course._count.testimonials,
+          totalCertificates: course._count.certificates,
+          averageRating: Math.round(averageRating * 10) / 10, // Round to 1 decimal
+        };
+      });
+
+      console.log(`✅ Found ${transformedCourses.length} courses for instructor ${instructorId}`);
+
+      return transformedCourses;
+    } catch (error) {
+      console.error(`❌ Error fetching courses for instructor ${instructorId}:`, error);
+      throw error;
+    }
+  },
+  (instructorId) => [`instructor-courses-${instructorId}`],
+  {
+    revalidate: REVALIDATE_TIME,
+  }
+);

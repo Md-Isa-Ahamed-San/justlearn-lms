@@ -11,27 +11,27 @@ const routes = [
   {
     icon: BarChart,
     label: "Analytics",
-    href: "/dashboard",
+    href: "/instructor-dashboard",
   },
   {
     icon: BookOpen,
     label: "Courses",
-    href: "/dashboard/courses",
+    href: "/instructor-dashboard/courses",
   },
   {
     icon: BookOpen,
     label: "Add Course",
-    href: "/dashboard/courses/add",
+    href: "/instructor-dashboard/courses/add",
   },
   {
     icon: Radio,
     label: "Lives",
-    href: "/dashboard/lives",
+    href: "/instructor-dashboard/lives",
   },
   {
     icon: BookA,
     label: "Quizzes",
-    href: "/dashboard/quiz-sets",
+    href: "/instructor-dashboard/quiz-sets",
   },
 ];
 
