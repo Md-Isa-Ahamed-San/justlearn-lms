@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { VideoPlayer } from "@/app/(player)/[course_slug]/[lesson]/_components/video-player";
+
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -73,7 +73,7 @@ export const VideoUrlForm = ({ initialData, courseId, lessonId }) => {
             {"https://www.youtube.com/embed/Cn4G2lZ_g2I?si=8FxqU8_NU6rYOrG1"}
           </p>
           <div className="mt-6">
-            <VideoPlayer />
+            {/* <VideoPlayer /> */}
           </div>
         </>
       )}
