@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { checkProfileCompletion } from "../../actions/authActions";
 // Add this to pages that use headers(), cookies(), etc.
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic';
 export default async function AuthCallback() {
   const session = await auth();
 
