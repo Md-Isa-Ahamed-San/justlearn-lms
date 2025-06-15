@@ -36,6 +36,8 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { UploadDropzone } from "@/components/file-upload";
 import { Combobox } from "@/components/ui/combobox";
+// Add this to pages that use headers(), cookies(), etc.
+export const dynamic = 'force-dynamic'
 const formSchema = z.object({
   title: z.string().min(1, {
     message: "Title is required!",

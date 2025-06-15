@@ -1,7 +1,8 @@
 import { GraduationCap, User, Shield, ArrowRight, CheckCircle } from 'lucide-react'
 import { getRoleDescription } from "../../../utils/RoleHelpers"
 import { submitRole } from "../../actions/authActions"
-
+// Add this to pages that use headers(), cookies(), etc.
+export const dynamic = 'force-dynamic'
 export default function RoleSelection() {
   const getRoleIcon = (role) => {
     switch (role) {

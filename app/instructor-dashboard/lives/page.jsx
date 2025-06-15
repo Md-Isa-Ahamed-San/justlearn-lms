@@ -1,6 +1,7 @@
 import { columns } from "./_components/columns";
 import { DataTable } from "./_components/data-table";
-
+// Add this to pages that use headers(), cookies(), etc.
+export const dynamic = 'force-dynamic'
 const lives = [
   {
     id: 1,

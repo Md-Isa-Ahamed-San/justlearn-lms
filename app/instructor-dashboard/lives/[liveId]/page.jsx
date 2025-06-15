@@ -34,6 +34,8 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+// Add this to pages that use headers(), cookies(), etc.
+export const dynamic = 'force-dynamic'
 const formSchema = z.object({
   title: z.string().min(1, {
     message: "Title is required!",
