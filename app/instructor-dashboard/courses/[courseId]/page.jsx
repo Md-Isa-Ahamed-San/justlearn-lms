@@ -14,8 +14,16 @@ import { TitleForm } from "./_components/title-form";
 import { CourseActions } from "./_components/course-action";
 import AlertBanner from "@/components/alert-banner";
 import { QuizSetForm } from "./_components/quiz-set-form";
+import { getCourseDetailsById } from "../../../../queries/courses";
+export const dynamic = 'force-dynamic';
+const EditCourse = async({params}) => {
+  const {courseId} = params;
+  // console.log(" EditCourse ~ courseId:", courseId)
+  if(courseId){
+    const courseData = await getCourseDetailsById(courseId)
+    console.log(" EditCourse ~ courseData:", courseData)
 
-const EditCourse = () => {
+  }
   return (
     <>
       <AlertBanner

@@ -43,9 +43,9 @@ export function MainNav({ items, children }) {
     handleSignOut();
   }
 
-  console.log(" MainNav ~ session:", session);
-  console.log(" MainNav ~ userData:", userData);
-  console.log(" MainNav ~ IMAGE:", userData?.userData?.image);
+  // console.log(" MainNav ~ session:", session);
+  // console.log(" MainNav ~ userData:", userData);
+  // console.log(" MainNav ~ IMAGE:", userData?.userData?.image);
   return (
     <div className="flex justify-between items-center w-full px-4 py-3">
       {/* Left: Logo */}

@@ -45,60 +45,39 @@ export const getCourseList = unstable_cache(
 
 // ✅ Get Course Details by ID (Cached per Course)
 // Modify your database query to ensure proper relations are loaded
-export const getCourseDetails = unstable_cache(
+export const getCourseDetailsById = unstable_cache(
   async (id) => {
     try {
-      console.log("🔄 Fetching course details for:", id);
-
       const course = await db.course.findUnique({
         where: { id },
         include: {
           category: true,
           user: {
             include: {
-              instructor: true, // Get instructor details through user
+              instructor: true,
             },
           },
-
           weeks: {
             include: {
-              lessons: true,
+              lessons: {
+                orderBy: { order: "asc" },
+              },
             },
-            orderBy: {
-              order: "asc",
-            },
+            orderBy: { order: "asc" },
           },
           testimonials: {
             include: {
-              user: true, // Get user details directly since testimonials reference userId
+              user: true,
             },
-            orderBy: {
-              createdAt: "desc",
-            },
+            orderBy: { createdAt: "desc" },
+            take: 10, // Limit to recent testimonials for performance
           },
         },
       });
 
-      // Debug: Check if weeks have associated lessons
-      if (course?.weeks) {
-        console.log("Weeks found:", course.weeks.length);
-        course.weeks.forEach((week, i) => {
-          console.log(
-            `Week ${i + 1} (${week.id}) has ${
-              week?.lessons?.length || 0
-            } lessons`
-          );
-        });
-      }
-
-      // Debug: Check instructor information
-      if (course?.user?.instructor) {
-        console.log("Instructor found:", course.user.instructor.id);
-      }
-
       return course;
     } catch (error) {
-      console.error(`❌ Error fetching course details for ${id}:`, error);
+      console.error(`Error fetching course ${id}:`, error);
       throw error;
     }
   },
@@ -748,6 +727,7 @@ export async function getAllCategories() {
     throw new Error(`Failed to fetch categories: ${error.message}`);
   }
 }
+
 
 // ✅ Get Instructor's Courses (Cached per Instructor)
 export const getInstructorCourses = unstable_cache(
