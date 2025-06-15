@@ -7,7 +7,20 @@ import { DataTable } from "./_components/data-table";
 
 
 const CoursesPage = async () => {
-  const {userData} = await getServerUserData()
+      let serverUserData = null;
+  
+  try {
+    serverUserData = await getServerUserData();
+  } catch (error) {
+    // During static generation, this might fail
+    console.log(
+      "Could not fetch server user data during build:",
+      error.message
+    );
+    serverUserData = null;
+  }
+
+  const userData = serverUserData?.userData;
   const courses = await getInstructorCourses(userData?.instructor?.id);
   chalkLog.log(" CoursesPage ~ courses of a instructor:", courses)
 

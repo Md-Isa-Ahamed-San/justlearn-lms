@@ -20,7 +20,20 @@ import { redirect } from "next/navigation";
 import { getInstructorAnalytics } from "../../queries/courses";
 
 const DashboardPage = async () => {
-  const {userData} = await getServerUserData();
+    let serverUserData = null;
+  
+  try {
+    serverUserData = await getServerUserData();
+  } catch (error) {
+    // During static generation, this might fail
+    console.log(
+      "Could not fetch server user data during build:",
+      error.message
+    );
+    serverUserData = null;
+  }
+
+  const userData = serverUserData?.userData;
 
   if (!userData) redirect("/login");
   

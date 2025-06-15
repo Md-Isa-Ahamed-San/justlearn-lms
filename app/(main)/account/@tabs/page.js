@@ -6,8 +6,20 @@ import { getServerUserData } from "../../../../queries/users";
 export default async function RoleBasedProfile({ searchParams }) {
   const selectedRole = searchParams?.role;
 
-  const { user, userData } = await getServerUserData();
-
+  // const { user, userData } = await getServerUserData();
+  let serverUserData = null;
+  
+  try {
+    serverUserData = await getServerUserData();
+  } catch (error) {
+    // During static generation, this might fail
+    console.log(
+      "Could not fetch server user data during build:",
+      error.message
+    );
+    serverUserData = null;
+  }
+  const userData = serverUserData?.userData;
   const effectiveUserData = {
     ...userData,
     role: selectedRole || userData?.role,

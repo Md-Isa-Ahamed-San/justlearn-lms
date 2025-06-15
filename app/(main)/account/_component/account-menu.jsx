@@ -35,8 +35,22 @@ const menuItems = [
 ];
 
 async function Menu({ currentPath }) {
+      let serverUserData = null;
+    
+    try {
+      serverUserData = await getServerUserData();
+    } catch (error) {
+      // During static generation, this might fail
+      console.log(
+        "Could not fetch server user data during build:",
+        error.message
+      );
+      serverUserData = null;
+    }
+  
+    const userData = serverUserData?.userData;
   try {
-    const { userData } = await getServerUserData();
+  
 
     if (!userData?.id) {
       console.warn("⚠️ No user data found");

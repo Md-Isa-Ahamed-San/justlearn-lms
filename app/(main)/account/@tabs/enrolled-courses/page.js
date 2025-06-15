@@ -9,7 +9,21 @@ import { getServerUserData } from "../../../../../queries/users";
 import { chalkLog } from "../../../../../utils/logger";
 
 async function EnrolledCourses() {
-  const { userData } = await getServerUserData();
+  // const { userData } = await getServerUserData();
+    let serverUserData = null;
+  
+  try {
+    serverUserData = await getServerUserData();
+  } catch (error) {
+    // During static generation, this might fail
+    console.log(
+      "Could not fetch server user data during build:",
+      error.message
+    );
+    serverUserData = null;
+  }
+
+  const userData = serverUserData?.userData;
 
   if (!userData?.id) {
     console.warn("⚠️ No user data found");
