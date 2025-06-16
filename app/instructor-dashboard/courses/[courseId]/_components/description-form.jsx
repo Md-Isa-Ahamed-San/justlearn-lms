@@ -45,6 +45,7 @@ export const DescriptionForm = ({ initialData = {}, courseId, revalidate }) => {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          "Cache-Control": "no-cache",
         },
         body: JSON.stringify(values),
       });
