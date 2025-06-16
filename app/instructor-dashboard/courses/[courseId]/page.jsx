@@ -15,14 +15,15 @@ import { CourseActions } from "./_components/course-action";
 import AlertBanner from "@/components/alert-banner";
 import { QuizSetForm } from "./_components/quiz-set-form";
 import { getCourseDetailsById } from "../../../../queries/courses";
+import { chalkLog } from "../../../../utils/logger";
 export const dynamic = "force-dynamic";
 const EditCourse = async ({ params }) => {
   const { courseId } = params;
-  console.log(" EditCourse ~ courseId:", courseId)
+  // chalkLog.log(" EditCourse ~ courseId:", courseId)
   let courseData = null;
   if (courseId) {
     courseData = await getCourseDetailsById(courseId);
-    console.log(" EditCourse ~ courseData:", courseData);
+    // chalkLog.log(" EditCourse ~ courseData:", courseData);
   }
   return (
     <>

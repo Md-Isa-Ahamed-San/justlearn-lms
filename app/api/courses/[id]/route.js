@@ -30,7 +30,7 @@ export async function PATCH(request, { params }) {
   try {
     // Parse the request body
     const body = await request.json();
-    console.log(" PATCH ~ body:", body)
+    console.log(" PATCH ~ body:", body);
 
     const allowedFields = [
       "title",
@@ -42,7 +42,6 @@ export async function PATCH(request, { params }) {
       "rating",
       "visibility",
       "categoryId",
-     
     ];
 
     const updateData = {};
@@ -73,7 +72,6 @@ export async function PATCH(request, { params }) {
         );
       }
     }
-
 
     if (
       updateData.visibility &&

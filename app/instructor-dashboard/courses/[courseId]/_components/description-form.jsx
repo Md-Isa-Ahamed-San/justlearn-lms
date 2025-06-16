@@ -24,8 +24,8 @@ const formSchema = z.object({
   }),
 });
 
-export const DescriptionForm = ({ initialData = {}, courseId, revalidate }) => { // Add revalidate prop
-  const router = useRouter();
+export const DescriptionForm = ({ initialData = {}, courseId, revalidate }) => {
+  // const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [description, setDescription] = useState(initialData?.description);
 
@@ -56,9 +56,6 @@ export const DescriptionForm = ({ initialData = {}, courseId, revalidate }) => {
       setDescription(values?.description);
       toast.success("Course updated successfully");
       toggleEdit();
-      if (revalidate) {  //Check if revalidate function exist
-          revalidate(); // Call the revalidate function
-      }
     } catch (error) {
       console.error("Error updating course:", error);
       toast.error("Something went wrong");
