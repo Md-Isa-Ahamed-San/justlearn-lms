@@ -7,60 +7,57 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
 } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const formSchema = z.object({
   categoryId: z.string().min(1),
 });
 
-export const CategoryForm = ({
-  initialData,
-  courseId,
-  options = [
-    {
-      value: "design",
-      label: "Design",
-    },
-    {
-      value: "development",
-      label: "Development",
-    },
-    {
-      value: "marketing",
-      label: "Marketing",
-    },
-    {
-      value: "it_software",
-      label: "IT & Software",
-    },
-    {
-      value: "personal_development",
-      label: "Personal Development",
-    },
-    {
-      value: "business",
-      label: "Business",
-    },
-    {
-      value: "photography",
-      label: "Photography",
-    },
-    {
-      value: "music",
-      label: "Music",
-    },
-  ],
-}) => {
+export const CategoryForm = ({ initialData = {}, courseId }) => { // ✅ Added default value
+  const [categories, setCategories] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(initialData?.categoryId); // ✅ Added local state
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch("/api/category");
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Transform categories to match Combobox expected format
+        const formattedCategories = data.map((category) => ({
+          label: category.title || category.name, // Adjust based on your API response
+          value: category.id,
+        }));
+
+        setCategories(formattedCategories);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        toast.error("Failed to load categories");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
 
@@ -68,29 +65,57 @@ export const CategoryForm = ({
 
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      categoryId: initialData?.categoryId || "",
-    },
+    defaultValues: initialData,
   });
 
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values) => {
     try {
-      toast.success("Course updated");
+      const response = await fetch(`/api/courses/${courseId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update course");
+      }
+
+      setSelectedCategoryId(values?.categoryId);
+      toast.success("Course updated successfully"); 
       toggleEdit();
       router.refresh();
     } catch (error) {
+      console.error("Error updating course:", error);
       toast.error("Something went wrong");
     }
   };
 
-  const selectedOptions = options.find(
-    (option) => option.value === initialData.categoryId
+
+  const selectedCategory = categories.find(
+    (category) => category.value === selectedCategoryId 
   );
 
+  if (isLoading) {
+    return (
+      <div className="mt-6 border rounded-md p-4">
+        <div className="font-medium flex items-center justify-between">
+          Course Category
+          <Button variant="ghost" disabled>
+            <Pencil className="h-4 w-4 mr-2" />
+            Edit Category
+          </Button>
+        </div>
+        <p className="text-sm mt-2 text-slate-500">Loading categories...</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="mt-6 border  rounded-md p-4">
+    <div className="mt-6 border rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Course Category
         <Button variant="ghost" onClick={toggleEdit}>
@@ -104,17 +129,18 @@ export const CategoryForm = ({
           )}
         </Button>
       </div>
+
       {!isEditing && (
         <p
           className={cn(
             "text-sm mt-2",
-            !initialData.categoryId && "text-slate-500 italic"
+            !selectedCategoryId
           )}
         >
-          {selectedOptions?.label || "No category"}
+          {selectedCategory?.label || initialData?.category?.title}
         </p>
       )}
-      {console.log({ options })}
+
       {isEditing && (
         <Form {...form}>
           <form
@@ -127,7 +153,12 @@ export const CategoryForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Combobox options={options} {...field} />
+                    <Combobox
+                      options={categories}
+                      value={field.value}
+                      onChange={field.onChange}
+                      placeholder="Select a category..."
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

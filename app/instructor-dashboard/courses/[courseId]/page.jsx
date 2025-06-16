@@ -15,14 +15,14 @@ import { CourseActions } from "./_components/course-action";
 import AlertBanner from "@/components/alert-banner";
 import { QuizSetForm } from "./_components/quiz-set-form";
 import { getCourseDetailsById } from "../../../../queries/courses";
-export const dynamic = 'force-dynamic';
-const EditCourse = async({params}) => {
-  const {courseId} = params;
+export const dynamic = "force-dynamic";
+const EditCourse = async ({ params }) => {
+  const { courseId } = params;
   // console.log(" EditCourse ~ courseId:", courseId)
-  if(courseId){
-    const courseData = await getCourseDetailsById(courseId)
-    console.log(" EditCourse ~ courseData:", courseData)
-
+  let courseData = null;
+  if (courseId) {
+    courseData = await getCourseDetailsById(courseId);
+    console.log(" EditCourse ~ courseData:", courseData);
   }
   return (
     <>
@@ -42,15 +42,24 @@ const EditCourse = async({params}) => {
             </div>
             <TitleForm
               initialData={{
-                title: "Reactive Accelerator",
+                title: courseData?.title,
               }}
-              courseId={1}
+              courseId={courseData?.id}
             />
-            <DescriptionForm initialData={{}} courseId={1} />
-            <ImageForm initialData={{}} courseId={1} />
-            <CategoryForm initialData={{}} courseId={1} />
+            <DescriptionForm
+              initialData={{ description: courseData?.description }}
+              courseId={courseData?.id}
+            />
+            <ImageForm
+              initialData={{ imageUrl: courseData?.thumbnail }}
+              courseId={courseData?.id}
+            />
+            <CategoryForm
+              initialData={{ category: courseData?.category }}
+              courseId={courseData?.id}
+            />
 
-            <QuizSetForm initialData={{}} courseId={1} />
+            <QuizSetForm initialData={{}} courseId={courseData?.id} />
           </div>
           <div className="space-y-6">
             <div>
@@ -59,14 +68,7 @@ const EditCourse = async({params}) => {
                 <h2 className="text-xl">Course Modules</h2>
               </div>
 
-              <ModulesForm initialData={[]} courseId={[]} />
-            </div>
-            <div>
-              <div className="flex items-center gap-x-2">
-                <IconBadge icon={CircleDollarSign} />
-                <h2 className="text-xl">Sell you course</h2>
-              </div>
-              <PriceForm initialData={{}} courseId={1} />
+              <ModulesForm initialData={[]} courseId={courseData?.id} />
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { db } from "../../../../lib/prisma";
-
+import { NextResponse } from "next/server";
 export async function GET(request, { params }) {
   const { id } = params;
   console.log(" GET ~ id:", id);
@@ -21,5 +21,115 @@ export async function GET(request, { params }) {
     return course;
   } catch (error) {
     throw error;
+  }
+}
+
+export async function PATCH(request, { params }) {
+  const { id } = params;
+
+  try {
+    // Parse the request body
+    const body = await request.json();
+    console.log(" PATCH ~ body:", body)
+
+    const allowedFields = [
+      "title",
+      "description",
+      "subtitle",
+      "thumbnail",
+      "active",
+      "learning",
+      "rating",
+      "visibility",
+      "categoryId",
+     
+    ];
+
+    const updateData = {};
+    Object.keys(body).forEach((key) => {
+      if (allowedFields.includes(key) && body[key] !== undefined) {
+        updateData[key] = body[key];
+      }
+    });
+
+    if (Object.keys(updateData).length === 0) {
+      return NextResponse.json(
+        { error: "No valid fields provided for update" },
+        { status: 400 }
+      );
+    }
+
+    updateData.updatedAt = new Date();
+
+    if (updateData.categoryId) {
+      const categoryExists = await db.category.findUnique({
+        where: { id: updateData.categoryId },
+      });
+
+      if (!categoryExists) {
+        return NextResponse.json(
+          { error: "Category not found" },
+          { status: 404 }
+        );
+      }
+    }
+
+
+    if (
+      updateData.visibility &&
+      !["public", "private"].includes(updateData.visibility)
+    ) {
+      return NextResponse.json(
+        { error: "Invalid visibility value. Must be 'public' or 'private'" },
+        { status: 400 }
+      );
+    }
+
+    if (updateData.rating && (updateData.rating < 0 || updateData.rating > 5)) {
+      return NextResponse.json(
+        { error: "Rating must be between 0 and 5" },
+        { status: 400 }
+      );
+    }
+
+    const updatedCourse = await db.course.update({
+      where: { id },
+      data: updateData,
+      include: {
+        category: true,
+        user: {
+          include: {
+            instructor: true,
+          },
+        },
+      },
+    });
+
+    return NextResponse.json({
+      message: "Course updated successfully",
+      course: updatedCourse,
+      updatedFields: Object.keys(updateData).filter(
+        (key) => key !== "updatedAt"
+      ),
+    });
+  } catch (error) {
+    console.error("Error updating course:", error);
+
+    // Handle specific Prisma errors
+    if (error.code === "P2025") {
+      return NextResponse.json({ error: "Course not found" }, { status: 404 });
+    }
+
+    if (error.code === "P2002") {
+      return NextResponse.json(
+        { error: "Duplicate value for unique field" },
+        { status: 409 }
+      );
+    }
+
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }

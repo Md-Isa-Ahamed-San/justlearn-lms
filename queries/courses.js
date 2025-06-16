@@ -532,14 +532,13 @@ export const getUserCourseEnrollmentStatus = unstable_cache(
   }
 );
 
-
 export async function getInstructorAnalytics(instructorUserId) {
   try {
     // Get instructor's courses with related data
     const instructorCourses = await db.course.findMany({
       where: {
         userId: instructorUserId,
-        active: true
+        active: true,
       },
       include: {
         weeks: {
@@ -549,26 +548,26 @@ export async function getInstructorAnalytics(instructorUserId) {
               include: {
                 submissions: {
                   include: {
-                    user: true
-                  }
-                }
-              }
-            }
-          }
+                    user: true,
+                  },
+                },
+              },
+            },
+          },
         },
         testimonials: true,
         certificates: true,
         courseProgress: {
           include: {
-            user: true
-          }
+            user: true,
+          },
         },
         participations: {
           include: {
-            user: true
-          }
-        }
-      }
+            user: true,
+          },
+        },
+      },
     });
 
     // Calculate total courses
@@ -576,11 +575,11 @@ export async function getInstructorAnalytics(instructorUserId) {
 
     // Calculate unique students across all courses (based on course progress and participations)
     const uniqueStudentIds = new Set();
-    instructorCourses.forEach(course => {
-      course.courseProgress.forEach(progress => {
+    instructorCourses.forEach((course) => {
+      course.courseProgress.forEach((progress) => {
         uniqueStudentIds.add(progress.userId);
       });
-      course.participations.forEach(participation => {
+      course.participations.forEach((participation) => {
         uniqueStudentIds.add(participation.userId);
       });
     });
@@ -592,27 +591,36 @@ export async function getInstructorAnalytics(instructorUserId) {
     let totalQuizSubmissions = 0;
     let completedCourses = 0;
 
-    instructorCourses.forEach(course => {
-      course.weeks.forEach(week => {
+    instructorCourses.forEach((course) => {
+      course.weeks.forEach((week) => {
         totalLessons += week.lessons.length;
         totalQuizzes += week.quizzes.length;
-        week.quizzes.forEach(quiz => {
+        week.quizzes.forEach((quiz) => {
           totalQuizSubmissions += quiz.submissions.length;
         });
       });
-      
+
       // Count completed courses (progress = 100)
-      completedCourses += course.courseProgress.filter(progress => progress.progress === 100).length;
+      completedCourses += course.courseProgress.filter(
+        (progress) => progress.progress === 100
+      ).length;
     });
 
     // Calculate average rating
-    const allTestimonials = instructorCourses.flatMap(course => course.testimonials);
-    const averageRating = allTestimonials.length > 0 
-      ? allTestimonials.reduce((sum, testimonial) => sum + (testimonial.rating || 0), 0) / allTestimonials.length
-      : 0;
+    const allTestimonials = instructorCourses.flatMap(
+      (course) => course.testimonials
+    );
+    const averageRating =
+      allTestimonials.length > 0
+        ? allTestimonials.reduce(
+            (sum, testimonial) => sum + (testimonial.rating || 0),
+            0
+          ) / allTestimonials.length
+        : 0;
 
     // Calculate completion rate
-    const completionRate = totalStudents > 0 ? (completedCourses / totalStudents) * 100 : 0;
+    const completionRate =
+      totalStudents > 0 ? (completedCourses / totalStudents) * 100 : 0;
 
     // Get recent activity (recent quiz submissions)
     const recentActivity = await db.quizSubmission.findMany({
@@ -620,17 +628,17 @@ export async function getInstructorAnalytics(instructorUserId) {
         quiz: {
           week: {
             course: {
-              userId: instructorUserId
-            }
-          }
-        }
+              userId: instructorUserId,
+            },
+          },
+        },
       },
       include: {
         user: {
           select: {
             name: true,
-            email: true
-          }
+            email: true,
+          },
         },
         quiz: {
           include: {
@@ -638,37 +646,50 @@ export async function getInstructorAnalytics(instructorUserId) {
               include: {
                 course: {
                   select: {
-                    title: true
-                  }
-                }
-              }
-            }
-          }
-        }
+                    title: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
       orderBy: {
-        createdAt: 'desc'
+        createdAt: "desc",
       },
-      take: 10
+      take: 10,
     });
 
     // Get course performance data
-    const coursePerformance = instructorCourses.map(course => {
+    const coursePerformance = instructorCourses.map((course) => {
       const courseStudents = course.courseProgress.length;
-      const courseCompletions = course.courseProgress.filter(progress => progress.progress === 100).length;
-      const courseRating = course.testimonials.length > 0 
-        ? course.testimonials.reduce((sum, testimonial) => sum + (testimonial.rating || 0), 0) / course.testimonials.length
-        : 0;
-      
+      const courseCompletions = course.courseProgress.filter(
+        (progress) => progress.progress === 100
+      ).length;
+      const courseRating =
+        course.testimonials.length > 0
+          ? course.testimonials.reduce(
+              (sum, testimonial) => sum + (testimonial.rating || 0),
+              0
+            ) / course.testimonials.length
+          : 0;
+
       return {
         id: course.id,
         title: course.title,
         students: courseStudents,
         completions: courseCompletions,
-        completionRate: courseStudents > 0 ? (courseCompletions / courseStudents) * 100 : 0,
+        completionRate:
+          courseStudents > 0 ? (courseCompletions / courseStudents) * 100 : 0,
         rating: courseRating,
-        totalLessons: course.weeks.reduce((sum, week) => sum + week.lessons.length, 0),
-        totalQuizzes: course.weeks.reduce((sum, week) => sum + week.quizzes.length, 0)
+        totalLessons: course.weeks.reduce(
+          (sum, week) => sum + week.lessons.length,
+          0
+        ),
+        totalQuizzes: course.weeks.reduce(
+          (sum, week) => sum + week.quizzes.length,
+          0
+        ),
       };
     });
 
@@ -677,18 +698,18 @@ export async function getInstructorAnalytics(instructorUserId) {
     sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
 
     const monthlyStats = await prisma.courseProgress.groupBy({
-      by: ['createdAt'],
+      by: ["createdAt"],
       where: {
         course: {
-          userId: instructorUserId
+          userId: instructorUserId,
         },
         createdAt: {
-          gte: sixMonthsAgo
-        }
+          gte: sixMonthsAgo,
+        },
       },
       _count: {
-        id: true
-      }
+        id: true,
+      },
     });
 
     return {
@@ -700,16 +721,20 @@ export async function getInstructorAnalytics(instructorUserId) {
       completedCourses,
       averageRating: Math.round(averageRating * 10) / 10, // Round to 1 decimal
       completionRate: Math.round(completionRate * 10) / 10, // Round to 1 decimal
-      totalCertificates: instructorCourses.reduce((sum, course) => sum + course.certificates.length, 0),
+      totalCertificates: instructorCourses.reduce(
+        (sum, course) => sum + course.certificates.length,
+        0
+      ),
       recentActivity,
       coursePerformance,
       monthlyStats,
       // Additional metrics
       totalTestimonials: allTestimonials.length,
-      publishedCourses: instructorCourses.filter(course => course.active).length,
-      averageStudentsPerCourse: totalCourses > 0 ? Math.round(totalStudents / totalCourses) : 0
+      publishedCourses: instructorCourses.filter((course) => course.active)
+        .length,
+      averageStudentsPerCourse:
+        totalCourses > 0 ? Math.round(totalStudents / totalCourses) : 0,
     };
-
   } catch (error) {
     console.error("Error fetching instructor analytics:", error);
     throw new Error("Failed to fetch analytics data");
@@ -727,7 +752,6 @@ export async function getAllCategories() {
     throw new Error(`Failed to fetch categories: ${error.message}`);
   }
 }
-
 
 // ✅ Get Instructor's Courses (Cached per Instructor)
 export const getInstructorCourses = unstable_cache(
@@ -858,9 +882,13 @@ export const getInstructorCourses = unstable_cache(
         }, 0);
 
         // Calculate average rating
-        const averageRating = course.testimonials.length > 0 
-          ? course.testimonials.reduce((sum, testimonial) => sum + (testimonial.rating || 0), 0) / course.testimonials.length
-          : 0;
+        const averageRating =
+          course.testimonials.length > 0
+            ? course.testimonials.reduce(
+                (sum, testimonial) => sum + (testimonial.rating || 0),
+                0
+              ) / course.testimonials.length
+            : 0;
 
         return {
           ...course,
@@ -875,11 +903,16 @@ export const getInstructorCourses = unstable_cache(
         };
       });
 
-      console.log(`✅ Found ${transformedCourses.length} courses for instructor ${instructorId}`);
+      console.log(
+        `✅ Found ${transformedCourses.length} courses for instructor ${instructorId}`
+      );
 
       return transformedCourses;
     } catch (error) {
-      console.error(`❌ Error fetching courses for instructor ${instructorId}:`, error);
+      console.error(
+        `❌ Error fetching courses for instructor ${instructorId}:`,
+        error
+      );
       throw error;
     }
   },

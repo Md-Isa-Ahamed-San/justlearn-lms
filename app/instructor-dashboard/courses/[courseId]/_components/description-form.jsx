@@ -24,33 +24,47 @@ const formSchema = z.object({
   }),
 });
 
-export const DescriptionForm = ({ initialData, courseId }) => {
+export const DescriptionForm = ({ initialData = {}, courseId }) => {
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
+  const [description, setDescription] = useState(initialData?.description);
 
   const toggleEdit = () => setIsEditing((current) => !current);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      description: initialData?.description || "",
-    },
+    defaultValues: initialData,
   });
 
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values) => {
     try {
-      toast.success("Course updated");
+    
+      const response = await fetch(`/api/courses/${courseId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update course");
+      }
+
+      setDescription(values?.description);
+      toast.success("Course updated successfully");
       toggleEdit();
       router.refresh();
     } catch (error) {
+      console.error("Error updating course:", error);
       toast.error("Something went wrong");
     }
   };
 
   return (
-    <div className="mt-6 border  rounded-md p-4">
+    <div className="mt-6 border rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Course Description
         <Button variant="ghost" onClick={toggleEdit}>
@@ -68,10 +82,10 @@ export const DescriptionForm = ({ initialData, courseId }) => {
         <p
           className={cn(
             "text-sm mt-2",
-            !initialData.description && "text-slate-500 italic"
+            !description && "text-slate-500 italic" 
           )}
         >
-          {initialData.description || "No description"}
+          {description || "No description"}
         </p>
       )}
       {isEditing && (

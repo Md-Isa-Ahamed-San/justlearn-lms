@@ -1,17 +1,17 @@
 "use client";
 
 import * as z from "zod";
-// import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner"; // ✅ Using shadcn sonner
 
 import { Button } from "@/components/ui/button";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Pencil } from "lucide-react";
@@ -27,6 +27,7 @@ const formSchema = z.object({
 export const TitleForm = ({ initialData = {}, courseId }) => {
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
+  const [title, setTitle] = useState(initialData?.title || "");
 
   const toggleEdit = () => setIsEditing((current) => !current);
 
@@ -39,11 +40,24 @@ export const TitleForm = ({ initialData = {}, courseId }) => {
 
   const onSubmit = async (values) => {
     try {
-      //   await axios.patch(`/api/courses/${courseId}`, values);
+      // values will be: { title: "whatever the user typed" }
+      const response = await fetch(`/api/courses/${courseId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
 
+      if (!response.ok) {
+        throw new Error("Failed to update course");
+      }
+      setTitle(values?.title);
+      toast.success("Course updated successfully");
       toggleEdit();
       router.refresh();
     } catch (error) {
+      console.error("Error updating course:", error);
       toast.error("Something went wrong");
     }
   };
@@ -52,7 +66,7 @@ export const TitleForm = ({ initialData = {}, courseId }) => {
     <div className="mt-6 border  rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Course title
-        <Button variant="ghost" onClick={toggleEdit}>
+        <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
           ) : (
@@ -63,7 +77,9 @@ export const TitleForm = ({ initialData = {}, courseId }) => {
           )}
         </Button>
       </div>
-      {!isEditing && <p className="text-sm mt-2">{initialData.title}</p>}
+
+      {!isEditing && <p className="text-sm mt-2">{title}</p>}
+
       {isEditing && (
         <Form {...form}>
           <form
@@ -78,7 +94,7 @@ export const TitleForm = ({ initialData = {}, courseId }) => {
                   <FormControl>
                     <Input
                       disabled={isSubmitting}
-                      placeholder="e.g. 'Advanced web development'"
+                      placeholder="e.g. 'Advanced Web Development'"
                       {...field}
                     />
                   </FormControl>
