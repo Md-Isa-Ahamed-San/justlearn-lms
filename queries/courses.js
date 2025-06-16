@@ -45,7 +45,7 @@ export const getCourseList = unstable_cache(
 
 // ✅ Get Course Details by ID (Cached per Course)
 // Modify your database query to ensure proper relations are loaded
-export const getCourseDetailsById = unstable_cache(
+export const getCourseDetailsById = () => {
   async (id) => {
     try {
       const course = await db.course.findUnique({
@@ -70,7 +70,7 @@ export const getCourseDetailsById = unstable_cache(
               user: true,
             },
             orderBy: { createdAt: "desc" },
-            take: 10, // Limit to recent testimonials for performance
+            take: 10,
           },
         },
       });
@@ -80,12 +80,9 @@ export const getCourseDetailsById = unstable_cache(
       console.error(`Error fetching course ${id}:`, error);
       throw error;
     }
-  },
-  (id) => [`course-details-${id}`],
-  {
-    revalidate: REVALIDATE_TIME,
-  }
-);
+  };
+};
+
 // ✅ Get Instructor Stats (Cached per Instructor)
 export const getInstructorDetailedStats = unstable_cache(
   async (instructorId) => {
@@ -198,7 +195,7 @@ export const getInstructorDetailedStats = unstable_cache(
 );
 
 // ✅ Get User's Enrolled Courses (Cached per User)
-export const getUserEnrolledCourses = unstable_cache(
+export const getUserEnrolledCourses = () => {
   async (userId) => {
     try {
       // Add validation for userId
@@ -325,12 +322,8 @@ export const getUserEnrolledCourses = unstable_cache(
       );
       throw error;
     }
-  },
-  (userId) => [`user-enrolled-courses-${userId}`],
-  {
-    revalidate: REVALIDATE_TIME,
-  }
-);
+  };
+};
 
 // ✅ Get User's Enrolled Courses with Detailed Progress (Alternative version)
 export const getUserEnrolledCoursesWithProgress = unstable_cache(
@@ -753,11 +746,9 @@ export async function getAllCategories() {
   }
 }
 
-// ✅ Get Instructor's Courses (Cached per Instructor)
-export const getInstructorCourses = unstable_cache(
+export const getInstructorCourses = () => {
   async (instructorId) => {
     try {
-      // Add validation for instructorId
       if (!instructorId) {
         console.error("❌ No instructorId provided");
         throw new Error("Instructor ID is required");
@@ -765,7 +756,6 @@ export const getInstructorCourses = unstable_cache(
 
       console.log("🔄 Fetching courses for instructor:", instructorId);
 
-      // First, get the instructor record to get the userId
       const instructor = await db.instructor.findUnique({
         where: { id: instructorId },
         select: {
@@ -777,7 +767,6 @@ export const getInstructorCourses = unstable_cache(
         throw new Error(`Instructor with ID ${instructorId} not found`);
       }
 
-      // Get all courses created by this instructor's user account
       const courses = await db.course.findMany({
         where: {
           userId: instructor.userId,
@@ -915,9 +904,5 @@ export const getInstructorCourses = unstable_cache(
       );
       throw error;
     }
-  },
-  (instructorId) => [`instructor-courses-${instructorId}`],
-  {
-    revalidate: REVALIDATE_TIME,
-  }
-);
+  };
+};
