@@ -1,5 +1,4 @@
 import path from "path";
-// next.config.js
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -46,8 +45,7 @@ const nextConfig = {
         pathname: '/**',
       }
     ],
-  },
-  
+  }
 };
 
 export default nextConfig;
