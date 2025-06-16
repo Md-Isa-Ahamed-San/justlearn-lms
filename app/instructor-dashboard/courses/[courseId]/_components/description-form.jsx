@@ -24,7 +24,7 @@ const formSchema = z.object({
   }),
 });
 
-export const DescriptionForm = ({ initialData = {}, courseId }) => {
+export const DescriptionForm = ({ initialData = {}, courseId, revalidate }) => { // Add revalidate prop
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [description, setDescription] = useState(initialData?.description);
@@ -40,7 +40,7 @@ export const DescriptionForm = ({ initialData = {}, courseId }) => {
 
   const onSubmit = async (values) => {
     try {
-    
+
       const response = await fetch(`/api/courses/${courseId}`, {
         method: "PATCH",
         headers: {
@@ -56,7 +56,9 @@ export const DescriptionForm = ({ initialData = {}, courseId }) => {
       setDescription(values?.description);
       toast.success("Course updated successfully");
       toggleEdit();
-      router.refresh();
+      if (revalidate) {  //Check if revalidate function exist
+          revalidate(); // Call the revalidate function
+      }
     } catch (error) {
       console.error("Error updating course:", error);
       toast.error("Something went wrong");
@@ -82,7 +84,7 @@ export const DescriptionForm = ({ initialData = {}, courseId }) => {
         <p
           className={cn(
             "text-sm mt-2",
-            !description && "text-slate-500 italic" 
+            !description && "text-slate-500 italic"
           )}
         >
           {description || "No description"}

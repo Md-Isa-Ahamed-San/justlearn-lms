@@ -18,7 +18,7 @@ import { getCourseDetailsById } from "../../../../queries/courses";
 export const dynamic = "force-dynamic";
 const EditCourse = async ({ params }) => {
   const { courseId } = params;
-  // console.log(" EditCourse ~ courseId:", courseId)
+  console.log(" EditCourse ~ courseId:", courseId)
   let courseData = null;
   if (courseId) {
     courseData = await getCourseDetailsById(courseId);
