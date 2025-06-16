@@ -183,25 +183,25 @@ export const columns = [
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                        <Link href={`/dashboard/courses/${id}`}>
+                        <Link href={`/instructor-dashboard/courses/${id}`}>
                             <DropdownMenuItem className="cursor-pointer">
                                 <Pencil className="h-4 w-4 mr-2" />
                                 Edit Course
                             </DropdownMenuItem>
                         </Link>
-                        <Link href={`/dashboard/courses/${id}/weeks`}>
+                        <Link href={`/instructor-dashboard/courses/${id}/weeks`}>
                             <DropdownMenuItem className="cursor-pointer">
                                 <Calendar className="h-4 w-4 mr-2" />
                                 Manage Weeks
                             </DropdownMenuItem>
                         </Link>
-                        <Link href={`/dashboard/courses/${id}/enrollments`}>
+                        <Link href={`/instructor-dashboard/courses/${id}/enrollments`}>
                             <DropdownMenuItem className="cursor-pointer">
                                 <GraduationCap className="h-4 w-4 mr-2" />
                                 View Enrollments
                             </DropdownMenuItem>
                         </Link>
-                        <Link href={`/dashboard/courses/${id}/reviews`}>
+                        <Link href={`/instructor-dashboard/courses/${id}/reviews`}>
                             <DropdownMenuItem className="cursor-pointer">
                                 <Star className="h-4 w-4 mr-2" />
                                 View Reviews

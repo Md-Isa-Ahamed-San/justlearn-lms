@@ -1,14 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import { ImageIcon, Pencil, PlusCircle, Upload, X } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 import { toast } from "sonner";
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import { uploadToCloudinary } from "@/utils/uploadToCloudinary";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   imageUrl: z.string().min(1, {
@@ -147,6 +147,7 @@ export const ImageForm = ({ initialData = {}, courseId }) => {
               fill
               className="object-cover rounded-md"
               src={imageUrl}
+              sizes="40vw"
             />
           </div>
         ))}
