@@ -236,7 +236,7 @@ const DashboardPage = async () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {analytics.recentActivity.length > 0 ? (
+              {analytics?.recentActivity?.length > 0 ? (
                 analytics.recentActivity.map((activity) => (
                   <div key={activity.id} className="flex items-center space-x-3">
                     <Avatar className="h-8 w-8">

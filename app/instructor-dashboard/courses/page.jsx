@@ -22,7 +22,11 @@ const CoursesPage = async () => {
   }
 
   const userData = serverUserData?.userData;
-  const courses = await getInstructorCourses(userData?.instructor?.id);
+  console.log(" CoursesPage ~ userData:", userData)
+  let courses = [];
+  if(userData){
+    courses = await getInstructorCourses(userData?.instructor?.id);
+  }
   chalkLog.log(" CoursesPage ~ courses of a instructor:", courses);
 
   return (

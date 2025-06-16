@@ -21,10 +21,10 @@ const EditCourse = async ({ params }) => {
   const { courseId } = params;
   // chalkLog.log(" EditCourse ~ courseId:", courseId)
   let courseData = null;
-  if (courseId) {
+  // if (courseId) {
     courseData = await getCourseDetailsById(courseId);
     // chalkLog.log(" EditCourse ~ courseData:", courseData);
-  }
+  // }
   return (
     <>
       <AlertBanner
