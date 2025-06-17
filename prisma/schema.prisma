@@ -213,6 +213,7 @@ model Week {
   aiQuizContextPrompt         String? // Context prompt for AI quiz generation
   aiQuizDefaultNumMCQ         Int?     @default(5)
   aiQuizDefaultNumShortAnswer Int?     @default(2)
+  quizIds                     String[] @db.ObjectId // Array of quiz IDs
   createdAt                   DateTime @default(now())
   updatedAt                   DateTime @updatedAt
 
@@ -224,10 +225,59 @@ model Week {
   lessons         Lesson[]
   resources       Resource[]
   watches         Watch[]
-  quizzes         Quiz[]           @relation("WeekQuizzes")
   aiQuizTemplates AIQuizTemplate[] @relation("WeekAITemplates")
+  // index
+  @@index([quizIds])
 }
 
+// MARK: Quiz 
+model Quiz {
+  id          String         @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  slug        String
+  status      QuizStatus     @default(draft)
+  source      QuizSource     @default(manual)
+  accessType  QuizAccessType @default(instructor_created)
+  active      Boolean        @default(true)
+  weekIds     String[]       @db.ObjectId // Array of week IDs
+
+  // AI Generation fields
+  aiPrompt               String? // Custom prompt from instructor or stored prompt
+  aiContextData          Json? // Week content, lessons, resources for AI context
+  targetMcqCount         Int?    @default(5)
+  targetShortAnswerCount Int?    @default(2)
+  targetLongAnswerCount  Int?    @default(1)
+  aiGenerationStatus     String? // 'pending', 'in_progress', 'completed', 'failed'
+  aiGenerationError      String? // Error message if generation fails
+
+  // Time and attempt controls
+  timeLimit              Int? // Time limit in minutes
+  maxAttempts            Int?    @default(3)
+  showResultsImmediately Boolean @default(true)
+  shuffleQuestions       Boolean @default(false)
+  shuffleOptions         Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Foreign Keys
+  createdByUserId String  @db.ObjectId
+  targetStudentId String? @db.ObjectId // For student-personal quizzes
+
+  // Relationships
+  createdBy        User              @relation("UserCreatedQuizzes", fields: [createdByUserId], references: [id])
+  targetStudent    Student?          @relation("StudentPersonalQuizzes", fields: [targetStudentId], references: [id])
+  questions        Question[]
+  submissions      QuizSubmission[]
+  aiGenerationLogs AIGenerationLog[]
+  liveSession      Live?             @relation("QuizLiveSession")
+
+  //Indexing to speed up queries
+  @@index([status, active])
+  @@index([createdByUserId, createdAt])
+  @@index([weekIds]) // Index for the weekIds array
+}
 // MARK: Lesson
 model Lesson {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -251,55 +301,6 @@ model Lesson {
   watches Watch[]
 }
 
-// MARK: Quiz (Merged Quiz and QuizSet functionality)
-model Quiz {
-  id          String         @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  description String
-  slug        String
-  status      QuizStatus     @default(draft)
-  source      QuizSource     @default(manual)
-  accessType  QuizAccessType @default(instructor_created)
-  active      Boolean        @default(true)
-
-  // AI Generation fields
-  aiPrompt               String? // Custom prompt from instructor or stored prompt
-  aiContextData          Json? // Week content, lessons, resources for AI context
-  targetMcqCount         Int?    @default(5)
-  targetShortAnswerCount Int?    @default(2)
-  targetLongAnswerCount  Int?    @default(1)
-  aiGenerationStatus     String? // 'pending', 'in_progress', 'completed', 'failed'
-  aiGenerationError      String? // Error message if generation fails
-
-  // Time and attempt controls
-  timeLimit              Int? // Time limit in minutes
-  maxAttempts            Int?    @default(3)
-  showResultsImmediately Boolean @default(true)
-  shuffleQuestions       Boolean @default(false)
-  shuffleOptions         Boolean @default(false)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Foreign Keys
-  weekId          String? @db.ObjectId
-  createdByUserId String  @db.ObjectId
-  targetStudentId String? @db.ObjectId // For student-personal quizzes
-
-  // Relationships
-  week             Week?             @relation("WeekQuizzes", fields: [weekId], references: [id])
-  createdBy        User              @relation("UserCreatedQuizzes", fields: [createdByUserId], references: [id])
-  targetStudent    Student?          @relation("StudentPersonalQuizzes", fields: [targetStudentId], references: [id])
-  questions        Question[]
-  submissions      QuizSubmission[]
-  aiGenerationLogs AIGenerationLog[]
-  liveSession      Live?             @relation("QuizLiveSession")
-
-  //Indexing to speed up queries
-  @@index([status, active])
-  @@index([weekId, status])
-  @@index([createdByUserId, createdAt])
-}
 
 // MARK: Question
 model Question {
@@ -327,7 +328,7 @@ model AIQuizTemplate {
   id                      String   @id @default(auto()) @map("_id") @db.ObjectId
   title                   String
   description             String?
-  instructorPrompt        String // Pre-recorded instructor prompt
+  instructorPrompt        String
   defaultMcqCount         Int      @default(5)
   defaultShortAnswerCount Int      @default(2)
   defaultLongAnswerCount  Int      @default(1)
@@ -336,12 +337,12 @@ model AIQuizTemplate {
   updatedAt               DateTime @updatedAt
 
   // Foreign Keys
-  weekId String @db.ObjectId
-  userId String @db.ObjectId // This is the foreign key field
+  userId String @db.ObjectId
+  weekId String @db.ObjectId // ✅ Revert to single weekId
 
   // Relationships
-  week Week @relation("WeekAITemplates", fields: [weekId], references: [id])
   user User @relation("UserAIQuizTemplates", fields: [userId], references: [id])
+  week Week @relation("WeekAITemplates", fields: [weekId], references: [id]) // ✅ Add back the week relation
 }
 
 // MARK: QuizSubmission
