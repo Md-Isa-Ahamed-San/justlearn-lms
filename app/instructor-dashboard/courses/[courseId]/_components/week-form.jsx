@@ -34,7 +34,7 @@ const initialModules = [
     title: "Module 2",
   },
 ];
-export const ModulesForm = ({ initialData, courseId }) => {
+export const WeeksForm = ({ initialData, courseId }) => {
   const [modules, setModules] = useState(initialModules);
   const router = useRouter();
   const [isCreating, setIsCreating] = useState(false);
@@ -83,7 +83,7 @@ export const ModulesForm = ({ initialData, courseId }) => {
   };
 
   const onEdit = (id) => {
-    router.push(`/dashboard/courses/1/modules/${1}`);
+    router.push(`/instructor-dashboard/courses/1/modules/${1}`);
   };
 
   return (
@@ -94,7 +94,7 @@ export const ModulesForm = ({ initialData, courseId }) => {
         </div>
       )}
       <div className="font-medium flex items-center justify-between">
-        Course Modules
+        Course Weeks
         <Button variant="ghost" onClick={toggleCreating}>
           {isCreating ? (
             <>Cancel</>

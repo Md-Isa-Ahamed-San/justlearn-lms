@@ -195,10 +195,10 @@ export const columns = [
                                 Manage Weeks
                             </DropdownMenuItem>
                         </Link>
-                        <Link href={`/instructor-dashboard/courses/${id}/enrollments`}>
+                        <Link href={`/instructor-dashboard/courses/${id}/allJoinedStudents`}>
                             <DropdownMenuItem className="cursor-pointer">
                                 <GraduationCap className="h-4 w-4 mr-2" />
-                                View Enrollments
+                                View All Students
                             </DropdownMenuItem>
                         </Link>
                         <Link href={`/instructor-dashboard/courses/${id}/reviews`}>

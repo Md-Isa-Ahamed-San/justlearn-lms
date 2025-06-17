@@ -8,7 +8,7 @@ import {
 import { CategoryForm } from "./_components/category-form";
 import { DescriptionForm } from "./_components/description-form";
 import { ImageForm } from "./_components/image-form";
-import { ModulesForm } from "./_components/module-form";
+import { WeeksForm } from "./_components/week-form";
 import { PriceForm } from "./_components/price-form";
 import { TitleForm } from "./_components/title-form";
 import { CourseActions } from "./_components/course-action";
@@ -66,10 +66,10 @@ const EditCourse = async ({ params }) => {
             <div>
               <div className="flex items-center gap-x-2 mb-6">
                 <IconBadge icon={ListChecks} />
-                <h2 className="text-xl">Course Modules</h2>
+                <h2 className="text-xl">Course Weeks</h2>
               </div>
 
-              <ModulesForm initialData={[]} courseId={courseData?.id} />
+              <WeeksForm initialData={[]} courseId={courseData?.id} />
             </div>
           </div>
         </div>

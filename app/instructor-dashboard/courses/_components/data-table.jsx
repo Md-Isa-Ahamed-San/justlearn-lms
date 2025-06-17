@@ -55,7 +55,7 @@ export function DataTable({ columns, data }) {
           }
           className="max-w-sm"
         />
-        <Link href="/dashboard/courses/add">
+        <Link href="/instructor-dashboard/courses/add">
           <Button>
             <PlusCircle className="h-4 w-4 mr-2" />
             New Course

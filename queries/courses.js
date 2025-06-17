@@ -893,3 +893,45 @@ export const getInstructorCourses = async (instructorId) => {
     return []; // Return empty array on error instead of throwing
   }
 };
+
+export async function getStudentsInCourse(courseId) {
+  try {
+    const participations = await db.participation.findMany({
+      where: {
+        courseId: courseId,
+      },
+      include: {
+        user: {
+          include: {
+            student: true, // Eagerly load the student profile
+          },
+        },
+      },
+    });
+
+    if (!participations) {
+      return []; // Return an empty array if no participations found
+    }
+
+    // Filter for users who are students and extract student details
+    const students = participations.map((participation) => {
+      const user = participation.user;
+
+      if (user.student) {
+        return {
+          userId: user.id,
+          name: user.name,
+          email: user.email,
+          studentDetails: user.student, // The complete Student model
+          participationData: participation.progress,
+        };
+      }
+      return null; // Filter out non-student users
+    }).filter(student => student !== null); // Remove null entries
+    console.log("ss:",students)
+    return students;
+  } catch (error) {
+    console.error("Error fetching students in course:", error);
+    return []; // Return an empty array in case of an error
+  }
+}
