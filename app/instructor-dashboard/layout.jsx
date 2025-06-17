@@ -29,67 +29,12 @@ const DashboardLayout = async ({ children }) => {
     );
     serverUserData = null;
   }
-  const navLinks = [
-    {
-      title: "Home",
-      icon: <IconHome className="h-full w-full " />,
-      href: "/",
-    },
-    {
-      title: "Courses",
-      icon: <IconBooks className="h-full w-full " />,
-      href: "/courses",
-    },
 
-    {
-      title: "Weekly Quizzes",
-      icon: <IconListCheck className="h-full w-full " />,
-      href: "/quizzes",
-    },
-    {
-      title: "AI Quiz Generator",
-      icon: <IconRobot className="h-full w-full " />,
-      href: "/ai",
-    },
-    {
-      title: "Admin",
-      icon: <IconSettings className="h-full w-full " />,
-      href: "/admin",
-    },
-  ];
-  // console.log(" MainLayout ~ serverUserData:", serverUserData)
-  if (serverUserData?.userData?.role === "admin") {
-    navLinks.push({
-      title: "Admin Dashboard",
-      icon: (
-        <IconLayoutDashboard className="w-full h-full text-neutral-500 dark:text-neutral-300" />
-      ),
-      href: "/admin-dashboard",
-    });
-  }
-
-  if (serverUserData?.userData?.role === "student") {
-    navLinks.push({
-      title: "Student Dashboard",
-      icon: (
-        <IconUser className="w-full h-full text-neutral-500 dark:text-neutral-300" />
-      ),
-      href: "/student-dashboard",
-    });
-
-    navLinks.push({
-      title: "Enrolled Courses",
-      icon: (
-        <IconNotebook className="w-full h-full text-neutral-500 dark:text-neutral-300" />
-      ),
-      href: "/account/enrolled-courses",
-    });
-  }
   return (
   <div className="h-screen flex flex-col">
     <header className=" border-b shadow-sm z-10"> {/* Optional: Add background color/shadow to the header */}
       <div className="container flex h-20 items-center justify-between py-2 px-4 w-full"> {/* Adjusted height and padding */}
-        <MainNav items={navLinks} />
+        <MainNav />
       </div>
     </header>
 

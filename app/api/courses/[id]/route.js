@@ -1,5 +1,6 @@
-import { db } from "../../../../lib/prisma";
+
 import { NextResponse } from "next/server";
+import { db } from "../../../../lib/prisma";
 export async function GET(request, { params }) {
   const { id } = params;
   console.log(" GET ~ id:", id);

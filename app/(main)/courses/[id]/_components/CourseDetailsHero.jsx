@@ -5,13 +5,19 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
 import { Play } from "lucide-react";
+import ClassJoin from "./ClassJoin";
 
 const CourseDetailsHero = ({
   categoryTitle,
   title,
   description,
   thumbnail,
+  isJoined,
+  userId,
+  courseId
 }) => {
+
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-b pt-20">
       <div className="absolute inset-0 bg-[url('/placeholder.svg?height=800&width=1600')] bg-cover bg-center opacity-5"></div>
@@ -24,6 +30,7 @@ const CourseDetailsHero = ({
           <p className="mt-3 text-lg  sm:mx-auto sm:mt-5 sm:max-w-xl sm:text-xl md:mt-5">
             {description}
           </p>
+          <ClassJoin isJoined={isJoined} userId={userId} courseId={courseId}/>
         </div>
       </div>
     </section>
