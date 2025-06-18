@@ -16,14 +16,11 @@ datasource db {
 enum QuizSource {
   manual
   ai_instructor_generated
-  ai_student_generated
 }
 
 enum QuizStatus {
   draft
   published
-  archived
-  generating
 }
 
 enum QuestionType {
@@ -52,6 +49,13 @@ enum Role {
 enum Visibility {
   public
   private
+}
+
+// NEW: Quiz generation type enum
+enum QuizGenerationType {
+  manual // Type 1: Manual questions
+  ai_fixed // Type 2: AI generates fixed set
+  ai_pool // Type 3: AI generates pool, students get random subset
 }
 
 // MARK: User
@@ -132,7 +136,7 @@ model Student {
 
   // Relationships
   user            User   @relation("UserStudent", fields: [userId], references: [id])
-  personalQuizzes Quiz[] @relation("StudentPersonalQuizzes")
+
 }
 
 // MARK: Admin
@@ -226,6 +230,7 @@ model Week {
   resources       Resource[]
   watches         Watch[]
   aiQuizTemplates AIQuizTemplate[] @relation("WeekAITemplates")
+
   // index
   @@index([quizIds])
 }
@@ -235,39 +240,34 @@ model Quiz {
   id          String         @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
-  slug        String
   status      QuizStatus     @default(draft)
-  source      QuizSource     @default(manual)
-  accessType  QuizAccessType @default(instructor_created)
+  source      QuizSource    
   active      Boolean        @default(true)
   weekIds     String[]       @db.ObjectId // Array of week IDs
+
+  // NEW: Question Pool Configuration
+  generationType      QuizGenerationType? 
+  poolSize            Int?               @default(0) // Total questions in pool (for ai_pool type)
+  questionsPerStudent Int?               @default(5) // Questions each student gets
 
   // AI Generation fields
   aiPrompt               String? // Custom prompt from instructor or stored prompt
   aiContextData          Json? // Week content, lessons, resources for AI context
   targetMcqCount         Int?    @default(5)
-  targetShortAnswerCount Int?    @default(2)
-  targetLongAnswerCount  Int?    @default(1)
-  aiGenerationStatus     String? // 'pending', 'in_progress', 'completed', 'failed'
-  aiGenerationError      String? // Error message if generation fails
-
   // Time and attempt controls
-  timeLimit              Int? // Time limit in minutes
-  maxAttempts            Int?    @default(3)
+  timeLimit              Int?    @default(5) // Time limit in minutes
+  maxAttempts            Int?    @default(1)
   showResultsImmediately Boolean @default(true)
-  shuffleQuestions       Boolean @default(false)
-  shuffleOptions         Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // Foreign Keys
   createdByUserId String  @db.ObjectId
-  targetStudentId String? @db.ObjectId // For student-personal quizzes
 
   // Relationships
   createdBy        User              @relation("UserCreatedQuizzes", fields: [createdByUserId], references: [id])
-  targetStudent    Student?          @relation("StudentPersonalQuizzes", fields: [targetStudentId], references: [id])
+ 
   questions        Question[]
   submissions      QuizSubmission[]
   aiGenerationLogs AIGenerationLog[]
@@ -277,7 +277,9 @@ model Quiz {
   @@index([status, active])
   @@index([createdByUserId, createdAt])
   @@index([weekIds]) // Index for the weekIds array
+  @@index([generationType]) // NEW: Index for question pool queries
 }
+
 // MARK: Lesson
 model Lesson {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -301,7 +303,6 @@ model Lesson {
   watches Watch[]
 }
 
-
 // MARK: Question
 model Question {
   id            String       @id @default(auto()) @map("_id") @db.ObjectId
@@ -312,8 +313,14 @@ model Question {
   explanation   String?
   mark          Int          @default(1)
   order         Int          @default(0)
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
+
+  // NEW: Question Pool fields
+  isFromPool Boolean @default(false) // True if this question is part of an AI-generated pool
+  poolOrder  Int? // Order within the pool (for ai_pool type questions)
+  difficulty String? // Optional: easy, medium, hard
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Foreign Keys
   quizId String @db.ObjectId
@@ -321,7 +328,12 @@ model Question {
   // Relationships
   quiz           Quiz            @relation(fields: [quizId], references: [id])
   studentAnswers StudentAnswer[]
+  // Removed studentQuizQuestions reference since StudentQuizQuestion model was removed
+
+  @@index([quizId, isFromPool]) // NEW: Index for pool question queries
 }
+
+// Removed StudentQuizQuestion table - using client-side random selection instead
 
 // MARK: AIQuizTemplate
 model AIQuizTemplate {
@@ -338,11 +350,11 @@ model AIQuizTemplate {
 
   // Foreign Keys
   userId String @db.ObjectId
-  weekId String @db.ObjectId // ✅ Revert to single weekId
+  weekId String @db.ObjectId
 
   // Relationships
   user User @relation("UserAIQuizTemplates", fields: [userId], references: [id])
-  week Week @relation("WeekAITemplates", fields: [weekId], references: [id]) // ✅ Add back the week relation
+  week Week @relation("WeekAITemplates", fields: [weekId], references: [id])
 }
 
 // MARK: QuizSubmission
@@ -365,6 +377,7 @@ model QuizSubmission {
   user           User            @relation("UserQuizSubmissions", fields: [userId], references: [id])
   quiz           Quiz            @relation(fields: [quizId], references: [id])
   studentAnswers StudentAnswer[]
+  // Removed studentQuizQuestions - using client-side random selection
 }
 
 // MARK: StudentAnswer

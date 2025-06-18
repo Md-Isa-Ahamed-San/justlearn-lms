@@ -83,7 +83,7 @@ export const WeeksForm = ({ initialData, courseId }) => {
   };
 
   const onEdit = (id) => {
-    router.push(`/instructor-dashboard/courses/1/modules/${1}`);
+    router.push(`/instructor-dashboard/courses/1/week/${1}`);
   };
 
   return (

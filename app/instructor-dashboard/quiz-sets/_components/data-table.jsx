@@ -55,7 +55,7 @@ export function DataTable({ columns, data }) {
           }
           className="max-w-sm"
         />
-        <Link href="/dashboard/quiz-sets/add">
+        <Link href="/instructor-dashboard/quiz-sets/add">
           <Button>
             <PlusCircle className="h-4 w-4 mr-2" />
             New Quiz Set

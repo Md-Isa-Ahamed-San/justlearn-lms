@@ -6,7 +6,7 @@ import { useContext, useState } from "react";
 
 import { Logo } from "@/components/logo";
 import { MobileNav } from "@/components/mobile-nav";
-import { Menu, X,LayoutDashboard } from "lucide-react";
+import { Menu, X, LayoutDashboard, FilePlus2, NotebookPen } from "lucide-react";
 import { Button, buttonVariants } from "./ui/button";
 import {
   IconHome,
@@ -34,10 +34,7 @@ import {
 } from "./ui/dropdown-menu";
 import { useUserData } from "../provider/user-data-provider";
 
-
-
 export function MainNav({ items, children }) {
-  
   const { data: session, status, update } = useSession();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const { userData, setUserData } = useUserData();
@@ -65,17 +62,6 @@ export function MainNav({ items, children }) {
       title: "Courses",
       icon: <IconBooks className="h-full w-full " />,
       href: "/courses",
-    },
-
-    {
-      title: "Weekly Quizzes",
-      icon: <IconListCheck className="h-full w-full " />,
-      href: "/quizzes",
-    },
-    {
-      title: "AI Quiz Generator",
-      icon: <IconRobot className="h-full w-full " />,
-      href: "/ai",
     },
   ];
 
@@ -111,7 +97,6 @@ export function MainNav({ items, children }) {
     navLinks.push({
       title: "Manage Courses",
       icon: (
-       
         <LayoutDashboard className="w-full h-full text-neutral-500 dark:text-neutral-300" />
       ),
       href: "/instructor-dashboard/courses",
@@ -124,8 +109,23 @@ export function MainNav({ items, children }) {
       ),
       href: "/account/enrolled-courses",
     });
-  }
 
+navLinks.push({
+  title: "Quizzes",
+  icon: (
+    <NotebookPen                                                                                                                          className="w-full h-full text-neutral-500 dark:text-neutral-300" />
+  ),
+  href: "/instructor-dashboard/quiz-sets",
+});
+
+navLinks.push({
+  title: "Create a Quiz",
+  icon: (
+    <FilePlus2 className="w-full h-full text-neutral-500 dark:text-neutral-300" />
+  ),
+  href: "/instructor-dashboard/quiz-sets/add",
+});
+  }
 
   return (
     <div className="flex justify-between items-center w-full px-4 py-3">
