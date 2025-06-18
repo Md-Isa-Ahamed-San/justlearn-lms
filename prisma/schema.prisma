@@ -135,8 +135,7 @@ model Student {
   userId String @unique @db.ObjectId
 
   // Relationships
-  user            User   @relation("UserStudent", fields: [userId], references: [id])
-
+  user User @relation("UserStudent", fields: [userId], references: [id])
 }
 
 // MARK: Admin
@@ -237,18 +236,18 @@ model Week {
 
 // MARK: Quiz 
 model Quiz {
-  id          String         @id @default(auto()) @map("_id") @db.ObjectId
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
-  status      QuizStatus     @default(draft)
-  source      QuizSource    
-  active      Boolean        @default(true)
-  weekIds     String[]       @db.ObjectId // Array of week IDs
+  status      QuizStatus @default(draft)
+  source      QuizSource?
+  active      Boolean    @default(true)
+  weekIds     String[]   @db.ObjectId // Array of week IDs
 
   // NEW: Question Pool Configuration
-  generationType      QuizGenerationType? 
-  poolSize            Int?               @default(0) // Total questions in pool (for ai_pool type)
-  questionsPerStudent Int?               @default(5) // Questions each student gets
+  generationType      QuizGenerationType?
+  poolSize            Int?                @default(0) // Total questions in pool (for ai_pool type)
+  questionsPerStudent Int?                @default(5) // Questions each student gets
 
   // AI Generation fields
   aiPrompt               String? // Custom prompt from instructor or stored prompt
@@ -263,11 +262,11 @@ model Quiz {
   updatedAt DateTime @updatedAt
 
   // Foreign Keys
-  createdByUserId String  @db.ObjectId
+  createdByUserId String @db.ObjectId
 
   // Relationships
-  createdBy        User              @relation("UserCreatedQuizzes", fields: [createdByUserId], references: [id])
- 
+  createdBy User @relation("UserCreatedQuizzes", fields: [createdByUserId], references: [id])
+
   questions        Question[]
   submissions      QuizSubmission[]
   aiGenerationLogs AIGenerationLog[]
@@ -303,34 +302,32 @@ model Lesson {
   watches Watch[]
 }
 
+
 // MARK: Question
 model Question {
   id            String       @id @default(auto()) @map("_id") @db.ObjectId
-  type          QuestionType
-  prompt        String
-  options       Json? // Array of options for MCQ
-  correctAnswer Json // Correct answer(s), e.g., "A", or ["A", "C"]
-  explanation   String?
+  type          QuestionType @default(mcq)
+  text          String       // The actual question text
+  options       Json?        // Array of options for MCQ (null for short/long answer)
+  correctAnswer Json         // Correct answer(s), e.g., "A", or ["A", "C"] for MCQ, text for others
   mark          Int          @default(1)
   order         Int          @default(0)
-
-  // NEW: Question Pool fields
-  isFromPool Boolean @default(false) // True if this question is part of an AI-generated pool
-  poolOrder  Int? // Order within the pool (for ai_pool type questions)
-  difficulty String? // Optional: easy, medium, hard
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
+  
+  // Question Pool fields
+  isFromPool    Boolean      @default(false) // True if this question is part of an AI-generated pool
+  
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  
   // Foreign Keys
-  quizId String @db.ObjectId
-
+  quizId        String       @db.ObjectId
+  
   // Relationships
   quiz           Quiz            @relation(fields: [quizId], references: [id])
   studentAnswers StudentAnswer[]
-  // Removed studentQuizQuestions reference since StudentQuizQuestion model was removed
-
-  @@index([quizId, isFromPool]) // NEW: Index for pool question queries
+  
+  @@index([quizId, isFromPool])
+  @@index([quizId, order]) // Additional index for question ordering
 }
 
 // Removed StudentQuizQuestion table - using client-side random selection instead

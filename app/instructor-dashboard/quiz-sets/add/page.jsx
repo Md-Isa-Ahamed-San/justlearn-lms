@@ -1,30 +1,28 @@
 "use client";
 import * as z from "zod";
-// import axios from "axios"; // You'll likely need this for the actual API call
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription, // Optional: if you want to add a description under the label
   FormField,
   FormItem,
   FormLabel,
   FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea"; // Using Textarea for description
+import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { useUserData } from "../../../../provider/user-data-provider";
 
-// 1. Update Zod schema
 const formSchema = z.object({
   title: z.string().min(1, {
     message: "Title is required!",
   }),
-  description: z.string().min(1, { // Assuming description is also required
+  description: z.string().min(1, {
     message: "Description is required!",
   }),
 });
@@ -32,28 +30,50 @@ const formSchema = z.object({
 const AddQuizSet = () => {
   const router = useRouter();
 
-  // 2. Update defaultValues
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
-      description: "", // Add default for description
+      description: "",
     },
   });
+
+  const {userData} = useUserData()
 
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values) => {
+    let instructorId = userData?.userData?.id
+    let payloads = {...values,instructorId}
     try {
-      // TODO: Replace with actual API call
-      // const response = await axios.post("/api/quiz-sets", values);
-      // router.push(`/instructor-dashboard/quiz-sets/${response.data.id}`);
-      console.log("Form values:", values); // For now, just log
-      router.push(`/instructor-dashboard/quiz-sets/${1}`); // Placeholder ID
-      toast.success("Quiz Set Created");
+      const response = await fetch("/api/quiz", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payloads),
+      });
+
+      if (!response.ok) {
+ 
+        const errorData = await response.json().catch(() => ({ message: "An unknown error occurred" }));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      }
+
+      const responseData = await response.json(); // Parse the JSON response from the API
+
+      if (responseData && responseData.id) {
+        toast.success("Quiz Set Created!");
+        router.push(`/instructor-dashboard/quiz-sets/${responseData.id}`); // Use the ID from the API response
+      } else {
+        // This case should ideally not happen if the API is well-behaved on success
+        console.error("API response missing ID:", responseData);
+        toast.error("Quiz Set created, but failed to get ID for redirection.");
+      }
+
     } catch (error) {
       console.error("Error creating quiz set:", error);
-      toast.error("Something went wrong");
+      toast.error(error.message || "Something went wrong while creating the quiz set.");
     }
   };
 
@@ -65,7 +85,6 @@ const AddQuizSet = () => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-8 mt-8"
           >
-            {/* title */}
             <FormField
               control={form.control}
               name="title"
@@ -83,8 +102,6 @@ const AddQuizSet = () => {
                 </FormItem>
               )}
             />
-
-            {/* 3. Add FormField for description */}
             <FormField
               control={form.control}
               name="description"
@@ -92,22 +109,17 @@ const AddQuizSet = () => {
                 <FormItem>
                   <FormLabel>Quiz Set Description</FormLabel>
                   <FormControl>
-                    <Textarea // Using Textarea for potentially longer descriptions
+                    <Textarea
                       disabled={isSubmitting}
                       placeholder="e.g 'A comprehensive quiz covering the fundamental concepts of algebra...'"
-                      rows={5} // Optional: suggest a number of rows
+                      rows={5}
                       {...field}
                     />
                   </FormControl>
-                  {/* Optional: Add a FormDescription if needed */}
-                  {/* <FormDescription>
-                    Provide a brief overview of what this quiz set covers.
-                  </FormDescription> */}
                   <FormMessage />
                 </FormItem>
               )}
             />
-
             <div className="flex items-center gap-x-2">
               <Link href="/instructor-dashboard/quiz-sets">
                 <Button variant="outline" type="button">

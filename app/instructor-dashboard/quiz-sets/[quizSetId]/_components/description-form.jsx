@@ -1,64 +1,55 @@
-// ./_components/description-form.jsx
 "use client";
 
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea"; // Use Textarea for description
-import { Pencil } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-// import axios from "axios"; // For actual API call
+import { Pencil } from "lucide-react";
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
 const formSchema = z.object({
-  description: z.string().min(1, {
-    message: "Description is required",
-  }),
+  description: z.string().min(1, "Description is required"),
 });
 
 export const DescriptionForm = ({ initialData, quizId, onUpdate }) => {
   const [isEditing, setIsEditing] = useState(false);
+
   const toggleEdit = () => setIsEditing((current) => !current);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: { description: initialData?.description || "" },
+    defaultValues: {
+      description: initialData?.description || "",
+    },
   });
 
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values) => {
     try {
-      // await axios.patch(`/api/quiz-sets/${quizId}`, values);
-      console.log("Updating description:", quizId, values);
-      toast.success("Quiz description updated");
-      onUpdate(values.description); // Update parent state
+      if (onUpdate) {
+        await onUpdate(values.description);
+      }
       toggleEdit();
-    } catch {
+    } catch (error) {
       toast.error("Something went wrong");
     }
   };
-   // Update form defaultValues if initialData changes
-   useState(() => {
-    if (initialData) {
-      form.reset({ description: initialData.description || "" });
-    }
-  }, [initialData, form]);
-
 
   return (
     <div className="mt-6 border  rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Quiz Set Description
+        Quiz Description
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
@@ -72,7 +63,7 @@ export const DescriptionForm = ({ initialData, quizId, onUpdate }) => {
       </div>
       {!isEditing && (
         <p className="text-sm mt-2">
-          {initialData?.description || "No description provided."}
+          {initialData?.description || "No description set"}
         </p>
       )}
       {isEditing && (
@@ -89,9 +80,9 @@ export const DescriptionForm = ({ initialData, quizId, onUpdate }) => {
                   <FormControl>
                     <Textarea
                       disabled={isSubmitting}
-                      placeholder="e.g. 'A comprehensive quiz about...'"
+                      placeholder="e.g. 'This quiz covers the fundamentals of React components...'"
+                      rows={4}
                       {...field}
-                      rows={5}
                     />
                   </FormControl>
                   <FormMessage />

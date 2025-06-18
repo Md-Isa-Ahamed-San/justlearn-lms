@@ -1,36 +1,81 @@
-// ./_components/ai-fixed-quiz-generator.jsx
 "use client";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label"; // Assuming you have a Label component
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { toast } from "sonner";
-// import axios from "axios"; // For actual API call
 import { Loader2 } from "lucide-react";
-import { ManualQuizEditor } from "./manual-quiz-editor"; // To display/edit generated questions
+import { ManualQuizEditor } from "./manual-quiz-editor";
 
-// Mock API
+// Fixed Mock API with correct field structure
 const generateFixedQuizAPI = async (quizId, data) => {
   console.log("Generating fixed AI quiz:", quizId, data);
-  // const response = await axios.post(`/api/quiz-sets/${quizId}/generate-fixed`, data);
-  // return response.data.questions; // Assuming API returns the generated questions
-  await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate delay
-  return [
-    { id: "ai-q1", type: "mcq", prompt: "AI Generated: What is React?", options: [{label: "A library", isCorrect: true}, {label: "A framework", isCorrect: false}], explanation: "React is a JS library.", mark:1, order:0 },
-    { id: "ai-q2", type: "short_answer", prompt: "AI Generated: What is the capital of France?", correctAnswer: "Paris", explanation: "Paris is the capital.", mark:1, order:1 },
-  ];
-}
-
+  await new Promise(resolve => setTimeout(resolve, 2000));
+  
+  // Generate questions based on target counts
+  const questions = [];
+  let questionId = 1;
+  
+  // Generate MCQ questions
+  for (let i = 0; i < data.targetMcq; i++) {
+    questions.push({
+      id: `ai-mcq-${questionId++}`,
+      type: "mcq",
+      text: `AI Generated MCQ ${i + 1}: What is a key concept in the provided context?`,
+      options: [
+        { label: "First concept", isCorrect: i === 0 },
+        { label: "Second concept", isCorrect: i === 1 },
+        { label: "Third concept", isCorrect: i > 1 },
+        { label: "None of the above", isCorrect: false }
+      ],
+      correctAnswer: i === 0 ? "A" : i === 1 ? "B" : "C",
+      explanation: `This is the explanation for MCQ ${i + 1}`,
+      mark: 1,
+      order: questions.length,
+      isFromPool: false
+    });
+  }
+  
+  // Generate Short Answer questions
+  for (let i = 0; i < data.targetShort; i++) {
+    questions.push({
+      id: `ai-short-${questionId++}`,
+      type: "short_answer",
+      text: `AI Generated Short Answer ${i + 1}: Explain a key concept from the context.`,
+      correctAnswer: `Sample answer for short question ${i + 1}`,
+      explanation: `This is the explanation for short answer ${i + 1}`,
+      mark: 2,
+      order: questions.length,
+      isFromPool: false
+    });
+  }
+  
+  // Generate Long Answer questions if specified
+  for (let i = 0; i < (data.targetLong || 0); i++) {
+    questions.push({
+      id: `ai-long-${questionId++}`,
+      type: "long_answer",
+      text: `AI Generated Long Answer ${i + 1}: Provide a detailed analysis of the main topics.`,
+      correctAnswer: `Sample comprehensive answer for long question ${i + 1}. This would include multiple key points and detailed explanations.`,
+      explanation: `This is the explanation for long answer ${i + 1}`,
+      mark: 5,
+      order: questions.length,
+      isFromPool: false
+    });
+  }
+  
+  return questions;
+};
 
 export const AIFixedQuizGenerator = ({ quizData, setQuizData }) => {
   const [aiPrompt, setAiPrompt] = useState(quizData.aiPrompt || "");
-  const [contextText, setContextText] = useState(""); // For direct text input
+  const [contextText, setContextText] = useState("");
   const [contextFile, setContextFile] = useState(null);
   const [targetMcq, setTargetMcq] = useState(quizData.targetMcqCount || 5);
   const [targetShort, setTargetShort] = useState(quizData.targetShortAnswerCount || 2);
-  // Add targetLong if needed based on your model
+  const [targetLong, setTargetLong] = useState(quizData.targetLongAnswerCount || 0);
   const [isGenerating, setIsGenerating] = useState(false);
 
   const handleFileChange = (event) => {
@@ -42,28 +87,28 @@ export const AIFixedQuizGenerator = ({ quizData, setQuizData }) => {
       toast.error("Please provide a prompt or context data.");
       return;
     }
+    
     setIsGenerating(true);
     try {
-      const formData = new FormData();
-      formData.append("quizId", quizData.id);
-      formData.append("aiPrompt", aiPrompt);
-      formData.append("targetMcqCount", targetMcq);
-      formData.append("targetShortAnswerCount", targetShort);
-      // formData.append("targetLongAnswerCount", targetLong);
-
-      if (contextFile) {
-        formData.append("contextFile", contextFile);
-      } else if (contextText) {
-        formData.append("contextText", contextText); // Send as text
-      }
-      
-      // const generatedQuestions = await axios.post(`/api/quiz-sets/${quizData.id}/generate-fixed`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
       const generatedQuestions = await generateFixedQuizAPI(quizData.id, {
-        aiPrompt, contextText, contextFile, targetMcq, targetShort
+        aiPrompt, 
+        contextText, 
+        contextFile, 
+        targetMcq, 
+        targetShort,
+        targetLong
       });
 
-      setQuizData(prev => ({ ...prev, questions: generatedQuestions, source: 'ai_instructor_generated' }));
-      toast.success("Quiz questions generated by AI!");
+      setQuizData(prev => ({ 
+        ...prev, 
+        questions: generatedQuestions,
+        targetMcqCount: targetMcq,
+        targetShortAnswerCount: targetShort,
+        targetLongAnswerCount: targetLong,
+        aiPrompt: aiPrompt
+      }));
+      
+      toast.success(`${generatedQuestions.length} quiz questions generated by AI!`);
     } catch (error) {
       toast.error("AI generation failed. " + (error.response?.data?.message || error.message));
       console.error(error);
@@ -73,7 +118,14 @@ export const AIFixedQuizGenerator = ({ quizData, setQuizData }) => {
   };
 
   return (
-    <div className="mt-6 border  rounded-md p-4 space-y-6">
+    <div className="mt-6 border rounded-md p-4 space-y-6">
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg font-semibold">AI-Generated Quiz (Fixed Questions)</h3>
+        <div className="text-sm text-gray-600">
+          Total: {targetMcq + targetShort + targetLong} questions
+        </div>
+      </div>
+
       <div>
         <Label htmlFor="aiPrompt">Custom Prompt (Optional)</Label>
         <Textarea
@@ -85,6 +137,7 @@ export const AIFixedQuizGenerator = ({ quizData, setQuizData }) => {
           disabled={isGenerating}
         />
       </div>
+
       <div>
         <Label htmlFor="contextText">Context Data (Paste Text)</Label>
         <Textarea
@@ -96,7 +149,9 @@ export const AIFixedQuizGenerator = ({ quizData, setQuizData }) => {
           disabled={isGenerating || !!contextFile}
         />
       </div>
-      <div className="text-sm text-center my-2">OR</div>
+
+      <div className="text-sm text-center my-2 text-gray-500">OR</div>
+
       <div>
         <Label htmlFor="contextFile">Context Data (Upload PDF, DOCX, TXT)</Label>
         <Input
@@ -106,40 +161,62 @@ export const AIFixedQuizGenerator = ({ quizData, setQuizData }) => {
           onChange={handleFileChange}
           disabled={isGenerating || !!contextText}
         />
-        {contextFile && <p className="text-xs mt-1">Selected: {contextFile.name}</p>}
+        {contextFile && <p className="text-xs mt-1 text-gray-600">Selected: {contextFile.name}</p>}
       </div>
-      <div className="grid grid-cols-2 gap-4">
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <Label htmlFor="targetMcq">Number of MCQs</Label>
+          <Label htmlFor="targetMcq">Multiple Choice Questions</Label>
           <Input
             id="targetMcq"
             type="number"
             value={targetMcq}
-            onChange={(e) => setTargetMcq(parseInt(e.target.value, 10))}
+            onChange={(e) => setTargetMcq(parseInt(e.target.value, 10) || 0)}
             min="0"
             disabled={isGenerating}
           />
         </div>
         <div>
-          <Label htmlFor="targetShort">Number of Short Answer Questions</Label>
+          <Label htmlFor="targetShort">Short Answer Questions</Label>
           <Input
             id="targetShort"
             type="number"
             value={targetShort}
-            onChange={(e) => setTargetShort(parseInt(e.target.value, 10))}
+            onChange={(e) => setTargetShort(parseInt(e.target.value, 10) || 0)}
             min="0"
             disabled={isGenerating}
           />
         </div>
-        {/* Add input for Long Answer questions if needed */}
+        <div>
+          <Label htmlFor="targetLong">Long Answer Questions</Label>
+          <Input
+            id="targetLong"
+            type="number"
+            value={targetLong}
+            onChange={(e) => setTargetLong(parseInt(e.target.value, 10) || 0)}
+            min="0"
+            disabled={isGenerating}
+          />
+        </div>
       </div>
-      <Button onClick={handleGenerate} disabled={isGenerating} className="w-full">
-        {isGenerating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Generate Fixed Quiz with AI"}
+
+      <Button 
+        onClick={handleGenerate} 
+        disabled={isGenerating || (targetMcq + targetShort + targetLong === 0)} 
+        className="w-full"
+      >
+        {isGenerating ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Generating Questions...
+          </>
+        ) : (
+          "Generate Fixed Quiz with AI"
+        )}
       </Button>
 
-      {quizData.questions && quizData.questions.length > 0 && quizData.source === 'ai_instructor_generated' && (
+      {quizData.questions && quizData.questions.length > 0 && (
         <div className="mt-8">
-          <h3 className="text-lg font-semibold mb-2">Generated Questions (Editable)</h3>
           <ManualQuizEditor quizData={quizData} setQuizData={setQuizData} />
         </div>
       )}

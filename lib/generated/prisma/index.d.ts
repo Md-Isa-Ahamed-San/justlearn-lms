@@ -11797,10 +11797,10 @@ export namespace Prisma {
     title: string
     description: string
     status: $Enums.QuizStatus
-    source: $Enums.QuizSource
+    source: $Enums.QuizSource | null
     active: boolean
     weekIds: string[]
-    generationType: $Enums.QuizGenerationType
+    generationType: $Enums.QuizGenerationType | null
     poolSize: number | null
     questionsPerStudent: number | null
     aiPrompt: string | null
@@ -11909,10 +11909,10 @@ export namespace Prisma {
       title: string
       description: string
       status: $Enums.QuizStatus
-      source: $Enums.QuizSource
+      source: $Enums.QuizSource | null
       active: boolean
       weekIds: string[]
-      generationType: $Enums.QuizGenerationType
+      generationType: $Enums.QuizGenerationType | null
       poolSize: number | null
       questionsPerStudent: number | null
       aiPrompt: string | null
@@ -13965,25 +13965,20 @@ export namespace Prisma {
   export type QuestionAvgAggregateOutputType = {
     mark: number | null
     order: number | null
-    poolOrder: number | null
   }
 
   export type QuestionSumAggregateOutputType = {
     mark: number | null
     order: number | null
-    poolOrder: number | null
   }
 
   export type QuestionMinAggregateOutputType = {
     id: string | null
     type: $Enums.QuestionType | null
-    prompt: string | null
-    explanation: string | null
+    text: string | null
     mark: number | null
     order: number | null
     isFromPool: boolean | null
-    poolOrder: number | null
-    difficulty: string | null
     createdAt: Date | null
     updatedAt: Date | null
     quizId: string | null
@@ -13992,13 +13987,10 @@ export namespace Prisma {
   export type QuestionMaxAggregateOutputType = {
     id: string | null
     type: $Enums.QuestionType | null
-    prompt: string | null
-    explanation: string | null
+    text: string | null
     mark: number | null
     order: number | null
     isFromPool: boolean | null
-    poolOrder: number | null
-    difficulty: string | null
     createdAt: Date | null
     updatedAt: Date | null
     quizId: string | null
@@ -14007,15 +13999,12 @@ export namespace Prisma {
   export type QuestionCountAggregateOutputType = {
     id: number
     type: number
-    prompt: number
+    text: number
     options: number
     correctAnswer: number
-    explanation: number
     mark: number
     order: number
     isFromPool: number
-    poolOrder: number
-    difficulty: number
     createdAt: number
     updatedAt: number
     quizId: number
@@ -14026,25 +14015,20 @@ export namespace Prisma {
   export type QuestionAvgAggregateInputType = {
     mark?: true
     order?: true
-    poolOrder?: true
   }
 
   export type QuestionSumAggregateInputType = {
     mark?: true
     order?: true
-    poolOrder?: true
   }
 
   export type QuestionMinAggregateInputType = {
     id?: true
     type?: true
-    prompt?: true
-    explanation?: true
+    text?: true
     mark?: true
     order?: true
     isFromPool?: true
-    poolOrder?: true
-    difficulty?: true
     createdAt?: true
     updatedAt?: true
     quizId?: true
@@ -14053,13 +14037,10 @@ export namespace Prisma {
   export type QuestionMaxAggregateInputType = {
     id?: true
     type?: true
-    prompt?: true
-    explanation?: true
+    text?: true
     mark?: true
     order?: true
     isFromPool?: true
-    poolOrder?: true
-    difficulty?: true
     createdAt?: true
     updatedAt?: true
     quizId?: true
@@ -14068,15 +14049,12 @@ export namespace Prisma {
   export type QuestionCountAggregateInputType = {
     id?: true
     type?: true
-    prompt?: true
+    text?: true
     options?: true
     correctAnswer?: true
-    explanation?: true
     mark?: true
     order?: true
     isFromPool?: true
-    poolOrder?: true
-    difficulty?: true
     createdAt?: true
     updatedAt?: true
     quizId?: true
@@ -14172,15 +14150,12 @@ export namespace Prisma {
   export type QuestionGroupByOutputType = {
     id: string
     type: $Enums.QuestionType
-    prompt: string
+    text: string
     options: JsonValue | null
     correctAnswer: JsonValue
-    explanation: string | null
     mark: number
     order: number
     isFromPool: boolean
-    poolOrder: number | null
-    difficulty: string | null
     createdAt: Date
     updatedAt: Date
     quizId: string
@@ -14208,15 +14183,12 @@ export namespace Prisma {
   export type QuestionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     type?: boolean
-    prompt?: boolean
+    text?: boolean
     options?: boolean
     correctAnswer?: boolean
-    explanation?: boolean
     mark?: boolean
     order?: boolean
     isFromPool?: boolean
-    poolOrder?: boolean
-    difficulty?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     quizId?: boolean
@@ -14230,21 +14202,18 @@ export namespace Prisma {
   export type QuestionSelectScalar = {
     id?: boolean
     type?: boolean
-    prompt?: boolean
+    text?: boolean
     options?: boolean
     correctAnswer?: boolean
-    explanation?: boolean
     mark?: boolean
     order?: boolean
     isFromPool?: boolean
-    poolOrder?: boolean
-    difficulty?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     quizId?: boolean
   }
 
-  export type QuestionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "prompt" | "options" | "correctAnswer" | "explanation" | "mark" | "order" | "isFromPool" | "poolOrder" | "difficulty" | "createdAt" | "updatedAt" | "quizId", ExtArgs["result"]["question"]>
+  export type QuestionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "text" | "options" | "correctAnswer" | "mark" | "order" | "isFromPool" | "createdAt" | "updatedAt" | "quizId", ExtArgs["result"]["question"]>
   export type QuestionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     quiz?: boolean | QuizDefaultArgs<ExtArgs>
     studentAnswers?: boolean | Question$studentAnswersArgs<ExtArgs>
@@ -14260,15 +14229,12 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       type: $Enums.QuestionType
-      prompt: string
+      text: string
       options: Prisma.JsonValue | null
       correctAnswer: Prisma.JsonValue
-      explanation: string | null
       mark: number
       order: number
       isFromPool: boolean
-      poolOrder: number | null
-      difficulty: string | null
       createdAt: Date
       updatedAt: Date
       quizId: string
@@ -14668,15 +14634,12 @@ export namespace Prisma {
   interface QuestionFieldRefs {
     readonly id: FieldRef<"Question", 'String'>
     readonly type: FieldRef<"Question", 'QuestionType'>
-    readonly prompt: FieldRef<"Question", 'String'>
+    readonly text: FieldRef<"Question", 'String'>
     readonly options: FieldRef<"Question", 'Json'>
     readonly correctAnswer: FieldRef<"Question", 'Json'>
-    readonly explanation: FieldRef<"Question", 'String'>
     readonly mark: FieldRef<"Question", 'Int'>
     readonly order: FieldRef<"Question", 'Int'>
     readonly isFromPool: FieldRef<"Question", 'Boolean'>
-    readonly poolOrder: FieldRef<"Question", 'Int'>
-    readonly difficulty: FieldRef<"Question", 'String'>
     readonly createdAt: FieldRef<"Question", 'DateTime'>
     readonly updatedAt: FieldRef<"Question", 'DateTime'>
     readonly quizId: FieldRef<"Question", 'String'>
@@ -27858,15 +27821,12 @@ export namespace Prisma {
   export const QuestionScalarFieldEnum: {
     id: 'id',
     type: 'type',
-    prompt: 'prompt',
+    text: 'text',
     options: 'options',
     correctAnswer: 'correctAnswer',
-    explanation: 'explanation',
     mark: 'mark',
     order: 'order',
     isFromPool: 'isFromPool',
-    poolOrder: 'poolOrder',
-    difficulty: 'difficulty',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     quizId: 'quizId'
@@ -28960,10 +28920,10 @@ export namespace Prisma {
     title?: StringFilter<"Quiz"> | string
     description?: StringFilter<"Quiz"> | string
     status?: EnumQuizStatusFilter<"Quiz"> | $Enums.QuizStatus
-    source?: EnumQuizSourceFilter<"Quiz"> | $Enums.QuizSource
+    source?: EnumQuizSourceNullableFilter<"Quiz"> | $Enums.QuizSource | null
     active?: BoolFilter<"Quiz"> | boolean
     weekIds?: StringNullableListFilter<"Quiz">
-    generationType?: EnumQuizGenerationTypeFilter<"Quiz"> | $Enums.QuizGenerationType
+    generationType?: EnumQuizGenerationTypeNullableFilter<"Quiz"> | $Enums.QuizGenerationType | null
     poolSize?: IntNullableFilter<"Quiz"> | number | null
     questionsPerStudent?: IntNullableFilter<"Quiz"> | number | null
     aiPrompt?: StringNullableFilter<"Quiz"> | string | null
@@ -29017,10 +28977,10 @@ export namespace Prisma {
     title?: StringFilter<"Quiz"> | string
     description?: StringFilter<"Quiz"> | string
     status?: EnumQuizStatusFilter<"Quiz"> | $Enums.QuizStatus
-    source?: EnumQuizSourceFilter<"Quiz"> | $Enums.QuizSource
+    source?: EnumQuizSourceNullableFilter<"Quiz"> | $Enums.QuizSource | null
     active?: BoolFilter<"Quiz"> | boolean
     weekIds?: StringNullableListFilter<"Quiz">
-    generationType?: EnumQuizGenerationTypeFilter<"Quiz"> | $Enums.QuizGenerationType
+    generationType?: EnumQuizGenerationTypeNullableFilter<"Quiz"> | $Enums.QuizGenerationType | null
     poolSize?: IntNullableFilter<"Quiz"> | number | null
     questionsPerStudent?: IntNullableFilter<"Quiz"> | number | null
     aiPrompt?: StringNullableFilter<"Quiz"> | string | null
@@ -29074,10 +29034,10 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Quiz"> | string
     description?: StringWithAggregatesFilter<"Quiz"> | string
     status?: EnumQuizStatusWithAggregatesFilter<"Quiz"> | $Enums.QuizStatus
-    source?: EnumQuizSourceWithAggregatesFilter<"Quiz"> | $Enums.QuizSource
+    source?: EnumQuizSourceNullableWithAggregatesFilter<"Quiz"> | $Enums.QuizSource | null
     active?: BoolWithAggregatesFilter<"Quiz"> | boolean
     weekIds?: StringNullableListFilter<"Quiz">
-    generationType?: EnumQuizGenerationTypeWithAggregatesFilter<"Quiz"> | $Enums.QuizGenerationType
+    generationType?: EnumQuizGenerationTypeNullableWithAggregatesFilter<"Quiz"> | $Enums.QuizGenerationType | null
     poolSize?: IntNullableWithAggregatesFilter<"Quiz"> | number | null
     questionsPerStudent?: IntNullableWithAggregatesFilter<"Quiz"> | number | null
     aiPrompt?: StringNullableWithAggregatesFilter<"Quiz"> | string | null
@@ -29197,15 +29157,12 @@ export namespace Prisma {
     NOT?: QuestionWhereInput | QuestionWhereInput[]
     id?: StringFilter<"Question"> | string
     type?: EnumQuestionTypeFilter<"Question"> | $Enums.QuestionType
-    prompt?: StringFilter<"Question"> | string
+    text?: StringFilter<"Question"> | string
     options?: JsonNullableFilter<"Question">
     correctAnswer?: JsonFilter<"Question">
-    explanation?: StringNullableFilter<"Question"> | string | null
     mark?: IntFilter<"Question"> | number
     order?: IntFilter<"Question"> | number
     isFromPool?: BoolFilter<"Question"> | boolean
-    poolOrder?: IntNullableFilter<"Question"> | number | null
-    difficulty?: StringNullableFilter<"Question"> | string | null
     createdAt?: DateTimeFilter<"Question"> | Date | string
     updatedAt?: DateTimeFilter<"Question"> | Date | string
     quizId?: StringFilter<"Question"> | string
@@ -29216,15 +29173,12 @@ export namespace Prisma {
   export type QuestionOrderByWithRelationInput = {
     id?: SortOrder
     type?: SortOrder
-    prompt?: SortOrder
+    text?: SortOrder
     options?: SortOrder
     correctAnswer?: SortOrder
-    explanation?: SortOrder
     mark?: SortOrder
     order?: SortOrder
     isFromPool?: SortOrder
-    poolOrder?: SortOrder
-    difficulty?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     quizId?: SortOrder
@@ -29238,15 +29192,12 @@ export namespace Prisma {
     OR?: QuestionWhereInput[]
     NOT?: QuestionWhereInput | QuestionWhereInput[]
     type?: EnumQuestionTypeFilter<"Question"> | $Enums.QuestionType
-    prompt?: StringFilter<"Question"> | string
+    text?: StringFilter<"Question"> | string
     options?: JsonNullableFilter<"Question">
     correctAnswer?: JsonFilter<"Question">
-    explanation?: StringNullableFilter<"Question"> | string | null
     mark?: IntFilter<"Question"> | number
     order?: IntFilter<"Question"> | number
     isFromPool?: BoolFilter<"Question"> | boolean
-    poolOrder?: IntNullableFilter<"Question"> | number | null
-    difficulty?: StringNullableFilter<"Question"> | string | null
     createdAt?: DateTimeFilter<"Question"> | Date | string
     updatedAt?: DateTimeFilter<"Question"> | Date | string
     quizId?: StringFilter<"Question"> | string
@@ -29257,15 +29208,12 @@ export namespace Prisma {
   export type QuestionOrderByWithAggregationInput = {
     id?: SortOrder
     type?: SortOrder
-    prompt?: SortOrder
+    text?: SortOrder
     options?: SortOrder
     correctAnswer?: SortOrder
-    explanation?: SortOrder
     mark?: SortOrder
     order?: SortOrder
     isFromPool?: SortOrder
-    poolOrder?: SortOrder
-    difficulty?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     quizId?: SortOrder
@@ -29282,15 +29230,12 @@ export namespace Prisma {
     NOT?: QuestionScalarWhereWithAggregatesInput | QuestionScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Question"> | string
     type?: EnumQuestionTypeWithAggregatesFilter<"Question"> | $Enums.QuestionType
-    prompt?: StringWithAggregatesFilter<"Question"> | string
+    text?: StringWithAggregatesFilter<"Question"> | string
     options?: JsonNullableWithAggregatesFilter<"Question">
     correctAnswer?: JsonWithAggregatesFilter<"Question">
-    explanation?: StringNullableWithAggregatesFilter<"Question"> | string | null
     mark?: IntWithAggregatesFilter<"Question"> | number
     order?: IntWithAggregatesFilter<"Question"> | number
     isFromPool?: BoolWithAggregatesFilter<"Question"> | boolean
-    poolOrder?: IntNullableWithAggregatesFilter<"Question"> | number | null
-    difficulty?: StringNullableWithAggregatesFilter<"Question"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Question"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Question"> | Date | string
     quizId?: StringWithAggregatesFilter<"Question"> | string
@@ -31027,10 +30972,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.QuizStatus
-    source?: $Enums.QuizSource
+    source?: $Enums.QuizSource | null
     active?: boolean
     weekIds?: QuizCreateweekIdsInput | string[]
-    generationType?: $Enums.QuizGenerationType
+    generationType?: $Enums.QuizGenerationType | null
     poolSize?: number | null
     questionsPerStudent?: number | null
     aiPrompt?: string | null
@@ -31053,10 +30998,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.QuizStatus
-    source?: $Enums.QuizSource
+    source?: $Enums.QuizSource | null
     active?: boolean
     weekIds?: QuizCreateweekIdsInput | string[]
-    generationType?: $Enums.QuizGenerationType
+    generationType?: $Enums.QuizGenerationType | null
     poolSize?: number | null
     questionsPerStudent?: number | null
     aiPrompt?: string | null
@@ -31078,10 +31023,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
-    source?: EnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource
+    source?: NullableEnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource | null
     active?: BoolFieldUpdateOperationsInput | boolean
     weekIds?: QuizUpdateweekIdsInput | string[]
-    generationType?: EnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType
+    generationType?: NullableEnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType | null
     poolSize?: NullableIntFieldUpdateOperationsInput | number | null
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31103,10 +31048,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
-    source?: EnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource
+    source?: NullableEnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource | null
     active?: BoolFieldUpdateOperationsInput | boolean
     weekIds?: QuizUpdateweekIdsInput | string[]
-    generationType?: EnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType
+    generationType?: NullableEnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType | null
     poolSize?: NullableIntFieldUpdateOperationsInput | number | null
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31129,10 +31074,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.QuizStatus
-    source?: $Enums.QuizSource
+    source?: $Enums.QuizSource | null
     active?: boolean
     weekIds?: QuizCreateweekIdsInput | string[]
-    generationType?: $Enums.QuizGenerationType
+    generationType?: $Enums.QuizGenerationType | null
     poolSize?: number | null
     questionsPerStudent?: number | null
     aiPrompt?: string | null
@@ -31150,10 +31095,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
-    source?: EnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource
+    source?: NullableEnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource | null
     active?: BoolFieldUpdateOperationsInput | boolean
     weekIds?: QuizUpdateweekIdsInput | string[]
-    generationType?: EnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType
+    generationType?: NullableEnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType | null
     poolSize?: NullableIntFieldUpdateOperationsInput | number | null
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31170,10 +31115,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
-    source?: EnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource
+    source?: NullableEnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource | null
     active?: BoolFieldUpdateOperationsInput | boolean
     weekIds?: QuizUpdateweekIdsInput | string[]
-    generationType?: EnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType
+    generationType?: NullableEnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType | null
     poolSize?: NullableIntFieldUpdateOperationsInput | number | null
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31300,16 +31245,13 @@ export namespace Prisma {
 
   export type QuestionCreateInput = {
     id?: string
-    type: $Enums.QuestionType
-    prompt: string
+    type?: $Enums.QuestionType
+    text: string
     options?: InputJsonValue | null
     correctAnswer: InputJsonValue
-    explanation?: string | null
     mark?: number
     order?: number
     isFromPool?: boolean
-    poolOrder?: number | null
-    difficulty?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     quiz: QuizCreateNestedOneWithoutQuestionsInput
@@ -31318,16 +31260,13 @@ export namespace Prisma {
 
   export type QuestionUncheckedCreateInput = {
     id?: string
-    type: $Enums.QuestionType
-    prompt: string
+    type?: $Enums.QuestionType
+    text: string
     options?: InputJsonValue | null
     correctAnswer: InputJsonValue
-    explanation?: string | null
     mark?: number
     order?: number
     isFromPool?: boolean
-    poolOrder?: number | null
-    difficulty?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     quizId: string
@@ -31336,15 +31275,12 @@ export namespace Prisma {
 
   export type QuestionUpdateInput = {
     type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-    prompt?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
     options?: InputJsonValue | InputJsonValue | null
     correctAnswer?: InputJsonValue | InputJsonValue
-    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     mark?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     isFromPool?: BoolFieldUpdateOperationsInput | boolean
-    poolOrder?: NullableIntFieldUpdateOperationsInput | number | null
-    difficulty?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUpdateOneRequiredWithoutQuestionsNestedInput
@@ -31353,15 +31289,12 @@ export namespace Prisma {
 
   export type QuestionUncheckedUpdateInput = {
     type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-    prompt?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
     options?: InputJsonValue | InputJsonValue | null
     correctAnswer?: InputJsonValue | InputJsonValue
-    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     mark?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     isFromPool?: BoolFieldUpdateOperationsInput | boolean
-    poolOrder?: NullableIntFieldUpdateOperationsInput | number | null
-    difficulty?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quizId?: StringFieldUpdateOperationsInput | string
@@ -31370,16 +31303,13 @@ export namespace Prisma {
 
   export type QuestionCreateManyInput = {
     id?: string
-    type: $Enums.QuestionType
-    prompt: string
+    type?: $Enums.QuestionType
+    text: string
     options?: InputJsonValue | null
     correctAnswer: InputJsonValue
-    explanation?: string | null
     mark?: number
     order?: number
     isFromPool?: boolean
-    poolOrder?: number | null
-    difficulty?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     quizId: string
@@ -31387,30 +31317,24 @@ export namespace Prisma {
 
   export type QuestionUpdateManyMutationInput = {
     type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-    prompt?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
     options?: InputJsonValue | InputJsonValue | null
     correctAnswer?: InputJsonValue | InputJsonValue
-    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     mark?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     isFromPool?: BoolFieldUpdateOperationsInput | boolean
-    poolOrder?: NullableIntFieldUpdateOperationsInput | number | null
-    difficulty?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type QuestionUncheckedUpdateManyInput = {
     type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-    prompt?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
     options?: InputJsonValue | InputJsonValue | null
     correctAnswer?: InputJsonValue | InputJsonValue
-    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     mark?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     isFromPool?: BoolFieldUpdateOperationsInput | boolean
-    poolOrder?: NullableIntFieldUpdateOperationsInput | number | null
-    difficulty?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quizId?: StringFieldUpdateOperationsInput | string
@@ -33170,18 +33094,20 @@ export namespace Prisma {
     not?: NestedEnumQuizStatusFilter<$PrismaModel> | $Enums.QuizStatus
   }
 
-  export type EnumQuizSourceFilter<$PrismaModel = never> = {
-    equals?: $Enums.QuizSource | EnumQuizSourceFieldRefInput<$PrismaModel>
-    in?: $Enums.QuizSource[] | ListEnumQuizSourceFieldRefInput<$PrismaModel>
-    notIn?: $Enums.QuizSource[] | ListEnumQuizSourceFieldRefInput<$PrismaModel>
-    not?: NestedEnumQuizSourceFilter<$PrismaModel> | $Enums.QuizSource
+  export type EnumQuizSourceNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuizSource | EnumQuizSourceFieldRefInput<$PrismaModel> | null
+    in?: $Enums.QuizSource[] | ListEnumQuizSourceFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.QuizSource[] | ListEnumQuizSourceFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumQuizSourceNullableFilter<$PrismaModel> | $Enums.QuizSource | null
+    isSet?: boolean
   }
 
-  export type EnumQuizGenerationTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.QuizGenerationType | EnumQuizGenerationTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.QuizGenerationType[] | ListEnumQuizGenerationTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.QuizGenerationType[] | ListEnumQuizGenerationTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumQuizGenerationTypeFilter<$PrismaModel> | $Enums.QuizGenerationType
+  export type EnumQuizGenerationTypeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuizGenerationType | EnumQuizGenerationTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.QuizGenerationType[] | ListEnumQuizGenerationTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.QuizGenerationType[] | ListEnumQuizGenerationTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumQuizGenerationTypeNullableFilter<$PrismaModel> | $Enums.QuizGenerationType | null
+    isSet?: boolean
   }
 
   export type QuestionListRelationFilter = {
@@ -33287,24 +33213,26 @@ export namespace Prisma {
     _max?: NestedEnumQuizStatusFilter<$PrismaModel>
   }
 
-  export type EnumQuizSourceWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.QuizSource | EnumQuizSourceFieldRefInput<$PrismaModel>
-    in?: $Enums.QuizSource[] | ListEnumQuizSourceFieldRefInput<$PrismaModel>
-    notIn?: $Enums.QuizSource[] | ListEnumQuizSourceFieldRefInput<$PrismaModel>
-    not?: NestedEnumQuizSourceWithAggregatesFilter<$PrismaModel> | $Enums.QuizSource
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumQuizSourceFilter<$PrismaModel>
-    _max?: NestedEnumQuizSourceFilter<$PrismaModel>
+  export type EnumQuizSourceNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuizSource | EnumQuizSourceFieldRefInput<$PrismaModel> | null
+    in?: $Enums.QuizSource[] | ListEnumQuizSourceFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.QuizSource[] | ListEnumQuizSourceFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumQuizSourceNullableWithAggregatesFilter<$PrismaModel> | $Enums.QuizSource | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumQuizSourceNullableFilter<$PrismaModel>
+    _max?: NestedEnumQuizSourceNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
-  export type EnumQuizGenerationTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.QuizGenerationType | EnumQuizGenerationTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.QuizGenerationType[] | ListEnumQuizGenerationTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.QuizGenerationType[] | ListEnumQuizGenerationTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumQuizGenerationTypeWithAggregatesFilter<$PrismaModel> | $Enums.QuizGenerationType
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumQuizGenerationTypeFilter<$PrismaModel>
-    _max?: NestedEnumQuizGenerationTypeFilter<$PrismaModel>
+  export type EnumQuizGenerationTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuizGenerationType | EnumQuizGenerationTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.QuizGenerationType[] | ListEnumQuizGenerationTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.QuizGenerationType[] | ListEnumQuizGenerationTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumQuizGenerationTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.QuizGenerationType | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumQuizGenerationTypeNullableFilter<$PrismaModel>
+    _max?: NestedEnumQuizGenerationTypeNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type WeekScalarRelationFilter = {
@@ -33393,15 +33321,12 @@ export namespace Prisma {
   export type QuestionCountOrderByAggregateInput = {
     id?: SortOrder
     type?: SortOrder
-    prompt?: SortOrder
+    text?: SortOrder
     options?: SortOrder
     correctAnswer?: SortOrder
-    explanation?: SortOrder
     mark?: SortOrder
     order?: SortOrder
     isFromPool?: SortOrder
-    poolOrder?: SortOrder
-    difficulty?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     quizId?: SortOrder
@@ -33410,19 +33335,15 @@ export namespace Prisma {
   export type QuestionAvgOrderByAggregateInput = {
     mark?: SortOrder
     order?: SortOrder
-    poolOrder?: SortOrder
   }
 
   export type QuestionMaxOrderByAggregateInput = {
     id?: SortOrder
     type?: SortOrder
-    prompt?: SortOrder
-    explanation?: SortOrder
+    text?: SortOrder
     mark?: SortOrder
     order?: SortOrder
     isFromPool?: SortOrder
-    poolOrder?: SortOrder
-    difficulty?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     quizId?: SortOrder
@@ -33431,13 +33352,10 @@ export namespace Prisma {
   export type QuestionMinOrderByAggregateInput = {
     id?: SortOrder
     type?: SortOrder
-    prompt?: SortOrder
-    explanation?: SortOrder
+    text?: SortOrder
     mark?: SortOrder
     order?: SortOrder
     isFromPool?: SortOrder
-    poolOrder?: SortOrder
-    difficulty?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     quizId?: SortOrder
@@ -33446,7 +33364,6 @@ export namespace Prisma {
   export type QuestionSumOrderByAggregateInput = {
     mark?: SortOrder
     order?: SortOrder
-    poolOrder?: SortOrder
   }
 
   export type EnumQuestionTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -35279,8 +35196,9 @@ export namespace Prisma {
     set?: $Enums.QuizStatus
   }
 
-  export type EnumQuizSourceFieldUpdateOperationsInput = {
-    set?: $Enums.QuizSource
+  export type NullableEnumQuizSourceFieldUpdateOperationsInput = {
+    set?: $Enums.QuizSource | null
+    unset?: boolean
   }
 
   export type QuizUpdateweekIdsInput = {
@@ -35288,8 +35206,9 @@ export namespace Prisma {
     push?: string | string[]
   }
 
-  export type EnumQuizGenerationTypeFieldUpdateOperationsInput = {
-    set?: $Enums.QuizGenerationType
+  export type NullableEnumQuizGenerationTypeFieldUpdateOperationsInput = {
+    set?: $Enums.QuizGenerationType | null
+    unset?: boolean
   }
 
   export type UserUpdateOneRequiredWithoutCreatedQuizzesNestedInput = {
@@ -36207,18 +36126,20 @@ export namespace Prisma {
     not?: NestedEnumQuizStatusFilter<$PrismaModel> | $Enums.QuizStatus
   }
 
-  export type NestedEnumQuizSourceFilter<$PrismaModel = never> = {
-    equals?: $Enums.QuizSource | EnumQuizSourceFieldRefInput<$PrismaModel>
-    in?: $Enums.QuizSource[] | ListEnumQuizSourceFieldRefInput<$PrismaModel>
-    notIn?: $Enums.QuizSource[] | ListEnumQuizSourceFieldRefInput<$PrismaModel>
-    not?: NestedEnumQuizSourceFilter<$PrismaModel> | $Enums.QuizSource
+  export type NestedEnumQuizSourceNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuizSource | EnumQuizSourceFieldRefInput<$PrismaModel> | null
+    in?: $Enums.QuizSource[] | ListEnumQuizSourceFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.QuizSource[] | ListEnumQuizSourceFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumQuizSourceNullableFilter<$PrismaModel> | $Enums.QuizSource | null
+    isSet?: boolean
   }
 
-  export type NestedEnumQuizGenerationTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.QuizGenerationType | EnumQuizGenerationTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.QuizGenerationType[] | ListEnumQuizGenerationTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.QuizGenerationType[] | ListEnumQuizGenerationTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumQuizGenerationTypeFilter<$PrismaModel> | $Enums.QuizGenerationType
+  export type NestedEnumQuizGenerationTypeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuizGenerationType | EnumQuizGenerationTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.QuizGenerationType[] | ListEnumQuizGenerationTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.QuizGenerationType[] | ListEnumQuizGenerationTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumQuizGenerationTypeNullableFilter<$PrismaModel> | $Enums.QuizGenerationType | null
+    isSet?: boolean
   }
 
   export type NestedEnumQuizStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -36231,24 +36152,26 @@ export namespace Prisma {
     _max?: NestedEnumQuizStatusFilter<$PrismaModel>
   }
 
-  export type NestedEnumQuizSourceWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.QuizSource | EnumQuizSourceFieldRefInput<$PrismaModel>
-    in?: $Enums.QuizSource[] | ListEnumQuizSourceFieldRefInput<$PrismaModel>
-    notIn?: $Enums.QuizSource[] | ListEnumQuizSourceFieldRefInput<$PrismaModel>
-    not?: NestedEnumQuizSourceWithAggregatesFilter<$PrismaModel> | $Enums.QuizSource
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumQuizSourceFilter<$PrismaModel>
-    _max?: NestedEnumQuizSourceFilter<$PrismaModel>
+  export type NestedEnumQuizSourceNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuizSource | EnumQuizSourceFieldRefInput<$PrismaModel> | null
+    in?: $Enums.QuizSource[] | ListEnumQuizSourceFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.QuizSource[] | ListEnumQuizSourceFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumQuizSourceNullableWithAggregatesFilter<$PrismaModel> | $Enums.QuizSource | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumQuizSourceNullableFilter<$PrismaModel>
+    _max?: NestedEnumQuizSourceNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
-  export type NestedEnumQuizGenerationTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.QuizGenerationType | EnumQuizGenerationTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.QuizGenerationType[] | ListEnumQuizGenerationTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.QuizGenerationType[] | ListEnumQuizGenerationTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumQuizGenerationTypeWithAggregatesFilter<$PrismaModel> | $Enums.QuizGenerationType
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumQuizGenerationTypeFilter<$PrismaModel>
-    _max?: NestedEnumQuizGenerationTypeFilter<$PrismaModel>
+  export type NestedEnumQuizGenerationTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuizGenerationType | EnumQuizGenerationTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.QuizGenerationType[] | ListEnumQuizGenerationTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.QuizGenerationType[] | ListEnumQuizGenerationTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumQuizGenerationTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.QuizGenerationType | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumQuizGenerationTypeNullableFilter<$PrismaModel>
+    _max?: NestedEnumQuizGenerationTypeNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type NestedEnumQuestionTypeFilter<$PrismaModel = never> = {
@@ -36526,10 +36449,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.QuizStatus
-    source?: $Enums.QuizSource
+    source?: $Enums.QuizSource | null
     active?: boolean
     weekIds?: QuizCreateweekIdsInput | string[]
-    generationType?: $Enums.QuizGenerationType
+    generationType?: $Enums.QuizGenerationType | null
     poolSize?: number | null
     questionsPerStudent?: number | null
     aiPrompt?: string | null
@@ -36551,10 +36474,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.QuizStatus
-    source?: $Enums.QuizSource
+    source?: $Enums.QuizSource | null
     active?: boolean
     weekIds?: QuizCreateweekIdsInput | string[]
-    generationType?: $Enums.QuizGenerationType
+    generationType?: $Enums.QuizGenerationType | null
     poolSize?: number | null
     questionsPerStudent?: number | null
     aiPrompt?: string | null
@@ -37059,10 +36982,10 @@ export namespace Prisma {
     title?: StringFilter<"Quiz"> | string
     description?: StringFilter<"Quiz"> | string
     status?: EnumQuizStatusFilter<"Quiz"> | $Enums.QuizStatus
-    source?: EnumQuizSourceFilter<"Quiz"> | $Enums.QuizSource
+    source?: EnumQuizSourceNullableFilter<"Quiz"> | $Enums.QuizSource | null
     active?: BoolFilter<"Quiz"> | boolean
     weekIds?: StringNullableListFilter<"Quiz">
-    generationType?: EnumQuizGenerationTypeFilter<"Quiz"> | $Enums.QuizGenerationType
+    generationType?: EnumQuizGenerationTypeNullableFilter<"Quiz"> | $Enums.QuizGenerationType | null
     poolSize?: IntNullableFilter<"Quiz"> | number | null
     questionsPerStudent?: IntNullableFilter<"Quiz"> | number | null
     aiPrompt?: StringNullableFilter<"Quiz"> | string | null
@@ -38638,16 +38561,13 @@ export namespace Prisma {
 
   export type QuestionCreateWithoutQuizInput = {
     id?: string
-    type: $Enums.QuestionType
-    prompt: string
+    type?: $Enums.QuestionType
+    text: string
     options?: InputJsonValue | null
     correctAnswer: InputJsonValue
-    explanation?: string | null
     mark?: number
     order?: number
     isFromPool?: boolean
-    poolOrder?: number | null
-    difficulty?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     studentAnswers?: StudentAnswerCreateNestedManyWithoutQuestionInput
@@ -38655,16 +38575,13 @@ export namespace Prisma {
 
   export type QuestionUncheckedCreateWithoutQuizInput = {
     id?: string
-    type: $Enums.QuestionType
-    prompt: string
+    type?: $Enums.QuestionType
+    text: string
     options?: InputJsonValue | null
     correctAnswer: InputJsonValue
-    explanation?: string | null
     mark?: number
     order?: number
     isFromPool?: boolean
-    poolOrder?: number | null
-    difficulty?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     studentAnswers?: StudentAnswerUncheckedCreateNestedManyWithoutQuestionInput
@@ -38871,15 +38788,12 @@ export namespace Prisma {
     NOT?: QuestionScalarWhereInput | QuestionScalarWhereInput[]
     id?: StringFilter<"Question"> | string
     type?: EnumQuestionTypeFilter<"Question"> | $Enums.QuestionType
-    prompt?: StringFilter<"Question"> | string
+    text?: StringFilter<"Question"> | string
     options?: JsonNullableFilter<"Question">
     correctAnswer?: JsonFilter<"Question">
-    explanation?: StringNullableFilter<"Question"> | string | null
     mark?: IntFilter<"Question"> | number
     order?: IntFilter<"Question"> | number
     isFromPool?: BoolFilter<"Question"> | boolean
-    poolOrder?: IntNullableFilter<"Question"> | number | null
-    difficulty?: StringNullableFilter<"Question"> | string | null
     createdAt?: DateTimeFilter<"Question"> | Date | string
     updatedAt?: DateTimeFilter<"Question"> | Date | string
     quizId?: StringFilter<"Question"> | string
@@ -39096,10 +39010,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.QuizStatus
-    source?: $Enums.QuizSource
+    source?: $Enums.QuizSource | null
     active?: boolean
     weekIds?: QuizCreateweekIdsInput | string[]
-    generationType?: $Enums.QuizGenerationType
+    generationType?: $Enums.QuizGenerationType | null
     poolSize?: number | null
     questionsPerStudent?: number | null
     aiPrompt?: string | null
@@ -39121,10 +39035,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.QuizStatus
-    source?: $Enums.QuizSource
+    source?: $Enums.QuizSource | null
     active?: boolean
     weekIds?: QuizCreateweekIdsInput | string[]
-    generationType?: $Enums.QuizGenerationType
+    generationType?: $Enums.QuizGenerationType | null
     poolSize?: number | null
     questionsPerStudent?: number | null
     aiPrompt?: string | null
@@ -39190,10 +39104,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
-    source?: EnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource
+    source?: NullableEnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource | null
     active?: BoolFieldUpdateOperationsInput | boolean
     weekIds?: QuizUpdateweekIdsInput | string[]
-    generationType?: EnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType
+    generationType?: NullableEnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType | null
     poolSize?: NullableIntFieldUpdateOperationsInput | number | null
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -39214,10 +39128,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
-    source?: EnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource
+    source?: NullableEnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource | null
     active?: BoolFieldUpdateOperationsInput | boolean
     weekIds?: QuizUpdateweekIdsInput | string[]
-    generationType?: EnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType
+    generationType?: NullableEnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType | null
     poolSize?: NullableIntFieldUpdateOperationsInput | number | null
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -39550,10 +39464,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.QuizStatus
-    source?: $Enums.QuizSource
+    source?: $Enums.QuizSource | null
     active?: boolean
     weekIds?: QuizCreateweekIdsInput | string[]
-    generationType?: $Enums.QuizGenerationType
+    generationType?: $Enums.QuizGenerationType | null
     poolSize?: number | null
     questionsPerStudent?: number | null
     aiPrompt?: string | null
@@ -39575,10 +39489,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.QuizStatus
-    source?: $Enums.QuizSource
+    source?: $Enums.QuizSource | null
     active?: boolean
     weekIds?: QuizCreateweekIdsInput | string[]
-    generationType?: $Enums.QuizGenerationType
+    generationType?: $Enums.QuizGenerationType | null
     poolSize?: number | null
     questionsPerStudent?: number | null
     aiPrompt?: string | null
@@ -39709,10 +39623,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
-    source?: EnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource
+    source?: NullableEnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource | null
     active?: BoolFieldUpdateOperationsInput | boolean
     weekIds?: QuizUpdateweekIdsInput | string[]
-    generationType?: EnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType
+    generationType?: NullableEnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType | null
     poolSize?: NullableIntFieldUpdateOperationsInput | number | null
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -39733,10 +39647,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
-    source?: EnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource
+    source?: NullableEnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource | null
     active?: BoolFieldUpdateOperationsInput | boolean
     weekIds?: QuizUpdateweekIdsInput | string[]
-    generationType?: EnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType
+    generationType?: NullableEnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType | null
     poolSize?: NullableIntFieldUpdateOperationsInput | number | null
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -39771,16 +39685,13 @@ export namespace Prisma {
 
   export type QuestionCreateWithoutStudentAnswersInput = {
     id?: string
-    type: $Enums.QuestionType
-    prompt: string
+    type?: $Enums.QuestionType
+    text: string
     options?: InputJsonValue | null
     correctAnswer: InputJsonValue
-    explanation?: string | null
     mark?: number
     order?: number
     isFromPool?: boolean
-    poolOrder?: number | null
-    difficulty?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     quiz: QuizCreateNestedOneWithoutQuestionsInput
@@ -39788,16 +39699,13 @@ export namespace Prisma {
 
   export type QuestionUncheckedCreateWithoutStudentAnswersInput = {
     id?: string
-    type: $Enums.QuestionType
-    prompt: string
+    type?: $Enums.QuestionType
+    text: string
     options?: InputJsonValue | null
     correctAnswer: InputJsonValue
-    explanation?: string | null
     mark?: number
     order?: number
     isFromPool?: boolean
-    poolOrder?: number | null
-    difficulty?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     quizId: string
@@ -39854,15 +39762,12 @@ export namespace Prisma {
 
   export type QuestionUpdateWithoutStudentAnswersInput = {
     type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-    prompt?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
     options?: InputJsonValue | InputJsonValue | null
     correctAnswer?: InputJsonValue | InputJsonValue
-    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     mark?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     isFromPool?: BoolFieldUpdateOperationsInput | boolean
-    poolOrder?: NullableIntFieldUpdateOperationsInput | number | null
-    difficulty?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUpdateOneRequiredWithoutQuestionsNestedInput
@@ -39870,15 +39775,12 @@ export namespace Prisma {
 
   export type QuestionUncheckedUpdateWithoutStudentAnswersInput = {
     type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-    prompt?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
     options?: InputJsonValue | InputJsonValue | null
     correctAnswer?: InputJsonValue | InputJsonValue
-    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     mark?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     isFromPool?: BoolFieldUpdateOperationsInput | boolean
-    poolOrder?: NullableIntFieldUpdateOperationsInput | number | null
-    difficulty?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quizId?: StringFieldUpdateOperationsInput | string
@@ -39926,10 +39828,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.QuizStatus
-    source?: $Enums.QuizSource
+    source?: $Enums.QuizSource | null
     active?: boolean
     weekIds?: QuizCreateweekIdsInput | string[]
-    generationType?: $Enums.QuizGenerationType
+    generationType?: $Enums.QuizGenerationType | null
     poolSize?: number | null
     questionsPerStudent?: number | null
     aiPrompt?: string | null
@@ -39951,10 +39853,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.QuizStatus
-    source?: $Enums.QuizSource
+    source?: $Enums.QuizSource | null
     active?: boolean
     weekIds?: QuizCreateweekIdsInput | string[]
-    generationType?: $Enums.QuizGenerationType
+    generationType?: $Enums.QuizGenerationType | null
     poolSize?: number | null
     questionsPerStudent?: number | null
     aiPrompt?: string | null
@@ -40052,10 +39954,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
-    source?: EnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource
+    source?: NullableEnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource | null
     active?: BoolFieldUpdateOperationsInput | boolean
     weekIds?: QuizUpdateweekIdsInput | string[]
-    generationType?: EnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType
+    generationType?: NullableEnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType | null
     poolSize?: NullableIntFieldUpdateOperationsInput | number | null
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -40076,10 +39978,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
-    source?: EnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource
+    source?: NullableEnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource | null
     active?: BoolFieldUpdateOperationsInput | boolean
     weekIds?: QuizUpdateweekIdsInput | string[]
-    generationType?: EnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType
+    generationType?: NullableEnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType | null
     poolSize?: NullableIntFieldUpdateOperationsInput | number | null
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41698,10 +41600,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.QuizStatus
-    source?: $Enums.QuizSource
+    source?: $Enums.QuizSource | null
     active?: boolean
     weekIds?: QuizCreateweekIdsInput | string[]
-    generationType?: $Enums.QuizGenerationType
+    generationType?: $Enums.QuizGenerationType | null
     poolSize?: number | null
     questionsPerStudent?: number | null
     aiPrompt?: string | null
@@ -41723,10 +41625,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.QuizStatus
-    source?: $Enums.QuizSource
+    source?: $Enums.QuizSource | null
     active?: boolean
     weekIds?: QuizCreateweekIdsInput | string[]
-    generationType?: $Enums.QuizGenerationType
+    generationType?: $Enums.QuizGenerationType | null
     poolSize?: number | null
     questionsPerStudent?: number | null
     aiPrompt?: string | null
@@ -41824,10 +41726,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
-    source?: EnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource
+    source?: NullableEnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource | null
     active?: BoolFieldUpdateOperationsInput | boolean
     weekIds?: QuizUpdateweekIdsInput | string[]
-    generationType?: EnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType
+    generationType?: NullableEnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType | null
     poolSize?: NullableIntFieldUpdateOperationsInput | number | null
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41848,10 +41750,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
-    source?: EnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource
+    source?: NullableEnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource | null
     active?: BoolFieldUpdateOperationsInput | boolean
     weekIds?: QuizUpdateweekIdsInput | string[]
-    generationType?: EnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType
+    generationType?: NullableEnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType | null
     poolSize?: NullableIntFieldUpdateOperationsInput | number | null
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41976,10 +41878,10 @@ export namespace Prisma {
     title: string
     description: string
     status?: $Enums.QuizStatus
-    source?: $Enums.QuizSource
+    source?: $Enums.QuizSource | null
     active?: boolean
     weekIds?: QuizCreateweekIdsInput | string[]
-    generationType?: $Enums.QuizGenerationType
+    generationType?: $Enums.QuizGenerationType | null
     poolSize?: number | null
     questionsPerStudent?: number | null
     aiPrompt?: string | null
@@ -42200,10 +42102,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
-    source?: EnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource
+    source?: NullableEnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource | null
     active?: BoolFieldUpdateOperationsInput | boolean
     weekIds?: QuizUpdateweekIdsInput | string[]
-    generationType?: EnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType
+    generationType?: NullableEnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType | null
     poolSize?: NullableIntFieldUpdateOperationsInput | number | null
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -42224,10 +42126,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
-    source?: EnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource
+    source?: NullableEnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource | null
     active?: BoolFieldUpdateOperationsInput | boolean
     weekIds?: QuizUpdateweekIdsInput | string[]
-    generationType?: EnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType
+    generationType?: NullableEnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType | null
     poolSize?: NullableIntFieldUpdateOperationsInput | number | null
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -42248,10 +42150,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     status?: EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
-    source?: EnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource
+    source?: NullableEnumQuizSourceFieldUpdateOperationsInput | $Enums.QuizSource | null
     active?: BoolFieldUpdateOperationsInput | boolean
     weekIds?: QuizUpdateweekIdsInput | string[]
-    generationType?: EnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType
+    generationType?: NullableEnumQuizGenerationTypeFieldUpdateOperationsInput | $Enums.QuizGenerationType | null
     poolSize?: NullableIntFieldUpdateOperationsInput | number | null
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
@@ -42982,16 +42884,13 @@ export namespace Prisma {
 
   export type QuestionCreateManyQuizInput = {
     id?: string
-    type: $Enums.QuestionType
-    prompt: string
+    type?: $Enums.QuestionType
+    text: string
     options?: InputJsonValue | null
     correctAnswer: InputJsonValue
-    explanation?: string | null
     mark?: number
     order?: number
     isFromPool?: boolean
-    poolOrder?: number | null
-    difficulty?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -43025,15 +42924,12 @@ export namespace Prisma {
 
   export type QuestionUpdateWithoutQuizInput = {
     type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-    prompt?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
     options?: InputJsonValue | InputJsonValue | null
     correctAnswer?: InputJsonValue | InputJsonValue
-    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     mark?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     isFromPool?: BoolFieldUpdateOperationsInput | boolean
-    poolOrder?: NullableIntFieldUpdateOperationsInput | number | null
-    difficulty?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     studentAnswers?: StudentAnswerUpdateManyWithoutQuestionNestedInput
@@ -43041,15 +42937,12 @@ export namespace Prisma {
 
   export type QuestionUncheckedUpdateWithoutQuizInput = {
     type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-    prompt?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
     options?: InputJsonValue | InputJsonValue | null
     correctAnswer?: InputJsonValue | InputJsonValue
-    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     mark?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     isFromPool?: BoolFieldUpdateOperationsInput | boolean
-    poolOrder?: NullableIntFieldUpdateOperationsInput | number | null
-    difficulty?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     studentAnswers?: StudentAnswerUncheckedUpdateManyWithoutQuestionNestedInput
@@ -43057,15 +42950,12 @@ export namespace Prisma {
 
   export type QuestionUncheckedUpdateManyWithoutQuizInput = {
     type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-    prompt?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
     options?: InputJsonValue | InputJsonValue | null
     correctAnswer?: InputJsonValue | InputJsonValue
-    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     mark?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     isFromPool?: BoolFieldUpdateOperationsInput | boolean
-    poolOrder?: NullableIntFieldUpdateOperationsInput | number | null
-    difficulty?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
