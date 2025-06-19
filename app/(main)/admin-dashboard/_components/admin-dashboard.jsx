@@ -1,23 +1,52 @@
 import { Suspense } from "react";
 import CourseManagement from "./course-management";
 import UserManagement from "./user-management/user-management";
-
 import { IconBook2, IconUsers } from "@tabler/icons-react";
 import { getCourseList } from "../../../../queries/courses";
 import { getAllUsers } from "../../../../queries/users";
 import { chalkLog } from "../../../../utils/logger";
 
+// Add this to fix the static generation error
+export const dynamic = 'force-dynamic';
+
 // This is a Server Component that serves as the main layout
 export default async function AdminDashboard() {
-  const users = await getAllUsers();
-  const allCourses = await getCourseList();
-  chalkLog.log(" AdminDashboard ~ allCourses:", allCourses);
+  let users = [];
+  let allCourses = [];
+
+  try {
+    // Fetch data with proper error handling
+    const [usersData, coursesData] = await Promise.allSettled([
+      getAllUsers(),
+      getCourseList()
+    ]);
+
+    // Handle users data
+    if (usersData) {
+      users = Array.isArray(usersData) ? usersData: [];
+    } else {
+      console.error("Error fetching users:", usersData.reason);
+    }
+
+    // Handle courses data
+    if (coursesData) {
+      allCourses = Array.isArray(coursesData) ? coursesData : [];
+      chalkLog.log(" AdminDashboard ~ allCourses:", allCourses);
+    } else {
+      console.error("Error fetching courses:", coursesData.reason);
+    }
+
+  } catch (error) {
+    console.error("Error in AdminDashboard:", error);
+    // Keep empty arrays as fallback
+  }
+
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Content */}
-        <main className="flex-1 ">
+        <main className="flex-1">
           <div className="space-y-6">
             {/* Mobile Navigation Tabs */}
             <div className="lg:hidden">
@@ -28,14 +57,14 @@ export default async function AdminDashboard() {
                     data-tab="users"
                   >
                     <IconUsers className="h-5 w-5" />
-                    <span>Users</span>
+                    <span>Users ({users.length})</span>
                   </button>
                   <button
                     className="border-blue-500 text-blue-600 whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm flex items-center space-x-2"
                     data-tab="courses"
                   >
                     <IconBook2 className="h-5 w-5" />
-                    <span>Courses</span>
+                    <span>Courses ({allCourses.length})</span>
                   </button>
                 </nav>
               </div>

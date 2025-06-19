@@ -3,41 +3,40 @@ import { getServerUserData } from "../../../queries/users";
 import { columns } from "./_components/columns";
 import { DataTable } from "./_components/data-table";
 
-const quizSets = [
-  {
-    id: 1,
-    title: "Reactive Accelerator",
-    isPublished: true,
-    totalQuiz: 10,
-    quizes: [],
-  },
-  {
-    id: 2,
-    title: "Think In A Redux Way",
-    isPublished: false,
-    totalQuiz: 50,
-    quizes: [],
-  },
-];
-const QuizSets = async () => {
-  let data = null;
-  let allQuizzes = null;
-  try{
-    data = await getServerUserData();
-  }
-  catch(err){
-    console.log(err)
-  }
-  if(data?.userData?.id){
-   allQuizzes = await getAllQuizzesByInstructorId(data?.userData?.id);
-  }
-  console.log(" QuizSets ~ allQuizzes:", allQuizzes)
+// Add this to fix the static generation error
+export const dynamic = 'force-dynamic';
 
-  // console.log(" QuizSets ~ userData:", userData)
-  
+const QuizSets = async () => {
+  let allQuizzes = [];
+
+  try {
+    const data = await getServerUserData();
+    
+    if (data?.userData?.id) {
+      const quizzes = await getAllQuizzesByInstructorId(data.userData.id);
+      // Ensure we always have an array
+      allQuizzes = Array.isArray(quizzes) ? quizzes : [];
+    }
+  } catch (err) {
+    console.log("Error fetching quiz sets:", err);
+    // Keep allQuizzes as empty array on error
+    allQuizzes = [];
+  }
+
+  console.log(" QuizSets ~ allQuizzes:", allQuizzes);
+
   return (
     <div className="p-6">
-      <DataTable columns={columns} data={allQuizzes} />
+      {allQuizzes.length > 0 ? (
+        <DataTable columns={columns} data={allQuizzes} />
+      ) : (
+        <div className="text-center py-8">
+          <p className="text-gray-500">No quiz sets found.</p>
+          <p className="text-sm text-gray-400 mt-2">
+            Create your first quiz set to get started.
+          </p>
+        </div>
+      )}
     </div>
   );
 };
