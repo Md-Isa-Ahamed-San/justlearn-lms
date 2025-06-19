@@ -113,3 +113,106 @@ export async function createQuiz(title, description, instructorId) {
     throw new Error(e);
   }
 }
+
+/**
+ * Update quiz basic information including status, title, and description
+ * @param {string} quizId - The ID of the quiz to update
+ * @param {Object} updateData - The data to update
+ * @param {string} [updateData.status] - Quiz status: "draft" or "published"
+ * @param {string} [updateData.title] - Quiz title
+ * @param {string} [updateData.description] - Quiz description
+ * @param {boolean} [updateData.active] - Active status (optional, will be set based on status)
+ * @returns {Promise<Object>} Updated quiz object
+ */
+export async function updateQuizBasicInfo(quizId, updateData) {
+  try {
+    if (!quizId) {
+      throw new Error("Quiz ID is required to update quiz information.");
+    }
+
+    // Validate updateData
+    if (!updateData || Object.keys(updateData).length === 0) {
+      throw new Error("Update data is required.");
+    }
+
+    // Validate status if provided
+    if (
+      updateData.status &&
+      !["draft", "published"].includes(updateData.status)
+    ) {
+      throw new Error("Status must be either 'draft' or 'published'.");
+    }
+
+    // Validate title if provided
+    if (updateData.title !== undefined) {
+      if (typeof updateData.title !== "string") {
+        throw new Error("Title must be a string.");
+      }
+      if (updateData.title.trim().length === 0) {
+        throw new Error("Title cannot be empty.");
+      }
+      if (updateData.title.length > 60) {
+        throw new Error("Title must be less than 60 characters.");
+      }
+    }
+
+    // Validate description if provided
+    if (updateData.description !== undefined) {
+      if (typeof updateData.description !== "string") {
+        throw new Error("Description must be a string.");
+      }
+      if (updateData.description.length >200) {
+        throw new Error("Description must be less than 200 characters.");
+      }
+    }
+
+    // Prepare update object
+    const updateObject = {
+      updatedAt: new Date(),
+    };
+
+    // Add fields to update
+    if (updateData.title !== undefined) {
+      updateObject.title = updateData.title.trim();
+    }
+
+    if (updateData.description !== undefined) {
+      updateObject.description = updateData.description.trim();
+    }
+
+    if (updateData.status !== undefined) {
+      updateObject.status = updateData.status;
+      // Automatically set active based on status
+      updateObject.active = updateData.status === "published";
+    }
+
+    // If active is explicitly provided, use it (overrides status-based setting)
+    if (updateData.active !== undefined) {
+      updateObject.active = updateData.active;
+    }
+
+    // Update the quiz
+    const updatedQuiz = await db.quiz.update({
+      where: {
+        id: quizId,
+      },
+      data: updateObject,
+    });
+
+    console.log(`Quiz ${quizId} updated successfully:`, updateObject);
+    return updatedQuiz;
+  } catch (error) {
+    console.error(`Error updating quiz ${quizId}:`, error.message);
+
+    // Handle Prisma-specific errors
+    if (error.code === "P2025") {
+      throw new Error("Quiz not found. Please check the quiz ID.");
+    }
+
+    if (error.code === "P2002") {
+      throw new Error("A quiz with this title already exists.");
+    }
+
+    throw new Error(`Failed to update quiz. Details: ${error.message}`);
+  }
+}

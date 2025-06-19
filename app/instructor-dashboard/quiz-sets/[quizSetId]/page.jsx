@@ -38,7 +38,7 @@ const QuizSetPage = async ({ params }) => {
       </div>
     );
   }
-// return <></>
+
   return <EditQuizSet initialQuizData={initialQuizData} />;
 };
 
