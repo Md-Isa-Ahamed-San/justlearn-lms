@@ -28,61 +28,48 @@ export async function getAllQuizzesByInstructorId(instructorId) {
     );
   }
 }
-export async function getQuizDetailsById(quizId, prismaInstance = prisma) {
-    const client = prismaInstance;
+export async function getQuizDetailsById(quizId) {
+  if (!quizId) {
+    console.warn("getQuizById called without a quizId.");
+    return null; // Or throw new Error("Quiz ID is required.");
+  }
 
-    if (!client) {
-        console.error("Prisma client is not available.");
-        throw new Error("Database client is not configured.");
+  try {
+    const quiz = await db.quiz.findUnique({
+      where: {
+        id: quizId,
+      },
+      include: {
+        questions: {
+          orderBy: {
+            order: "asc",
+          },
+        },
+        createdBy: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true,
+          },
+        },
+      },
+    });
+
+    if (!quiz) {
+      console.log(`Quiz with ID ${quizId} not found.`);
+      return null;
     }
 
-    if (!quizId) {
-        console.warn("getQuizById called without a quizId.");
-        return null; // Or throw new Error("Quiz ID is required.");
-    }
+    return quiz;
+  } catch (error) {
+    console.error(
+      `Error fetching quiz with ID ${quizId} using Prisma:`,
+      error.message
+    );
 
-    try {
-        const quiz = await client.quiz.findUnique({
-            where: {
-                id: quizId,
-            },
-            include: {
-                questions: { // Include all related questions
-                    orderBy: {
-                        order: 'asc', // Optional: order questions by their 'order' field
-                    },
-                },
-                createdBy: { // Include the user who created the quiz
-                    select: { // Select only necessary fields from the User model
-                        id: true,
-                        name: true,
-                        email: true, // Be mindful of exposing emails if not needed
-                        image: true,
-                    }
-                },
-                // You can include other relations if needed, e.g.,
-                // aiGenerationLogs: true,
-                // liveSession: true,
-            },
-        });
-
-        if (!quiz) {
-            console.log(`Quiz with ID ${quizId} not found.`);
-            return null;
-        }
-
-        return quiz;
-
-    } catch (error) {
-        console.error(`Error fetching quiz with ID ${quizId} using Prisma:`, error.message);
-        // Handle Prisma-specific errors if needed, e.g.,
-        // if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2023') {
-        //   // Invalid ObjectId format
-        //   console.error("Invalid quizId format provided:", quizId);
-        //   return null; // Or throw a more specific error
-        // }
-        throw new Error(`Failed to retrieve quiz. Details: ${error.message}`);
-    }
+    throw new Error(`Failed to retrieve quiz. Details: ${error.message}`);
+  }
 }
 
 export async function getAllQuizSets(excludeUnPublished) {
@@ -112,17 +99,17 @@ export async function getQuizSetById(id) {
   //     }
 }
 
-export async function createQuiz(title,description,instructorId) {
-  try{
-      const res = await db.quiz.create({
-        data: {
-          title,
-          description,
-          createdByUserId: instructorId,
-        },
-      });
-      return res;
+export async function createQuiz(title, description, instructorId) {
+  try {
+    const res = await db.quiz.create({
+      data: {
+        title,
+        description,
+        createdByUserId: instructorId,
+      },
+    });
+    return res;
   } catch (e) {
-      throw new Error(e);
+    throw new Error(e);
   }
 }
