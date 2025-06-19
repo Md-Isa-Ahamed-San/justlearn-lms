@@ -33,13 +33,13 @@ const QuizSetPage = async ({ params }) => {
     );
   }
 
-  if (!initialQuizData) {
-    return (
-      <div className="p-6">
-        <div className="text-gray-500">Quiz set not found</div>
-      </div>
-    );
-  }
+  // if (!initialQuizData) {
+  //   return (
+  //     <div className="p-6">
+  //       <div className="text-gray-500">Quiz set not found</div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="p-6">
