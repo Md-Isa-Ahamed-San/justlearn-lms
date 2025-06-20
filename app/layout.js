@@ -10,6 +10,8 @@ import ThemeSwitcher from "../components/theme-switcher";
 import { SessionProvider } from "next-auth/react";
 import { getServerUserData } from "../queries/users";
 import { UserDataProvider } from "../provider/user-data-provider";
+import Script from "next/script";
+import { Analytics } from '@vercel/analytics/next';
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Inter({ subsets: ["latin"], variable: "--font-poppins" });
 
@@ -49,7 +51,23 @@ export default async function RootLayout({ children }) {
           type="application/json"
           crossOrigin="anonymous"
         />
+        
       </Head>
+      <head>
+         {/* Google Analytics */}
+         <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-06K6DNZ0CS"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-06K6DNZ0CS');
+          `}
+        </Script>
+      </head>
       <body className={cn(inter.className, poppins.className, delius.variable)}>
         <ThemeProvider
           attribute="class"
@@ -60,6 +78,7 @@ export default async function RootLayout({ children }) {
           <SessionProvider>
             <UserDataProvider initialUserData={serverUserData}>
               {children}
+              <Analytics/>
             </UserDataProvider>
           </SessionProvider>
           <ThemeSwitcher />
