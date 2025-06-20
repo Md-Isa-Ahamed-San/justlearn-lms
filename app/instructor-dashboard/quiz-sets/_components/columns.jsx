@@ -9,8 +9,22 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import { ArrowUpDown, MoreHorizontal, Pencil } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal, Pencil, CheckCircle, XCircle, Brain, BookOpen, Shuffle } from "lucide-react"; // Added new icons
 import Link from "next/link";
+
+// Helper to format generationType for display
+const formatGenerationType = (type) => {
+  switch (type) {
+    case "manual":
+      return { label: "Manual", Icon: BookOpen, color: "text-purple-600" };
+    case "ai_fixed":
+      return { label: "AI Fixed", Icon: Brain, color: "text-blue-600" };
+    case "ai_pool":
+      return { label: "AI Pool", Icon: Shuffle, color: "text-green-600" };
+    default:
+      return { label: type, Icon: null, color: "" };
+  }
+};
 
 export const columns = [
   {
@@ -27,20 +41,20 @@ export const columns = [
     },
   },
   {
-    accessorKey: "totalQuiz",
+    accessorKey: "totalQuiz", // Note: Your data sample doesn't show 'totalQuiz'. Ensure this exists in your actual data.
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Total Quiz <ArrowUpDown className="ml-2 h-4 w-4" />
+          Total Questions <ArrowUpDown className="ml-2 h-4 w-4" /> {/* Changed header to be more specific if it means questions */}
         </Button>
       );
     },
   },
   {
-    accessorKey: "isPublished",
+    accessorKey: "status", // Changed from isPublished to status to match your data sample
     header: ({ column }) => {
       return (
         <Button
@@ -52,12 +66,63 @@ export const columns = [
       );
     },
     cell: ({ row }) => {
-      const isPublished = row.getValue("isPublished") || false;
+      const status = row.getValue("status");
+      const isPublished = status === "published"; // Derive from status
 
       return (
-        <Badge className={cn("0", isPublished && "bg-success")}>
-          {isPublished ? "Published" : "Unpublished"}
+        <Badge className={cn("bg-muted text-muted-foreground hover:bg-muted", isPublished && "bg-success text-success-foreground hover:bg-success/90")}>
+          {isPublished ? "Published" : "Draft"}
         </Badge>
+      );
+    },
+  },
+  // NEW COLUMN for Active status
+  {
+    accessorKey: "active",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Active <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const isActive = row.getValue("active");
+      const Icon = isActive ? CheckCircle : XCircle;
+      const color = isActive ? "text-green-500" : "text-red-500";
+
+      return (
+        <div className="flex items-center">
+          <Icon className={cn("mr-2 h-4 w-4", color)} />
+          <span className={color}>{isActive ? "Active" : "Inactive"}</span>
+        </div>
+      );
+    },
+  },
+  // NEW COLUMN for Generation Type
+  {
+    accessorKey: "generationType",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Gen. Type <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const type = row.getValue("generationType");
+      const { label, Icon, color } = formatGenerationType(type);
+      return (
+        <div className="flex items-center">
+          {Icon && <Icon className={cn("mr-2 h-4 w-4", color)} />}
+          <span className={cn(color)}>{label}</span>
+        </div>
       );
     },
   },
@@ -80,6 +145,7 @@ export const columns = [
                 Edit
               </DropdownMenuItem>
             </Link>
+            {/* You can add more actions here, e.g., Delete, View Details */}
           </DropdownMenuContent>
         </DropdownMenu>
       );
