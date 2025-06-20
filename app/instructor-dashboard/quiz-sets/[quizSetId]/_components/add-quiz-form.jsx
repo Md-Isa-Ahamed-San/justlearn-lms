@@ -9,12 +9,12 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -62,17 +62,15 @@ const longAnswerFormSchema = z.object({
   correctAnswer: z.string().min(1, "Sample answer is required"),
 });
 
-export const AddQuizForm = ({ 
-  quizId, 
-  onQuestionAdded, 
-  onQuestionUpdated, 
-  onCancel, 
-  initialData, 
-  isEditing = false 
+export const AddQuizForm = ({
+  quizId,
+  onQuestionAdded,
+  onQuestionUpdated,
+  onCancel,
+  initialData,
+  isEditing = false,
 }) => {
-  const [questionType, setQuestionType] = useState(
-    initialData?.type || "mcq"
-  );
+  const [questionType, setQuestionType] = useState(initialData?.type || "mcq");
 
   // Determine which schema to use based on question type
   const getFormSchema = () => {
@@ -118,9 +116,10 @@ export const AddQuizForm = ({
     } else {
       return {
         ...baseValues,
-        correctAnswer: typeof initialData?.correctAnswer === 'string' 
-          ? initialData.correctAnswer 
-          : "",
+        correctAnswer:
+          typeof initialData?.correctAnswer === "string"
+            ? initialData.correctAnswer
+            : "",
       };
     }
   };
@@ -162,14 +161,30 @@ export const AddQuizForm = ({
           type: "mcq",
           text: values.text,
           options: [
-            { label: values.optionA.label, isCorrect: values.optionA.isCorrect },
-            { label: values.optionB.label, isCorrect: values.optionB.isCorrect },
-            { label: values.optionC.label, isCorrect: values.optionC.isCorrect },
-            { label: values.optionD.label, isCorrect: values.optionD.isCorrect },
+            {
+              label: values.optionA.label,
+              isCorrect: values.optionA.isCorrect,
+            },
+            {
+              label: values.optionB.label,
+              isCorrect: values.optionB.isCorrect,
+            },
+            {
+              label: values.optionC.label,
+              isCorrect: values.optionC.isCorrect,
+            },
+            {
+              label: values.optionD.label,
+              isCorrect: values.optionD.isCorrect,
+            },
           ],
-          correctAnswer: values.optionA.isCorrect ? "A" : 
-                         values.optionB.isCorrect ? "B" : 
-                         values.optionC.isCorrect ? "C" : "D",
+          correctAnswer: values.optionA.isCorrect
+            ? "A"
+            : values.optionB.isCorrect
+            ? "B"
+            : values.optionC.isCorrect
+            ? "C"
+            : "D",
           explanation: values.explanation || "",
           mark: values.mark,
           order: initialData?.order || 0,
@@ -226,7 +241,11 @@ export const AddQuizForm = ({
             </SelectContent>
           </Select>
           {onCancel && (
-            <Button variant="outline" onClick={onCancel} disabled={isSubmitting}>
+            <Button
+              variant="outline"
+              onClick={onCancel}
+              disabled={isSubmitting}
+            >
               Cancel
             </Button>
           )}
@@ -268,7 +287,9 @@ export const AddQuizForm = ({
                     min="1"
                     disabled={isSubmitting}
                     {...field}
-                    onChange={(e) => field.onChange(parseInt(e.target.value) || 1)}
+                    onChange={(e) =>
+                      field.onChange(parseInt(e.target.value) || 1)
+                    }
                   />
                 </FormControl>
                 <FormMessage />
@@ -325,21 +346,24 @@ export const AddQuizForm = ({
           )}
 
           {/* Short/Long Answer */}
-          {(questionType === "short_answer" || questionType === "long_answer") && (
+          {(questionType === "short_answer" ||
+            questionType === "long_answer") && (
             <FormField
               control={form.control}
               name="correctAnswer"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    {questionType === "short_answer" ? "Correct Answer" : "Sample Answer"}
+                    {questionType === "short_answer"
+                      ? "Correct Answer"
+                      : "Sample Answer"}
                   </FormLabel>
                   <FormControl>
                     <Textarea
                       disabled={isSubmitting}
                       placeholder={
-                        questionType === "short_answer" 
-                          ? "Enter the correct answer..." 
+                        questionType === "short_answer"
+                          ? "Enter the correct answer..."
                           : "Enter a sample answer or key points..."
                       }
                       rows={questionType === "long_answer" ? 5 : 2}

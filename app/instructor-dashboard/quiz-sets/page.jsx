@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { Button } from "../../../components/ui/button";
 import { getAllQuizzesByInstructorId } from "../../../queries/quizzes";
 import { getServerUserData } from "../../../queries/users";
 import { columns } from "./_components/columns";
@@ -32,9 +34,13 @@ const QuizSets = async () => {
       ) : (
         <div className="text-center py-8">
           <p className="text-gray-500">No quiz sets found.</p>
+          <div className="flex flex-col gap-4 justify-center items-center "> 
           <p className="text-sm text-gray-400 mt-2">
             Create your first quiz set to get started.
+            
           </p>
+          <Link href="/instructor-dashboard/quiz-sets/add" replace><Button>Create A Quiz</Button></Link>
+          </div>
         </div>
       )}
     </div>

@@ -99,13 +99,16 @@ export async function getQuizSetById(id) {
   //     }
 }
 
-export async function createQuiz(title, description, instructorId) {
+export async function createQuiz(
+  title,description,instructorId,generationType
+) {
   try {
     const res = await db.quiz.create({
       data: {
         title,
         description,
         createdByUserId: instructorId,
+        generationType,
       },
     });
     return res;
@@ -125,6 +128,7 @@ export async function createQuiz(title, description, instructorId) {
  * @returns {Promise<Object>} Updated quiz object
  */
 export async function updateQuizBasicInfo(quizId, updateData) {
+  //this functions ignores the generated type automatically. only  title, description,active and status can be updated 
   try {
     if (!quizId) {
       throw new Error("Quiz ID is required to update quiz information.");
@@ -161,12 +165,14 @@ export async function updateQuizBasicInfo(quizId, updateData) {
       if (typeof updateData.description !== "string") {
         throw new Error("Description must be a string.");
       }
-      if (updateData.description.length >200) {
+      if (updateData.description.length > 200) {
         throw new Error("Description must be less than 200 characters.");
       }
     }
+    if(updateData.generationType){
 
-    // Prepare update object
+    }
+
     const updateObject = {
       updatedAt: new Date(),
     };
@@ -185,13 +191,9 @@ export async function updateQuizBasicInfo(quizId, updateData) {
       // Automatically set active based on status
       updateObject.active = updateData.status === "published";
     }
-
-    // If active is explicitly provided, use it (overrides status-based setting)
     if (updateData.active !== undefined) {
       updateObject.active = updateData.active;
     }
-
-    // Update the quiz
     const updatedQuiz = await db.quiz.update({
       where: {
         id: quizId,

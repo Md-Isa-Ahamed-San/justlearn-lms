@@ -6,17 +6,17 @@ import { createQuiz } from "../../../queries/quizzes";
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { title, description,instructorId } = body;
+    const { title, description,instructorId,generationType } = body;
 
-    if (!title || !description) {
+    if (!title || !description || !generationType) {
       return NextResponse.json(
-        { message: "Title and description are required" },
+        { message: "Title , description and Generation Type are required" },
         { status: 400 }
       );
     }
-    console.log("gggggggggggggggg: ",title,description,instructorId)
+    // console.log("gggggggggggggggg: ",title,description,instructorId,generationType)
 
-    const newQuiz = await createQuiz(title,description,instructorId)
+    const newQuiz = await createQuiz(title,description,instructorId,generationType)
 
     return NextResponse.json(newQuiz, { status: 201 });
   } catch (error) {

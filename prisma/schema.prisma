@@ -13,10 +13,6 @@ datasource db {
 }
 
 // Enums
-enum QuizSource {
-  manual
-  ai_instructor_generated
-}
 
 enum QuizStatus {
   draft
@@ -52,11 +48,6 @@ enum Visibility {
 }
 
 // NEW: Quiz generation type enum
-enum QuizGenerationType {
-  manual // Type 1: Manual questions
-  ai_fixed // Type 2: AI generates fixed set
-  ai_pool // Type 3: AI generates pool, students get random subset
-}
 
 // MARK: User
 model User {
@@ -234,20 +225,27 @@ model Week {
   @@index([quizIds])
 }
 
+
+enum QuizGenerationType {
+  manual
+  ai_fixed
+  ai_pool // Type 3: AI generates pool(n number of quiz questions), students get random subset
+}
+
 // MARK: Quiz 
 model Quiz {
-  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
-  status      QuizStatus @default(draft)
-  source      QuizSource?
-  active      Boolean    @default(true)
-  weekIds     String[]   @db.ObjectId // Array of week IDs
+  status      QuizStatus  @default(draft)
+
+  active      Boolean     @default(true)
+  weekIds     String[]    @db.ObjectId
 
   // NEW: Question Pool Configuration
-  generationType      QuizGenerationType?
-  poolSize            Int?                @default(0) // Total questions in pool (for ai_pool type)
-  questionsPerStudent Int?                @default(5) // Questions each student gets
+  generationType      QuizGenerationType? @default(ai_pool)
+  poolSize            Int?                @default(50)
+  questionsPerStudent Int?                @default(10)
 
   // AI Generation fields
   aiPrompt               String? // Custom prompt from instructor or stored prompt
@@ -302,30 +300,29 @@ model Lesson {
   watches Watch[]
 }
 
-
 // MARK: Question
 model Question {
   id            String       @id @default(auto()) @map("_id") @db.ObjectId
   type          QuestionType @default(mcq)
-  text          String       // The actual question text
-  options       Json?        // Array of options for MCQ (null for short/long answer)
-  correctAnswer Json         // Correct answer(s), e.g., "A", or ["A", "C"] for MCQ, text for others
+  text          String // The actual question text
+  options       Json? // Array of options for MCQ (null for short/long answer)
+  correctAnswer Json // Correct answer(s), e.g., "A", or ["A", "C"] for MCQ, text for others
   mark          Int          @default(1)
   order         Int          @default(0)
-  
+
   // Question Pool fields
-  isFromPool    Boolean      @default(false) // True if this question is part of an AI-generated pool
-  
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  
+  isFromPool Boolean @default(false) // True if this question is part of an AI-generated pool
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   // Foreign Keys
-  quizId        String       @db.ObjectId
-  
+  quizId String @db.ObjectId
+
   // Relationships
   quiz           Quiz            @relation(fields: [quizId], references: [id])
   studentAnswers StudentAnswer[]
-  
+
   @@index([quizId, isFromPool])
   @@index([quizId, order]) // Additional index for question ordering
 }
@@ -353,7 +350,15 @@ model AIQuizTemplate {
   user User @relation("UserAIQuizTemplates", fields: [userId], references: [id])
   week Week @relation("WeekAITemplates", fields: [weekId], references: [id])
 }
-
+enum SubmissionReason {
+  manual_submit
+  time_expired
+  tab_switch_auto_submit
+  minimize_auto_submit
+  offline_auto_submit
+  browser_close_auto_submit
+  focus_loss_auto_submit
+}
 // MARK: QuizSubmission
 model QuizSubmission {
   id            String        @id @default(auto()) @map("_id") @db.ObjectId
@@ -363,6 +368,12 @@ model QuizSubmission {
   score         Float?        @default(0)
   attemptNumber Int           @default(1)
   timeSpent     Int? // Time spent in seconds
+    submissionReason    SubmissionReason @default(manual_submit)
+  suspiciousActivities Json?           // Array of activities: [{action: "tab_switch", timestamp: "2024-01-01T10:00:00Z"}, ...]
+  tabSwitchCount      Int             @default(0)
+  minimizeCount       Int             @default(0)
+  offlineCount        Int             @default(0)
+  totalViolations     Int             @default(0)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 
