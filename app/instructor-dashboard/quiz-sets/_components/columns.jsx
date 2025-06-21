@@ -3,13 +3,22 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import { ArrowUpDown, MoreHorizontal, Pencil, CheckCircle, XCircle, Brain, BookOpen, Shuffle } from "lucide-react"; // Added new icons
+import {
+  ArrowUpDown,
+  MoreHorizontal,
+  Pencil,
+  CheckCircle,
+  XCircle,
+  Brain,
+  BookOpen,
+  Shuffle,
+} from "lucide-react"; // Added new icons
 import Link from "next/link";
 
 // Helper to format generationType for display
@@ -48,7 +57,8 @@ export const columns = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Total Questions <ArrowUpDown className="ml-2 h-4 w-4" /> {/* Changed header to be more specific if it means questions */}
+          Total Questions <ArrowUpDown className="ml-2 h-4 w-4" />{" "}
+          {/* Changed header to be more specific if it means questions */}
         </Button>
       );
     },
@@ -70,7 +80,13 @@ export const columns = [
       const isPublished = status === "published"; // Derive from status
 
       return (
-        <Badge className={cn("bg-muted text-muted-foreground hover:bg-muted", isPublished && "bg-success text-success-foreground hover:bg-success/90")}>
+        <Badge
+          className={cn(
+            "bg-muted text-muted-foreground hover:bg-muted",
+            isPublished &&
+              "bg-success text-success-foreground hover:bg-success/90"
+          )}
+        >
           {isPublished ? "Published" : "Draft"}
         </Badge>
       );

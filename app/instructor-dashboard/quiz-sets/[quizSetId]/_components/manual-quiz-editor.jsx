@@ -20,24 +20,54 @@ export const ManualQuizEditor = ({ quizData, setQuizData }) => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingQuestion, setEditingQuestion] = useState(null);
 
-  const handleAddQuestion = (newQuestion) => {
-    // Add new question with temporary ID and proper order
+  const handleAddQuestion = async (newQuestion) => {
+    console.log(" handleAddQuestion ~ newQuestion:", newQuestion,quizData);
+    
     const currentQuestions = quizData?.questions || [];
     const newOrder = currentQuestions.length;
-
-    setQuizData((prev) => ({
-      ...prev,
-      questions: [
-        ...currentQuestions,
-        {
-          ...newQuestion,
-          id: `temp-${Date.now()}`,
-          order: newOrder,
+  
+    try {
+      const res = await fetch("/api/question", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      ],
-    }));
-    setShowAddForm(false);
-    toast.success("Question added successfully");
+        body: JSON.stringify({
+          quizId: quizData?.id,
+          text: newQuestion.text,
+          type: newQuestion.type,
+          mark: newQuestion.mark,
+          explanation: newQuestion.explanation,
+          options: newQuestion.options,
+          correctAnswer: newQuestion.correctAnswer,
+          order: newOrder,
+        }),
+      });
+  
+      const data = await res.json();
+  
+      if (res.ok && data.success) {
+        setQuizData((prev) => ({
+          ...prev,
+          questions: [
+            ...currentQuestions,
+            {
+              ...newQuestion,
+              id: data.question.id,
+              order: newOrder,
+            },
+          ],
+        }));
+        
+        setShowAddForm(false);
+        toast.success("Question added successfully");
+      } else {
+        throw new Error(data.error || "Failed to add question");
+      }
+    } catch (error) {
+      console.error("Error adding question:", error);
+      toast.error(error.message || "Failed to add question. Please try again.");
+    }
   };
 
   const handleUpdateQuestion = (updatedQuestion) => {

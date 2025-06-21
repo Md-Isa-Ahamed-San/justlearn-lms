@@ -1,6 +1,5 @@
 import React from "react";
 
-
 import EditQuizSet from "./_components/EditQuizSet";
 import { redirect } from "next/navigation";
 import { getQuizDetailsById } from "../../../../queries/quizzes";
@@ -20,7 +19,7 @@ const QuizSetPage = async ({ params }) => {
 
   try {
     initialQuizData = await getQuizDetailsById(quizSetId);
-    console.log(" QuizSetPage ~ initialQuizData:", initialQuizData)
+    console.log(" QuizSetPage ~ initialQuizData:", initialQuizData);
   } catch (err) {
     console.error(`Failed to fetch quiz data for ID ${quizSetId}:`, err);
     errorFetching = "An error occurred while trying to load the quiz data.";

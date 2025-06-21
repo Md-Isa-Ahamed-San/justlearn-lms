@@ -13970,6 +13970,7 @@ export namespace Prisma {
     id: string | null
     type: $Enums.QuestionType | null
     text: string | null
+    explanation: string | null
     mark: number | null
     order: number | null
     isFromPool: boolean | null
@@ -13982,6 +13983,7 @@ export namespace Prisma {
     id: string | null
     type: $Enums.QuestionType | null
     text: string | null
+    explanation: string | null
     mark: number | null
     order: number | null
     isFromPool: boolean | null
@@ -13994,6 +13996,7 @@ export namespace Prisma {
     id: number
     type: number
     text: number
+    explanation: number
     options: number
     correctAnswer: number
     mark: number
@@ -14020,6 +14023,7 @@ export namespace Prisma {
     id?: true
     type?: true
     text?: true
+    explanation?: true
     mark?: true
     order?: true
     isFromPool?: true
@@ -14032,6 +14036,7 @@ export namespace Prisma {
     id?: true
     type?: true
     text?: true
+    explanation?: true
     mark?: true
     order?: true
     isFromPool?: true
@@ -14044,6 +14049,7 @@ export namespace Prisma {
     id?: true
     type?: true
     text?: true
+    explanation?: true
     options?: true
     correctAnswer?: true
     mark?: true
@@ -14145,6 +14151,7 @@ export namespace Prisma {
     id: string
     type: $Enums.QuestionType
     text: string
+    explanation: string | null
     options: JsonValue | null
     correctAnswer: JsonValue
     mark: number
@@ -14178,6 +14185,7 @@ export namespace Prisma {
     id?: boolean
     type?: boolean
     text?: boolean
+    explanation?: boolean
     options?: boolean
     correctAnswer?: boolean
     mark?: boolean
@@ -14197,6 +14205,7 @@ export namespace Prisma {
     id?: boolean
     type?: boolean
     text?: boolean
+    explanation?: boolean
     options?: boolean
     correctAnswer?: boolean
     mark?: boolean
@@ -14207,7 +14216,7 @@ export namespace Prisma {
     quizId?: boolean
   }
 
-  export type QuestionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "text" | "options" | "correctAnswer" | "mark" | "order" | "isFromPool" | "createdAt" | "updatedAt" | "quizId", ExtArgs["result"]["question"]>
+  export type QuestionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "text" | "explanation" | "options" | "correctAnswer" | "mark" | "order" | "isFromPool" | "createdAt" | "updatedAt" | "quizId", ExtArgs["result"]["question"]>
   export type QuestionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     quiz?: boolean | QuizDefaultArgs<ExtArgs>
     studentAnswers?: boolean | Question$studentAnswersArgs<ExtArgs>
@@ -14224,6 +14233,7 @@ export namespace Prisma {
       id: string
       type: $Enums.QuestionType
       text: string
+      explanation: string | null
       options: Prisma.JsonValue | null
       correctAnswer: Prisma.JsonValue
       mark: number
@@ -14629,6 +14639,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Question", 'String'>
     readonly type: FieldRef<"Question", 'QuestionType'>
     readonly text: FieldRef<"Question", 'String'>
+    readonly explanation: FieldRef<"Question", 'String'>
     readonly options: FieldRef<"Question", 'Json'>
     readonly correctAnswer: FieldRef<"Question", 'Json'>
     readonly mark: FieldRef<"Question", 'Int'>
@@ -27893,6 +27904,7 @@ export namespace Prisma {
     id: 'id',
     type: 'type',
     text: 'text',
+    explanation: 'explanation',
     options: 'options',
     correctAnswer: 'correctAnswer',
     mark: 'mark',
@@ -29230,6 +29242,7 @@ export namespace Prisma {
     id?: StringFilter<"Question"> | string
     type?: EnumQuestionTypeFilter<"Question"> | $Enums.QuestionType
     text?: StringFilter<"Question"> | string
+    explanation?: StringNullableFilter<"Question"> | string | null
     options?: JsonNullableFilter<"Question">
     correctAnswer?: JsonFilter<"Question">
     mark?: IntFilter<"Question"> | number
@@ -29246,6 +29259,7 @@ export namespace Prisma {
     id?: SortOrder
     type?: SortOrder
     text?: SortOrder
+    explanation?: SortOrder
     options?: SortOrder
     correctAnswer?: SortOrder
     mark?: SortOrder
@@ -29265,6 +29279,7 @@ export namespace Prisma {
     NOT?: QuestionWhereInput | QuestionWhereInput[]
     type?: EnumQuestionTypeFilter<"Question"> | $Enums.QuestionType
     text?: StringFilter<"Question"> | string
+    explanation?: StringNullableFilter<"Question"> | string | null
     options?: JsonNullableFilter<"Question">
     correctAnswer?: JsonFilter<"Question">
     mark?: IntFilter<"Question"> | number
@@ -29281,6 +29296,7 @@ export namespace Prisma {
     id?: SortOrder
     type?: SortOrder
     text?: SortOrder
+    explanation?: SortOrder
     options?: SortOrder
     correctAnswer?: SortOrder
     mark?: SortOrder
@@ -29303,6 +29319,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Question"> | string
     type?: EnumQuestionTypeWithAggregatesFilter<"Question"> | $Enums.QuestionType
     text?: StringWithAggregatesFilter<"Question"> | string
+    explanation?: StringNullableWithAggregatesFilter<"Question"> | string | null
     options?: JsonNullableWithAggregatesFilter<"Question">
     correctAnswer?: JsonWithAggregatesFilter<"Question">
     mark?: IntWithAggregatesFilter<"Question"> | number
@@ -31342,6 +31359,7 @@ export namespace Prisma {
     id?: string
     type?: $Enums.QuestionType
     text: string
+    explanation?: string | null
     options?: InputJsonValue | null
     correctAnswer: InputJsonValue
     mark?: number
@@ -31357,6 +31375,7 @@ export namespace Prisma {
     id?: string
     type?: $Enums.QuestionType
     text: string
+    explanation?: string | null
     options?: InputJsonValue | null
     correctAnswer: InputJsonValue
     mark?: number
@@ -31371,6 +31390,7 @@ export namespace Prisma {
   export type QuestionUpdateInput = {
     type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     text?: StringFieldUpdateOperationsInput | string
+    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     options?: InputJsonValue | InputJsonValue | null
     correctAnswer?: InputJsonValue | InputJsonValue
     mark?: IntFieldUpdateOperationsInput | number
@@ -31385,6 +31405,7 @@ export namespace Prisma {
   export type QuestionUncheckedUpdateInput = {
     type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     text?: StringFieldUpdateOperationsInput | string
+    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     options?: InputJsonValue | InputJsonValue | null
     correctAnswer?: InputJsonValue | InputJsonValue
     mark?: IntFieldUpdateOperationsInput | number
@@ -31400,6 +31421,7 @@ export namespace Prisma {
     id?: string
     type?: $Enums.QuestionType
     text: string
+    explanation?: string | null
     options?: InputJsonValue | null
     correctAnswer: InputJsonValue
     mark?: number
@@ -31413,6 +31435,7 @@ export namespace Prisma {
   export type QuestionUpdateManyMutationInput = {
     type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     text?: StringFieldUpdateOperationsInput | string
+    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     options?: InputJsonValue | InputJsonValue | null
     correctAnswer?: InputJsonValue | InputJsonValue
     mark?: IntFieldUpdateOperationsInput | number
@@ -31425,6 +31448,7 @@ export namespace Prisma {
   export type QuestionUncheckedUpdateManyInput = {
     type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     text?: StringFieldUpdateOperationsInput | string
+    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     options?: InputJsonValue | InputJsonValue | null
     correctAnswer?: InputJsonValue | InputJsonValue
     mark?: IntFieldUpdateOperationsInput | number
@@ -33437,6 +33461,7 @@ export namespace Prisma {
     id?: SortOrder
     type?: SortOrder
     text?: SortOrder
+    explanation?: SortOrder
     options?: SortOrder
     correctAnswer?: SortOrder
     mark?: SortOrder
@@ -33456,6 +33481,7 @@ export namespace Prisma {
     id?: SortOrder
     type?: SortOrder
     text?: SortOrder
+    explanation?: SortOrder
     mark?: SortOrder
     order?: SortOrder
     isFromPool?: SortOrder
@@ -33468,6 +33494,7 @@ export namespace Prisma {
     id?: SortOrder
     type?: SortOrder
     text?: SortOrder
+    explanation?: SortOrder
     mark?: SortOrder
     order?: SortOrder
     isFromPool?: SortOrder
@@ -38731,6 +38758,7 @@ export namespace Prisma {
     id?: string
     type?: $Enums.QuestionType
     text: string
+    explanation?: string | null
     options?: InputJsonValue | null
     correctAnswer: InputJsonValue
     mark?: number
@@ -38745,6 +38773,7 @@ export namespace Prisma {
     id?: string
     type?: $Enums.QuestionType
     text: string
+    explanation?: string | null
     options?: InputJsonValue | null
     correctAnswer: InputJsonValue
     mark?: number
@@ -38969,6 +38998,7 @@ export namespace Prisma {
     id?: StringFilter<"Question"> | string
     type?: EnumQuestionTypeFilter<"Question"> | $Enums.QuestionType
     text?: StringFilter<"Question"> | string
+    explanation?: StringNullableFilter<"Question"> | string | null
     options?: JsonNullableFilter<"Question">
     correctAnswer?: JsonFilter<"Question">
     mark?: IntFilter<"Question"> | number
@@ -39859,6 +39889,7 @@ export namespace Prisma {
     id?: string
     type?: $Enums.QuestionType
     text: string
+    explanation?: string | null
     options?: InputJsonValue | null
     correctAnswer: InputJsonValue
     mark?: number
@@ -39873,6 +39904,7 @@ export namespace Prisma {
     id?: string
     type?: $Enums.QuestionType
     text: string
+    explanation?: string | null
     options?: InputJsonValue | null
     correctAnswer: InputJsonValue
     mark?: number
@@ -39947,6 +39979,7 @@ export namespace Prisma {
   export type QuestionUpdateWithoutStudentAnswersInput = {
     type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     text?: StringFieldUpdateOperationsInput | string
+    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     options?: InputJsonValue | InputJsonValue | null
     correctAnswer?: InputJsonValue | InputJsonValue
     mark?: IntFieldUpdateOperationsInput | number
@@ -39960,6 +39993,7 @@ export namespace Prisma {
   export type QuestionUncheckedUpdateWithoutStudentAnswersInput = {
     type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     text?: StringFieldUpdateOperationsInput | string
+    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     options?: InputJsonValue | InputJsonValue | null
     correctAnswer?: InputJsonValue | InputJsonValue
     mark?: IntFieldUpdateOperationsInput | number
@@ -43094,6 +43128,7 @@ export namespace Prisma {
     id?: string
     type?: $Enums.QuestionType
     text: string
+    explanation?: string | null
     options?: InputJsonValue | null
     correctAnswer: InputJsonValue
     mark?: number
@@ -43139,6 +43174,7 @@ export namespace Prisma {
   export type QuestionUpdateWithoutQuizInput = {
     type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     text?: StringFieldUpdateOperationsInput | string
+    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     options?: InputJsonValue | InputJsonValue | null
     correctAnswer?: InputJsonValue | InputJsonValue
     mark?: IntFieldUpdateOperationsInput | number
@@ -43152,6 +43188,7 @@ export namespace Prisma {
   export type QuestionUncheckedUpdateWithoutQuizInput = {
     type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     text?: StringFieldUpdateOperationsInput | string
+    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     options?: InputJsonValue | InputJsonValue | null
     correctAnswer?: InputJsonValue | InputJsonValue
     mark?: IntFieldUpdateOperationsInput | number
@@ -43165,6 +43202,7 @@ export namespace Prisma {
   export type QuestionUncheckedUpdateManyWithoutQuizInput = {
     type?: EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
     text?: StringFieldUpdateOperationsInput | string
+    explanation?: NullableStringFieldUpdateOperationsInput | string | null
     options?: InputJsonValue | InputJsonValue | null
     correctAnswer?: InputJsonValue | InputJsonValue
     mark?: IntFieldUpdateOperationsInput | number

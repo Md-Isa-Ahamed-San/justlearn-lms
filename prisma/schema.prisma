@@ -225,7 +225,6 @@ model Week {
   @@index([quizIds])
 }
 
-
 enum QuizGenerationType {
   manual
   ai_fixed
@@ -234,13 +233,13 @@ enum QuizGenerationType {
 
 // MARK: Quiz 
 model Quiz {
-  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
-  status      QuizStatus  @default(draft)
+  status      QuizStatus @default(draft)
 
-  active      Boolean     @default(true)
-  weekIds     String[]    @db.ObjectId
+  active  Boolean  @default(true)
+  weekIds String[] @db.ObjectId
 
   // NEW: Question Pool Configuration
   generationType      QuizGenerationType? @default(ai_pool)
@@ -305,6 +304,7 @@ model Question {
   id            String       @id @default(auto()) @map("_id") @db.ObjectId
   type          QuestionType @default(mcq)
   text          String // The actual question text
+  explanation   String?
   options       Json? // Array of options for MCQ (null for short/long answer)
   correctAnswer Json // Correct answer(s), e.g., "A", or ["A", "C"] for MCQ, text for others
   mark          Int          @default(1)
@@ -350,6 +350,7 @@ model AIQuizTemplate {
   user User @relation("UserAIQuizTemplates", fields: [userId], references: [id])
   week Week @relation("WeekAITemplates", fields: [weekId], references: [id])
 }
+
 enum SubmissionReason {
   manual_submit
   time_expired
@@ -359,23 +360,24 @@ enum SubmissionReason {
   browser_close_auto_submit
   focus_loss_auto_submit
 }
+
 // MARK: QuizSubmission
 model QuizSubmission {
-  id            String        @id @default(auto()) @map("_id") @db.ObjectId
-  startTime     DateTime?
-  endTime       DateTime?
-  status        AttemptStatus @default(not_started)
-  score         Float?        @default(0)
-  attemptNumber Int           @default(1)
-  timeSpent     Int? // Time spent in seconds
-    submissionReason    SubmissionReason @default(manual_submit)
-  suspiciousActivities Json?           // Array of activities: [{action: "tab_switch", timestamp: "2024-01-01T10:00:00Z"}, ...]
-  tabSwitchCount      Int             @default(0)
-  minimizeCount       Int             @default(0)
-  offlineCount        Int             @default(0)
-  totalViolations     Int             @default(0)
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  id                   String           @id @default(auto()) @map("_id") @db.ObjectId
+  startTime            DateTime?
+  endTime              DateTime?
+  status               AttemptStatus    @default(not_started)
+  score                Float?           @default(0)
+  attemptNumber        Int              @default(1)
+  timeSpent            Int? // Time spent in seconds
+  submissionReason     SubmissionReason @default(manual_submit)
+  suspiciousActivities Json? // Array of activities: [{action: "tab_switch", timestamp: "2024-01-01T10:00:00Z"}, ...]
+  tabSwitchCount       Int              @default(0)
+  minimizeCount        Int              @default(0)
+  offlineCount         Int              @default(0)
+  totalViolations      Int              @default(0)
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @updatedAt
 
   // Foreign Keys
   userId String @db.ObjectId

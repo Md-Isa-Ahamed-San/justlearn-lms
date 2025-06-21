@@ -304,6 +304,7 @@ model Question {
   id            String       @id @default(auto()) @map("_id") @db.ObjectId
   type          QuestionType @default(mcq)
   text          String // The actual question text
+  explanation   String?
   options       Json? // Array of options for MCQ (null for short/long answer)
   correctAnswer Json // Correct answer(s), e.g., "A", or ["A", "C"] for MCQ, text for others
   mark          Int          @default(1)
