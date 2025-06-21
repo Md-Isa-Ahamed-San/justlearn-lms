@@ -1,5 +1,7 @@
 import { db } from "../lib/prisma";
 
+// import pdfParse from 'pdf-parse';
+// import mammoth from 'mammoth';
 export async function getAllQuizzesByInstructorId(instructorId) {
   try {
     if (!instructorId) {
@@ -85,20 +87,6 @@ export async function getAllQuizSets(excludeUnPublished) {
   //     throw new Error(e);
   // }
 }
-
-export async function getQuizSetById(id) {
-  //     try {
-  //         const quizSet = await Quizset.findById(id)
-  //             .populate({
-  //                 path: "quizIds",
-  //                 model: Quiz,
-  //           }).lean();
-  //           return replaceMongoIdInObject(quizSet);
-  //     } catch (e) {
-  //         throw new Error(e);
-  //     }
-}
-
 export async function createQuiz(
   title,description,instructorId,generationType
 ) {
@@ -116,19 +104,7 @@ export async function createQuiz(
     throw new Error(e);
   }
 }
-
-/**
- * Update quiz basic information including status, title, and description
- * @param {string} quizId - The ID of the quiz to update
- * @param {Object} updateData - The data to update
- * @param {string} [updateData.status] - Quiz status: "draft" or "published"
- * @param {string} [updateData.title] - Quiz title
- * @param {string} [updateData.description] - Quiz description
- * @param {boolean} [updateData.active] - Active status (optional, will be set based on status)
- * @returns {Promise<Object>} Updated quiz object
- */
 export async function updateQuizBasicInfo(quizId, updateData) {
-  //this functions ignores the generated type automatically. only  title, description,active and status can be updated 
   try {
     if (!quizId) {
       throw new Error("Quiz ID is required to update quiz information.");
@@ -169,8 +145,11 @@ export async function updateQuizBasicInfo(quizId, updateData) {
         throw new Error("Description must be less than 200 characters.");
       }
     }
-    if(updateData.generationType){
 
+    // Remove generationType from updateData if present (since it's ignored)
+    if (updateData.generationType) {
+      console.log("generationType field ignored in update operation");
+      delete updateData.generationType;
     }
 
     const updateObject = {
@@ -191,9 +170,11 @@ export async function updateQuizBasicInfo(quizId, updateData) {
       // Automatically set active based on status
       updateObject.active = updateData.status === "published";
     }
+    
     if (updateData.active !== undefined) {
       updateObject.active = updateData.active;
     }
+
     const updatedQuiz = await db.quiz.update({
       where: {
         id: quizId,
@@ -203,6 +184,7 @@ export async function updateQuizBasicInfo(quizId, updateData) {
 
     console.log(`Quiz ${quizId} updated successfully:`, updateObject);
     return updatedQuiz;
+    
   } catch (error) {
     console.error(`Error updating quiz ${quizId}:`, error.message);
 
@@ -218,3 +200,5 @@ export async function updateQuizBasicInfo(quizId, updateData) {
     throw new Error(`Failed to update quiz. Details: ${error.message}`);
   }
 }
+
+

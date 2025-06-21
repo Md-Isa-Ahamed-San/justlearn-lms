@@ -11618,6 +11618,7 @@ export namespace Prisma {
     questionsPerStudent: number
     aiPrompt: number
     aiContextData: number
+    aiContextFiles: number
     targetMcqCount: number
     timeLimit: number
     maxAttempts: number
@@ -11695,6 +11696,7 @@ export namespace Prisma {
     questionsPerStudent?: true
     aiPrompt?: true
     aiContextData?: true
+    aiContextFiles?: true
     targetMcqCount?: true
     timeLimit?: true
     maxAttempts?: true
@@ -11803,6 +11805,7 @@ export namespace Prisma {
     questionsPerStudent: number | null
     aiPrompt: string | null
     aiContextData: JsonValue | null
+    aiContextFiles: string[]
     targetMcqCount: number | null
     timeLimit: number | null
     maxAttempts: number | null
@@ -11843,6 +11846,7 @@ export namespace Prisma {
     questionsPerStudent?: boolean
     aiPrompt?: boolean
     aiContextData?: boolean
+    aiContextFiles?: boolean
     targetMcqCount?: boolean
     timeLimit?: boolean
     maxAttempts?: boolean
@@ -11872,6 +11876,7 @@ export namespace Prisma {
     questionsPerStudent?: boolean
     aiPrompt?: boolean
     aiContextData?: boolean
+    aiContextFiles?: boolean
     targetMcqCount?: boolean
     timeLimit?: boolean
     maxAttempts?: boolean
@@ -11881,7 +11886,7 @@ export namespace Prisma {
     createdByUserId?: boolean
   }
 
-  export type QuizOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "status" | "active" | "weekIds" | "generationType" | "poolSize" | "questionsPerStudent" | "aiPrompt" | "aiContextData" | "targetMcqCount" | "timeLimit" | "maxAttempts" | "showResultsImmediately" | "createdAt" | "updatedAt" | "createdByUserId", ExtArgs["result"]["quiz"]>
+  export type QuizOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "status" | "active" | "weekIds" | "generationType" | "poolSize" | "questionsPerStudent" | "aiPrompt" | "aiContextData" | "aiContextFiles" | "targetMcqCount" | "timeLimit" | "maxAttempts" | "showResultsImmediately" | "createdAt" | "updatedAt" | "createdByUserId", ExtArgs["result"]["quiz"]>
   export type QuizInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
     questions?: boolean | Quiz$questionsArgs<ExtArgs>
@@ -11912,6 +11917,7 @@ export namespace Prisma {
       questionsPerStudent: number | null
       aiPrompt: string | null
       aiContextData: Prisma.JsonValue | null
+      aiContextFiles: string[]
       targetMcqCount: number | null
       timeLimit: number | null
       maxAttempts: number | null
@@ -12327,6 +12333,7 @@ export namespace Prisma {
     readonly questionsPerStudent: FieldRef<"Quiz", 'Int'>
     readonly aiPrompt: FieldRef<"Quiz", 'String'>
     readonly aiContextData: FieldRef<"Quiz", 'Json'>
+    readonly aiContextFiles: FieldRef<"Quiz", 'String[]'>
     readonly targetMcqCount: FieldRef<"Quiz", 'Int'>
     readonly timeLimit: FieldRef<"Quiz", 'Int'>
     readonly maxAttempts: FieldRef<"Quiz", 'Int'>
@@ -27869,6 +27876,7 @@ export namespace Prisma {
     questionsPerStudent: 'questionsPerStudent',
     aiPrompt: 'aiPrompt',
     aiContextData: 'aiContextData',
+    aiContextFiles: 'aiContextFiles',
     targetMcqCount: 'targetMcqCount',
     timeLimit: 'timeLimit',
     maxAttempts: 'maxAttempts',
@@ -29016,6 +29024,7 @@ export namespace Prisma {
     questionsPerStudent?: IntNullableFilter<"Quiz"> | number | null
     aiPrompt?: StringNullableFilter<"Quiz"> | string | null
     aiContextData?: JsonNullableFilter<"Quiz">
+    aiContextFiles?: StringNullableListFilter<"Quiz">
     targetMcqCount?: IntNullableFilter<"Quiz"> | number | null
     timeLimit?: IntNullableFilter<"Quiz"> | number | null
     maxAttempts?: IntNullableFilter<"Quiz"> | number | null
@@ -29042,6 +29051,7 @@ export namespace Prisma {
     questionsPerStudent?: SortOrder
     aiPrompt?: SortOrder
     aiContextData?: SortOrder
+    aiContextFiles?: SortOrder
     targetMcqCount?: SortOrder
     timeLimit?: SortOrder
     maxAttempts?: SortOrder
@@ -29071,6 +29081,7 @@ export namespace Prisma {
     questionsPerStudent?: IntNullableFilter<"Quiz"> | number | null
     aiPrompt?: StringNullableFilter<"Quiz"> | string | null
     aiContextData?: JsonNullableFilter<"Quiz">
+    aiContextFiles?: StringNullableListFilter<"Quiz">
     targetMcqCount?: IntNullableFilter<"Quiz"> | number | null
     timeLimit?: IntNullableFilter<"Quiz"> | number | null
     maxAttempts?: IntNullableFilter<"Quiz"> | number | null
@@ -29097,6 +29108,7 @@ export namespace Prisma {
     questionsPerStudent?: SortOrder
     aiPrompt?: SortOrder
     aiContextData?: SortOrder
+    aiContextFiles?: SortOrder
     targetMcqCount?: SortOrder
     timeLimit?: SortOrder
     maxAttempts?: SortOrder
@@ -29126,6 +29138,7 @@ export namespace Prisma {
     questionsPerStudent?: IntNullableWithAggregatesFilter<"Quiz"> | number | null
     aiPrompt?: StringNullableWithAggregatesFilter<"Quiz"> | string | null
     aiContextData?: JsonNullableWithAggregatesFilter<"Quiz">
+    aiContextFiles?: StringNullableListFilter<"Quiz">
     targetMcqCount?: IntNullableWithAggregatesFilter<"Quiz"> | number | null
     timeLimit?: IntNullableWithAggregatesFilter<"Quiz"> | number | null
     maxAttempts?: IntNullableWithAggregatesFilter<"Quiz"> | number | null
@@ -31098,6 +31111,7 @@ export namespace Prisma {
     questionsPerStudent?: number | null
     aiPrompt?: string | null
     aiContextData?: InputJsonValue | null
+    aiContextFiles?: QuizCreateaiContextFilesInput | string[]
     targetMcqCount?: number | null
     timeLimit?: number | null
     maxAttempts?: number | null
@@ -31123,6 +31137,7 @@ export namespace Prisma {
     questionsPerStudent?: number | null
     aiPrompt?: string | null
     aiContextData?: InputJsonValue | null
+    aiContextFiles?: QuizCreateaiContextFilesInput | string[]
     targetMcqCount?: number | null
     timeLimit?: number | null
     maxAttempts?: number | null
@@ -31147,6 +31162,7 @@ export namespace Prisma {
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
     aiContextData?: InputJsonValue | InputJsonValue | null
+    aiContextFiles?: QuizUpdateaiContextFilesInput | string[]
     targetMcqCount?: NullableIntFieldUpdateOperationsInput | number | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
@@ -31171,6 +31187,7 @@ export namespace Prisma {
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
     aiContextData?: InputJsonValue | InputJsonValue | null
+    aiContextFiles?: QuizUpdateaiContextFilesInput | string[]
     targetMcqCount?: NullableIntFieldUpdateOperationsInput | number | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
@@ -31196,6 +31213,7 @@ export namespace Prisma {
     questionsPerStudent?: number | null
     aiPrompt?: string | null
     aiContextData?: InputJsonValue | null
+    aiContextFiles?: QuizCreateaiContextFilesInput | string[]
     targetMcqCount?: number | null
     timeLimit?: number | null
     maxAttempts?: number | null
@@ -31216,6 +31234,7 @@ export namespace Prisma {
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
     aiContextData?: InputJsonValue | InputJsonValue | null
+    aiContextFiles?: QuizUpdateaiContextFilesInput | string[]
     targetMcqCount?: NullableIntFieldUpdateOperationsInput | number | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
@@ -31235,6 +31254,7 @@ export namespace Prisma {
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
     aiContextData?: InputJsonValue | InputJsonValue | null
+    aiContextFiles?: QuizUpdateaiContextFilesInput | string[]
     targetMcqCount?: NullableIntFieldUpdateOperationsInput | number | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
@@ -33290,6 +33310,7 @@ export namespace Prisma {
     questionsPerStudent?: SortOrder
     aiPrompt?: SortOrder
     aiContextData?: SortOrder
+    aiContextFiles?: SortOrder
     targetMcqCount?: SortOrder
     timeLimit?: SortOrder
     maxAttempts?: SortOrder
@@ -35315,6 +35336,10 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type QuizCreateaiContextFilesInput = {
+    set: string[]
+  }
+
   export type UserCreateNestedOneWithoutCreatedQuizzesInput = {
     create?: XOR<UserCreateWithoutCreatedQuizzesInput, UserUncheckedCreateWithoutCreatedQuizzesInput>
     connectOrCreate?: UserCreateOrConnectWithoutCreatedQuizzesInput
@@ -35387,6 +35412,11 @@ export namespace Prisma {
   export type NullableEnumQuizGenerationTypeFieldUpdateOperationsInput = {
     set?: $Enums.QuizGenerationType | null
     unset?: boolean
+  }
+
+  export type QuizUpdateaiContextFilesInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type UserUpdateOneRequiredWithoutCreatedQuizzesNestedInput = {
@@ -36648,6 +36678,7 @@ export namespace Prisma {
     questionsPerStudent?: number | null
     aiPrompt?: string | null
     aiContextData?: InputJsonValue | null
+    aiContextFiles?: QuizCreateaiContextFilesInput | string[]
     targetMcqCount?: number | null
     timeLimit?: number | null
     maxAttempts?: number | null
@@ -36672,6 +36703,7 @@ export namespace Prisma {
     questionsPerStudent?: number | null
     aiPrompt?: string | null
     aiContextData?: InputJsonValue | null
+    aiContextFiles?: QuizCreateaiContextFilesInput | string[]
     targetMcqCount?: number | null
     timeLimit?: number | null
     maxAttempts?: number | null
@@ -37185,6 +37217,7 @@ export namespace Prisma {
     questionsPerStudent?: IntNullableFilter<"Quiz"> | number | null
     aiPrompt?: StringNullableFilter<"Quiz"> | string | null
     aiContextData?: JsonNullableFilter<"Quiz">
+    aiContextFiles?: StringNullableListFilter<"Quiz">
     targetMcqCount?: IntNullableFilter<"Quiz"> | number | null
     timeLimit?: IntNullableFilter<"Quiz"> | number | null
     maxAttempts?: IntNullableFilter<"Quiz"> | number | null
@@ -39227,6 +39260,7 @@ export namespace Prisma {
     questionsPerStudent?: number | null
     aiPrompt?: string | null
     aiContextData?: InputJsonValue | null
+    aiContextFiles?: QuizCreateaiContextFilesInput | string[]
     targetMcqCount?: number | null
     timeLimit?: number | null
     maxAttempts?: number | null
@@ -39251,6 +39285,7 @@ export namespace Prisma {
     questionsPerStudent?: number | null
     aiPrompt?: string | null
     aiContextData?: InputJsonValue | null
+    aiContextFiles?: QuizCreateaiContextFilesInput | string[]
     targetMcqCount?: number | null
     timeLimit?: number | null
     maxAttempts?: number | null
@@ -39319,6 +39354,7 @@ export namespace Prisma {
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
     aiContextData?: InputJsonValue | InputJsonValue | null
+    aiContextFiles?: QuizUpdateaiContextFilesInput | string[]
     targetMcqCount?: NullableIntFieldUpdateOperationsInput | number | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
@@ -39342,6 +39378,7 @@ export namespace Prisma {
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
     aiContextData?: InputJsonValue | InputJsonValue | null
+    aiContextFiles?: QuizUpdateaiContextFilesInput | string[]
     targetMcqCount?: NullableIntFieldUpdateOperationsInput | number | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
@@ -39677,6 +39714,7 @@ export namespace Prisma {
     questionsPerStudent?: number | null
     aiPrompt?: string | null
     aiContextData?: InputJsonValue | null
+    aiContextFiles?: QuizCreateaiContextFilesInput | string[]
     targetMcqCount?: number | null
     timeLimit?: number | null
     maxAttempts?: number | null
@@ -39701,6 +39739,7 @@ export namespace Prisma {
     questionsPerStudent?: number | null
     aiPrompt?: string | null
     aiContextData?: InputJsonValue | null
+    aiContextFiles?: QuizCreateaiContextFilesInput | string[]
     targetMcqCount?: number | null
     timeLimit?: number | null
     maxAttempts?: number | null
@@ -39834,6 +39873,7 @@ export namespace Prisma {
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
     aiContextData?: InputJsonValue | InputJsonValue | null
+    aiContextFiles?: QuizUpdateaiContextFilesInput | string[]
     targetMcqCount?: NullableIntFieldUpdateOperationsInput | number | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
@@ -39857,6 +39897,7 @@ export namespace Prisma {
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
     aiContextData?: InputJsonValue | InputJsonValue | null
+    aiContextFiles?: QuizUpdateaiContextFilesInput | string[]
     targetMcqCount?: NullableIntFieldUpdateOperationsInput | number | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
@@ -40065,6 +40106,7 @@ export namespace Prisma {
     questionsPerStudent?: number | null
     aiPrompt?: string | null
     aiContextData?: InputJsonValue | null
+    aiContextFiles?: QuizCreateaiContextFilesInput | string[]
     targetMcqCount?: number | null
     timeLimit?: number | null
     maxAttempts?: number | null
@@ -40089,6 +40131,7 @@ export namespace Prisma {
     questionsPerStudent?: number | null
     aiPrompt?: string | null
     aiContextData?: InputJsonValue | null
+    aiContextFiles?: QuizCreateaiContextFilesInput | string[]
     targetMcqCount?: number | null
     timeLimit?: number | null
     maxAttempts?: number | null
@@ -40189,6 +40232,7 @@ export namespace Prisma {
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
     aiContextData?: InputJsonValue | InputJsonValue | null
+    aiContextFiles?: QuizUpdateaiContextFilesInput | string[]
     targetMcqCount?: NullableIntFieldUpdateOperationsInput | number | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
@@ -40212,6 +40256,7 @@ export namespace Prisma {
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
     aiContextData?: InputJsonValue | InputJsonValue | null
+    aiContextFiles?: QuizUpdateaiContextFilesInput | string[]
     targetMcqCount?: NullableIntFieldUpdateOperationsInput | number | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
@@ -41833,6 +41878,7 @@ export namespace Prisma {
     questionsPerStudent?: number | null
     aiPrompt?: string | null
     aiContextData?: InputJsonValue | null
+    aiContextFiles?: QuizCreateaiContextFilesInput | string[]
     targetMcqCount?: number | null
     timeLimit?: number | null
     maxAttempts?: number | null
@@ -41857,6 +41903,7 @@ export namespace Prisma {
     questionsPerStudent?: number | null
     aiPrompt?: string | null
     aiContextData?: InputJsonValue | null
+    aiContextFiles?: QuizCreateaiContextFilesInput | string[]
     targetMcqCount?: number | null
     timeLimit?: number | null
     maxAttempts?: number | null
@@ -41957,6 +42004,7 @@ export namespace Prisma {
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
     aiContextData?: InputJsonValue | InputJsonValue | null
+    aiContextFiles?: QuizUpdateaiContextFilesInput | string[]
     targetMcqCount?: NullableIntFieldUpdateOperationsInput | number | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
@@ -41980,6 +42028,7 @@ export namespace Prisma {
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
     aiContextData?: InputJsonValue | InputJsonValue | null
+    aiContextFiles?: QuizUpdateaiContextFilesInput | string[]
     targetMcqCount?: NullableIntFieldUpdateOperationsInput | number | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
@@ -42113,6 +42162,7 @@ export namespace Prisma {
     questionsPerStudent?: number | null
     aiPrompt?: string | null
     aiContextData?: InputJsonValue | null
+    aiContextFiles?: QuizCreateaiContextFilesInput | string[]
     targetMcqCount?: number | null
     timeLimit?: number | null
     maxAttempts?: number | null
@@ -42354,6 +42404,7 @@ export namespace Prisma {
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
     aiContextData?: InputJsonValue | InputJsonValue | null
+    aiContextFiles?: QuizUpdateaiContextFilesInput | string[]
     targetMcqCount?: NullableIntFieldUpdateOperationsInput | number | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
@@ -42377,6 +42428,7 @@ export namespace Prisma {
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
     aiContextData?: InputJsonValue | InputJsonValue | null
+    aiContextFiles?: QuizUpdateaiContextFilesInput | string[]
     targetMcqCount?: NullableIntFieldUpdateOperationsInput | number | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null
@@ -42400,6 +42452,7 @@ export namespace Prisma {
     questionsPerStudent?: NullableIntFieldUpdateOperationsInput | number | null
     aiPrompt?: NullableStringFieldUpdateOperationsInput | string | null
     aiContextData?: InputJsonValue | InputJsonValue | null
+    aiContextFiles?: QuizUpdateaiContextFilesInput | string[]
     targetMcqCount?: NullableIntFieldUpdateOperationsInput | number | null
     timeLimit?: NullableIntFieldUpdateOperationsInput | number | null
     maxAttempts?: NullableIntFieldUpdateOperationsInput | number | null

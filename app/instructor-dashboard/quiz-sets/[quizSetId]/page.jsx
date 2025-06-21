@@ -3,6 +3,7 @@ import React from "react";
 import EditQuizSet from "./_components/EditQuizSet";
 import { redirect } from "next/navigation";
 import { getQuizDetailsById } from "../../../../queries/quizzes";
+import { chalkLog } from "../../../../utils/logger";
 
 // This is a Server Component
 const QuizSetPage = async ({ params }) => {
@@ -15,11 +16,12 @@ const QuizSetPage = async ({ params }) => {
   }
 
   let initialQuizData = null;
+
   let errorFetching = null;
 
   try {
     initialQuizData = await getQuizDetailsById(quizSetId);
-    console.log(" QuizSetPage ~ initialQuizData:", initialQuizData);
+    chalkLog.log(" QuizSetPage ~ initialQuizData:", initialQuizData);
   } catch (err) {
     console.error(`Failed to fetch quiz data for ID ${quizSetId}:`, err);
     errorFetching = "An error occurred while trying to load the quiz data.";

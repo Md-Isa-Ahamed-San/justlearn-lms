@@ -249,11 +249,12 @@ model Quiz {
   // AI Generation fields
   aiPrompt               String? // Custom prompt from instructor or stored prompt
   aiContextData          Json? // Week content, lessons, resources for AI context
-  targetMcqCount         Int?    @default(5)
+  aiContextFiles         String[] // Array of file URLs/paths
+  targetMcqCount         Int?     @default(5)
   // Time and attempt controls
-  timeLimit              Int?    @default(5) // Time limit in minutes
-  maxAttempts            Int?    @default(1)
-  showResultsImmediately Boolean @default(true)
+  timeLimit              Int?     @default(5) // Time limit in minutes
+  maxAttempts            Int?     @default(1)
+  showResultsImmediately Boolean  @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
