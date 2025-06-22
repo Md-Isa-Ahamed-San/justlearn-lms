@@ -8,6 +8,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { ManualQuizEditor } from "./manual-quiz-editor";
+import Info from "../../../../../components/info";
 
 export const AIFixedQuizGenerator = ({ quizData, setQuizData }) => {
   const [aiPrompt, setAiPrompt] = useState(quizData.aiPrompt || "");
@@ -102,11 +103,13 @@ export const AIFixedQuizGenerator = ({ quizData, setQuizData }) => {
   };
 
   const totalQuestions = targetMcq + targetShort + targetLong;
-
+let info = "Generating Questions can take upto 1 minute."
   return (
     <div className="mt-6 border rounded-md p-4 space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">AI-Generated Quiz (Groq)</h3>
+        <div className="flex flex-row gap-2"><h3 className="text-lg font-semibold">AI-Generated Quiz</h3>
+        <Info info={info}/>
+        </div>
         <div className="text-sm text-gray-600">
           Total: {totalQuestions} questions
         </div>
