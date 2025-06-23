@@ -386,11 +386,13 @@ async function generateWithGroqInstance(
   const systemPrompt = `You are an expert quiz generator. You MUST generate EXACTLY the requested number of questions for each type.
 
 CRITICAL STRICT REQUIREMENTS:
-- Generate EXACTLY ${targetMcq+5} multiple choice questions (no more, no less)
-- Generate EXACTLY ${targetShort+3} short answer questions (no more, no less)  
-- Generate EXACTLY ${targetLong+3} long answer questions (no more, no less)
+- Generate EXACTLY ${targetMcq + 5} multiple choice questions (no more, no less)
+- Generate EXACTLY ${
+    targetShort + 3
+  } short answer questions (no more, no less)  
+- Generate EXACTLY ${targetLong + 3} long answer questions (no more, no less)
 - Total questions MUST be exactly ${totalRequested}
-- Each MCQ should have 4 options with only one correct answer around 60%-70% times and two correct answers around 30%-40% times
+- Each MCQ should have 4 options with only one/two correct answer
 - Provide explanations for all questions
 - Questions should be relevant to the context provided
 - Vary difficulty levels appropriately
@@ -610,6 +612,7 @@ export async function POST(request) {
     targetShort = parseInt(body.targetShort) || 0;
     targetLong = parseInt(body.targetLong) || 0;
 
+    //at least total req should be greater than 1
     totalRequested = targetMcq + targetShort + targetLong;
     if (totalRequested === 0) {
       return NextResponse.json(
@@ -617,7 +620,7 @@ export async function POST(request) {
         { status: 400 }
       );
     }
-
+    //returning error if context&file both absent
     if (!contextText && !file) {
       return NextResponse.json(
         { error: "Context text or file is required" },
@@ -625,7 +628,7 @@ export async function POST(request) {
       );
     }
 
-    // Prepare context data
+    // Prepare context data by sending to extractTextFromFile
     contextData = contextText || "";
     if (file) {
       try {
@@ -638,7 +641,8 @@ export async function POST(request) {
         );
       }
     }
-
+    //by chance if a person sent a context data 100 spaces only then after
+    // trim contextData will be null for that this checking
     if (!contextData.trim()) {
       return NextResponse.json(
         { error: "No valid context data found after processing" },
@@ -702,6 +706,7 @@ export async function POST(request) {
       `⚡ Starting parallel generation across ${selectedAccounts.length} accounts...`
     );
     const results = await Promise.allSettled(generationPromises);
+    console.log(" POST ~ results:", results);
     const generationTime = Date.now() - generationStart;
 
     // Process results
@@ -762,7 +767,7 @@ export async function POST(request) {
       }
     });
 
-    // Smart redistribution
+    // Smart redistribution if generate failed
     if (failedDistributions.length > 0 && successfulResults.length > 0) {
       console.log("🔄 Attempting redistribution for failed tasks...");
       const redistributions = calculateRedistribution(
@@ -857,9 +862,8 @@ export async function POST(request) {
         }
       }
     }
-
+    // Check if all attempts failed even after redistribution
     if (allQuestions.length === 0 && errors.length === distributions.length) {
-      // Check if all attempts failed
       return NextResponse.json(
         {
           error:
@@ -887,7 +891,7 @@ export async function POST(request) {
       ...finalLongQuestions,
     ];
 
-    // Format questions
+    // Format all questions with correctAnswer
     const formattedQuestions = finalQuestions.map((question, index) => {
       const baseQuestion = {
         // id: `ai-${question.type}-${Date.now()}-${index}`, // Consider a more robust ID generation if needed
@@ -909,7 +913,7 @@ export async function POST(request) {
         return {
           ...baseQuestion,
           options: question.options || [], // Ensure options is an array
-          correctAnswer: question.correctAnswer || "", // Provide a default if undefined
+          correctAnswer: "", // Provide a default if undefined
         };
       } else {
         return {
@@ -938,6 +942,7 @@ export async function POST(request) {
         ? (totalQuestionsGenerated / (overallTime / 1000)).toFixed(2)
         : 0;
 
+        //quiz time related things
     console.log(
       `🎉 Quiz generation completed in ${formatDuration(
         overallTime
@@ -1022,7 +1027,7 @@ export async function POST(request) {
       `❌ Top-level error in POST after ${formatDuration(overallTime)}:`,
       error
     );
-
+//  FAILED TO GENERATE QUESTIONS
     return NextResponse.json(
       {
         error: "Failed to generate quiz questions due to an unexpected error.",
