@@ -7,6 +7,7 @@ import { Circle, CircleCheck, Pencil, PlusCircle, Trash } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { AddQuizForm } from "./add-quiz-form";
+import { uploadToCloudinary } from "../../../../../utils/uploadToCloudinary";
 
 // Mock API call
 const deleteQuestionAPI = async (quizId, questionId) => {
@@ -21,31 +22,54 @@ export const ManualQuizEditor = ({ quizData, setQuizData }) => {
   const [editingQuestion, setEditingQuestion] = useState(null);
 
   const handleAddQuestion = async (newQuestion) => {
-    console.log(" handleAddQuestion ~ newQuestion:", newQuestion,quizData);
-    
+    console.log("handleAddQuestion ~ newQuestion:", newQuestion, quizData);
+
     const currentQuestions = quizData?.questions || [];
     const newOrder = currentQuestions.length;
-  
+
     try {
+      // Step 1: Handle image upload if needed
+      let imageUrl = newQuestion.image;
+
+      if (
+        newQuestion.image &&
+        typeof newQuestion.image === "string" &&
+        newQuestion.image.startsWith("data:")
+      ) {
+        console.log("Uploading image to Cloudinary...");
+
+        const uploadResult = await uploadToCloudinary(newQuestion.image);
+        console.log(" handleAddQuestion ~ uploadResult:", uploadResult);
+
+        imageUrl = uploadResult;
+        console.log("Image uploaded successfully:", imageUrl);
+      }
+
+      // Step 2: Create question with the image URL
+      console.log("Creating question with image URL:", imageUrl);
+
+      const questionData = {
+        quizId: quizData?.id,
+        text: newQuestion.text,
+        type: newQuestion.type,
+        mark: newQuestion.mark,
+        explanation: newQuestion.explanation,
+        image: imageUrl,
+        options: newQuestion.options,
+        correctAnswer: newQuestion.correctAnswer,
+        order: newOrder,
+      };
+
       const res = await fetch("/api/question", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          quizId: quizData?.id,
-          text: newQuestion.text,
-          type: newQuestion.type,
-          mark: newQuestion.mark,
-          explanation: newQuestion.explanation,
-          options: newQuestion.options,
-          correctAnswer: newQuestion.correctAnswer,
-          order: newOrder,
-        }),
+        body: JSON.stringify(questionData),
       });
-  
+
       const data = await res.json();
-  
+
       if (res.ok && data.success) {
         setQuizData((prev) => ({
           ...prev,
@@ -54,11 +78,12 @@ export const ManualQuizEditor = ({ quizData, setQuizData }) => {
             {
               ...newQuestion,
               id: data.question.id,
+              image: imageUrl, // Use the uploaded image URL
               order: newOrder,
             },
           ],
         }));
-        
+
         setShowAddForm(false);
         toast.success("Question added successfully");
       } else {
@@ -69,7 +94,6 @@ export const ManualQuizEditor = ({ quizData, setQuizData }) => {
       toast.error(error.message || "Failed to add question. Please try again.");
     }
   };
-
   const handleUpdateQuestion = (updatedQuestion) => {
     // Update existing question
     setQuizData((prev) => ({

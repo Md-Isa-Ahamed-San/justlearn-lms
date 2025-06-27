@@ -25,10 +25,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { chalkLog } from "../../../../../utils/logger";
+import ImageUploadField from "../../../../../components/image-upload-field";
 
 const mcqFormSchema = z.object({
   text: z.string().min(1, "Question text is required"),
   explanation: z.string().optional(),
+  image: z.string().optional(),
   mark: z.number().min(1).default(1),
   optionA: z.object({
     label: z.string().min(1, "Option label is required"),
@@ -160,6 +163,7 @@ export const AddQuizForm = ({
           id: initialData?.id || `temp-${Date.now()}`,
           type: "mcq",
           text: values.text,
+          image: values.image,
           options: [
             {
               label: values.optionA.label,
@@ -196,6 +200,7 @@ export const AddQuizForm = ({
           id: initialData?.id || `temp-${Date.now()}`,
           type: questionType,
           text: values.text,
+          image: values.image,
           correctAnswer: values.correctAnswer,
           explanation: values.explanation || "",
           mark: values.mark,
@@ -209,7 +214,7 @@ export const AddQuizForm = ({
       } else if (onQuestionAdded) {
         onQuestionAdded(structuredQuestion);
       }
-
+      // chalkLog.log(structuredQuestion)
       // Reset form if not editing
       if (!isEditing) {
         form.reset(getDefaultValues());
@@ -267,6 +272,23 @@ export const AddQuizForm = ({
                     placeholder="Enter your question here..."
                     rows={3}
                     {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="image"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Upload Image (Optional)</FormLabel>
+                <FormControl>
+                  <ImageUploadField
+                    field={field}
+                    form={form}
+                    isSubmitting={isSubmitting}
                   />
                 </FormControl>
                 <FormMessage />

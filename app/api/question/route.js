@@ -14,7 +14,9 @@ export async function POST(request) {
       options,
       correctAnswer,
       order,
+      image
     } = body;
+      console.log(" POST ~ image:", image)
 
     // Validate required fields
     if (!quizId || !text || !type || !mark) {
@@ -91,6 +93,7 @@ export async function POST(request) {
       data: {
         text,
         type,
+        image,
         mark: parseInt(mark),
         explanation: explanation || "",
         options: type === "mcq" ? options : null,
