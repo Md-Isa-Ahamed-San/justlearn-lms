@@ -7,8 +7,8 @@ import { Circle, CircleCheck, Pencil, PlusCircle, Trash } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { AddQuizForm } from "./add-quiz-form";
-import { uploadToCloudinary } from "../../../../../utils/uploadToCloudinary";
-
+import { uploadToCloudinary } from "@/utils/uploadToCloudinary";
+import Image from "next/image";
 // Mock API call
 const deleteQuestionAPI = async (quizId, questionId) => {
   console.log("Deleting question:", quizId, questionId);
@@ -20,7 +20,7 @@ const deleteQuestionAPI = async (quizId, questionId) => {
 export const ManualQuizEditor = ({ quizData, setQuizData }) => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingQuestion, setEditingQuestion] = useState(null);
-
+// console.log("quizData inside manual quiz editor: ",quizData)
   const handleAddQuestion = async (newQuestion) => {
     console.log("handleAddQuestion ~ newQuestion:", newQuestion, quizData);
 
@@ -203,9 +203,12 @@ export const ManualQuizEditor = ({ quizData, setQuizData }) => {
                 className="shadow-md p-4 lg:p-6 rounded-md border"
               >
                 <div className="flex items-start justify-between mb-3">
-                  <h4 className="mb-1 font-semibold flex-1">
-                    {index + 1}. {question.text}
-                  </h4>
+                 <div className="flex flex-col gap-2">
+                   {question?.image && <Image width={300} height={300} src={question?.image} alt="question image"/>}
+                   <h4 className="mb-1 font-semibold flex-1">
+                     {index + 1}. {question.text}
+                   </h4>
+                 </div>
                   <div className="text-sm text-gray-500 ml-4">
                     {question.mark} {question.mark === 1 ? "point" : "points"}
                   </div>
