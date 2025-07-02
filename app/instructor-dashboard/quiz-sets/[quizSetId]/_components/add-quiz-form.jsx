@@ -71,7 +71,7 @@ export const AddQuizForm = ({
   onQuestionUpdated,
   onCancel,
   initialData,
-  isEditing = false,
+  isEditing = false, processing
 }) => {
   const [questionType, setQuestionType] = useState(initialData?.type || "mcq");
 
@@ -420,8 +420,8 @@ export const AddQuizForm = ({
 
           <div className="flex items-center justify-end gap-x-2">
             <Button disabled={!isValid || isSubmitting} type="submit">
-              {isEditing ? "Update Question" : "Add Question"}
-            </Button>
+              {processing? "Processing...": (isEditing ? "Update Question" : "Add Question")}
+                </Button>
           </div>
         </form>
       </Form>

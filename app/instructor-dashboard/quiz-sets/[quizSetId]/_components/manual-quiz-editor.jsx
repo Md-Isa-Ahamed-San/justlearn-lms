@@ -20,10 +20,11 @@ const deleteQuestionAPI = async (quizId, questionId) => {
 export const ManualQuizEditor = ({ quizData, setQuizData }) => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingQuestion, setEditingQuestion] = useState(null);
+  const [processing,setProcessing] = useState(false)
 // console.log("quizData inside manual quiz editor: ",quizData)
   const handleAddQuestion = async (newQuestion) => {
     console.log("handleAddQuestion ~ newQuestion:", newQuestion, quizData);
-
+setProcessing(true)
     const currentQuestions = quizData?.questions || [];
     const newOrder = currentQuestions.length;
 
@@ -78,13 +79,13 @@ export const ManualQuizEditor = ({ quizData, setQuizData }) => {
             {
               ...newQuestion,
               id: data.question.id,
-              image: imageUrl, // Use the uploaded image URL
+              image: imageUrl,
               order: newOrder,
             },
           ],
         }));
 
-        setShowAddForm(false);
+
         toast.success("Question added successfully");
       } else {
         throw new Error(data.error || "Failed to add question");
@@ -92,6 +93,10 @@ export const ManualQuizEditor = ({ quizData, setQuizData }) => {
     } catch (error) {
       console.error("Error adding question:", error);
       toast.error(error.message || "Failed to add question. Please try again.");
+    }
+    finally {
+      setShowAddForm(false);
+      setProcessing(false)
     }
   };
   const handleUpdateQuestion = (updatedQuestion) => {
@@ -107,20 +112,44 @@ export const ManualQuizEditor = ({ quizData, setQuizData }) => {
   };
 
   const handleDeleteQuestion = async (questionId) => {
-    if (window.confirm("Are you sure you want to delete this question?")) {
-      try {
-        await deleteQuestionAPI(quizData.id, questionId);
-        setQuizData((prev) => ({
-          ...prev,
-          questions: prev.questions
-            .filter((q) => q.id !== questionId)
-            .map((q, index) => ({ ...q, order: index })), // Reorder remaining questions
-        }));
-      } catch (error) {
-        console.error("Delete error:", error);
-        toast.error("Failed to delete question.");
-      }
-    }
+    toast("Are you sure you want to delete this question?", {
+      action: {
+        label: "Delete",
+        onClick: async () => {
+          try {
+            const res = await fetch(`/api/question/${questionId}`, {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+
+            const data = await res.json();
+
+            if (res.ok && data.success) {
+              setQuizData((prev) => ({
+                ...prev,
+                questions: prev.questions
+                    .filter((q) => q.id !== questionId)
+                    .map((q, index) => ({ ...q, order: index })),
+              }));
+              toast.success("Question deleted successfully");
+            } else {
+              toast.error(data.message || "Failed to delete question");
+            }
+          } catch (error) {
+            console.error("Delete error:", error);
+            toast.error("Failed to delete question. Please try again.");
+          }
+        },
+      },
+      cancel: {
+        label: "Cancel",
+        onClick: () => {
+          toast.dismiss();
+        },
+      },
+    });
   };
 
   const handleToggleAddForm = () => {
@@ -166,6 +195,7 @@ export const ManualQuizEditor = ({ quizData, setQuizData }) => {
             quizId={quizData?.id}
             onQuestionAdded={handleAddQuestion}
             onCancel={handleCancelAdd}
+            processing={processing}
           />
         </div>
       )}
@@ -179,6 +209,7 @@ export const ManualQuizEditor = ({ quizData, setQuizData }) => {
             onQuestionUpdated={handleUpdateQuestion}
             onCancel={handleCancelEdit}
             isEditing={true}
+            processing={processing}
           />
         </div>
       )}

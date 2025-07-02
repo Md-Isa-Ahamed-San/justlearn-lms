@@ -1,52 +1,38 @@
-import { NextResponse } from "next/server";
-import { updateQuizBasicInfo } from "@/queries/quizzes";
+import {NextResponse} from "next/server";
+import {deleteQuestionById} from "@/queries/question";
 
-
-export async function PATCH(request, { params }) {
+export async function DELETE(request,{params}) {
     try {
-        const { quizId } = params;
-        const updateData = await request.json();
+
+        const { questionId } = await params;
 
 
-        if (!quizId) {
+        if (!questionId) {
             return NextResponse.json(
                 {
                     error: "Bad Request",
-                    message: "Quiz ID is required"
+                    message: "Question ID is required"
                 },
                 { status: 400 }
             );
         }
 
 
-        if (!updateData || Object.keys(updateData).length === 0) {
-            return NextResponse.json(
-                {
-                    error: "Bad Request",
-                    message: "Update data is required"
-                },
-                { status: 400 }
-            );
-        }
-
-
-        const updatedQuiz = await updateQuizBasicInfo(quizId, updateData);
-
+        const deletedQuestion = await deleteQuestionById(questionId);
 
         return NextResponse.json(
             {
                 success: true,
-                message: "Quiz updated successfully",
-                data: updatedQuiz
+                message: "Question deleted successfully",
+                data: deletedQuestion
             },
             { status: 200 }
         );
 
     } catch (error) {
-        console.error("API Error updating quiz:", error.message);
+        console.error("API Error deleting question:", error.message);
 
-
-        if (error.message.includes("Quiz not found")) {
+        if (error.message.includes("Question not found")) {
             return NextResponse.json(
                 {
                     error: "Not Found",
@@ -56,7 +42,8 @@ export async function PATCH(request, { params }) {
             );
         }
 
-        if (error.message.includes("already exists")) {
+        if (error.message.includes("cannot be deleted") ||
+            error.message.includes("has active")) {
             return NextResponse.json(
                 {
                     error: "Conflict",
@@ -68,8 +55,7 @@ export async function PATCH(request, { params }) {
 
         if (error.message.includes("required") ||
             error.message.includes("must be") ||
-            error.message.includes("cannot be empty") ||
-            error.message.includes("less than")) {
+            error.message.includes("invalid")) {
             return NextResponse.json(
                 {
                     error: "Validation Error",
@@ -79,14 +65,12 @@ export async function PATCH(request, { params }) {
             );
         }
 
-
         return NextResponse.json(
             {
                 error: "Internal Server Error",
-                message: "An unexpected error occurred while updating the quiz"
+                message: "An unexpected error occurred while deleting the question"
             },
             { status: 500 }
         );
     }
 }
-

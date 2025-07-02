@@ -1,4 +1,4 @@
-import { db } from "../lib/prisma";
+import { db } from "@/lib/prisma";
 
 // import pdfParse from 'pdf-parse';
 // import mammoth from 'mammoth';
