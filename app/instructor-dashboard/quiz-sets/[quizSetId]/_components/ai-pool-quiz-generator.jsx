@@ -6,37 +6,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Loader2, Info, Eye, EyeOff } from "lucide-react";
+import { Loader2, Info } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-
-// Fixed Mock API with correct field structure matching Prisma schema
-const generatePoolQuizAPI = async (quizId, data) => {
-  console.log("Generating pool AI quiz:", quizId, data);
-  await new Promise(resolve => setTimeout(resolve, 2000));
-  
-  const questions = Array.from({ length: data.poolSize }, (_, i) => ({
-    id: `ai-pool-q${i + 1}`,
-    type: i % 3 === 0 ? "mcq" : (i % 3 === 1 ? "short_answer" : "mcq"),
-    text: `AI Pool Question ${i + 1}: What is concept ${i + 1} in the provided context?`, // Fixed: using 'text' instead of 'prompt'
-    options: i % 3 === 0 ? [
-      { label: `Concept ${i + 1} definition A`, isCorrect: true },
-      { label: `Concept ${i + 1} definition B`, isCorrect: false },
-      { label: `Concept ${i + 1} definition C`, isCorrect: false },
-      { label: `None of the above`, isCorrect: false }
-    ] : undefined, // Only MCQ questions have options
-    correctAnswer: i % 3 === 0 ? "A" : `Answer for concept ${i + 1}`,
-    explanation: `Explanation for pool question ${i + 1}`,
-    isFromPool: true,
-    mark: 1,
-    order: i
-  }));
-
-  return {
-    poolSize: data.poolSize,
-    questionsPerStudent: data.questionsPerStudent,
-    questions
-  };
-};
+import { ManualQuizEditor } from "@/app/instructor-dashboard/quiz-sets/[quizSetId]/_components/manual-quiz-editor";
 
 export const AIPoolQuizGenerator = ({ quizData, setQuizData }) => {
   const [aiPrompt, setAiPrompt] = useState(quizData.aiPrompt || "");
@@ -44,13 +16,18 @@ export const AIPoolQuizGenerator = ({ quizData, setQuizData }) => {
   const [contextFile, setContextFile] = useState(null);
   const [poolSize, setPoolSize] = useState(quizData.poolSize || 20);
   const [questionsPerStudent, setQuestionsPerStudent] = useState(quizData.questionsPerStudent || 5);
+
+  // Question type controls
+  const [targetMcq, setTargetMcq] = useState(quizData.targetMcqCount || 10);
+  const [targetShort, setTargetShort] = useState(quizData.targetShortAnswerCount || 8);
+  const [targetLong, setTargetLong] = useState(quizData.targetLongAnswerCount || 2);
+
   const [isGenerating, setIsGenerating] = useState(false);
-  const [showPoolPreview, setShowPoolPreview] = useState(false);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setContextFile(file);
-    
+
     // Clear context text when file is selected
     if (file) {
       setContextText("");
@@ -63,7 +40,13 @@ export const AIPoolQuizGenerator = ({ quizData, setQuizData }) => {
       toast.error("Please provide a prompt or context data.");
       return;
     }
-    
+
+    const totalQuestionTypes = targetMcq + targetShort + targetLong;
+    if (totalQuestionTypes === 0) {
+      toast.error("Please specify at least one question type.");
+      return;
+    }
+
     if (poolSize < questionsPerStudent) {
       toast.error("Total questions in pool must be greater than or equal to questions per student.");
       return;
@@ -73,275 +56,325 @@ export const AIPoolQuizGenerator = ({ quizData, setQuizData }) => {
       toast.error("Pool size and questions per student must be at least 1.");
       return;
     }
-    
-    setIsGenerating(true);
-    try {
-      const result = await generatePoolQuizAPI(quizData.id, {
-        aiPrompt, 
-        contextText, 
-        contextFile, 
-        poolSize, 
-        questionsPerStudent
-      });
 
-      // Update quiz data with correct field structure
+    // Validate that pool size matches the sum of question types
+    if (poolSize !== totalQuestionTypes) {
+      toast.error(`Pool size (${poolSize}) must equal the sum of question types (${totalQuestionTypes}).`);
+      return;
+    }
+
+    setIsGenerating(true);
+
+    try {
+      console.log("Generating AI pool quiz with Groq:", quizData.id);
+
+      let response;
+
+      // Prepare form data if file is provided, otherwise use JSON
+      if (contextFile) {
+        const formData = new FormData();
+
+        formData.append('quizId', quizData.id);
+        formData.append('aiPrompt', aiPrompt || '');
+        formData.append('contextText', contextText || '');
+        formData.append('contextFile', contextFile);
+        formData.append('poolSize', poolSize.toString());
+        formData.append('questionsPerStudent', questionsPerStudent.toString());
+        formData.append('targetMcq', targetMcq.toString());
+        formData.append('targetShort', targetShort.toString());
+        formData.append('targetLong', targetLong.toString());
+        formData.append('generationType', 'ai_pool');
+
+        response = await fetch('/api/quiz/groq', {
+          method: 'POST',
+          body: formData
+        });
+      } else {
+        // Use JSON for text-only requests
+        response = await fetch('/api/quiz/groq', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            quizId: quizData.id,
+            aiPrompt,
+            contextText,
+            poolSize,
+            questionsPerStudent,
+            targetMcq,
+            targetShort,
+            targetLong,
+            generationType: 'ai_pool'
+          })
+        });
+      }
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.details || errorData.error || 'Failed to generate quiz pool');
+      }
+
+      const result = await response.json();
+      const generatedQuestions = result.questions;
+
+      // Update quiz data with pool-specific information - following the same pattern as AIFixedQuizGenerator
       setQuizData(prev => ({
         ...prev,
-        questions: result.questions,
-        poolSize: result.poolSize,
-        questionsPerStudent: result.questionsPerStudent,
+        questions: generatedQuestions,
+        poolSize: poolSize,
+        questionsPerStudent: questionsPerStudent,
+        targetMcqCount: targetMcq,
+        targetShortAnswerCount: targetShort,
+        targetLongAnswerCount: targetLong,
         aiPrompt: aiPrompt,
-        generationType: 'ai_pool', // Ensure correct generation type
-        status: prev.status || 'draft' // Maintain existing status or default to draft
+        generationType: 'ai_pool'
       }));
-      
-      toast.success(`Question pool of ${result.poolSize} questions generated successfully!`);
-      setShowPoolPreview(true); // Auto-show preview after generation
+
+      toast.success(`Question pool of ${generatedQuestions.length} questions generated successfully!`);
     } catch (error) {
-      toast.error("AI pool generation failed. " + (error.response?.data?.message || error.message));
-      console.error("Pool generation error:", error);
+      toast.error("AI pool generation failed: " + error.message);
+      console.error('Pool generation error:', error);
     } finally {
       setIsGenerating(false);
     }
   };
 
-  const getQuestionTypeLabel = (type) => {
-    switch (type) {
-      case "mcq":
-        return "Multiple Choice";
-      case "short_answer":
-        return "Short Answer";
-      case "long_answer":
-        return "Long Answer";
-      default:
-        return "Question";
-    }
-  };
-
-  const getQuestionTypeCounts = () => {
-    if (!quizData.questions || quizData.questions.length === 0) return {};
-    
-    return quizData.questions.reduce((counts, question) => {
-      counts[question.type] = (counts[question.type] || 0) + 1;
-      return counts;
-    }, {});
-  };
-
-  const questionTypeCounts = getQuestionTypeCounts();
-  const hasGeneratedQuestions = quizData.questions && quizData.questions.length > 0 && quizData.generationType === 'ai_pool';
+  const totalQuestions = targetMcq + targetShort + targetLong;
+  const hasGeneratedQuestions = quizData.questions && quizData.questions.length > 0;
 
   return (
-    <div className="mt-6 border rounded-lg p-6 space-y-6 ">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-gray-900">AI-Generated Quiz Pool</h3>
-        <div className="text-sm text-gray-600  px-3 py-1 rounded-full border">
-          Pool: {poolSize} → {questionsPerStudent} per student
-        </div>
-      </div>
-
-      <div className="space-y-4">
-        <div>
-          <Label htmlFor="aiPoolPrompt" className="text-sm font-medium">
-            Custom Prompt <span className="text-gray-500">(Optional)</span>
-          </Label>
-          <Textarea
-            id="aiPoolPrompt"
-            value={aiPrompt}
-            onChange={(e) => setAiPrompt(e.target.value)}
-            placeholder="e.g., Generate diverse questions about React hooks, focusing on useState and useEffect..."
-            rows={3}
-            disabled={isGenerating}
-            className="mt-1"
-          />
-        </div>
-
-        <div>
-          <Label htmlFor="poolContextText" className="text-sm font-medium">
-            Context Data <span className="text-gray-500">(Paste Text)</span>
-          </Label>
-          <Textarea
-            id="poolContextText"
-            value={contextText}
-            onChange={(e) => setContextText(e.target.value)}
-            placeholder="Paste your document text, lecture notes, or study material here..."
-            rows={8}
-            disabled={isGenerating || !!contextFile}
-            className="mt-1 font-mono text-sm"
-          />
-        </div>
-
-        <div className="flex items-center justify-center">
-          <div className="text-sm text-gray-500  px-4 py-1 rounded-full border">
-            OR
+      <div className="mt-6 border rounded-lg p-6 space-y-6">
+        <div className="flex items-center justify-between">
+          <div className="flex flex-row gap-2">
+            <h3 className="text-lg font-semibold text-gray-900">AI-Generated Quiz Pool</h3>
+            <Info className="h-4 w-4 text-gray-500" />
+          </div>
+          <div className="text-sm text-gray-600 px-3 py-1 rounded-full border">
+            Pool: {poolSize} → {questionsPerStudent} per student
           </div>
         </div>
 
-        <div>
-          <Label htmlFor="poolContextFile" className="text-sm font-medium">
-            Upload Context File <span className="text-gray-500">(PDF, DOCX, TXT)</span>
-          </Label>
-          <Input
-            id="poolContextFile"
-            type="file"
-            accept=".pdf,.docx,.txt"
-            onChange={handleFileChange}
-            disabled={isGenerating || !!contextText}
-            className="mt-1"
-          />
-          {contextFile && (
-            <p className="text-xs mt-2 text-green-600 bg-green-50 px-2 py-1 rounded">
-              ✓ Selected: {contextFile.name}
-            </p>
-          )}
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="poolSize" className="text-sm font-medium">
-              Total Questions in Pool
-            </Label>
-            <Input
-              id="poolSize"
-              type="number"
-              value={poolSize}
-              onChange={(e) => setPoolSize(Math.max(1, parseInt(e.target.value, 10) || 1))}
-              min="1"
-              max="100"
-              disabled={isGenerating}
-              className="mt-1"
-            />
-            <p className="text-xs text-gray-500 mt-1">
-              Larger pools provide more variety for students
-            </p>
-          </div>
-          <div>
-            <Label htmlFor="questionsPerStudent" className="text-sm font-medium">
-              Questions per Student
-            </Label>
-            <Input
-              id="questionsPerStudent"
-              type="number"
-              value={questionsPerStudent}
-              onChange={(e) => setQuestionsPerStudent(Math.max(1, parseInt(e.target.value, 10) || 1))}
-              min="1"
-              max={poolSize}
-              disabled={isGenerating}
-              className="mt-1"
-            />
-            <p className="text-xs text-gray-500 mt-1">
-              Each student gets a random subset
-            </p>
-          </div>
-        </div>
-
-        <Button 
-          onClick={handleGenerate} 
-          disabled={isGenerating || (!aiPrompt && !contextText && !contextFile)} 
-          className="w-full bg-blue-600 hover:bg-blue-700"
-          size="lg"
-        >
-          {isGenerating ? (
+        {/* Only show form if no questions generated yet */}
+        {!hasGeneratedQuestions && (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Generating Question Pool...
-            </>
-          ) : (
-            "Generate Question Pool with AI"
-          )}
-        </Button>
-      </div>
-
-      {/* Success Alert */}
-      {hasGeneratedQuestions && (
-        <Alert className="bg-green-50 border-green-200">
-          <Info className="h-4 w-4 text-green-600" />
-          <AlertDescription className="text-green-800">
-            <strong>Question pool generated!</strong> Created {quizData.poolSize} questions. 
-            Each student will receive {quizData.questionsPerStudent} randomly selected questions.
-            {Object.keys(questionTypeCounts).length > 0 && (
-              <div className="mt-2 text-sm">
-                <strong>Question Types:</strong>{' '}
-                {Object.entries(questionTypeCounts).map(([type, count]) => 
-                  `${getQuestionTypeLabel(type)}: ${count}`
-                ).join(', ')}
-              </div>
-            )}
-          </AlertDescription>
-        </Alert>
-      )}
-
-      {/* Pool Preview */}
-      {hasGeneratedQuestions && (
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h4 className="text-md font-semibold text-gray-900">Question Pool Preview</h4>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setShowPoolPreview(!showPoolPreview)}
-              className="flex items-center gap-2"
-            >
-              {showPoolPreview ? (
-                <>
-                  <EyeOff className="h-4 w-4" />
-                  Hide Preview
-                </>
-              ) : (
-                <>
-                  <Eye className="h-4 w-4" />
-                  Show Preview
-                </>
-              )}
-            </Button>
-          </div>
-
-          {showPoolPreview && (
-            <div className="bg-white rounded-lg border p-4 max-h-96 overflow-y-auto">
               <div className="space-y-4">
-                {quizData.questions.slice(0, 10).map((question, index) => (
-                  <div key={question.id} className="border-b pb-3 last:border-b-0">
-                    <div className="flex items-start justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-600">
-                        Question {index + 1} • {getQuestionTypeLabel(question.type)}
-                      </span>
-                      <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                        {question.mark} mark{question.mark !== 1 ? 's' : ''}
-                      </span>
-                    </div>
-                    <p className="text-sm text-gray-900 mb-2">{question.text}</p>
-                    {question.options && (
-                      <div className="ml-4 space-y-1">
-                        {question.options.map((option, optIndex) => (
-                          <div key={optIndex} className="flex items-center gap-2 text-xs">
-                            <span className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                              option.isCorrect ? 'bg-green-100 border-green-400 text-green-600' : 'border-gray-300'
-                            }`}>
-                              {option.isCorrect ? '✓' : String.fromCharCode(65 + optIndex)}
-                            </span>
-                            <span className={option.isCorrect ? 'text-green-700 font-medium' : 'text-gray-600'}>
-                              {option.label}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    {question.explanation && (
-                      <p className="text-xs text-gray-500 mt-2 italic">
-                        Explanation: {question.explanation}
-                      </p>
-                    )}
+                <div>
+                  <Label htmlFor="aiPoolPrompt" className="text-sm font-medium">
+                    Custom Prompt <span className="text-gray-500">(Optional)</span>
+                  </Label>
+                  <Textarea
+                      id="aiPoolPrompt"
+                      value={aiPrompt}
+                      onChange={(e) => setAiPrompt(e.target.value)}
+                      placeholder="e.g., Generate diverse questions about React hooks, focusing on useState and useEffect..."
+                      rows={3}
+                      disabled={isGenerating}
+                      className="mt-1"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="poolContextText" className="text-sm font-medium">
+                    Context Data <span className="text-gray-500">(Paste Text)</span>
+                  </Label>
+                  <Textarea
+                      id="poolContextText"
+                      value={contextText}
+                      onChange={(e) => setContextText(e.target.value)}
+                      placeholder="Paste your document text, lecture notes, or study material here..."
+                      rows={8}
+                      disabled={isGenerating || !!contextFile}
+                      className="mt-1 font-mono text-sm"
+                  />
+                </div>
+
+                <div className="flex items-center justify-center">
+                  <div className="text-sm text-gray-500 px-4 py-1 rounded-full border">
+                    OR
                   </div>
-                ))}
-                {quizData.questions.length > 10 && (
-                  <p className="text-center text-sm text-gray-500 py-2">
-                    ... and {quizData.questions.length - 10} more questions in the pool
+                </div>
+
+                <div>
+                  <Label htmlFor="poolContextFile" className="text-sm font-medium">
+                    Upload Context File <span className="text-gray-500">(PDF, DOCX, TXT)</span>
+                  </Label>
+                  <Input
+                      id="poolContextFile"
+                      type="file"
+                      accept=".pdf,.docx,.txt"
+                      onChange={handleFileChange}
+                      disabled={isGenerating || !!contextText}
+                      className="mt-1"
+                  />
+                  {contextFile && (
+                      <p className="text-xs mt-2 text-green-600 bg-green-50 px-2 py-1 rounded">
+                        ✓ Selected: {contextFile.name} ({(contextFile.size / 1024).toFixed(1)} KB)
+                      </p>
+                  )}
+                </div>
+
+                {/* Question Type Controls */}
+                <div>
+                  <Label className="text-sm font-medium mb-3 block">Question Types for Pool</Label>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <Label htmlFor="targetMcq" className="text-sm">Multiple Choice Questions</Label>
+                      <Input
+                          id="targetMcq"
+                          type="number"
+                          value={targetMcq}
+                          onChange={(e) => {
+                            const newValue = parseInt(e.target.value, 10) || 0;
+                            setTargetMcq(newValue);
+                            setPoolSize(newValue + targetShort + targetLong);
+                          }}
+                          min="0"
+                          max="50"
+                          disabled={isGenerating}
+                          className="mt-1"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">1 mark each</p>
+                    </div>
+                    <div>
+                      <Label htmlFor="targetShort" className="text-sm">Short Answer Questions</Label>
+                      <Input
+                          id="targetShort"
+                          type="number"
+                          value={targetShort}
+                          onChange={(e) => {
+                            const newValue = parseInt(e.target.value, 10) || 0;
+                            setTargetShort(newValue);
+                            setPoolSize(targetMcq + newValue + targetLong);
+                          }}
+                          min="0"
+                          max="30"
+                          disabled={isGenerating}
+                          className="mt-1"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">2 marks each</p>
+                    </div>
+                    <div>
+                      <Label htmlFor="targetLong" className="text-sm">Long Answer Questions</Label>
+                      <Input
+                          id="targetLong"
+                          type="number"
+                          value={targetLong}
+                          onChange={(e) => {
+                            const newValue = parseInt(e.target.value, 10) || 0;
+                            setTargetLong(newValue);
+                            setPoolSize(targetMcq + targetShort + newValue);
+                          }}
+                          min="0"
+                          max="20"
+                          disabled={isGenerating}
+                          className="mt-1"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">5 marks each</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Pool Configuration */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="poolSize" className="text-sm font-medium">
+                      Total Questions in Pool
+                    </Label>
+                    <Input
+                        id="poolSize"
+                        type="number"
+                        value={poolSize}
+                        onChange={(e) => setPoolSize(Math.max(1, parseInt(e.target.value, 10) || 1))}
+                        min="1"
+                        max="100"
+                        disabled={isGenerating}
+                        className="mt-1 bg-gray-50"
+                        readOnly
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Auto-calculated from question types
+                    </p>
+                  </div>
+                  <div>
+                    <Label htmlFor="questionsPerStudent" className="text-sm font-medium">
+                      Questions per Student
+                    </Label>
+                    <Input
+                        id="questionsPerStudent"
+                        type="number"
+                        value={questionsPerStudent}
+                        onChange={(e) => setQuestionsPerStudent(Math.max(1, parseInt(e.target.value, 10) || 1))}
+                        min="1"
+                        max={poolSize}
+                        disabled={isGenerating}
+                        className="mt-1"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Each student gets a random subset
+                    </p>
+                  </div>
+                </div>
+
+                {/* Pool Summary */}
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="text-sm font-medium mb-2">Pool Summary</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <p><strong>Total Pool Size:</strong> {totalQuestions} questions</p>
+                      <p className="text-gray-600 mt-1">
+                        MCQ: {targetMcq} | Short: {targetShort} | Long: {targetLong}
+                      </p>
+                    </div>
+                    <div>
+                      <p><strong>Total Marks Range:</strong> {targetMcq * 1 + targetShort * 2 + targetLong * 5} marks</p>
+                      <p className="text-gray-600 mt-1">
+                        Per student: ~{Math.round((targetMcq * 1 + targetShort * 2 + targetLong * 5) * (questionsPerStudent / totalQuestions))} marks
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-blue-50 p-3 rounded-lg">
+                  <p className="text-blue-800 text-sm">
+                    <Info className="inline h-4 w-4 mr-1" />
+                    Generating Question Pool can take up to 2 minutes.
                   </p>
-                )}
+                </div>
+
+                <Button
+                    onClick={handleGenerate}
+                    disabled={isGenerating || (!aiPrompt && !contextText && !contextFile) || totalQuestions === 0}
+                    className="w-full bg-blue-600 hover:bg-blue-700"
+                    size="lg"
+                >
+                  {isGenerating ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Generating Question Pool...
+                      </>
+                  ) : (
+                      `Generate Pool of ${totalQuestions} Questions with AI`
+                  )}
+                </Button>
               </div>
+            </>
+        )}
+
+        {/* Show ManualQuizEditor when questions are generated - same pattern as AIFixedQuizGenerator */}
+        {hasGeneratedQuestions && (
+            <div className="mt-8">
+              {/*<div className="mb-4 p-3 bg-green-50 border border-green-200 rounded">*/}
+              {/*  <p className="text-green-800 font-medium">*/}
+              {/*    ✅ Generated {quizData.questions.length} questions successfully!*/}
+              {/*  </p>*/}
+              {/*  <p className="text-green-600 text-sm mt-1">*/}
+              {/*    Question pool created with {quizData.poolSize} total questions. Each student will receive {quizData.questionsPerStudent} randomly selected questions. You can edit the questions below.*/}
+              {/*  </p>*/}
+              {/*</div>*/}
+              <ManualQuizEditor quizData={quizData} setQuizData={setQuizData} />
             </div>
-          )}
-        </div>
-      )}
-    </div>
+        )}
+      </div>
   );
 };

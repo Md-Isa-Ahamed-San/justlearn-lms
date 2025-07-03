@@ -2,6 +2,12 @@
 
 import AlertBanner from "@/components/alert-banner";
 import {Button} from "@/components/ui/button";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
 import {cn} from "@/lib/utils";
 import {Circle, CircleCheck, Pencil, PlusCircle, Trash, Database} from "lucide-react";
 import {useState, useEffect} from "react";
@@ -11,14 +17,13 @@ import {uploadToCloudinary} from "@/utils/uploadToCloudinary";
 import Image from "next/image";
 
 export const ManualQuizEditor = ({quizData, setQuizData, initialQuestions = null}) => {
-    const [showAddForm, setShowAddForm] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingQuestion, setEditingQuestion] = useState(null);
     const [processing, setProcessing] = useState(false);
     const [bulkProcessing, setBulkProcessing] = useState(false);
     const QuestionDBExistStatus = quizData.questions.every(item => !item.id);
 
     console.log("quizData inside manual quiz editor: ", quizData);
-
 
     useEffect(() => {
         const shouldProcessInitialQuestions =
@@ -69,6 +74,22 @@ export const ManualQuizEditor = ({quizData, setQuizData, initialQuestions = null
         }
     };
 
+    const handleImageUpload = async (imageData) => {
+        if (!imageData || typeof imageData !== "string" || !imageData.startsWith("data:")) {
+            return imageData;
+        }
+
+        try {
+            console.log("Uploading image to Cloudinary...");
+            const uploadResult = await uploadToCloudinary(imageData);
+            console.log("Image uploaded successfully:", uploadResult);
+            return uploadResult;
+        } catch (error) {
+            console.error("Error uploading image:", error);
+            throw new Error("Failed to upload image. Please try again.");
+        }
+    };
+
     const handleAddQuestion = async (newQuestion) => {
         console.log("handleAddQuestion ~ newQuestion:", newQuestion, quizData);
         setProcessing(true);
@@ -77,26 +98,10 @@ export const ManualQuizEditor = ({quizData, setQuizData, initialQuestions = null
         const newOrder = currentQuestions.length;
 
         try {
-            // Step 1: Handle image upload if needed
-            let imageUrl = newQuestion.image;
+            // Handle image upload if needed
+            const imageUrl = await handleImageUpload(newQuestion.image);
 
-            if (
-                newQuestion.image &&
-                typeof newQuestion.image === "string" &&
-                newQuestion.image.startsWith("data:")
-            ) {
-                console.log("Uploading image to Cloudinary...");
-
-                const uploadResult = await uploadToCloudinary(newQuestion.image);
-                console.log(" handleAddQuestion ~ uploadResult:", uploadResult);
-
-                imageUrl = uploadResult;
-                console.log("Image uploaded successfully:", imageUrl);
-            }
-
-            // Step 2: Create question with the image URL
-            console.log("Creating question with image URL:", imageUrl);
-
+            // Create question with the image URL
             const questionData = {
                 quizId: quizData?.id,
                 text: newQuestion.text,
@@ -134,6 +139,7 @@ export const ManualQuizEditor = ({quizData, setQuizData, initialQuestions = null
                 }));
 
                 toast.success("Question added successfully");
+                closeModal();
             } else {
                 throw new Error(data.error || "Failed to add question");
             }
@@ -141,10 +147,10 @@ export const ManualQuizEditor = ({quizData, setQuizData, initialQuestions = null
             console.error("Error adding question:", error);
             toast.error(error.message || "Failed to add question. Please try again.");
         } finally {
-            setShowAddForm(false);
             setProcessing(false);
         }
     };
+
     const handleAddAllAIQuestions = async () => {
         try {
             setProcessing(true);
@@ -182,18 +188,7 @@ export const ManualQuizEditor = ({quizData, setQuizData, initialQuestions = null
 
         try {
             // Handle image upload if needed
-            let imageUrl = updatedQuestion.image;
-
-            if (
-                updatedQuestion.image &&
-                typeof updatedQuestion.image === "string" &&
-                updatedQuestion.image.startsWith("data:")
-            ) {
-                console.log("Uploading updated image to Cloudinary...");
-                const uploadResult = await uploadToCloudinary(updatedQuestion.image);
-                imageUrl = uploadResult;
-                console.log("Updated image uploaded successfully:", imageUrl);
-            }
+            const imageUrl = await handleImageUpload(updatedQuestion.image);
 
             const questionData = {
                 text: updatedQuestion.text,
@@ -226,6 +221,7 @@ export const ManualQuizEditor = ({quizData, setQuizData, initialQuestions = null
                 }));
 
                 toast.success("Question updated successfully");
+                closeModal();
             } else {
                 throw new Error(data.error || "Failed to update question");
             }
@@ -233,7 +229,6 @@ export const ManualQuizEditor = ({quizData, setQuizData, initialQuestions = null
             console.error("Error updating question:", error);
             toast.error(error.message || "Failed to update question. Please try again.");
         } finally {
-            setEditingQuestion(null);
             setProcessing(false);
         }
     };
@@ -279,61 +274,64 @@ export const ManualQuizEditor = ({quizData, setQuizData, initialQuestions = null
         });
     };
 
-    const handleToggleAddForm = () => {
-        setShowAddForm((prev) => !prev);
-        if (editingQuestion) {
-            setEditingQuestion(null);
-        }
+    const openAddModal = () => {
+        setEditingQuestion(null);
+        setIsModalOpen(true);
     };
 
-    const handleEditQuestion = (question) => {
+    const openEditModal = (question) => {
         setEditingQuestion(question);
-        if (showAddForm) {
-            setShowAddForm(false);
-        }
+        setIsModalOpen(true);
     };
 
-    const handleCancelEdit = () => {
+    const closeModal = () => {
+        setIsModalOpen(false);
         setEditingQuestion(null);
     };
 
-    const handleCancelAdd = () => {
-        setShowAddForm(false);
+    const handleModalOpenChange = (open) => {
+        if (!open) {
+            closeModal();
+        }
     };
 
-    // Ensure quizData and questions array exist
+    // Derived state for better readability
     const questions = quizData?.questions || [];
     const hasQuestions = questions.length > 0;
     const isAiGenerated = quizData?.generationType === "ai_fixed" || quizData?.generationType === "ai_pool";
     const isPublished = quizData?.status === 'published';
+    const isDisabled = bulkProcessing || isPublished;
+
+    // Sort questions by order for consistent display
+    const sortedQuestions = questions.sort((a, b) => (a.order || 0) - (b.order || 0));
 
     return (
         <div className="mt-6 border rounded-md p-4">
             <div className="font-medium flex items-center justify-between mb-4">
                 <h3 className="text-lg">Questions</h3>
-                {/*MARK: add buttons*/}
+                {/* Add buttons */}
                 <div className="flex gap-2">
-                    {
-                        QuestionDBExistStatus && <Button
+                    {QuestionDBExistStatus && (
+                        <Button
                             onClick={handleAddAllAIQuestions}
                             variant="outline"
+                            disabled={processing || bulkProcessing}
                         >
                             <Database className="h-4 w-4 mr-2"/>
                             {processing ? "Adding Questions..." : "Add All AI Generated Questions"}
                         </Button>
-                    }
+                    )}
 
                     <Button
-                        onClick={handleToggleAddForm}
+                        onClick={openAddModal}
                         variant="outline"
-                        disabled={bulkProcessing || isPublished}
+                        disabled={isDisabled}
                         title={isPublished ? "Cannot modify questions in a published quiz" : ""}
                     >
                         <PlusCircle className="h-4 w-4 mr-2"/>
-                        {showAddForm ? "Cancel" : "Add a Question"}
+                        Add a Question
                     </Button>
                 </div>
-
             </div>
 
             {/* Published Quiz Warning */}
@@ -354,34 +352,8 @@ export const ManualQuizEditor = ({quizData, setQuizData, initialQuestions = null
                 />
             )}
 
-            {/* MARK: Add Question Form */}
-            {showAddForm && !editingQuestion && !isPublished && (
-                <div className="mb-6">
-                    <AddQuizForm
-                        quizId={quizData?.id}
-                        onQuestionAdded={handleAddQuestion}
-                        onCancel={handleCancelAdd}
-                        processing={processing}
-                    />
-                </div>
-            )}
-
-            {/* MARK: Edit Question Form */}
-            {editingQuestion && !isPublished && (
-                <div className="mb-6">
-                    <AddQuizForm
-                        quizId={quizData?.id}
-                        initialData={editingQuestion}
-                        onQuestionUpdated={handleUpdateQuestion}
-                        onCancel={handleCancelEdit}
-                        isEditing={true}
-                        processing={processing}
-                    />
-                </div>
-            )}
-
             {/* No Questions Alert */}
-            {!hasQuestions && !showAddForm && !editingQuestion && !bulkProcessing && (
+            {!hasQuestions && !bulkProcessing && (
                 <AlertBanner
                     label={`No questions in this ${isAiGenerated ? 'AI-generated' : ''} quiz yet. ${!isAiGenerated && !isPublished ? "Click 'Add a Question' to get started." : isPublished ? "This quiz has no questions." : "Generate questions using AI or add manually."}`}
                     variant="warning"
@@ -389,143 +361,160 @@ export const ManualQuizEditor = ({quizData, setQuizData, initialQuestions = null
                 />
             )}
 
-            {/* MARK: Questions List */}
+            {/* Questions List */}
             {hasQuestions && (
                 <div className="space-y-6 mt-4">
-                    {questions
-                        .sort((a, b) => (a.order || 0) - (b.order || 0))
-                        .map((question, index) => (
-                            <div
-                                key={question.id || `question-${index}`}
-                                className="shadow-md p-4 lg:p-6 rounded-md border"
-                            >
-                                <div className="flex items-start justify-between mb-3">
-                                    <div className="flex flex-col gap-2">
-                                        {question?.image && (
-                                            <Image
-                                                width={300}
-                                                height={300}
-                                                src={question?.image}
-                                                alt="question image"
-                                            />
-                                        )}
-                                        <h4 className="mb-1 font-semibold flex-1">
-                                            {index + 1}. {question.text}
-                                        </h4>
-                                    </div>
-                                    <div className="text-sm text-gray-500 ml-4 flex flex-col items-end gap-1">
-                    <span>
-                      {question.mark} {question.mark === 1 ? "point" : "points"}
-                    </span>
-                                        {question.isFromPool && (
-                                            <span
-                                                className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
-                        Pool Question
-                      </span>
-                                        )}
-                                    </div>
+                    {sortedQuestions.map((question, index) => (
+                        <div
+                            key={question.id || `question-${index}`}
+                            className="shadow-md p-4 lg:p-6 rounded-md border"
+                        >
+                            <div className="flex items-start justify-between mb-3">
+                                <div className="flex flex-col gap-2">
+                                    {question?.image && (
+                                        <Image
+                                            width={300}
+                                            height={300}
+                                            src={question?.image}
+                                            alt="question image"
+                                            className="rounded-md"
+                                        />
+                                    )}
+                                    <h4 className="mb-1 font-semibold flex-1">
+                                        {index + 1}. {question.text}
+                                    </h4>
                                 </div>
-
-                                {question.explanation && (
-                                    <p className="text-xs text-gray-600 mb-3 italic">
-                                        <strong>Explanation:</strong> {question.explanation}
-                                    </p>
-                                )}
-
-                                {/* Multiple Choice Questions */}
-                                {question.type === "mcq" && question.options && (
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                                        {question.options.map((option, optionIndex) => (
-                                            <div
-                                                className={cn(
-                                                    "py-1.5 rounded-sm text-sm flex items-center gap-1",
-                                                    option.isCorrect
-                                                        ? "text-emerald-700"
-                                                        : "text-gray-600"
-                                                )}
-                                                key={`${question.id}-option-${optionIndex}`}
-                                            >
-                                                {option.isCorrect ? (
-                                                    <CircleCheck className="size-4 text-emerald-500"/>
-                                                ) : (
-                                                    <Circle className="size-4"/>
-                                                )}
-                                                <p>
-                          <span className="font-medium mr-1">
-                            {String.fromCharCode(65 + optionIndex)}.
-                          </span>
-                                                    {option.label}
-                                                </p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-
-                                {/* Short Answer and Long Answer Questions */}
-                                {(question.type === "short_answer" ||
-                                    question.type === "long_answer") && (
-                                    <div className="mb-4 p-3 rounded-md">
-                                        <p className="text-sm text-gray-700">
-                                            <strong>
-                                                {question.type === "short_answer"
-                                                    ? "Correct Answer:"
-                                                    : "Sample Answer:"}
-                                            </strong>
-                                        </p>
-                                        <p className="text-sm mt-1 whitespace-pre-wrap">
-                                            {typeof question.correctAnswer === "string"
-                                                ? question.correctAnswer
-                                                : JSON.stringify(question.correctAnswer)}
-                                        </p>
-                                    </div>
-                                )}
-
-                                {/* Question Type Badge */}
-                                <div className="flex items-center justify-between mt-4">
-                  <span
-                      className={cn(
-                          "px-2 py-1 text-xs rounded-full",
-                          question.type === "mcq" && "bg-blue-100 text-blue-700",
-                          question.type === "short_answer" &&
-                          "bg-green-100 text-green-700",
-                          question.type === "long_answer" &&
-                          "bg-purple-100 text-purple-700"
-                      )}
-                  >
-                    {question.type === "mcq" && "Multiple Choice"}
-                      {question.type === "short_answer" && "Short Answer"}
-                      {question.type === "long_answer" && "Long Answer"}
-                  </span>
-
-                                    {/* MARK: Action Buttons*/}
-                                    <div className="flex items-center gap-2">
-                                        <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            onClick={() => handleEditQuestion(question)}
-                                            disabled={showAddForm || editingQuestion || bulkProcessing || isPublished}
-                                            title={isPublished ? "Cannot edit questions in a published quiz" : ""}
-                                        >
-                                            <Pencil className="w-3 h-3 mr-1"/>
-                                            Edit
-                                        </Button>
-                                        <Button
-                                            size="sm"
-                                            className="text-destructive hover:text-destructive"
-                                            variant="ghost"
-                                            onClick={() => handleDeleteQuestion(question.id)}
-                                            disabled={showAddForm || editingQuestion || bulkProcessing || isPublished}
-                                            title={isPublished ? "Cannot delete questions in a published quiz" : ""}
-                                        >
-                                            <Trash className="w-3 h-3 mr-1"/>
-                                            Delete
-                                        </Button>
-                                    </div>
+                                <div className="text-sm text-gray-500 ml-4 flex flex-col items-end gap-1">
+                                    <span>
+                                        {question.mark} {question.mark === 1 ? "point" : "points"}
+                                    </span>
+                                    {question.isFromPool && (
+                                        <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
+                                            Pool Question
+                                        </span>
+                                    )}
                                 </div>
                             </div>
-                        ))}
+
+                            {question.explanation && (
+                                <p className="text-xs text-gray-600 mb-3 italic">
+                                    <strong>Explanation:</strong> {question.explanation}
+                                </p>
+                            )}
+
+                            {/* Multiple Choice Questions */}
+                            {question.type === "mcq" && question.options && (
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                                    {question.options.map((option, optionIndex) => (
+                                        <div
+                                            className={cn(
+                                                "py-1.5 rounded-sm text-sm flex items-center gap-1",
+                                                option.isCorrect
+                                                    ? "text-emerald-700"
+                                                    : "text-gray-600"
+                                            )}
+                                            key={`${question.id}-option-${optionIndex}`}
+                                        >
+                                            {option.isCorrect ? (
+                                                <CircleCheck className="size-4 text-emerald-500"/>
+                                            ) : (
+                                                <Circle className="size-4"/>
+                                            )}
+                                            <p>
+                                                <span className="font-medium mr-1">
+                                                    {String.fromCharCode(65 + optionIndex)}.
+                                                </span>
+                                                {option.label}
+                                            </p>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* Short Answer and Long Answer Questions */}
+                            {(question.type === "short_answer" || question.type === "long_answer") && (
+                                <div className="mb-4 p-3 bg-gray-50 rounded-md">
+                                    <p className="text-sm text-gray-700 mb-1">
+                                        <strong>
+                                            {question.type === "short_answer"
+                                                ? "Correct Answer:"
+                                                : "Sample Answer:"}
+                                        </strong>
+                                    </p>
+                                    <p className="text-sm whitespace-pre-wrap">
+                                        {typeof question.correctAnswer === "string"
+                                            ? question.correctAnswer
+                                            : JSON.stringify(question.correctAnswer)}
+                                    </p>
+                                </div>
+                            )}
+
+                            {/* Question Type Badge and Actions */}
+                            <div className="flex items-center justify-between mt-4">
+                                <span
+                                    className={cn(
+                                        "px-2 py-1 text-xs rounded-full",
+                                        question.type === "mcq" && "bg-blue-100 text-blue-700",
+                                        question.type === "short_answer" && "bg-green-100 text-green-700",
+                                        question.type === "long_answer" && "bg-purple-100 text-purple-700"
+                                    )}
+                                >
+                                    {question.type === "mcq" && "Multiple Choice"}
+                                    {question.type === "short_answer" && "Short Answer"}
+                                    {question.type === "long_answer" && "Long Answer"}
+                                </span>
+
+                                {/* Action Buttons */}
+                                <div className="flex items-center gap-2">
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={() => openEditModal(question)}
+                                        disabled={isDisabled}
+                                        title={isPublished ? "Cannot edit questions in a published quiz" : ""}
+                                    >
+                                        <Pencil className="w-3 h-3 mr-1"/>
+                                        Edit
+                                    </Button>
+                                    <Button
+                                        size="sm"
+                                        className="text-destructive hover:text-destructive"
+                                        variant="ghost"
+                                        onClick={() => handleDeleteQuestion(question.id)}
+                                        disabled={isDisabled}
+                                        title={isPublished ? "Cannot delete questions in a published quiz" : ""}
+                                    >
+                                        <Trash className="w-3 h-3 mr-1"/>
+                                        Delete
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             )}
+
+            {/* Add/Edit Question Modal */}
+            <Dialog open={isModalOpen} onOpenChange={handleModalOpenChange}>
+                <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                        <DialogTitle>
+                            {editingQuestion ? "Edit Question" : "Add New Question"}
+                        </DialogTitle>
+                    </DialogHeader>
+                    <div className="mt-4">
+                        <AddQuizForm
+                            quizId={quizData?.id}
+                            initialData={editingQuestion}
+                            onQuestionAdded={handleAddQuestion}
+                            onQuestionUpdated={handleUpdateQuestion}
+                            onCancel={closeModal}
+                            isEditing={!!editingQuestion}
+                            processing={processing}
+                        />
+                    </div>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 };
