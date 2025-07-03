@@ -54,7 +54,7 @@ export const AIFixedQuizGenerator = ({ quizData, setQuizData }) => {
         formData.append('targetShort', targetShort.toString());
         formData.append('targetLong', targetLong.toString());
         console.log(" handleGenerate ~ formData:", formData)
-        response = await fetch('/api/groq', {
+        response = await fetch('/api/quiz/groq', {
           method: 'POST',
           body: formData
         });
