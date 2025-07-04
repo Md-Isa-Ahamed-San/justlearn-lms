@@ -1,26 +1,30 @@
 "use client";
 
-import AlertBanner from "@/components/alert-banner";
-import {Button} from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import {cn} from "@/lib/utils";
-import {Circle, CircleCheck, Pencil, PlusCircle, Trash, Database} from "lucide-react";
-import {useState, useEffect} from "react";
-import {toast} from "sonner";
-import {AddQuizForm} from "./add-quiz-form";
-import {uploadToCloudinary} from "@/utils/uploadToCloudinary";
+import { cn } from "@/lib/utils";
+import { Circle, CircleCheck, Pencil, PlusCircle, Trash, Database, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect } from "react";
+import { toast } from "sonner";
+import { AddQuizForm } from "./add-quiz-form";
+import { uploadToCloudinary } from "@/utils/uploadToCloudinary";
 import Image from "next/image";
 
-export const ManualQuizEditor = ({quizData, setQuizData, initialQuestions = null}) => {
+export const ManualQuizEditor = ({ quizData, setQuizData, initialQuestions = null }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingQuestion, setEditingQuestion] = useState(null);
     const [processing, setProcessing] = useState(false);
     const [bulkProcessing, setBulkProcessing] = useState(false);
+
+    // Pagination states
+    const [currentPage, setCurrentPage] = useState(1);
+    const [questionsPerPage] = useState(10); // Configurable
+
     const QuestionDBExistStatus = quizData.questions.every(item => !item.id);
 
     console.log("quizData inside manual quiz editor: ", quizData);
@@ -38,6 +42,35 @@ export const ManualQuizEditor = ({quizData, setQuizData, initialQuestions = null
         }
     }, [initialQuestions, quizData?.generationType, quizData?.questions?.length, quizData?.id]);
 
+    // Pagination logic
+    const questions = quizData?.questions || [];
+    const hasQuestions = questions.length > 0;
+    const sortedQuestions = questions.sort((a, b) => (a.order || 0) - (b.order || 0));
+
+    const totalPages = Math.ceil(sortedQuestions.length / questionsPerPage);
+    const startIndex = (currentPage - 1) * questionsPerPage;
+    const endIndex = startIndex + questionsPerPage;
+    const currentQuestions = sortedQuestions.slice(startIndex, endIndex);
+
+    const shouldShowPagination = sortedQuestions.length > questionsPerPage;
+
+    // Reset to page 1 when questions change significantly
+    useEffect(() => {
+        const maxPage = Math.ceil(sortedQuestions.length / questionsPerPage);
+        if (currentPage > maxPage && maxPage > 0) {
+            setCurrentPage(1);
+        }
+    }, [sortedQuestions.length, currentPage, questionsPerPage]);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+        // Smooth scroll to top of questions section
+        const questionsSection = document.getElementById('questions-section');
+        if (questionsSection) {
+            questionsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
     const handleBulkCreateQuestions = async (questions) => {
         if (!questions || questions.length === 0) return;
 
@@ -51,7 +84,7 @@ export const ManualQuizEditor = ({quizData, setQuizData, initialQuestions = null
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({questions}),
+                body: JSON.stringify({ questions }),
             });
 
             const data = await res.json();
@@ -139,6 +172,11 @@ export const ManualQuizEditor = ({quizData, setQuizData, initialQuestions = null
                 }));
 
                 toast.success("Question added successfully");
+
+                // Navigate to the last page to show the new question
+                const newTotalPages = Math.ceil((currentQuestions.length + 1) / questionsPerPage);
+                setCurrentPage(newTotalPages);
+
                 closeModal();
             } else {
                 throw new Error(data.error || "Failed to add question");
@@ -215,7 +253,7 @@ export const ManualQuizEditor = ({quizData, setQuizData, initialQuestions = null
                     ...prev,
                     questions: prev.questions.map((q) =>
                         q.id === updatedQuestion.id
-                            ? {...updatedQuestion, image: imageUrl}
+                            ? { ...updatedQuestion, image: imageUrl }
                             : q
                     ),
                 }));
@@ -253,9 +291,17 @@ export const ManualQuizEditor = ({quizData, setQuizData, initialQuestions = null
                                 ...prev,
                                 questions: prev.questions
                                     .filter((q) => q.id !== questionId)
-                                    .map((q, index) => ({...q, order: index})),
+                                    .map((q, index) => ({ ...q, order: index })),
                             }));
+
                             toast.success("Question deleted successfully");
+
+                            // Adjust current page if needed
+                            const remainingQuestions = questions.filter(q => q.id !== questionId);
+                            const newTotalPages = Math.ceil(remainingQuestions.length / questionsPerPage);
+                            if (currentPage > newTotalPages && newTotalPages > 0) {
+                                setCurrentPage(newTotalPages);
+                            }
                         } else {
                             toast.error(data.message || "Failed to delete question");
                         }
@@ -296,29 +342,34 @@ export const ManualQuizEditor = ({quizData, setQuizData, initialQuestions = null
     };
 
     // Derived state for better readability
-    const questions = quizData?.questions || [];
-    const hasQuestions = questions.length > 0;
     const isAiGenerated = quizData?.generationType === "ai_fixed" || quizData?.generationType === "ai_pool";
     const isPublished = quizData?.status === 'published';
     const isDisabled = bulkProcessing || isPublished;
 
-    // Sort questions by order for consistent display
-    const sortedQuestions = questions.sort((a, b) => (a.order || 0) - (b.order || 0));
-
     return (
-        <div className="mt-6 border rounded-md p-4">
-            <div className="font-medium flex items-center justify-between mb-4">
-                <h3 className="text-lg">Questions</h3>
+        <div className="mt-6 border rounded-md p-2 sm:p-4">
+            <div className="font-medium flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-3">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+                    <h3 className="text-lg">Questions</h3>
+                    {shouldShowPagination && (
+                        <div className="text-sm text-gray-600 bg-gray-50 px-3 py-1 rounded-full">
+                            Showing {startIndex + 1}-{Math.min(endIndex, sortedQuestions.length)} of {sortedQuestions.length}
+                        </div>
+                    )}
+                </div>
+
                 {/* Add buttons */}
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                     {QuestionDBExistStatus && (
                         <Button
                             onClick={handleAddAllAIQuestions}
                             variant="outline"
                             disabled={processing || bulkProcessing}
+                            className="text-xs sm:text-sm"
                         >
-                            <Database className="h-4 w-4 mr-2"/>
-                            {processing ? "Adding Questions..." : "Add All AI Generated Questions"}
+                            <Database className="h-4 w-4 mr-2" />
+                            <span className="hidden sm:inline">Add All AI Generated Questions</span>
+                            <span className="sm:hidden">Add All AI Questions</span>
                         </Button>
                     )}
 
@@ -327,176 +378,269 @@ export const ManualQuizEditor = ({quizData, setQuizData, initialQuestions = null
                         variant="outline"
                         disabled={isDisabled}
                         title={isPublished ? "Cannot modify questions in a published quiz" : ""}
+                        className="text-xs sm:text-sm"
                     >
-                        <PlusCircle className="h-4 w-4 mr-2"/>
+                        <PlusCircle className="h-4 w-4 mr-2" />
                         Add a Question
                     </Button>
                 </div>
             </div>
 
-            {/* Published Quiz Warning */}
-            {isPublished && (
-                <AlertBanner
-                    label="This quiz is published. Questions cannot be modified."
-                    variant="info"
-                    className="rounded mb-6 bg-blue-50"
-                />
-            )}
-
-            {/* Bulk Processing Alert */}
-            {bulkProcessing && (
-                <AlertBanner
-                    label="Creating AI-generated questions... Please wait."
-                    variant="info"
-                    className="rounded mb-6 bg-blue-50"
-                />
-            )}
-
-            {/* No Questions Alert */}
-            {!hasQuestions && !bulkProcessing && (
-                <AlertBanner
-                    label={`No questions in this ${isAiGenerated ? 'AI-generated' : ''} quiz yet. ${!isAiGenerated && !isPublished ? "Click 'Add a Question' to get started." : isPublished ? "This quiz has no questions." : "Generate questions using AI or add manually."}`}
-                    variant="warning"
-                    className="rounded mb-6 bg-primary-foreground"
-                />
-            )}
-
-            {/* Questions List */}
+            {/* Questions Section */}
             {hasQuestions && (
-                <div className="space-y-6 mt-4">
-                    {sortedQuestions.map((question, index) => (
-                        <div
-                            key={question.id || `question-${index}`}
-                            className="shadow-md p-4 lg:p-6 rounded-md border"
-                        >
-                            <div className="flex items-start justify-between mb-3">
-                                <div className="flex flex-col gap-2">
-                                    {question?.image && (
-                                        <Image
-                                            width={300}
-                                            height={300}
-                                            src={question?.image}
-                                            alt="question image"
-                                            className="rounded-md"
-                                        />
-                                    )}
-                                    <h4 className="mb-1 font-semibold flex-1">
-                                        {index + 1}. {question.text}
-                                    </h4>
-                                </div>
-                                <div className="text-sm text-gray-500 ml-4 flex flex-col items-end gap-1">
-                                    <span>
-                                        {question.mark} {question.mark === 1 ? "point" : "points"}
-                                    </span>
-                                    {question.isFromPool && (
-                                        <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
-                                            Pool Question
-                                        </span>
-                                    )}
-                                </div>
-                            </div>
+                <div id="questions-section">
+                    {/* Pagination Controls - Top */}
+                    {shouldShowPagination && (
+                        <div className="flex flex-col sm:flex-row items-center justify-between mb-6 p-2 sm:p-4 bg-gray-50 rounded-lg gap-3">
+                            <div className="flex items-center gap-2">
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => handlePageChange(currentPage - 1)}
+                                    disabled={currentPage === 1}
+                                >
+                                    <ChevronLeft className="h-4 w-4" />
+                                    <span className="hidden sm:inline">Previous</span>
+                                </Button>
 
-                            {question.explanation && (
-                                <p className="text-xs text-gray-600 mb-3 italic">
-                                    <strong>Explanation:</strong> {question.explanation}
-                                </p>
-                            )}
-
-                            {/* Multiple Choice Questions */}
-                            {question.type === "mcq" && question.options && (
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                                    {question.options.map((option, optionIndex) => (
-                                        <div
-                                            className={cn(
-                                                "py-1.5 rounded-sm text-sm flex items-center gap-1",
-                                                option.isCorrect
-                                                    ? "text-emerald-700"
-                                                    : "text-gray-600"
-                                            )}
-                                            key={`${question.id}-option-${optionIndex}`}
+                                <div className="flex items-center gap-1">
+                                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                                        <Button
+                                            key={page}
+                                            variant={currentPage === page ? "default" : "outline"}
+                                            size="sm"
+                                            onClick={() => handlePageChange(page)}
+                                            className="w-8 h-8 p-0"
                                         >
-                                            {option.isCorrect ? (
-                                                <CircleCheck className="size-4 text-emerald-500"/>
-                                            ) : (
-                                                <Circle className="size-4"/>
-                                            )}
-                                            <p>
-                                                <span className="font-medium mr-1">
-                                                    {String.fromCharCode(65 + optionIndex)}.
-                                                </span>
-                                                {option.label}
-                                            </p>
-                                        </div>
+                                            {page}
+                                        </Button>
                                     ))}
                                 </div>
-                            )}
 
-                            {/* Short Answer and Long Answer Questions */}
-                            {(question.type === "short_answer" || question.type === "long_answer") && (
-                                <div className="mb-4 p-3 bg-gray-50 rounded-md">
-                                    <p className="text-sm text-gray-700 mb-1">
-                                        <strong>
-                                            {question.type === "short_answer"
-                                                ? "Correct Answer:"
-                                                : "Sample Answer:"}
-                                        </strong>
-                                    </p>
-                                    <p className="text-sm whitespace-pre-wrap">
-                                        {typeof question.correctAnswer === "string"
-                                            ? question.correctAnswer
-                                            : JSON.stringify(question.correctAnswer)}
-                                    </p>
-                                </div>
-                            )}
-
-                            {/* Question Type Badge and Actions */}
-                            <div className="flex items-center justify-between mt-4">
-                                <span
-                                    className={cn(
-                                        "px-2 py-1 text-xs rounded-full",
-                                        question.type === "mcq" && "bg-blue-100 text-blue-700",
-                                        question.type === "short_answer" && "bg-green-100 text-green-700",
-                                        question.type === "long_answer" && "bg-purple-100 text-purple-700"
-                                    )}
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => handlePageChange(currentPage + 1)}
+                                    disabled={currentPage === totalPages}
                                 >
-                                    {question.type === "mcq" && "Multiple Choice"}
-                                    {question.type === "short_answer" && "Short Answer"}
-                                    {question.type === "long_answer" && "Long Answer"}
-                                </span>
+                                    <span className="hidden sm:inline">Next</span>
+                                    <ChevronRight className="h-4 w-4" />
+                                </Button>
+                            </div>
 
-                                {/* Action Buttons */}
-                                <div className="flex items-center gap-2">
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => openEditModal(question)}
-                                        disabled={isDisabled}
-                                        title={isPublished ? "Cannot edit questions in a published quiz" : ""}
-                                    >
-                                        <Pencil className="w-3 h-3 mr-1"/>
-                                        Edit
-                                    </Button>
-                                    <Button
-                                        size="sm"
-                                        className="text-destructive hover:text-destructive"
-                                        variant="ghost"
-                                        onClick={() => handleDeleteQuestion(question.id)}
-                                        disabled={isDisabled}
-                                        title={isPublished ? "Cannot delete questions in a published quiz" : ""}
-                                    >
-                                        <Trash className="w-3 h-3 mr-1"/>
-                                        Delete
-                                    </Button>
-                                </div>
+                            <div className="text-sm text-gray-600">
+                                Page {currentPage} of {totalPages}
                             </div>
                         </div>
-                    ))}
+                    )}
+
+                    {/* Questions List */}
+                    <div className="space-y-4 sm:space-y-6">
+                        {currentQuestions.map((question, index) => {
+                            const actualIndex = startIndex + index;
+                            return (
+                                <div
+                                    key={question.id || `question-${actualIndex}`}
+                                    className="shadow-md p-3 sm:p-4 lg:p-6 rounded-md border"
+                                >
+                                    <div className="flex flex-col sm:flex-row items-start justify-between mb-3 gap-3">
+                                        <div className="flex flex-col gap-2 flex-1">
+                                            {question?.image && (
+                                                <Image
+                                                    width={300}
+                                                    height={300}
+                                                    src={question?.image}
+                                                    alt="question image"
+                                                    className="rounded-md w-full max-w-xs sm:max-w-sm"
+                                                />
+                                            )}
+                                            <h4 className="mb-1 font-semibold text-sm sm:text-base">
+                                                {actualIndex + 1}. {question.text}
+                                            </h4>
+                                        </div>
+                                        <div className="text-sm text-gray-500 flex flex-row sm:flex-col items-center sm:items-end gap-2 sm:gap-1">
+                                            <span>
+                                                {question.mark} {question.mark === 1 ? "point" : "points"}
+                                            </span>
+                                            {question.isFromPool && (
+                                                <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
+                                                    Pool Question
+                                                </span>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {question.explanation && (
+                                        <p className="text-xs text-gray-600 mb-3 italic">
+                                            <strong>Explanation:</strong> {question.explanation}
+                                        </p>
+                                    )}
+
+                                    {/* Multiple Choice Questions */}
+                                    {question.type === "mcq" && question.options && (
+                                        <div className="grid grid-cols-1 gap-2 sm:gap-3 mb-4">
+                                            {question.options.map((option, optionIndex) => (
+                                                <div
+                                                    className={cn(
+                                                        "py-1.5 rounded-sm text-sm flex items-center gap-2",
+                                                        option.isCorrect
+                                                            ? "text-emerald-700"
+                                                            : "text-gray-600"
+                                                    )}
+                                                    key={`${question.id}-option-${optionIndex}`}
+                                                >
+                                                    {option.isCorrect ? (
+                                                        <CircleCheck className="size-4 text-emerald-500 flex-shrink-0" />
+                                                    ) : (
+                                                        <Circle className="size-4 flex-shrink-0" />
+                                                    )}
+                                                    <p className="break-words">
+                                                        <span className="font-medium mr-1">
+                                                            {String.fromCharCode(65 + optionIndex)}.
+                                                        </span>
+                                                        {option.label}
+                                                    </p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {/* Short Answer and Long Answer Questions */}
+                                    {(question.type === "short_answer" || question.type === "long_answer") && (
+                                        <div className="mb-4 p-3 bg-gray-50 rounded-md">
+                                            <p className="text-sm text-gray-700 mb-1">
+                                                <strong>
+                                                    {question.type === "short_answer"
+                                                        ? "Correct Answer:"
+                                                        : "Sample Answer:"}
+                                                </strong>
+                                            </p>
+                                            <p className="text-sm whitespace-pre-wrap break-words">
+                                                {typeof question.correctAnswer === "string"
+                                                    ? question.correctAnswer
+                                                    : JSON.stringify(question.correctAnswer)}
+                                            </p>
+                                        </div>
+                                    )}
+
+                                    {/* Question Type Badge and Actions */}
+                                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-4 gap-3">
+                                        <span
+                                            className={cn(
+                                                "px-2 py-1 text-xs rounded-full",
+                                                question.type === "mcq" && "bg-blue-100 text-blue-700",
+                                                question.type === "short_answer" && "bg-green-100 text-green-700",
+                                                question.type === "long_answer" && "bg-purple-100 text-purple-700"
+                                            )}
+                                        >
+                                            {question.type === "mcq" && "Multiple Choice"}
+                                            {question.type === "short_answer" && "Short Answer"}
+                                            {question.type === "long_answer" && "Long Answer"}
+                                        </span>
+
+                                        {/* Action Buttons */}
+                                        <div className="flex items-center gap-2">
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() => openEditModal(question)}
+                                                disabled={isDisabled}
+                                                title={isPublished ? "Cannot edit questions in a published quiz" : ""}
+                                                className="text-xs sm:text-sm"
+                                            >
+                                                <Pencil className="w-3 h-3 mr-1" />
+                                                Edit
+                                            </Button>
+                                            <Button
+                                                size="sm"
+                                                className="text-destructive hover:text-destructive text-xs sm:text-sm"
+                                                variant="ghost"
+                                                onClick={() => handleDeleteQuestion(question.id)}
+                                                disabled={isDisabled}
+                                                title={isPublished ? "Cannot delete questions in a published quiz" : ""}
+                                            >
+                                                <Trash className="w-3 h-3 mr-1" />
+                                                Delete
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    {/* Pagination Controls - Bottom */}
+                    {shouldShowPagination && (
+                        <div className="flex flex-col sm:flex-row items-center justify-center mt-6 p-2 sm:p-4 bg-gray-50 rounded-lg gap-3">
+                            <div className="flex items-center gap-2">
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => handlePageChange(currentPage - 1)}
+                                    disabled={currentPage === 1}
+                                >
+                                    <ChevronLeft className="h-4 w-4" />
+                                    <span className="hidden sm:inline">Previous</span>
+                                </Button>
+
+                                <div className="flex items-center gap-1">
+                                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                                        <Button
+                                            key={page}
+                                            variant={currentPage === page ? "default" : "outline"}
+                                            size="sm"
+                                            onClick={() => handlePageChange(page)}
+                                            className="w-8 h-8 p-0"
+                                        >
+                                            {page}
+                                        </Button>
+                                    ))}
+                                </div>
+
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => handlePageChange(currentPage + 1)}
+                                    disabled={currentPage === totalPages}
+                                >
+                                    <span className="hidden sm:inline">Next</span>
+                                    <ChevronRight className="h-4 w-4" />
+                                </Button>
+                            </div>
+
+                            <div className="text-sm text-gray-600">
+                                Page {currentPage} of {totalPages} • {sortedQuestions.length} total questions
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )}
+
+            {/* No Questions State */}
+            {!hasQuestions && !bulkProcessing && (
+                <div className="text-center py-8 text-gray-500">
+                    <p className="text-lg mb-2">
+                        No questions in this {isAiGenerated ? 'AI-generated' : ''} quiz yet.
+                    </p>
+                    <p className="text-sm">
+                        {!isAiGenerated && !isPublished ? "Click 'Add a Question' to get started." :
+                            isPublished ? "This quiz has no questions." :
+                                "Generate questions using AI or add manually."}
+                    </p>
+                </div>
+            )}
+
+            {/* Bulk Processing State */}
+            {bulkProcessing && (
+                <div className="text-center py-8 text-blue-600">
+                    <p className="text-lg">Creating AI-generated questions...</p>
+                    <p className="text-sm">Please wait.</p>
                 </div>
             )}
 
             {/* Add/Edit Question Modal */}
             <Dialog open={isModalOpen} onOpenChange={handleModalOpenChange}>
-                <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto mx-2 sm:mx-auto">
                     <DialogHeader>
                         <DialogTitle>
                             {editingQuestion ? "Edit Question" : "Add New Question"}

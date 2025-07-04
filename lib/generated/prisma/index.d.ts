@@ -64,11 +64,6 @@ export type Lesson = $Result.DefaultSelection<Prisma.$LessonPayload>
  */
 export type Question = $Result.DefaultSelection<Prisma.$QuestionPayload>
 /**
- * Model AIQuizTemplate
- * 
- */
-export type AIQuizTemplate = $Result.DefaultSelection<Prisma.$AIQuizTemplatePayload>
-/**
  * Model QuizSubmission
  * 
  */
@@ -113,11 +108,6 @@ export type Participation = $Result.DefaultSelection<Prisma.$ParticipationPayloa
  * 
  */
 export type Watch = $Result.DefaultSelection<Prisma.$WatchPayload>
-/**
- * Model Resource
- * 
- */
-export type Resource = $Result.DefaultSelection<Prisma.$ResourcePayload>
 /**
  * Model Live
  * 
@@ -427,16 +417,6 @@ export class PrismaClient<
   get question(): Prisma.QuestionDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.aIQuizTemplate`: Exposes CRUD operations for the **AIQuizTemplate** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more AIQuizTemplates
-    * const aIQuizTemplates = await prisma.aIQuizTemplate.findMany()
-    * ```
-    */
-  get aIQuizTemplate(): Prisma.AIQuizTemplateDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.quizSubmission`: Exposes CRUD operations for the **QuizSubmission** model.
     * Example usage:
     * ```ts
@@ -527,16 +507,6 @@ export class PrismaClient<
   get watch(): Prisma.WatchDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.resource`: Exposes CRUD operations for the **Resource** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Resources
-    * const resources = await prisma.resource.findMany()
-    * ```
-    */
-  get resource(): Prisma.ResourceDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.live`: Exposes CRUD operations for the **Live** model.
     * Example usage:
     * ```ts
@@ -603,8 +573,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.10.1
-   * Query Engine version: 9b628578b3b7cae625e8c927178f15a170e74a9c
+   * Prisma Client JS version: 6.11.1
+   * Query Engine version: f40f79ec31188888a2e33acda0ecc8fd10a853a9
    */
   export type PrismaVersion = {
     client: string
@@ -995,7 +965,6 @@ export namespace Prisma {
     Quiz: 'Quiz',
     Lesson: 'Lesson',
     Question: 'Question',
-    AIQuizTemplate: 'AIQuizTemplate',
     QuizSubmission: 'QuizSubmission',
     StudentAnswer: 'StudentAnswer',
     AIGenerationLog: 'AIGenerationLog',
@@ -1005,7 +974,6 @@ export namespace Prisma {
     Report: 'Report',
     Participation: 'Participation',
     Watch: 'Watch',
-    Resource: 'Resource',
     Live: 'Live'
   };
 
@@ -1025,7 +993,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "instructor" | "student" | "admin" | "category" | "course" | "week" | "quiz" | "lesson" | "question" | "aIQuizTemplate" | "quizSubmission" | "studentAnswer" | "aIGenerationLog" | "courseProgress" | "certificate" | "testimonial" | "report" | "participation" | "watch" | "resource" | "live"
+      modelProps: "user" | "instructor" | "student" | "admin" | "category" | "course" | "week" | "quiz" | "lesson" | "question" | "quizSubmission" | "studentAnswer" | "aIGenerationLog" | "courseProgress" | "certificate" | "testimonial" | "report" | "participation" | "watch" | "live"
       txIsolationLevel: never
     }
     model: {
@@ -1769,80 +1737,6 @@ export namespace Prisma {
           }
         }
       }
-      AIQuizTemplate: {
-        payload: Prisma.$AIQuizTemplatePayload<ExtArgs>
-        fields: Prisma.AIQuizTemplateFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.AIQuizTemplateFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AIQuizTemplatePayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.AIQuizTemplateFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AIQuizTemplatePayload>
-          }
-          findFirst: {
-            args: Prisma.AIQuizTemplateFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AIQuizTemplatePayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.AIQuizTemplateFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AIQuizTemplatePayload>
-          }
-          findMany: {
-            args: Prisma.AIQuizTemplateFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AIQuizTemplatePayload>[]
-          }
-          create: {
-            args: Prisma.AIQuizTemplateCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AIQuizTemplatePayload>
-          }
-          createMany: {
-            args: Prisma.AIQuizTemplateCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          delete: {
-            args: Prisma.AIQuizTemplateDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AIQuizTemplatePayload>
-          }
-          update: {
-            args: Prisma.AIQuizTemplateUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AIQuizTemplatePayload>
-          }
-          deleteMany: {
-            args: Prisma.AIQuizTemplateDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.AIQuizTemplateUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          upsert: {
-            args: Prisma.AIQuizTemplateUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AIQuizTemplatePayload>
-          }
-          aggregate: {
-            args: Prisma.AIQuizTemplateAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateAIQuizTemplate>
-          }
-          groupBy: {
-            args: Prisma.AIQuizTemplateGroupByArgs<ExtArgs>
-            result: $Utils.Optional<AIQuizTemplateGroupByOutputType>[]
-          }
-          findRaw: {
-            args: Prisma.AIQuizTemplateFindRawArgs<ExtArgs>
-            result: JsonObject
-          }
-          aggregateRaw: {
-            args: Prisma.AIQuizTemplateAggregateRawArgs<ExtArgs>
-            result: JsonObject
-          }
-          count: {
-            args: Prisma.AIQuizTemplateCountArgs<ExtArgs>
-            result: $Utils.Optional<AIQuizTemplateCountAggregateOutputType> | number
-          }
-        }
-      }
       QuizSubmission: {
         payload: Prisma.$QuizSubmissionPayload<ExtArgs>
         fields: Prisma.QuizSubmissionFieldRefs
@@ -2509,80 +2403,6 @@ export namespace Prisma {
           }
         }
       }
-      Resource: {
-        payload: Prisma.$ResourcePayload<ExtArgs>
-        fields: Prisma.ResourceFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.ResourceFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ResourcePayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.ResourceFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ResourcePayload>
-          }
-          findFirst: {
-            args: Prisma.ResourceFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ResourcePayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.ResourceFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ResourcePayload>
-          }
-          findMany: {
-            args: Prisma.ResourceFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ResourcePayload>[]
-          }
-          create: {
-            args: Prisma.ResourceCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ResourcePayload>
-          }
-          createMany: {
-            args: Prisma.ResourceCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          delete: {
-            args: Prisma.ResourceDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ResourcePayload>
-          }
-          update: {
-            args: Prisma.ResourceUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ResourcePayload>
-          }
-          deleteMany: {
-            args: Prisma.ResourceDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.ResourceUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          upsert: {
-            args: Prisma.ResourceUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ResourcePayload>
-          }
-          aggregate: {
-            args: Prisma.ResourceAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateResource>
-          }
-          groupBy: {
-            args: Prisma.ResourceGroupByArgs<ExtArgs>
-            result: $Utils.Optional<ResourceGroupByOutputType>[]
-          }
-          findRaw: {
-            args: Prisma.ResourceFindRawArgs<ExtArgs>
-            result: JsonObject
-          }
-          aggregateRaw: {
-            args: Prisma.ResourceAggregateRawArgs<ExtArgs>
-            result: JsonObject
-          }
-          count: {
-            args: Prisma.ResourceCountArgs<ExtArgs>
-            result: $Utils.Optional<ResourceCountAggregateOutputType> | number
-          }
-        }
-      }
       Live: {
         payload: Prisma.$LivePayload<ExtArgs>
         fields: Prisma.LiveFieldRefs
@@ -2738,7 +2558,6 @@ export namespace Prisma {
     quiz?: QuizOmit
     lesson?: LessonOmit
     question?: QuestionOmit
-    aIQuizTemplate?: AIQuizTemplateOmit
     quizSubmission?: QuizSubmissionOmit
     studentAnswer?: StudentAnswerOmit
     aIGenerationLog?: AIGenerationLogOmit
@@ -2748,7 +2567,6 @@ export namespace Prisma {
     report?: ReportOmit
     participation?: ParticipationOmit
     watch?: WatchOmit
-    resource?: ResourceOmit
     live?: LiveOmit
   }
 
@@ -2855,7 +2673,6 @@ export namespace Prisma {
     participations: number
     watches: number
     liveSessions: number
-    aiQuizTemplates: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2870,7 +2687,6 @@ export namespace Prisma {
     participations?: boolean | UserCountOutputTypeCountParticipationsArgs
     watches?: boolean | UserCountOutputTypeCountWatchesArgs
     liveSessions?: boolean | UserCountOutputTypeCountLiveSessionsArgs
-    aiQuizTemplates?: boolean | UserCountOutputTypeCountAiQuizTemplatesArgs
   }
 
   // Custom InputTypes
@@ -2959,13 +2775,6 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountLiveSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LiveWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountAiQuizTemplatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AIQuizTemplateWhereInput
   }
 
 
@@ -3082,16 +2891,12 @@ export namespace Prisma {
 
   export type WeekCountOutputType = {
     lessons: number
-    resources: number
     watches: number
-    aiQuizTemplates: number
   }
 
   export type WeekCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     lessons?: boolean | WeekCountOutputTypeCountLessonsArgs
-    resources?: boolean | WeekCountOutputTypeCountResourcesArgs
     watches?: boolean | WeekCountOutputTypeCountWatchesArgs
-    aiQuizTemplates?: boolean | WeekCountOutputTypeCountAiQuizTemplatesArgs
   }
 
   // Custom InputTypes
@@ -3115,22 +2920,8 @@ export namespace Prisma {
   /**
    * WeekCountOutputType without action
    */
-  export type WeekCountOutputTypeCountResourcesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ResourceWhereInput
-  }
-
-  /**
-   * WeekCountOutputType without action
-   */
   export type WeekCountOutputTypeCountWatchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: WatchWhereInput
-  }
-
-  /**
-   * WeekCountOutputType without action
-   */
-  export type WeekCountOutputTypeCountAiQuizTemplatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AIQuizTemplateWhereInput
   }
 
 
@@ -3506,7 +3297,6 @@ export namespace Prisma {
     participations?: boolean | User$participationsArgs<ExtArgs>
     watches?: boolean | User$watchesArgs<ExtArgs>
     liveSessions?: boolean | User$liveSessionsArgs<ExtArgs>
-    aiQuizTemplates?: boolean | User$aiQuizTemplatesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3542,7 +3332,6 @@ export namespace Prisma {
     participations?: boolean | User$participationsArgs<ExtArgs>
     watches?: boolean | User$watchesArgs<ExtArgs>
     liveSessions?: boolean | User$liveSessionsArgs<ExtArgs>
-    aiQuizTemplates?: boolean | User$aiQuizTemplatesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -3563,7 +3352,6 @@ export namespace Prisma {
       participations: Prisma.$ParticipationPayload<ExtArgs>[]
       watches: Prisma.$WatchPayload<ExtArgs>[]
       liveSessions: Prisma.$LivePayload<ExtArgs>[]
-      aiQuizTemplates: Prisma.$AIQuizTemplatePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3954,7 +3742,6 @@ export namespace Prisma {
     participations<T extends User$participationsArgs<ExtArgs> = {}>(args?: Subset<T, User$participationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParticipationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     watches<T extends User$watchesArgs<ExtArgs> = {}>(args?: Subset<T, User$watchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     liveSessions<T extends User$liveSessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$liveSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LivePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    aiQuizTemplates<T extends User$aiQuizTemplatesArgs<ExtArgs> = {}>(args?: Subset<T, User$aiQuizTemplatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AIQuizTemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4683,30 +4470,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: LiveScalarFieldEnum | LiveScalarFieldEnum[]
-  }
-
-  /**
-   * User.aiQuizTemplates
-   */
-  export type User$aiQuizTemplatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AIQuizTemplate
-     */
-    select?: AIQuizTemplateSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AIQuizTemplate
-     */
-    omit?: AIQuizTemplateOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AIQuizTemplateInclude<ExtArgs> | null
-    where?: AIQuizTemplateWhereInput
-    orderBy?: AIQuizTemplateOrderByWithRelationInput | AIQuizTemplateOrderByWithRelationInput[]
-    cursor?: AIQuizTemplateWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: AIQuizTemplateScalarFieldEnum | AIQuizTemplateScalarFieldEnum[]
   }
 
   /**
@@ -10586,9 +10349,7 @@ export namespace Prisma {
     courseId?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
     lessons?: boolean | Week$lessonsArgs<ExtArgs>
-    resources?: boolean | Week$resourcesArgs<ExtArgs>
     watches?: boolean | Week$watchesArgs<ExtArgs>
-    aiQuizTemplates?: boolean | Week$aiQuizTemplatesArgs<ExtArgs>
     _count?: boolean | WeekCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["week"]>
 
@@ -10615,9 +10376,7 @@ export namespace Prisma {
   export type WeekInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | CourseDefaultArgs<ExtArgs>
     lessons?: boolean | Week$lessonsArgs<ExtArgs>
-    resources?: boolean | Week$resourcesArgs<ExtArgs>
     watches?: boolean | Week$watchesArgs<ExtArgs>
-    aiQuizTemplates?: boolean | Week$aiQuizTemplatesArgs<ExtArgs>
     _count?: boolean | WeekCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -10626,9 +10385,7 @@ export namespace Prisma {
     objects: {
       course: Prisma.$CoursePayload<ExtArgs>
       lessons: Prisma.$LessonPayload<ExtArgs>[]
-      resources: Prisma.$ResourcePayload<ExtArgs>[]
       watches: Prisma.$WatchPayload<ExtArgs>[]
-      aiQuizTemplates: Prisma.$AIQuizTemplatePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -11010,9 +10767,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     course<T extends CourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CourseDefaultArgs<ExtArgs>>): Prisma__CourseClient<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     lessons<T extends Week$lessonsArgs<ExtArgs> = {}>(args?: Subset<T, Week$lessonsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LessonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    resources<T extends Week$resourcesArgs<ExtArgs> = {}>(args?: Subset<T, Week$resourcesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     watches<T extends Week$watchesArgs<ExtArgs> = {}>(args?: Subset<T, Week$watchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    aiQuizTemplates<T extends Week$aiQuizTemplatesArgs<ExtArgs> = {}>(args?: Subset<T, Week$aiQuizTemplatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AIQuizTemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11450,30 +11205,6 @@ export namespace Prisma {
   }
 
   /**
-   * Week.resources
-   */
-  export type Week$resourcesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Resource
-     */
-    select?: ResourceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Resource
-     */
-    omit?: ResourceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ResourceInclude<ExtArgs> | null
-    where?: ResourceWhereInput
-    orderBy?: ResourceOrderByWithRelationInput | ResourceOrderByWithRelationInput[]
-    cursor?: ResourceWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ResourceScalarFieldEnum | ResourceScalarFieldEnum[]
-  }
-
-  /**
    * Week.watches
    */
   export type Week$watchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11495,30 +11226,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: WatchScalarFieldEnum | WatchScalarFieldEnum[]
-  }
-
-  /**
-   * Week.aiQuizTemplates
-   */
-  export type Week$aiQuizTemplatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AIQuizTemplate
-     */
-    select?: AIQuizTemplateSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AIQuizTemplate
-     */
-    omit?: AIQuizTemplateOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AIQuizTemplateInclude<ExtArgs> | null
-    where?: AIQuizTemplateWhereInput
-    orderBy?: AIQuizTemplateOrderByWithRelationInput | AIQuizTemplateOrderByWithRelationInput[]
-    cursor?: AIQuizTemplateWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: AIQuizTemplateScalarFieldEnum | AIQuizTemplateScalarFieldEnum[]
   }
 
   /**
@@ -15075,1108 +14782,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: QuestionInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model AIQuizTemplate
-   */
-
-  export type AggregateAIQuizTemplate = {
-    _count: AIQuizTemplateCountAggregateOutputType | null
-    _avg: AIQuizTemplateAvgAggregateOutputType | null
-    _sum: AIQuizTemplateSumAggregateOutputType | null
-    _min: AIQuizTemplateMinAggregateOutputType | null
-    _max: AIQuizTemplateMaxAggregateOutputType | null
-  }
-
-  export type AIQuizTemplateAvgAggregateOutputType = {
-    defaultMcqCount: number | null
-    defaultShortAnswerCount: number | null
-    defaultLongAnswerCount: number | null
-  }
-
-  export type AIQuizTemplateSumAggregateOutputType = {
-    defaultMcqCount: number | null
-    defaultShortAnswerCount: number | null
-    defaultLongAnswerCount: number | null
-  }
-
-  export type AIQuizTemplateMinAggregateOutputType = {
-    id: string | null
-    title: string | null
-    description: string | null
-    instructorPrompt: string | null
-    defaultMcqCount: number | null
-    defaultShortAnswerCount: number | null
-    defaultLongAnswerCount: number | null
-    active: boolean | null
-    createdAt: Date | null
-    updatedAt: Date | null
-    userId: string | null
-    weekId: string | null
-  }
-
-  export type AIQuizTemplateMaxAggregateOutputType = {
-    id: string | null
-    title: string | null
-    description: string | null
-    instructorPrompt: string | null
-    defaultMcqCount: number | null
-    defaultShortAnswerCount: number | null
-    defaultLongAnswerCount: number | null
-    active: boolean | null
-    createdAt: Date | null
-    updatedAt: Date | null
-    userId: string | null
-    weekId: string | null
-  }
-
-  export type AIQuizTemplateCountAggregateOutputType = {
-    id: number
-    title: number
-    description: number
-    instructorPrompt: number
-    defaultMcqCount: number
-    defaultShortAnswerCount: number
-    defaultLongAnswerCount: number
-    active: number
-    createdAt: number
-    updatedAt: number
-    userId: number
-    weekId: number
-    _all: number
-  }
-
-
-  export type AIQuizTemplateAvgAggregateInputType = {
-    defaultMcqCount?: true
-    defaultShortAnswerCount?: true
-    defaultLongAnswerCount?: true
-  }
-
-  export type AIQuizTemplateSumAggregateInputType = {
-    defaultMcqCount?: true
-    defaultShortAnswerCount?: true
-    defaultLongAnswerCount?: true
-  }
-
-  export type AIQuizTemplateMinAggregateInputType = {
-    id?: true
-    title?: true
-    description?: true
-    instructorPrompt?: true
-    defaultMcqCount?: true
-    defaultShortAnswerCount?: true
-    defaultLongAnswerCount?: true
-    active?: true
-    createdAt?: true
-    updatedAt?: true
-    userId?: true
-    weekId?: true
-  }
-
-  export type AIQuizTemplateMaxAggregateInputType = {
-    id?: true
-    title?: true
-    description?: true
-    instructorPrompt?: true
-    defaultMcqCount?: true
-    defaultShortAnswerCount?: true
-    defaultLongAnswerCount?: true
-    active?: true
-    createdAt?: true
-    updatedAt?: true
-    userId?: true
-    weekId?: true
-  }
-
-  export type AIQuizTemplateCountAggregateInputType = {
-    id?: true
-    title?: true
-    description?: true
-    instructorPrompt?: true
-    defaultMcqCount?: true
-    defaultShortAnswerCount?: true
-    defaultLongAnswerCount?: true
-    active?: true
-    createdAt?: true
-    updatedAt?: true
-    userId?: true
-    weekId?: true
-    _all?: true
-  }
-
-  export type AIQuizTemplateAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which AIQuizTemplate to aggregate.
-     */
-    where?: AIQuizTemplateWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of AIQuizTemplates to fetch.
-     */
-    orderBy?: AIQuizTemplateOrderByWithRelationInput | AIQuizTemplateOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: AIQuizTemplateWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` AIQuizTemplates from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` AIQuizTemplates.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned AIQuizTemplates
-    **/
-    _count?: true | AIQuizTemplateCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: AIQuizTemplateAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: AIQuizTemplateSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: AIQuizTemplateMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: AIQuizTemplateMaxAggregateInputType
-  }
-
-  export type GetAIQuizTemplateAggregateType<T extends AIQuizTemplateAggregateArgs> = {
-        [P in keyof T & keyof AggregateAIQuizTemplate]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateAIQuizTemplate[P]>
-      : GetScalarType<T[P], AggregateAIQuizTemplate[P]>
-  }
-
-
-
-
-  export type AIQuizTemplateGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AIQuizTemplateWhereInput
-    orderBy?: AIQuizTemplateOrderByWithAggregationInput | AIQuizTemplateOrderByWithAggregationInput[]
-    by: AIQuizTemplateScalarFieldEnum[] | AIQuizTemplateScalarFieldEnum
-    having?: AIQuizTemplateScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: AIQuizTemplateCountAggregateInputType | true
-    _avg?: AIQuizTemplateAvgAggregateInputType
-    _sum?: AIQuizTemplateSumAggregateInputType
-    _min?: AIQuizTemplateMinAggregateInputType
-    _max?: AIQuizTemplateMaxAggregateInputType
-  }
-
-  export type AIQuizTemplateGroupByOutputType = {
-    id: string
-    title: string
-    description: string | null
-    instructorPrompt: string
-    defaultMcqCount: number
-    defaultShortAnswerCount: number
-    defaultLongAnswerCount: number
-    active: boolean
-    createdAt: Date
-    updatedAt: Date
-    userId: string
-    weekId: string
-    _count: AIQuizTemplateCountAggregateOutputType | null
-    _avg: AIQuizTemplateAvgAggregateOutputType | null
-    _sum: AIQuizTemplateSumAggregateOutputType | null
-    _min: AIQuizTemplateMinAggregateOutputType | null
-    _max: AIQuizTemplateMaxAggregateOutputType | null
-  }
-
-  type GetAIQuizTemplateGroupByPayload<T extends AIQuizTemplateGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<AIQuizTemplateGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof AIQuizTemplateGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], AIQuizTemplateGroupByOutputType[P]>
-            : GetScalarType<T[P], AIQuizTemplateGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type AIQuizTemplateSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    title?: boolean
-    description?: boolean
-    instructorPrompt?: boolean
-    defaultMcqCount?: boolean
-    defaultShortAnswerCount?: boolean
-    defaultLongAnswerCount?: boolean
-    active?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    userId?: boolean
-    weekId?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    week?: boolean | WeekDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["aIQuizTemplate"]>
-
-
-
-  export type AIQuizTemplateSelectScalar = {
-    id?: boolean
-    title?: boolean
-    description?: boolean
-    instructorPrompt?: boolean
-    defaultMcqCount?: boolean
-    defaultShortAnswerCount?: boolean
-    defaultLongAnswerCount?: boolean
-    active?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    userId?: boolean
-    weekId?: boolean
-  }
-
-  export type AIQuizTemplateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "instructorPrompt" | "defaultMcqCount" | "defaultShortAnswerCount" | "defaultLongAnswerCount" | "active" | "createdAt" | "updatedAt" | "userId" | "weekId", ExtArgs["result"]["aIQuizTemplate"]>
-  export type AIQuizTemplateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    week?: boolean | WeekDefaultArgs<ExtArgs>
-  }
-
-  export type $AIQuizTemplatePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "AIQuizTemplate"
-    objects: {
-      user: Prisma.$UserPayload<ExtArgs>
-      week: Prisma.$WeekPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      title: string
-      description: string | null
-      instructorPrompt: string
-      defaultMcqCount: number
-      defaultShortAnswerCount: number
-      defaultLongAnswerCount: number
-      active: boolean
-      createdAt: Date
-      updatedAt: Date
-      userId: string
-      weekId: string
-    }, ExtArgs["result"]["aIQuizTemplate"]>
-    composites: {}
-  }
-
-  type AIQuizTemplateGetPayload<S extends boolean | null | undefined | AIQuizTemplateDefaultArgs> = $Result.GetResult<Prisma.$AIQuizTemplatePayload, S>
-
-  type AIQuizTemplateCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<AIQuizTemplateFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: AIQuizTemplateCountAggregateInputType | true
-    }
-
-  export interface AIQuizTemplateDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AIQuizTemplate'], meta: { name: 'AIQuizTemplate' } }
-    /**
-     * Find zero or one AIQuizTemplate that matches the filter.
-     * @param {AIQuizTemplateFindUniqueArgs} args - Arguments to find a AIQuizTemplate
-     * @example
-     * // Get one AIQuizTemplate
-     * const aIQuizTemplate = await prisma.aIQuizTemplate.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends AIQuizTemplateFindUniqueArgs>(args: SelectSubset<T, AIQuizTemplateFindUniqueArgs<ExtArgs>>): Prisma__AIQuizTemplateClient<$Result.GetResult<Prisma.$AIQuizTemplatePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one AIQuizTemplate that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {AIQuizTemplateFindUniqueOrThrowArgs} args - Arguments to find a AIQuizTemplate
-     * @example
-     * // Get one AIQuizTemplate
-     * const aIQuizTemplate = await prisma.aIQuizTemplate.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends AIQuizTemplateFindUniqueOrThrowArgs>(args: SelectSubset<T, AIQuizTemplateFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AIQuizTemplateClient<$Result.GetResult<Prisma.$AIQuizTemplatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first AIQuizTemplate that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AIQuizTemplateFindFirstArgs} args - Arguments to find a AIQuizTemplate
-     * @example
-     * // Get one AIQuizTemplate
-     * const aIQuizTemplate = await prisma.aIQuizTemplate.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends AIQuizTemplateFindFirstArgs>(args?: SelectSubset<T, AIQuizTemplateFindFirstArgs<ExtArgs>>): Prisma__AIQuizTemplateClient<$Result.GetResult<Prisma.$AIQuizTemplatePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first AIQuizTemplate that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AIQuizTemplateFindFirstOrThrowArgs} args - Arguments to find a AIQuizTemplate
-     * @example
-     * // Get one AIQuizTemplate
-     * const aIQuizTemplate = await prisma.aIQuizTemplate.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends AIQuizTemplateFindFirstOrThrowArgs>(args?: SelectSubset<T, AIQuizTemplateFindFirstOrThrowArgs<ExtArgs>>): Prisma__AIQuizTemplateClient<$Result.GetResult<Prisma.$AIQuizTemplatePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more AIQuizTemplates that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AIQuizTemplateFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all AIQuizTemplates
-     * const aIQuizTemplates = await prisma.aIQuizTemplate.findMany()
-     * 
-     * // Get first 10 AIQuizTemplates
-     * const aIQuizTemplates = await prisma.aIQuizTemplate.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const aIQuizTemplateWithIdOnly = await prisma.aIQuizTemplate.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends AIQuizTemplateFindManyArgs>(args?: SelectSubset<T, AIQuizTemplateFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AIQuizTemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a AIQuizTemplate.
-     * @param {AIQuizTemplateCreateArgs} args - Arguments to create a AIQuizTemplate.
-     * @example
-     * // Create one AIQuizTemplate
-     * const AIQuizTemplate = await prisma.aIQuizTemplate.create({
-     *   data: {
-     *     // ... data to create a AIQuizTemplate
-     *   }
-     * })
-     * 
-     */
-    create<T extends AIQuizTemplateCreateArgs>(args: SelectSubset<T, AIQuizTemplateCreateArgs<ExtArgs>>): Prisma__AIQuizTemplateClient<$Result.GetResult<Prisma.$AIQuizTemplatePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many AIQuizTemplates.
-     * @param {AIQuizTemplateCreateManyArgs} args - Arguments to create many AIQuizTemplates.
-     * @example
-     * // Create many AIQuizTemplates
-     * const aIQuizTemplate = await prisma.aIQuizTemplate.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends AIQuizTemplateCreateManyArgs>(args?: SelectSubset<T, AIQuizTemplateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a AIQuizTemplate.
-     * @param {AIQuizTemplateDeleteArgs} args - Arguments to delete one AIQuizTemplate.
-     * @example
-     * // Delete one AIQuizTemplate
-     * const AIQuizTemplate = await prisma.aIQuizTemplate.delete({
-     *   where: {
-     *     // ... filter to delete one AIQuizTemplate
-     *   }
-     * })
-     * 
-     */
-    delete<T extends AIQuizTemplateDeleteArgs>(args: SelectSubset<T, AIQuizTemplateDeleteArgs<ExtArgs>>): Prisma__AIQuizTemplateClient<$Result.GetResult<Prisma.$AIQuizTemplatePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one AIQuizTemplate.
-     * @param {AIQuizTemplateUpdateArgs} args - Arguments to update one AIQuizTemplate.
-     * @example
-     * // Update one AIQuizTemplate
-     * const aIQuizTemplate = await prisma.aIQuizTemplate.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends AIQuizTemplateUpdateArgs>(args: SelectSubset<T, AIQuizTemplateUpdateArgs<ExtArgs>>): Prisma__AIQuizTemplateClient<$Result.GetResult<Prisma.$AIQuizTemplatePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more AIQuizTemplates.
-     * @param {AIQuizTemplateDeleteManyArgs} args - Arguments to filter AIQuizTemplates to delete.
-     * @example
-     * // Delete a few AIQuizTemplates
-     * const { count } = await prisma.aIQuizTemplate.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends AIQuizTemplateDeleteManyArgs>(args?: SelectSubset<T, AIQuizTemplateDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more AIQuizTemplates.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AIQuizTemplateUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many AIQuizTemplates
-     * const aIQuizTemplate = await prisma.aIQuizTemplate.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends AIQuizTemplateUpdateManyArgs>(args: SelectSubset<T, AIQuizTemplateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one AIQuizTemplate.
-     * @param {AIQuizTemplateUpsertArgs} args - Arguments to update or create a AIQuizTemplate.
-     * @example
-     * // Update or create a AIQuizTemplate
-     * const aIQuizTemplate = await prisma.aIQuizTemplate.upsert({
-     *   create: {
-     *     // ... data to create a AIQuizTemplate
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the AIQuizTemplate we want to update
-     *   }
-     * })
-     */
-    upsert<T extends AIQuizTemplateUpsertArgs>(args: SelectSubset<T, AIQuizTemplateUpsertArgs<ExtArgs>>): Prisma__AIQuizTemplateClient<$Result.GetResult<Prisma.$AIQuizTemplatePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more AIQuizTemplates that matches the filter.
-     * @param {AIQuizTemplateFindRawArgs} args - Select which filters you would like to apply.
-     * @example
-     * const aIQuizTemplate = await prisma.aIQuizTemplate.findRaw({
-     *   filter: { age: { $gt: 25 } }
-     * })
-     */
-    findRaw(args?: AIQuizTemplateFindRawArgs): Prisma.PrismaPromise<JsonObject>
-
-    /**
-     * Perform aggregation operations on a AIQuizTemplate.
-     * @param {AIQuizTemplateAggregateRawArgs} args - Select which aggregations you would like to apply.
-     * @example
-     * const aIQuizTemplate = await prisma.aIQuizTemplate.aggregateRaw({
-     *   pipeline: [
-     *     { $match: { status: "registered" } },
-     *     { $group: { _id: "$country", total: { $sum: 1 } } }
-     *   ]
-     * })
-     */
-    aggregateRaw(args?: AIQuizTemplateAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
-
-
-    /**
-     * Count the number of AIQuizTemplates.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AIQuizTemplateCountArgs} args - Arguments to filter AIQuizTemplates to count.
-     * @example
-     * // Count the number of AIQuizTemplates
-     * const count = await prisma.aIQuizTemplate.count({
-     *   where: {
-     *     // ... the filter for the AIQuizTemplates we want to count
-     *   }
-     * })
-    **/
-    count<T extends AIQuizTemplateCountArgs>(
-      args?: Subset<T, AIQuizTemplateCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], AIQuizTemplateCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a AIQuizTemplate.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AIQuizTemplateAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends AIQuizTemplateAggregateArgs>(args: Subset<T, AIQuizTemplateAggregateArgs>): Prisma.PrismaPromise<GetAIQuizTemplateAggregateType<T>>
-
-    /**
-     * Group by AIQuizTemplate.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AIQuizTemplateGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends AIQuizTemplateGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: AIQuizTemplateGroupByArgs['orderBy'] }
-        : { orderBy?: AIQuizTemplateGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, AIQuizTemplateGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAIQuizTemplateGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the AIQuizTemplate model
-   */
-  readonly fields: AIQuizTemplateFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for AIQuizTemplate.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__AIQuizTemplateClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    week<T extends WeekDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WeekDefaultArgs<ExtArgs>>): Prisma__WeekClient<$Result.GetResult<Prisma.$WeekPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the AIQuizTemplate model
-   */
-  interface AIQuizTemplateFieldRefs {
-    readonly id: FieldRef<"AIQuizTemplate", 'String'>
-    readonly title: FieldRef<"AIQuizTemplate", 'String'>
-    readonly description: FieldRef<"AIQuizTemplate", 'String'>
-    readonly instructorPrompt: FieldRef<"AIQuizTemplate", 'String'>
-    readonly defaultMcqCount: FieldRef<"AIQuizTemplate", 'Int'>
-    readonly defaultShortAnswerCount: FieldRef<"AIQuizTemplate", 'Int'>
-    readonly defaultLongAnswerCount: FieldRef<"AIQuizTemplate", 'Int'>
-    readonly active: FieldRef<"AIQuizTemplate", 'Boolean'>
-    readonly createdAt: FieldRef<"AIQuizTemplate", 'DateTime'>
-    readonly updatedAt: FieldRef<"AIQuizTemplate", 'DateTime'>
-    readonly userId: FieldRef<"AIQuizTemplate", 'String'>
-    readonly weekId: FieldRef<"AIQuizTemplate", 'String'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * AIQuizTemplate findUnique
-   */
-  export type AIQuizTemplateFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AIQuizTemplate
-     */
-    select?: AIQuizTemplateSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AIQuizTemplate
-     */
-    omit?: AIQuizTemplateOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AIQuizTemplateInclude<ExtArgs> | null
-    /**
-     * Filter, which AIQuizTemplate to fetch.
-     */
-    where: AIQuizTemplateWhereUniqueInput
-  }
-
-  /**
-   * AIQuizTemplate findUniqueOrThrow
-   */
-  export type AIQuizTemplateFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AIQuizTemplate
-     */
-    select?: AIQuizTemplateSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AIQuizTemplate
-     */
-    omit?: AIQuizTemplateOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AIQuizTemplateInclude<ExtArgs> | null
-    /**
-     * Filter, which AIQuizTemplate to fetch.
-     */
-    where: AIQuizTemplateWhereUniqueInput
-  }
-
-  /**
-   * AIQuizTemplate findFirst
-   */
-  export type AIQuizTemplateFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AIQuizTemplate
-     */
-    select?: AIQuizTemplateSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AIQuizTemplate
-     */
-    omit?: AIQuizTemplateOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AIQuizTemplateInclude<ExtArgs> | null
-    /**
-     * Filter, which AIQuizTemplate to fetch.
-     */
-    where?: AIQuizTemplateWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of AIQuizTemplates to fetch.
-     */
-    orderBy?: AIQuizTemplateOrderByWithRelationInput | AIQuizTemplateOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for AIQuizTemplates.
-     */
-    cursor?: AIQuizTemplateWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` AIQuizTemplates from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` AIQuizTemplates.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of AIQuizTemplates.
-     */
-    distinct?: AIQuizTemplateScalarFieldEnum | AIQuizTemplateScalarFieldEnum[]
-  }
-
-  /**
-   * AIQuizTemplate findFirstOrThrow
-   */
-  export type AIQuizTemplateFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AIQuizTemplate
-     */
-    select?: AIQuizTemplateSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AIQuizTemplate
-     */
-    omit?: AIQuizTemplateOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AIQuizTemplateInclude<ExtArgs> | null
-    /**
-     * Filter, which AIQuizTemplate to fetch.
-     */
-    where?: AIQuizTemplateWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of AIQuizTemplates to fetch.
-     */
-    orderBy?: AIQuizTemplateOrderByWithRelationInput | AIQuizTemplateOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for AIQuizTemplates.
-     */
-    cursor?: AIQuizTemplateWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` AIQuizTemplates from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` AIQuizTemplates.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of AIQuizTemplates.
-     */
-    distinct?: AIQuizTemplateScalarFieldEnum | AIQuizTemplateScalarFieldEnum[]
-  }
-
-  /**
-   * AIQuizTemplate findMany
-   */
-  export type AIQuizTemplateFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AIQuizTemplate
-     */
-    select?: AIQuizTemplateSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AIQuizTemplate
-     */
-    omit?: AIQuizTemplateOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AIQuizTemplateInclude<ExtArgs> | null
-    /**
-     * Filter, which AIQuizTemplates to fetch.
-     */
-    where?: AIQuizTemplateWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of AIQuizTemplates to fetch.
-     */
-    orderBy?: AIQuizTemplateOrderByWithRelationInput | AIQuizTemplateOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing AIQuizTemplates.
-     */
-    cursor?: AIQuizTemplateWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` AIQuizTemplates from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` AIQuizTemplates.
-     */
-    skip?: number
-    distinct?: AIQuizTemplateScalarFieldEnum | AIQuizTemplateScalarFieldEnum[]
-  }
-
-  /**
-   * AIQuizTemplate create
-   */
-  export type AIQuizTemplateCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AIQuizTemplate
-     */
-    select?: AIQuizTemplateSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AIQuizTemplate
-     */
-    omit?: AIQuizTemplateOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AIQuizTemplateInclude<ExtArgs> | null
-    /**
-     * The data needed to create a AIQuizTemplate.
-     */
-    data: XOR<AIQuizTemplateCreateInput, AIQuizTemplateUncheckedCreateInput>
-  }
-
-  /**
-   * AIQuizTemplate createMany
-   */
-  export type AIQuizTemplateCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many AIQuizTemplates.
-     */
-    data: AIQuizTemplateCreateManyInput | AIQuizTemplateCreateManyInput[]
-  }
-
-  /**
-   * AIQuizTemplate update
-   */
-  export type AIQuizTemplateUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AIQuizTemplate
-     */
-    select?: AIQuizTemplateSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AIQuizTemplate
-     */
-    omit?: AIQuizTemplateOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AIQuizTemplateInclude<ExtArgs> | null
-    /**
-     * The data needed to update a AIQuizTemplate.
-     */
-    data: XOR<AIQuizTemplateUpdateInput, AIQuizTemplateUncheckedUpdateInput>
-    /**
-     * Choose, which AIQuizTemplate to update.
-     */
-    where: AIQuizTemplateWhereUniqueInput
-  }
-
-  /**
-   * AIQuizTemplate updateMany
-   */
-  export type AIQuizTemplateUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update AIQuizTemplates.
-     */
-    data: XOR<AIQuizTemplateUpdateManyMutationInput, AIQuizTemplateUncheckedUpdateManyInput>
-    /**
-     * Filter which AIQuizTemplates to update
-     */
-    where?: AIQuizTemplateWhereInput
-    /**
-     * Limit how many AIQuizTemplates to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * AIQuizTemplate upsert
-   */
-  export type AIQuizTemplateUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AIQuizTemplate
-     */
-    select?: AIQuizTemplateSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AIQuizTemplate
-     */
-    omit?: AIQuizTemplateOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AIQuizTemplateInclude<ExtArgs> | null
-    /**
-     * The filter to search for the AIQuizTemplate to update in case it exists.
-     */
-    where: AIQuizTemplateWhereUniqueInput
-    /**
-     * In case the AIQuizTemplate found by the `where` argument doesn't exist, create a new AIQuizTemplate with this data.
-     */
-    create: XOR<AIQuizTemplateCreateInput, AIQuizTemplateUncheckedCreateInput>
-    /**
-     * In case the AIQuizTemplate was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<AIQuizTemplateUpdateInput, AIQuizTemplateUncheckedUpdateInput>
-  }
-
-  /**
-   * AIQuizTemplate delete
-   */
-  export type AIQuizTemplateDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AIQuizTemplate
-     */
-    select?: AIQuizTemplateSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AIQuizTemplate
-     */
-    omit?: AIQuizTemplateOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AIQuizTemplateInclude<ExtArgs> | null
-    /**
-     * Filter which AIQuizTemplate to delete.
-     */
-    where: AIQuizTemplateWhereUniqueInput
-  }
-
-  /**
-   * AIQuizTemplate deleteMany
-   */
-  export type AIQuizTemplateDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which AIQuizTemplates to delete
-     */
-    where?: AIQuizTemplateWhereInput
-    /**
-     * Limit how many AIQuizTemplates to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * AIQuizTemplate findRaw
-   */
-  export type AIQuizTemplateFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
-     */
-    filter?: InputJsonValue
-    /**
-     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
-     */
-    options?: InputJsonValue
-  }
-
-  /**
-   * AIQuizTemplate aggregateRaw
-   */
-  export type AIQuizTemplateAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
-     */
-    pipeline?: InputJsonValue[]
-    /**
-     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
-     */
-    options?: InputJsonValue
-  }
-
-  /**
-   * AIQuizTemplate without action
-   */
-  export type AIQuizTemplateDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AIQuizTemplate
-     */
-    select?: AIQuizTemplateSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AIQuizTemplate
-     */
-    omit?: AIQuizTemplateOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AIQuizTemplateInclude<ExtArgs> | null
   }
 
 
@@ -25667,1018 +24272,6 @@ export namespace Prisma {
 
 
   /**
-   * Model Resource
-   */
-
-  export type AggregateResource = {
-    _count: ResourceCountAggregateOutputType | null
-    _min: ResourceMinAggregateOutputType | null
-    _max: ResourceMaxAggregateOutputType | null
-  }
-
-  export type ResourceMinAggregateOutputType = {
-    id: string | null
-    title: string | null
-    type: string | null
-    url: string | null
-    content: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-    weekId: string | null
-  }
-
-  export type ResourceMaxAggregateOutputType = {
-    id: string | null
-    title: string | null
-    type: string | null
-    url: string | null
-    content: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-    weekId: string | null
-  }
-
-  export type ResourceCountAggregateOutputType = {
-    id: number
-    title: number
-    type: number
-    url: number
-    content: number
-    createdAt: number
-    updatedAt: number
-    weekId: number
-    _all: number
-  }
-
-
-  export type ResourceMinAggregateInputType = {
-    id?: true
-    title?: true
-    type?: true
-    url?: true
-    content?: true
-    createdAt?: true
-    updatedAt?: true
-    weekId?: true
-  }
-
-  export type ResourceMaxAggregateInputType = {
-    id?: true
-    title?: true
-    type?: true
-    url?: true
-    content?: true
-    createdAt?: true
-    updatedAt?: true
-    weekId?: true
-  }
-
-  export type ResourceCountAggregateInputType = {
-    id?: true
-    title?: true
-    type?: true
-    url?: true
-    content?: true
-    createdAt?: true
-    updatedAt?: true
-    weekId?: true
-    _all?: true
-  }
-
-  export type ResourceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Resource to aggregate.
-     */
-    where?: ResourceWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Resources to fetch.
-     */
-    orderBy?: ResourceOrderByWithRelationInput | ResourceOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: ResourceWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Resources from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Resources.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Resources
-    **/
-    _count?: true | ResourceCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: ResourceMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: ResourceMaxAggregateInputType
-  }
-
-  export type GetResourceAggregateType<T extends ResourceAggregateArgs> = {
-        [P in keyof T & keyof AggregateResource]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateResource[P]>
-      : GetScalarType<T[P], AggregateResource[P]>
-  }
-
-
-
-
-  export type ResourceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ResourceWhereInput
-    orderBy?: ResourceOrderByWithAggregationInput | ResourceOrderByWithAggregationInput[]
-    by: ResourceScalarFieldEnum[] | ResourceScalarFieldEnum
-    having?: ResourceScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: ResourceCountAggregateInputType | true
-    _min?: ResourceMinAggregateInputType
-    _max?: ResourceMaxAggregateInputType
-  }
-
-  export type ResourceGroupByOutputType = {
-    id: string
-    title: string
-    type: string
-    url: string | null
-    content: string | null
-    createdAt: Date
-    updatedAt: Date
-    weekId: string
-    _count: ResourceCountAggregateOutputType | null
-    _min: ResourceMinAggregateOutputType | null
-    _max: ResourceMaxAggregateOutputType | null
-  }
-
-  type GetResourceGroupByPayload<T extends ResourceGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<ResourceGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof ResourceGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], ResourceGroupByOutputType[P]>
-            : GetScalarType<T[P], ResourceGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type ResourceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    title?: boolean
-    type?: boolean
-    url?: boolean
-    content?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    weekId?: boolean
-    week?: boolean | WeekDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["resource"]>
-
-
-
-  export type ResourceSelectScalar = {
-    id?: boolean
-    title?: boolean
-    type?: boolean
-    url?: boolean
-    content?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    weekId?: boolean
-  }
-
-  export type ResourceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "type" | "url" | "content" | "createdAt" | "updatedAt" | "weekId", ExtArgs["result"]["resource"]>
-  export type ResourceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    week?: boolean | WeekDefaultArgs<ExtArgs>
-  }
-
-  export type $ResourcePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Resource"
-    objects: {
-      week: Prisma.$WeekPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      title: string
-      type: string
-      url: string | null
-      content: string | null
-      createdAt: Date
-      updatedAt: Date
-      weekId: string
-    }, ExtArgs["result"]["resource"]>
-    composites: {}
-  }
-
-  type ResourceGetPayload<S extends boolean | null | undefined | ResourceDefaultArgs> = $Result.GetResult<Prisma.$ResourcePayload, S>
-
-  type ResourceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<ResourceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: ResourceCountAggregateInputType | true
-    }
-
-  export interface ResourceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Resource'], meta: { name: 'Resource' } }
-    /**
-     * Find zero or one Resource that matches the filter.
-     * @param {ResourceFindUniqueArgs} args - Arguments to find a Resource
-     * @example
-     * // Get one Resource
-     * const resource = await prisma.resource.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends ResourceFindUniqueArgs>(args: SelectSubset<T, ResourceFindUniqueArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Resource that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {ResourceFindUniqueOrThrowArgs} args - Arguments to find a Resource
-     * @example
-     * // Get one Resource
-     * const resource = await prisma.resource.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends ResourceFindUniqueOrThrowArgs>(args: SelectSubset<T, ResourceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Resource that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ResourceFindFirstArgs} args - Arguments to find a Resource
-     * @example
-     * // Get one Resource
-     * const resource = await prisma.resource.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends ResourceFindFirstArgs>(args?: SelectSubset<T, ResourceFindFirstArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Resource that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ResourceFindFirstOrThrowArgs} args - Arguments to find a Resource
-     * @example
-     * // Get one Resource
-     * const resource = await prisma.resource.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends ResourceFindFirstOrThrowArgs>(args?: SelectSubset<T, ResourceFindFirstOrThrowArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Resources that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ResourceFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Resources
-     * const resources = await prisma.resource.findMany()
-     * 
-     * // Get first 10 Resources
-     * const resources = await prisma.resource.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const resourceWithIdOnly = await prisma.resource.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends ResourceFindManyArgs>(args?: SelectSubset<T, ResourceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Resource.
-     * @param {ResourceCreateArgs} args - Arguments to create a Resource.
-     * @example
-     * // Create one Resource
-     * const Resource = await prisma.resource.create({
-     *   data: {
-     *     // ... data to create a Resource
-     *   }
-     * })
-     * 
-     */
-    create<T extends ResourceCreateArgs>(args: SelectSubset<T, ResourceCreateArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Resources.
-     * @param {ResourceCreateManyArgs} args - Arguments to create many Resources.
-     * @example
-     * // Create many Resources
-     * const resource = await prisma.resource.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends ResourceCreateManyArgs>(args?: SelectSubset<T, ResourceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a Resource.
-     * @param {ResourceDeleteArgs} args - Arguments to delete one Resource.
-     * @example
-     * // Delete one Resource
-     * const Resource = await prisma.resource.delete({
-     *   where: {
-     *     // ... filter to delete one Resource
-     *   }
-     * })
-     * 
-     */
-    delete<T extends ResourceDeleteArgs>(args: SelectSubset<T, ResourceDeleteArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Resource.
-     * @param {ResourceUpdateArgs} args - Arguments to update one Resource.
-     * @example
-     * // Update one Resource
-     * const resource = await prisma.resource.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends ResourceUpdateArgs>(args: SelectSubset<T, ResourceUpdateArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Resources.
-     * @param {ResourceDeleteManyArgs} args - Arguments to filter Resources to delete.
-     * @example
-     * // Delete a few Resources
-     * const { count } = await prisma.resource.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends ResourceDeleteManyArgs>(args?: SelectSubset<T, ResourceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Resources.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ResourceUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Resources
-     * const resource = await prisma.resource.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends ResourceUpdateManyArgs>(args: SelectSubset<T, ResourceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one Resource.
-     * @param {ResourceUpsertArgs} args - Arguments to update or create a Resource.
-     * @example
-     * // Update or create a Resource
-     * const resource = await prisma.resource.upsert({
-     *   create: {
-     *     // ... data to create a Resource
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Resource we want to update
-     *   }
-     * })
-     */
-    upsert<T extends ResourceUpsertArgs>(args: SelectSubset<T, ResourceUpsertArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Resources that matches the filter.
-     * @param {ResourceFindRawArgs} args - Select which filters you would like to apply.
-     * @example
-     * const resource = await prisma.resource.findRaw({
-     *   filter: { age: { $gt: 25 } }
-     * })
-     */
-    findRaw(args?: ResourceFindRawArgs): Prisma.PrismaPromise<JsonObject>
-
-    /**
-     * Perform aggregation operations on a Resource.
-     * @param {ResourceAggregateRawArgs} args - Select which aggregations you would like to apply.
-     * @example
-     * const resource = await prisma.resource.aggregateRaw({
-     *   pipeline: [
-     *     { $match: { status: "registered" } },
-     *     { $group: { _id: "$country", total: { $sum: 1 } } }
-     *   ]
-     * })
-     */
-    aggregateRaw(args?: ResourceAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
-
-
-    /**
-     * Count the number of Resources.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ResourceCountArgs} args - Arguments to filter Resources to count.
-     * @example
-     * // Count the number of Resources
-     * const count = await prisma.resource.count({
-     *   where: {
-     *     // ... the filter for the Resources we want to count
-     *   }
-     * })
-    **/
-    count<T extends ResourceCountArgs>(
-      args?: Subset<T, ResourceCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], ResourceCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Resource.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ResourceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends ResourceAggregateArgs>(args: Subset<T, ResourceAggregateArgs>): Prisma.PrismaPromise<GetResourceAggregateType<T>>
-
-    /**
-     * Group by Resource.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ResourceGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends ResourceGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ResourceGroupByArgs['orderBy'] }
-        : { orderBy?: ResourceGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, ResourceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetResourceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Resource model
-   */
-  readonly fields: ResourceFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Resource.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__ResourceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    week<T extends WeekDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WeekDefaultArgs<ExtArgs>>): Prisma__WeekClient<$Result.GetResult<Prisma.$WeekPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Resource model
-   */
-  interface ResourceFieldRefs {
-    readonly id: FieldRef<"Resource", 'String'>
-    readonly title: FieldRef<"Resource", 'String'>
-    readonly type: FieldRef<"Resource", 'String'>
-    readonly url: FieldRef<"Resource", 'String'>
-    readonly content: FieldRef<"Resource", 'String'>
-    readonly createdAt: FieldRef<"Resource", 'DateTime'>
-    readonly updatedAt: FieldRef<"Resource", 'DateTime'>
-    readonly weekId: FieldRef<"Resource", 'String'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Resource findUnique
-   */
-  export type ResourceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Resource
-     */
-    select?: ResourceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Resource
-     */
-    omit?: ResourceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ResourceInclude<ExtArgs> | null
-    /**
-     * Filter, which Resource to fetch.
-     */
-    where: ResourceWhereUniqueInput
-  }
-
-  /**
-   * Resource findUniqueOrThrow
-   */
-  export type ResourceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Resource
-     */
-    select?: ResourceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Resource
-     */
-    omit?: ResourceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ResourceInclude<ExtArgs> | null
-    /**
-     * Filter, which Resource to fetch.
-     */
-    where: ResourceWhereUniqueInput
-  }
-
-  /**
-   * Resource findFirst
-   */
-  export type ResourceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Resource
-     */
-    select?: ResourceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Resource
-     */
-    omit?: ResourceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ResourceInclude<ExtArgs> | null
-    /**
-     * Filter, which Resource to fetch.
-     */
-    where?: ResourceWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Resources to fetch.
-     */
-    orderBy?: ResourceOrderByWithRelationInput | ResourceOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Resources.
-     */
-    cursor?: ResourceWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Resources from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Resources.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Resources.
-     */
-    distinct?: ResourceScalarFieldEnum | ResourceScalarFieldEnum[]
-  }
-
-  /**
-   * Resource findFirstOrThrow
-   */
-  export type ResourceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Resource
-     */
-    select?: ResourceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Resource
-     */
-    omit?: ResourceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ResourceInclude<ExtArgs> | null
-    /**
-     * Filter, which Resource to fetch.
-     */
-    where?: ResourceWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Resources to fetch.
-     */
-    orderBy?: ResourceOrderByWithRelationInput | ResourceOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Resources.
-     */
-    cursor?: ResourceWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Resources from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Resources.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Resources.
-     */
-    distinct?: ResourceScalarFieldEnum | ResourceScalarFieldEnum[]
-  }
-
-  /**
-   * Resource findMany
-   */
-  export type ResourceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Resource
-     */
-    select?: ResourceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Resource
-     */
-    omit?: ResourceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ResourceInclude<ExtArgs> | null
-    /**
-     * Filter, which Resources to fetch.
-     */
-    where?: ResourceWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Resources to fetch.
-     */
-    orderBy?: ResourceOrderByWithRelationInput | ResourceOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Resources.
-     */
-    cursor?: ResourceWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Resources from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Resources.
-     */
-    skip?: number
-    distinct?: ResourceScalarFieldEnum | ResourceScalarFieldEnum[]
-  }
-
-  /**
-   * Resource create
-   */
-  export type ResourceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Resource
-     */
-    select?: ResourceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Resource
-     */
-    omit?: ResourceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ResourceInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Resource.
-     */
-    data: XOR<ResourceCreateInput, ResourceUncheckedCreateInput>
-  }
-
-  /**
-   * Resource createMany
-   */
-  export type ResourceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Resources.
-     */
-    data: ResourceCreateManyInput | ResourceCreateManyInput[]
-  }
-
-  /**
-   * Resource update
-   */
-  export type ResourceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Resource
-     */
-    select?: ResourceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Resource
-     */
-    omit?: ResourceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ResourceInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Resource.
-     */
-    data: XOR<ResourceUpdateInput, ResourceUncheckedUpdateInput>
-    /**
-     * Choose, which Resource to update.
-     */
-    where: ResourceWhereUniqueInput
-  }
-
-  /**
-   * Resource updateMany
-   */
-  export type ResourceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Resources.
-     */
-    data: XOR<ResourceUpdateManyMutationInput, ResourceUncheckedUpdateManyInput>
-    /**
-     * Filter which Resources to update
-     */
-    where?: ResourceWhereInput
-    /**
-     * Limit how many Resources to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Resource upsert
-   */
-  export type ResourceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Resource
-     */
-    select?: ResourceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Resource
-     */
-    omit?: ResourceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ResourceInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Resource to update in case it exists.
-     */
-    where: ResourceWhereUniqueInput
-    /**
-     * In case the Resource found by the `where` argument doesn't exist, create a new Resource with this data.
-     */
-    create: XOR<ResourceCreateInput, ResourceUncheckedCreateInput>
-    /**
-     * In case the Resource was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<ResourceUpdateInput, ResourceUncheckedUpdateInput>
-  }
-
-  /**
-   * Resource delete
-   */
-  export type ResourceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Resource
-     */
-    select?: ResourceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Resource
-     */
-    omit?: ResourceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ResourceInclude<ExtArgs> | null
-    /**
-     * Filter which Resource to delete.
-     */
-    where: ResourceWhereUniqueInput
-  }
-
-  /**
-   * Resource deleteMany
-   */
-  export type ResourceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Resources to delete
-     */
-    where?: ResourceWhereInput
-    /**
-     * Limit how many Resources to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Resource findRaw
-   */
-  export type ResourceFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
-     */
-    filter?: InputJsonValue
-    /**
-     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
-     */
-    options?: InputJsonValue
-  }
-
-  /**
-   * Resource aggregateRaw
-   */
-  export type ResourceAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
-     */
-    pipeline?: InputJsonValue[]
-    /**
-     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
-     */
-    options?: InputJsonValue
-  }
-
-  /**
-   * Resource without action
-   */
-  export type ResourceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Resource
-     */
-    select?: ResourceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Resource
-     */
-    omit?: ResourceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ResourceInclude<ExtArgs> | null
-  }
-
-
-  /**
    * Model Live
    */
 
@@ -27938,24 +25531,6 @@ export namespace Prisma {
   export type QuestionScalarFieldEnum = (typeof QuestionScalarFieldEnum)[keyof typeof QuestionScalarFieldEnum]
 
 
-  export const AIQuizTemplateScalarFieldEnum: {
-    id: 'id',
-    title: 'title',
-    description: 'description',
-    instructorPrompt: 'instructorPrompt',
-    defaultMcqCount: 'defaultMcqCount',
-    defaultShortAnswerCount: 'defaultShortAnswerCount',
-    defaultLongAnswerCount: 'defaultLongAnswerCount',
-    active: 'active',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    userId: 'userId',
-    weekId: 'weekId'
-  };
-
-  export type AIQuizTemplateScalarFieldEnum = (typeof AIQuizTemplateScalarFieldEnum)[keyof typeof AIQuizTemplateScalarFieldEnum]
-
-
   export const QuizSubmissionScalarFieldEnum: {
     id: 'id',
     startTime: 'startTime',
@@ -28086,20 +25661,6 @@ export namespace Prisma {
   };
 
   export type WatchScalarFieldEnum = (typeof WatchScalarFieldEnum)[keyof typeof WatchScalarFieldEnum]
-
-
-  export const ResourceScalarFieldEnum: {
-    id: 'id',
-    title: 'title',
-    type: 'type',
-    url: 'url',
-    content: 'content',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    weekId: 'weekId'
-  };
-
-  export type ResourceScalarFieldEnum = (typeof ResourceScalarFieldEnum)[keyof typeof ResourceScalarFieldEnum]
 
 
   export const LiveScalarFieldEnum: {
@@ -28340,7 +25901,6 @@ export namespace Prisma {
     participations?: ParticipationListRelationFilter
     watches?: WatchListRelationFilter
     liveSessions?: LiveListRelationFilter
-    aiQuizTemplates?: AIQuizTemplateListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -28369,7 +25929,6 @@ export namespace Prisma {
     participations?: ParticipationOrderByRelationAggregateInput
     watches?: WatchOrderByRelationAggregateInput
     liveSessions?: LiveOrderByRelationAggregateInput
-    aiQuizTemplates?: AIQuizTemplateOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -28401,7 +25960,6 @@ export namespace Prisma {
     participations?: ParticipationListRelationFilter
     watches?: WatchListRelationFilter
     liveSessions?: LiveListRelationFilter
-    aiQuizTemplates?: AIQuizTemplateListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -28927,9 +26485,7 @@ export namespace Prisma {
     courseId?: StringFilter<"Week"> | string
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
     lessons?: LessonListRelationFilter
-    resources?: ResourceListRelationFilter
     watches?: WatchListRelationFilter
-    aiQuizTemplates?: AIQuizTemplateListRelationFilter
   }
 
   export type WeekOrderByWithRelationInput = {
@@ -28949,9 +26505,7 @@ export namespace Prisma {
     courseId?: SortOrder
     course?: CourseOrderByWithRelationInput
     lessons?: LessonOrderByRelationAggregateInput
-    resources?: ResourceOrderByRelationAggregateInput
     watches?: WatchOrderByRelationAggregateInput
-    aiQuizTemplates?: AIQuizTemplateOrderByRelationAggregateInput
   }
 
   export type WeekWhereUniqueInput = Prisma.AtLeast<{
@@ -28974,9 +26528,7 @@ export namespace Prisma {
     courseId?: StringFilter<"Week"> | string
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
     lessons?: LessonListRelationFilter
-    resources?: ResourceListRelationFilter
     watches?: WatchListRelationFilter
-    aiQuizTemplates?: AIQuizTemplateListRelationFilter
   }, "id">
 
   export type WeekOrderByWithAggregationInput = {
@@ -29358,101 +26910,6 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Question"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Question"> | Date | string
     quizId?: StringWithAggregatesFilter<"Question"> | string
-  }
-
-  export type AIQuizTemplateWhereInput = {
-    AND?: AIQuizTemplateWhereInput | AIQuizTemplateWhereInput[]
-    OR?: AIQuizTemplateWhereInput[]
-    NOT?: AIQuizTemplateWhereInput | AIQuizTemplateWhereInput[]
-    id?: StringFilter<"AIQuizTemplate"> | string
-    title?: StringFilter<"AIQuizTemplate"> | string
-    description?: StringNullableFilter<"AIQuizTemplate"> | string | null
-    instructorPrompt?: StringFilter<"AIQuizTemplate"> | string
-    defaultMcqCount?: IntFilter<"AIQuizTemplate"> | number
-    defaultShortAnswerCount?: IntFilter<"AIQuizTemplate"> | number
-    defaultLongAnswerCount?: IntFilter<"AIQuizTemplate"> | number
-    active?: BoolFilter<"AIQuizTemplate"> | boolean
-    createdAt?: DateTimeFilter<"AIQuizTemplate"> | Date | string
-    updatedAt?: DateTimeFilter<"AIQuizTemplate"> | Date | string
-    userId?: StringFilter<"AIQuizTemplate"> | string
-    weekId?: StringFilter<"AIQuizTemplate"> | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    week?: XOR<WeekScalarRelationFilter, WeekWhereInput>
-  }
-
-  export type AIQuizTemplateOrderByWithRelationInput = {
-    id?: SortOrder
-    title?: SortOrder
-    description?: SortOrder
-    instructorPrompt?: SortOrder
-    defaultMcqCount?: SortOrder
-    defaultShortAnswerCount?: SortOrder
-    defaultLongAnswerCount?: SortOrder
-    active?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    userId?: SortOrder
-    weekId?: SortOrder
-    user?: UserOrderByWithRelationInput
-    week?: WeekOrderByWithRelationInput
-  }
-
-  export type AIQuizTemplateWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: AIQuizTemplateWhereInput | AIQuizTemplateWhereInput[]
-    OR?: AIQuizTemplateWhereInput[]
-    NOT?: AIQuizTemplateWhereInput | AIQuizTemplateWhereInput[]
-    title?: StringFilter<"AIQuizTemplate"> | string
-    description?: StringNullableFilter<"AIQuizTemplate"> | string | null
-    instructorPrompt?: StringFilter<"AIQuizTemplate"> | string
-    defaultMcqCount?: IntFilter<"AIQuizTemplate"> | number
-    defaultShortAnswerCount?: IntFilter<"AIQuizTemplate"> | number
-    defaultLongAnswerCount?: IntFilter<"AIQuizTemplate"> | number
-    active?: BoolFilter<"AIQuizTemplate"> | boolean
-    createdAt?: DateTimeFilter<"AIQuizTemplate"> | Date | string
-    updatedAt?: DateTimeFilter<"AIQuizTemplate"> | Date | string
-    userId?: StringFilter<"AIQuizTemplate"> | string
-    weekId?: StringFilter<"AIQuizTemplate"> | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    week?: XOR<WeekScalarRelationFilter, WeekWhereInput>
-  }, "id">
-
-  export type AIQuizTemplateOrderByWithAggregationInput = {
-    id?: SortOrder
-    title?: SortOrder
-    description?: SortOrder
-    instructorPrompt?: SortOrder
-    defaultMcqCount?: SortOrder
-    defaultShortAnswerCount?: SortOrder
-    defaultLongAnswerCount?: SortOrder
-    active?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    userId?: SortOrder
-    weekId?: SortOrder
-    _count?: AIQuizTemplateCountOrderByAggregateInput
-    _avg?: AIQuizTemplateAvgOrderByAggregateInput
-    _max?: AIQuizTemplateMaxOrderByAggregateInput
-    _min?: AIQuizTemplateMinOrderByAggregateInput
-    _sum?: AIQuizTemplateSumOrderByAggregateInput
-  }
-
-  export type AIQuizTemplateScalarWhereWithAggregatesInput = {
-    AND?: AIQuizTemplateScalarWhereWithAggregatesInput | AIQuizTemplateScalarWhereWithAggregatesInput[]
-    OR?: AIQuizTemplateScalarWhereWithAggregatesInput[]
-    NOT?: AIQuizTemplateScalarWhereWithAggregatesInput | AIQuizTemplateScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"AIQuizTemplate"> | string
-    title?: StringWithAggregatesFilter<"AIQuizTemplate"> | string
-    description?: StringNullableWithAggregatesFilter<"AIQuizTemplate"> | string | null
-    instructorPrompt?: StringWithAggregatesFilter<"AIQuizTemplate"> | string
-    defaultMcqCount?: IntWithAggregatesFilter<"AIQuizTemplate"> | number
-    defaultShortAnswerCount?: IntWithAggregatesFilter<"AIQuizTemplate"> | number
-    defaultLongAnswerCount?: IntWithAggregatesFilter<"AIQuizTemplate"> | number
-    active?: BoolWithAggregatesFilter<"AIQuizTemplate"> | boolean
-    createdAt?: DateTimeWithAggregatesFilter<"AIQuizTemplate"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"AIQuizTemplate"> | Date | string
-    userId?: StringWithAggregatesFilter<"AIQuizTemplate"> | string
-    weekId?: StringWithAggregatesFilter<"AIQuizTemplate"> | string
   }
 
   export type QuizSubmissionWhereInput = {
@@ -30160,76 +27617,6 @@ export namespace Prisma {
     weekId?: StringNullableWithAggregatesFilter<"Watch"> | string | null
   }
 
-  export type ResourceWhereInput = {
-    AND?: ResourceWhereInput | ResourceWhereInput[]
-    OR?: ResourceWhereInput[]
-    NOT?: ResourceWhereInput | ResourceWhereInput[]
-    id?: StringFilter<"Resource"> | string
-    title?: StringFilter<"Resource"> | string
-    type?: StringFilter<"Resource"> | string
-    url?: StringNullableFilter<"Resource"> | string | null
-    content?: StringNullableFilter<"Resource"> | string | null
-    createdAt?: DateTimeFilter<"Resource"> | Date | string
-    updatedAt?: DateTimeFilter<"Resource"> | Date | string
-    weekId?: StringFilter<"Resource"> | string
-    week?: XOR<WeekScalarRelationFilter, WeekWhereInput>
-  }
-
-  export type ResourceOrderByWithRelationInput = {
-    id?: SortOrder
-    title?: SortOrder
-    type?: SortOrder
-    url?: SortOrder
-    content?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    weekId?: SortOrder
-    week?: WeekOrderByWithRelationInput
-  }
-
-  export type ResourceWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: ResourceWhereInput | ResourceWhereInput[]
-    OR?: ResourceWhereInput[]
-    NOT?: ResourceWhereInput | ResourceWhereInput[]
-    title?: StringFilter<"Resource"> | string
-    type?: StringFilter<"Resource"> | string
-    url?: StringNullableFilter<"Resource"> | string | null
-    content?: StringNullableFilter<"Resource"> | string | null
-    createdAt?: DateTimeFilter<"Resource"> | Date | string
-    updatedAt?: DateTimeFilter<"Resource"> | Date | string
-    weekId?: StringFilter<"Resource"> | string
-    week?: XOR<WeekScalarRelationFilter, WeekWhereInput>
-  }, "id">
-
-  export type ResourceOrderByWithAggregationInput = {
-    id?: SortOrder
-    title?: SortOrder
-    type?: SortOrder
-    url?: SortOrder
-    content?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    weekId?: SortOrder
-    _count?: ResourceCountOrderByAggregateInput
-    _max?: ResourceMaxOrderByAggregateInput
-    _min?: ResourceMinOrderByAggregateInput
-  }
-
-  export type ResourceScalarWhereWithAggregatesInput = {
-    AND?: ResourceScalarWhereWithAggregatesInput | ResourceScalarWhereWithAggregatesInput[]
-    OR?: ResourceScalarWhereWithAggregatesInput[]
-    NOT?: ResourceScalarWhereWithAggregatesInput | ResourceScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Resource"> | string
-    title?: StringWithAggregatesFilter<"Resource"> | string
-    type?: StringWithAggregatesFilter<"Resource"> | string
-    url?: StringNullableWithAggregatesFilter<"Resource"> | string | null
-    content?: StringNullableWithAggregatesFilter<"Resource"> | string | null
-    createdAt?: DateTimeWithAggregatesFilter<"Resource"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Resource"> | Date | string
-    weekId?: StringWithAggregatesFilter<"Resource"> | string
-  }
-
   export type LiveWhereInput = {
     AND?: LiveWhereInput | LiveWhereInput[]
     OR?: LiveWhereInput[]
@@ -30344,7 +27731,6 @@ export namespace Prisma {
     participations?: ParticipationCreateNestedManyWithoutUserInput
     watches?: WatchCreateNestedManyWithoutUserInput
     liveSessions?: LiveCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -30373,7 +27759,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedCreateNestedManyWithoutUserInput
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     liveSessions?: LiveUncheckedCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -30401,7 +27786,6 @@ export namespace Prisma {
     participations?: ParticipationUpdateManyWithoutUserNestedInput
     watches?: WatchUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -30429,7 +27813,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedUpdateManyWithoutUserNestedInput
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUncheckedUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -31002,9 +28385,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     course: CourseCreateNestedOneWithoutWeeksInput
     lessons?: LessonCreateNestedManyWithoutWeekInput
-    resources?: ResourceCreateNestedManyWithoutWeekInput
     watches?: WatchCreateNestedManyWithoutWeekInput
-    aiQuizTemplates?: AIQuizTemplateCreateNestedManyWithoutWeekInput
   }
 
   export type WeekUncheckedCreateInput = {
@@ -31023,9 +28404,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     courseId: string
     lessons?: LessonUncheckedCreateNestedManyWithoutWeekInput
-    resources?: ResourceUncheckedCreateNestedManyWithoutWeekInput
     watches?: WatchUncheckedCreateNestedManyWithoutWeekInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedCreateNestedManyWithoutWeekInput
   }
 
   export type WeekUpdateInput = {
@@ -31043,9 +28422,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     course?: CourseUpdateOneRequiredWithoutWeeksNestedInput
     lessons?: LessonUpdateManyWithoutWeekNestedInput
-    resources?: ResourceUpdateManyWithoutWeekNestedInput
     watches?: WatchUpdateManyWithoutWeekNestedInput
-    aiQuizTemplates?: AIQuizTemplateUpdateManyWithoutWeekNestedInput
   }
 
   export type WeekUncheckedUpdateInput = {
@@ -31063,9 +28440,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courseId?: StringFieldUpdateOperationsInput | string
     lessons?: LessonUncheckedUpdateManyWithoutWeekNestedInput
-    resources?: ResourceUncheckedUpdateManyWithoutWeekNestedInput
     watches?: WatchUncheckedUpdateManyWithoutWeekNestedInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedUpdateManyWithoutWeekNestedInput
   }
 
   export type WeekCreateManyInput = {
@@ -31501,105 +28876,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quizId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type AIQuizTemplateCreateInput = {
-    id?: string
-    title: string
-    description?: string | null
-    instructorPrompt: string
-    defaultMcqCount?: number
-    defaultShortAnswerCount?: number
-    defaultLongAnswerCount?: number
-    active?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutAiQuizTemplatesInput
-    week: WeekCreateNestedOneWithoutAiQuizTemplatesInput
-  }
-
-  export type AIQuizTemplateUncheckedCreateInput = {
-    id?: string
-    title: string
-    description?: string | null
-    instructorPrompt: string
-    defaultMcqCount?: number
-    defaultShortAnswerCount?: number
-    defaultLongAnswerCount?: number
-    active?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    userId: string
-    weekId: string
-  }
-
-  export type AIQuizTemplateUpdateInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    instructorPrompt?: StringFieldUpdateOperationsInput | string
-    defaultMcqCount?: IntFieldUpdateOperationsInput | number
-    defaultShortAnswerCount?: IntFieldUpdateOperationsInput | number
-    defaultLongAnswerCount?: IntFieldUpdateOperationsInput | number
-    active?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutAiQuizTemplatesNestedInput
-    week?: WeekUpdateOneRequiredWithoutAiQuizTemplatesNestedInput
-  }
-
-  export type AIQuizTemplateUncheckedUpdateInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    instructorPrompt?: StringFieldUpdateOperationsInput | string
-    defaultMcqCount?: IntFieldUpdateOperationsInput | number
-    defaultShortAnswerCount?: IntFieldUpdateOperationsInput | number
-    defaultLongAnswerCount?: IntFieldUpdateOperationsInput | number
-    active?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: StringFieldUpdateOperationsInput | string
-    weekId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type AIQuizTemplateCreateManyInput = {
-    id?: string
-    title: string
-    description?: string | null
-    instructorPrompt: string
-    defaultMcqCount?: number
-    defaultShortAnswerCount?: number
-    defaultLongAnswerCount?: number
-    active?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    userId: string
-    weekId: string
-  }
-
-  export type AIQuizTemplateUpdateManyMutationInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    instructorPrompt?: StringFieldUpdateOperationsInput | string
-    defaultMcqCount?: IntFieldUpdateOperationsInput | number
-    defaultShortAnswerCount?: IntFieldUpdateOperationsInput | number
-    defaultLongAnswerCount?: IntFieldUpdateOperationsInput | number
-    active?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AIQuizTemplateUncheckedUpdateManyInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    instructorPrompt?: StringFieldUpdateOperationsInput | string
-    defaultMcqCount?: IntFieldUpdateOperationsInput | number
-    defaultShortAnswerCount?: IntFieldUpdateOperationsInput | number
-    defaultLongAnswerCount?: IntFieldUpdateOperationsInput | number
-    active?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: StringFieldUpdateOperationsInput | string
-    weekId?: StringFieldUpdateOperationsInput | string
   }
 
   export type QuizSubmissionCreateInput = {
@@ -32286,78 +29562,6 @@ export namespace Prisma {
     weekId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type ResourceCreateInput = {
-    id?: string
-    title: string
-    type: string
-    url?: string | null
-    content?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    week: WeekCreateNestedOneWithoutResourcesInput
-  }
-
-  export type ResourceUncheckedCreateInput = {
-    id?: string
-    title: string
-    type: string
-    url?: string | null
-    content?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    weekId: string
-  }
-
-  export type ResourceUpdateInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    url?: NullableStringFieldUpdateOperationsInput | string | null
-    content?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    week?: WeekUpdateOneRequiredWithoutResourcesNestedInput
-  }
-
-  export type ResourceUncheckedUpdateInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    url?: NullableStringFieldUpdateOperationsInput | string | null
-    content?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    weekId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type ResourceCreateManyInput = {
-    id?: string
-    title: string
-    type: string
-    url?: string | null
-    content?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    weekId: string
-  }
-
-  export type ResourceUpdateManyMutationInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    url?: NullableStringFieldUpdateOperationsInput | string | null
-    content?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ResourceUncheckedUpdateManyInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    url?: NullableStringFieldUpdateOperationsInput | string | null
-    content?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    weekId?: StringFieldUpdateOperationsInput | string
-  }
-
   export type LiveCreateInput = {
     id?: string
     title: string
@@ -32586,12 +29790,6 @@ export namespace Prisma {
     none?: LiveWhereInput
   }
 
-  export type AIQuizTemplateListRelationFilter = {
-    every?: AIQuizTemplateWhereInput
-    some?: AIQuizTemplateWhereInput
-    none?: AIQuizTemplateWhereInput
-  }
-
   export type CourseOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -32633,10 +29831,6 @@ export namespace Prisma {
   }
 
   export type LiveOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type AIQuizTemplateOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -33198,17 +30392,7 @@ export namespace Prisma {
     none?: LessonWhereInput
   }
 
-  export type ResourceListRelationFilter = {
-    every?: ResourceWhereInput
-    some?: ResourceWhereInput
-    none?: ResourceWhereInput
-  }
-
   export type LessonOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ResourceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -33564,63 +30748,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumQuestionTypeFilter<$PrismaModel>
     _max?: NestedEnumQuestionTypeFilter<$PrismaModel>
-  }
-
-  export type AIQuizTemplateCountOrderByAggregateInput = {
-    id?: SortOrder
-    title?: SortOrder
-    description?: SortOrder
-    instructorPrompt?: SortOrder
-    defaultMcqCount?: SortOrder
-    defaultShortAnswerCount?: SortOrder
-    defaultLongAnswerCount?: SortOrder
-    active?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    userId?: SortOrder
-    weekId?: SortOrder
-  }
-
-  export type AIQuizTemplateAvgOrderByAggregateInput = {
-    defaultMcqCount?: SortOrder
-    defaultShortAnswerCount?: SortOrder
-    defaultLongAnswerCount?: SortOrder
-  }
-
-  export type AIQuizTemplateMaxOrderByAggregateInput = {
-    id?: SortOrder
-    title?: SortOrder
-    description?: SortOrder
-    instructorPrompt?: SortOrder
-    defaultMcqCount?: SortOrder
-    defaultShortAnswerCount?: SortOrder
-    defaultLongAnswerCount?: SortOrder
-    active?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    userId?: SortOrder
-    weekId?: SortOrder
-  }
-
-  export type AIQuizTemplateMinOrderByAggregateInput = {
-    id?: SortOrder
-    title?: SortOrder
-    description?: SortOrder
-    instructorPrompt?: SortOrder
-    defaultMcqCount?: SortOrder
-    defaultShortAnswerCount?: SortOrder
-    defaultLongAnswerCount?: SortOrder
-    active?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    userId?: SortOrder
-    weekId?: SortOrder
-  }
-
-  export type AIQuizTemplateSumOrderByAggregateInput = {
-    defaultMcqCount?: SortOrder
-    defaultShortAnswerCount?: SortOrder
-    defaultLongAnswerCount?: SortOrder
   }
 
   export type EnumAttemptStatusFilter<$PrismaModel = never> = {
@@ -34072,39 +31199,6 @@ export namespace Prisma {
     lastTime?: SortOrder
   }
 
-  export type ResourceCountOrderByAggregateInput = {
-    id?: SortOrder
-    title?: SortOrder
-    type?: SortOrder
-    url?: SortOrder
-    content?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    weekId?: SortOrder
-  }
-
-  export type ResourceMaxOrderByAggregateInput = {
-    id?: SortOrder
-    title?: SortOrder
-    type?: SortOrder
-    url?: SortOrder
-    content?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    weekId?: SortOrder
-  }
-
-  export type ResourceMinOrderByAggregateInput = {
-    id?: SortOrder
-    title?: SortOrder
-    type?: SortOrder
-    url?: SortOrder
-    content?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    weekId?: SortOrder
-  }
-
   export type LiveCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
@@ -34242,13 +31336,6 @@ export namespace Prisma {
     connect?: LiveWhereUniqueInput | LiveWhereUniqueInput[]
   }
 
-  export type AIQuizTemplateCreateNestedManyWithoutUserInput = {
-    create?: XOR<AIQuizTemplateCreateWithoutUserInput, AIQuizTemplateUncheckedCreateWithoutUserInput> | AIQuizTemplateCreateWithoutUserInput[] | AIQuizTemplateUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AIQuizTemplateCreateOrConnectWithoutUserInput | AIQuizTemplateCreateOrConnectWithoutUserInput[]
-    createMany?: AIQuizTemplateCreateManyUserInputEnvelope
-    connect?: AIQuizTemplateWhereUniqueInput | AIQuizTemplateWhereUniqueInput[]
-  }
-
   export type InstructorUncheckedCreateNestedOneWithoutUserInput = {
     create?: XOR<InstructorCreateWithoutUserInput, InstructorUncheckedCreateWithoutUserInput>
     connectOrCreate?: InstructorCreateOrConnectWithoutUserInput
@@ -34342,13 +31429,6 @@ export namespace Prisma {
     connectOrCreate?: LiveCreateOrConnectWithoutUserInput | LiveCreateOrConnectWithoutUserInput[]
     createMany?: LiveCreateManyUserInputEnvelope
     connect?: LiveWhereUniqueInput | LiveWhereUniqueInput[]
-  }
-
-  export type AIQuizTemplateUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<AIQuizTemplateCreateWithoutUserInput, AIQuizTemplateUncheckedCreateWithoutUserInput> | AIQuizTemplateCreateWithoutUserInput[] | AIQuizTemplateUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AIQuizTemplateCreateOrConnectWithoutUserInput | AIQuizTemplateCreateOrConnectWithoutUserInput[]
-    createMany?: AIQuizTemplateCreateManyUserInputEnvelope
-    connect?: AIQuizTemplateWhereUniqueInput | AIQuizTemplateWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -34557,20 +31637,6 @@ export namespace Prisma {
     deleteMany?: LiveScalarWhereInput | LiveScalarWhereInput[]
   }
 
-  export type AIQuizTemplateUpdateManyWithoutUserNestedInput = {
-    create?: XOR<AIQuizTemplateCreateWithoutUserInput, AIQuizTemplateUncheckedCreateWithoutUserInput> | AIQuizTemplateCreateWithoutUserInput[] | AIQuizTemplateUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AIQuizTemplateCreateOrConnectWithoutUserInput | AIQuizTemplateCreateOrConnectWithoutUserInput[]
-    upsert?: AIQuizTemplateUpsertWithWhereUniqueWithoutUserInput | AIQuizTemplateUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: AIQuizTemplateCreateManyUserInputEnvelope
-    set?: AIQuizTemplateWhereUniqueInput | AIQuizTemplateWhereUniqueInput[]
-    disconnect?: AIQuizTemplateWhereUniqueInput | AIQuizTemplateWhereUniqueInput[]
-    delete?: AIQuizTemplateWhereUniqueInput | AIQuizTemplateWhereUniqueInput[]
-    connect?: AIQuizTemplateWhereUniqueInput | AIQuizTemplateWhereUniqueInput[]
-    update?: AIQuizTemplateUpdateWithWhereUniqueWithoutUserInput | AIQuizTemplateUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: AIQuizTemplateUpdateManyWithWhereWithoutUserInput | AIQuizTemplateUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: AIQuizTemplateScalarWhereInput | AIQuizTemplateScalarWhereInput[]
-  }
-
   export type InstructorUncheckedUpdateOneWithoutUserNestedInput = {
     create?: XOR<InstructorCreateWithoutUserInput, InstructorUncheckedCreateWithoutUserInput>
     connectOrCreate?: InstructorCreateOrConnectWithoutUserInput
@@ -34753,20 +31819,6 @@ export namespace Prisma {
     update?: LiveUpdateWithWhereUniqueWithoutUserInput | LiveUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: LiveUpdateManyWithWhereWithoutUserInput | LiveUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: LiveScalarWhereInput | LiveScalarWhereInput[]
-  }
-
-  export type AIQuizTemplateUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<AIQuizTemplateCreateWithoutUserInput, AIQuizTemplateUncheckedCreateWithoutUserInput> | AIQuizTemplateCreateWithoutUserInput[] | AIQuizTemplateUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AIQuizTemplateCreateOrConnectWithoutUserInput | AIQuizTemplateCreateOrConnectWithoutUserInput[]
-    upsert?: AIQuizTemplateUpsertWithWhereUniqueWithoutUserInput | AIQuizTemplateUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: AIQuizTemplateCreateManyUserInputEnvelope
-    set?: AIQuizTemplateWhereUniqueInput | AIQuizTemplateWhereUniqueInput[]
-    disconnect?: AIQuizTemplateWhereUniqueInput | AIQuizTemplateWhereUniqueInput[]
-    delete?: AIQuizTemplateWhereUniqueInput | AIQuizTemplateWhereUniqueInput[]
-    connect?: AIQuizTemplateWhereUniqueInput | AIQuizTemplateWhereUniqueInput[]
-    update?: AIQuizTemplateUpdateWithWhereUniqueWithoutUserInput | AIQuizTemplateUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: AIQuizTemplateUpdateManyWithWhereWithoutUserInput | AIQuizTemplateUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: AIQuizTemplateScalarWhereInput | AIQuizTemplateScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutInstructorInput = {
@@ -35176,25 +32228,11 @@ export namespace Prisma {
     connect?: LessonWhereUniqueInput | LessonWhereUniqueInput[]
   }
 
-  export type ResourceCreateNestedManyWithoutWeekInput = {
-    create?: XOR<ResourceCreateWithoutWeekInput, ResourceUncheckedCreateWithoutWeekInput> | ResourceCreateWithoutWeekInput[] | ResourceUncheckedCreateWithoutWeekInput[]
-    connectOrCreate?: ResourceCreateOrConnectWithoutWeekInput | ResourceCreateOrConnectWithoutWeekInput[]
-    createMany?: ResourceCreateManyWeekInputEnvelope
-    connect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
-  }
-
   export type WatchCreateNestedManyWithoutWeekInput = {
     create?: XOR<WatchCreateWithoutWeekInput, WatchUncheckedCreateWithoutWeekInput> | WatchCreateWithoutWeekInput[] | WatchUncheckedCreateWithoutWeekInput[]
     connectOrCreate?: WatchCreateOrConnectWithoutWeekInput | WatchCreateOrConnectWithoutWeekInput[]
     createMany?: WatchCreateManyWeekInputEnvelope
     connect?: WatchWhereUniqueInput | WatchWhereUniqueInput[]
-  }
-
-  export type AIQuizTemplateCreateNestedManyWithoutWeekInput = {
-    create?: XOR<AIQuizTemplateCreateWithoutWeekInput, AIQuizTemplateUncheckedCreateWithoutWeekInput> | AIQuizTemplateCreateWithoutWeekInput[] | AIQuizTemplateUncheckedCreateWithoutWeekInput[]
-    connectOrCreate?: AIQuizTemplateCreateOrConnectWithoutWeekInput | AIQuizTemplateCreateOrConnectWithoutWeekInput[]
-    createMany?: AIQuizTemplateCreateManyWeekInputEnvelope
-    connect?: AIQuizTemplateWhereUniqueInput | AIQuizTemplateWhereUniqueInput[]
   }
 
   export type LessonUncheckedCreateNestedManyWithoutWeekInput = {
@@ -35204,25 +32242,11 @@ export namespace Prisma {
     connect?: LessonWhereUniqueInput | LessonWhereUniqueInput[]
   }
 
-  export type ResourceUncheckedCreateNestedManyWithoutWeekInput = {
-    create?: XOR<ResourceCreateWithoutWeekInput, ResourceUncheckedCreateWithoutWeekInput> | ResourceCreateWithoutWeekInput[] | ResourceUncheckedCreateWithoutWeekInput[]
-    connectOrCreate?: ResourceCreateOrConnectWithoutWeekInput | ResourceCreateOrConnectWithoutWeekInput[]
-    createMany?: ResourceCreateManyWeekInputEnvelope
-    connect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
-  }
-
   export type WatchUncheckedCreateNestedManyWithoutWeekInput = {
     create?: XOR<WatchCreateWithoutWeekInput, WatchUncheckedCreateWithoutWeekInput> | WatchCreateWithoutWeekInput[] | WatchUncheckedCreateWithoutWeekInput[]
     connectOrCreate?: WatchCreateOrConnectWithoutWeekInput | WatchCreateOrConnectWithoutWeekInput[]
     createMany?: WatchCreateManyWeekInputEnvelope
     connect?: WatchWhereUniqueInput | WatchWhereUniqueInput[]
-  }
-
-  export type AIQuizTemplateUncheckedCreateNestedManyWithoutWeekInput = {
-    create?: XOR<AIQuizTemplateCreateWithoutWeekInput, AIQuizTemplateUncheckedCreateWithoutWeekInput> | AIQuizTemplateCreateWithoutWeekInput[] | AIQuizTemplateUncheckedCreateWithoutWeekInput[]
-    connectOrCreate?: AIQuizTemplateCreateOrConnectWithoutWeekInput | AIQuizTemplateCreateOrConnectWithoutWeekInput[]
-    createMany?: AIQuizTemplateCreateManyWeekInputEnvelope
-    connect?: AIQuizTemplateWhereUniqueInput | AIQuizTemplateWhereUniqueInput[]
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -35261,20 +32285,6 @@ export namespace Prisma {
     deleteMany?: LessonScalarWhereInput | LessonScalarWhereInput[]
   }
 
-  export type ResourceUpdateManyWithoutWeekNestedInput = {
-    create?: XOR<ResourceCreateWithoutWeekInput, ResourceUncheckedCreateWithoutWeekInput> | ResourceCreateWithoutWeekInput[] | ResourceUncheckedCreateWithoutWeekInput[]
-    connectOrCreate?: ResourceCreateOrConnectWithoutWeekInput | ResourceCreateOrConnectWithoutWeekInput[]
-    upsert?: ResourceUpsertWithWhereUniqueWithoutWeekInput | ResourceUpsertWithWhereUniqueWithoutWeekInput[]
-    createMany?: ResourceCreateManyWeekInputEnvelope
-    set?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
-    disconnect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
-    delete?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
-    connect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
-    update?: ResourceUpdateWithWhereUniqueWithoutWeekInput | ResourceUpdateWithWhereUniqueWithoutWeekInput[]
-    updateMany?: ResourceUpdateManyWithWhereWithoutWeekInput | ResourceUpdateManyWithWhereWithoutWeekInput[]
-    deleteMany?: ResourceScalarWhereInput | ResourceScalarWhereInput[]
-  }
-
   export type WatchUpdateManyWithoutWeekNestedInput = {
     create?: XOR<WatchCreateWithoutWeekInput, WatchUncheckedCreateWithoutWeekInput> | WatchCreateWithoutWeekInput[] | WatchUncheckedCreateWithoutWeekInput[]
     connectOrCreate?: WatchCreateOrConnectWithoutWeekInput | WatchCreateOrConnectWithoutWeekInput[]
@@ -35287,20 +32297,6 @@ export namespace Prisma {
     update?: WatchUpdateWithWhereUniqueWithoutWeekInput | WatchUpdateWithWhereUniqueWithoutWeekInput[]
     updateMany?: WatchUpdateManyWithWhereWithoutWeekInput | WatchUpdateManyWithWhereWithoutWeekInput[]
     deleteMany?: WatchScalarWhereInput | WatchScalarWhereInput[]
-  }
-
-  export type AIQuizTemplateUpdateManyWithoutWeekNestedInput = {
-    create?: XOR<AIQuizTemplateCreateWithoutWeekInput, AIQuizTemplateUncheckedCreateWithoutWeekInput> | AIQuizTemplateCreateWithoutWeekInput[] | AIQuizTemplateUncheckedCreateWithoutWeekInput[]
-    connectOrCreate?: AIQuizTemplateCreateOrConnectWithoutWeekInput | AIQuizTemplateCreateOrConnectWithoutWeekInput[]
-    upsert?: AIQuizTemplateUpsertWithWhereUniqueWithoutWeekInput | AIQuizTemplateUpsertWithWhereUniqueWithoutWeekInput[]
-    createMany?: AIQuizTemplateCreateManyWeekInputEnvelope
-    set?: AIQuizTemplateWhereUniqueInput | AIQuizTemplateWhereUniqueInput[]
-    disconnect?: AIQuizTemplateWhereUniqueInput | AIQuizTemplateWhereUniqueInput[]
-    delete?: AIQuizTemplateWhereUniqueInput | AIQuizTemplateWhereUniqueInput[]
-    connect?: AIQuizTemplateWhereUniqueInput | AIQuizTemplateWhereUniqueInput[]
-    update?: AIQuizTemplateUpdateWithWhereUniqueWithoutWeekInput | AIQuizTemplateUpdateWithWhereUniqueWithoutWeekInput[]
-    updateMany?: AIQuizTemplateUpdateManyWithWhereWithoutWeekInput | AIQuizTemplateUpdateManyWithWhereWithoutWeekInput[]
-    deleteMany?: AIQuizTemplateScalarWhereInput | AIQuizTemplateScalarWhereInput[]
   }
 
   export type LessonUncheckedUpdateManyWithoutWeekNestedInput = {
@@ -35317,20 +32313,6 @@ export namespace Prisma {
     deleteMany?: LessonScalarWhereInput | LessonScalarWhereInput[]
   }
 
-  export type ResourceUncheckedUpdateManyWithoutWeekNestedInput = {
-    create?: XOR<ResourceCreateWithoutWeekInput, ResourceUncheckedCreateWithoutWeekInput> | ResourceCreateWithoutWeekInput[] | ResourceUncheckedCreateWithoutWeekInput[]
-    connectOrCreate?: ResourceCreateOrConnectWithoutWeekInput | ResourceCreateOrConnectWithoutWeekInput[]
-    upsert?: ResourceUpsertWithWhereUniqueWithoutWeekInput | ResourceUpsertWithWhereUniqueWithoutWeekInput[]
-    createMany?: ResourceCreateManyWeekInputEnvelope
-    set?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
-    disconnect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
-    delete?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
-    connect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
-    update?: ResourceUpdateWithWhereUniqueWithoutWeekInput | ResourceUpdateWithWhereUniqueWithoutWeekInput[]
-    updateMany?: ResourceUpdateManyWithWhereWithoutWeekInput | ResourceUpdateManyWithWhereWithoutWeekInput[]
-    deleteMany?: ResourceScalarWhereInput | ResourceScalarWhereInput[]
-  }
-
   export type WatchUncheckedUpdateManyWithoutWeekNestedInput = {
     create?: XOR<WatchCreateWithoutWeekInput, WatchUncheckedCreateWithoutWeekInput> | WatchCreateWithoutWeekInput[] | WatchUncheckedCreateWithoutWeekInput[]
     connectOrCreate?: WatchCreateOrConnectWithoutWeekInput | WatchCreateOrConnectWithoutWeekInput[]
@@ -35343,20 +32325,6 @@ export namespace Prisma {
     update?: WatchUpdateWithWhereUniqueWithoutWeekInput | WatchUpdateWithWhereUniqueWithoutWeekInput[]
     updateMany?: WatchUpdateManyWithWhereWithoutWeekInput | WatchUpdateManyWithWhereWithoutWeekInput[]
     deleteMany?: WatchScalarWhereInput | WatchScalarWhereInput[]
-  }
-
-  export type AIQuizTemplateUncheckedUpdateManyWithoutWeekNestedInput = {
-    create?: XOR<AIQuizTemplateCreateWithoutWeekInput, AIQuizTemplateUncheckedCreateWithoutWeekInput> | AIQuizTemplateCreateWithoutWeekInput[] | AIQuizTemplateUncheckedCreateWithoutWeekInput[]
-    connectOrCreate?: AIQuizTemplateCreateOrConnectWithoutWeekInput | AIQuizTemplateCreateOrConnectWithoutWeekInput[]
-    upsert?: AIQuizTemplateUpsertWithWhereUniqueWithoutWeekInput | AIQuizTemplateUpsertWithWhereUniqueWithoutWeekInput[]
-    createMany?: AIQuizTemplateCreateManyWeekInputEnvelope
-    set?: AIQuizTemplateWhereUniqueInput | AIQuizTemplateWhereUniqueInput[]
-    disconnect?: AIQuizTemplateWhereUniqueInput | AIQuizTemplateWhereUniqueInput[]
-    delete?: AIQuizTemplateWhereUniqueInput | AIQuizTemplateWhereUniqueInput[]
-    connect?: AIQuizTemplateWhereUniqueInput | AIQuizTemplateWhereUniqueInput[]
-    update?: AIQuizTemplateUpdateWithWhereUniqueWithoutWeekInput | AIQuizTemplateUpdateWithWhereUniqueWithoutWeekInput[]
-    updateMany?: AIQuizTemplateUpdateManyWithWhereWithoutWeekInput | AIQuizTemplateUpdateManyWithWhereWithoutWeekInput[]
-    deleteMany?: AIQuizTemplateScalarWhereInput | AIQuizTemplateScalarWhereInput[]
   }
 
   export type QuizCreateweekIdsInput = {
@@ -35672,34 +32640,6 @@ export namespace Prisma {
     update?: StudentAnswerUpdateWithWhereUniqueWithoutQuestionInput | StudentAnswerUpdateWithWhereUniqueWithoutQuestionInput[]
     updateMany?: StudentAnswerUpdateManyWithWhereWithoutQuestionInput | StudentAnswerUpdateManyWithWhereWithoutQuestionInput[]
     deleteMany?: StudentAnswerScalarWhereInput | StudentAnswerScalarWhereInput[]
-  }
-
-  export type UserCreateNestedOneWithoutAiQuizTemplatesInput = {
-    create?: XOR<UserCreateWithoutAiQuizTemplatesInput, UserUncheckedCreateWithoutAiQuizTemplatesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutAiQuizTemplatesInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type WeekCreateNestedOneWithoutAiQuizTemplatesInput = {
-    create?: XOR<WeekCreateWithoutAiQuizTemplatesInput, WeekUncheckedCreateWithoutAiQuizTemplatesInput>
-    connectOrCreate?: WeekCreateOrConnectWithoutAiQuizTemplatesInput
-    connect?: WeekWhereUniqueInput
-  }
-
-  export type UserUpdateOneRequiredWithoutAiQuizTemplatesNestedInput = {
-    create?: XOR<UserCreateWithoutAiQuizTemplatesInput, UserUncheckedCreateWithoutAiQuizTemplatesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutAiQuizTemplatesInput
-    upsert?: UserUpsertWithoutAiQuizTemplatesInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAiQuizTemplatesInput, UserUpdateWithoutAiQuizTemplatesInput>, UserUncheckedUpdateWithoutAiQuizTemplatesInput>
-  }
-
-  export type WeekUpdateOneRequiredWithoutAiQuizTemplatesNestedInput = {
-    create?: XOR<WeekCreateWithoutAiQuizTemplatesInput, WeekUncheckedCreateWithoutAiQuizTemplatesInput>
-    connectOrCreate?: WeekCreateOrConnectWithoutAiQuizTemplatesInput
-    upsert?: WeekUpsertWithoutAiQuizTemplatesInput
-    connect?: WeekWhereUniqueInput
-    update?: XOR<XOR<WeekUpdateToOneWithWhereWithoutAiQuizTemplatesInput, WeekUpdateWithoutAiQuizTemplatesInput>, WeekUncheckedUpdateWithoutAiQuizTemplatesInput>
   }
 
   export type UserCreateNestedOneWithoutQuizSubmissionsInput = {
@@ -36028,20 +32968,6 @@ export namespace Prisma {
     delete?: WeekWhereInput | boolean
     connect?: WeekWhereUniqueInput
     update?: XOR<XOR<WeekUpdateToOneWithWhereWithoutWatchesInput, WeekUpdateWithoutWatchesInput>, WeekUncheckedUpdateWithoutWatchesInput>
-  }
-
-  export type WeekCreateNestedOneWithoutResourcesInput = {
-    create?: XOR<WeekCreateWithoutResourcesInput, WeekUncheckedCreateWithoutResourcesInput>
-    connectOrCreate?: WeekCreateOrConnectWithoutResourcesInput
-    connect?: WeekWhereUniqueInput
-  }
-
-  export type WeekUpdateOneRequiredWithoutResourcesNestedInput = {
-    create?: XOR<WeekCreateWithoutResourcesInput, WeekUncheckedCreateWithoutResourcesInput>
-    connectOrCreate?: WeekCreateOrConnectWithoutResourcesInput
-    upsert?: WeekUpsertWithoutResourcesInput
-    connect?: WeekWhereUniqueInput
-    update?: XOR<XOR<WeekUpdateToOneWithWhereWithoutResourcesInput, WeekUpdateWithoutResourcesInput>, WeekUncheckedUpdateWithoutResourcesInput>
   }
 
   export type QuizCreateNestedOneWithoutLiveSessionInput = {
@@ -36957,43 +33883,6 @@ export namespace Prisma {
     data: LiveCreateManyUserInput | LiveCreateManyUserInput[]
   }
 
-  export type AIQuizTemplateCreateWithoutUserInput = {
-    id?: string
-    title: string
-    description?: string | null
-    instructorPrompt: string
-    defaultMcqCount?: number
-    defaultShortAnswerCount?: number
-    defaultLongAnswerCount?: number
-    active?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    week: WeekCreateNestedOneWithoutAiQuizTemplatesInput
-  }
-
-  export type AIQuizTemplateUncheckedCreateWithoutUserInput = {
-    id?: string
-    title: string
-    description?: string | null
-    instructorPrompt: string
-    defaultMcqCount?: number
-    defaultShortAnswerCount?: number
-    defaultLongAnswerCount?: number
-    active?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    weekId: string
-  }
-
-  export type AIQuizTemplateCreateOrConnectWithoutUserInput = {
-    where: AIQuizTemplateWhereUniqueInput
-    create: XOR<AIQuizTemplateCreateWithoutUserInput, AIQuizTemplateUncheckedCreateWithoutUserInput>
-  }
-
-  export type AIQuizTemplateCreateManyUserInputEnvelope = {
-    data: AIQuizTemplateCreateManyUserInput | AIQuizTemplateCreateManyUserInput[]
-  }
-
   export type InstructorUpsertWithoutUserInput = {
     update: XOR<InstructorUpdateWithoutUserInput, InstructorUncheckedUpdateWithoutUserInput>
     create: XOR<InstructorCreateWithoutUserInput, InstructorUncheckedCreateWithoutUserInput>
@@ -37465,40 +34354,6 @@ export namespace Prisma {
     userId?: StringFilter<"Live"> | string
   }
 
-  export type AIQuizTemplateUpsertWithWhereUniqueWithoutUserInput = {
-    where: AIQuizTemplateWhereUniqueInput
-    update: XOR<AIQuizTemplateUpdateWithoutUserInput, AIQuizTemplateUncheckedUpdateWithoutUserInput>
-    create: XOR<AIQuizTemplateCreateWithoutUserInput, AIQuizTemplateUncheckedCreateWithoutUserInput>
-  }
-
-  export type AIQuizTemplateUpdateWithWhereUniqueWithoutUserInput = {
-    where: AIQuizTemplateWhereUniqueInput
-    data: XOR<AIQuizTemplateUpdateWithoutUserInput, AIQuizTemplateUncheckedUpdateWithoutUserInput>
-  }
-
-  export type AIQuizTemplateUpdateManyWithWhereWithoutUserInput = {
-    where: AIQuizTemplateScalarWhereInput
-    data: XOR<AIQuizTemplateUpdateManyMutationInput, AIQuizTemplateUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type AIQuizTemplateScalarWhereInput = {
-    AND?: AIQuizTemplateScalarWhereInput | AIQuizTemplateScalarWhereInput[]
-    OR?: AIQuizTemplateScalarWhereInput[]
-    NOT?: AIQuizTemplateScalarWhereInput | AIQuizTemplateScalarWhereInput[]
-    id?: StringFilter<"AIQuizTemplate"> | string
-    title?: StringFilter<"AIQuizTemplate"> | string
-    description?: StringNullableFilter<"AIQuizTemplate"> | string | null
-    instructorPrompt?: StringFilter<"AIQuizTemplate"> | string
-    defaultMcqCount?: IntFilter<"AIQuizTemplate"> | number
-    defaultShortAnswerCount?: IntFilter<"AIQuizTemplate"> | number
-    defaultLongAnswerCount?: IntFilter<"AIQuizTemplate"> | number
-    active?: BoolFilter<"AIQuizTemplate"> | boolean
-    createdAt?: DateTimeFilter<"AIQuizTemplate"> | Date | string
-    updatedAt?: DateTimeFilter<"AIQuizTemplate"> | Date | string
-    userId?: StringFilter<"AIQuizTemplate"> | string
-    weekId?: StringFilter<"AIQuizTemplate"> | string
-  }
-
   export type UserCreateWithoutInstructorInput = {
     id?: string
     name: string
@@ -37524,7 +34379,6 @@ export namespace Prisma {
     participations?: ParticipationCreateNestedManyWithoutUserInput
     watches?: WatchCreateNestedManyWithoutUserInput
     liveSessions?: LiveCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutInstructorInput = {
@@ -37552,7 +34406,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedCreateNestedManyWithoutUserInput
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     liveSessions?: LiveUncheckedCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutInstructorInput = {
@@ -37595,7 +34448,6 @@ export namespace Prisma {
     participations?: ParticipationUpdateManyWithoutUserNestedInput
     watches?: WatchUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInstructorInput = {
@@ -37622,7 +34474,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedUpdateManyWithoutUserNestedInput
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUncheckedUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutStudentInput = {
@@ -37650,7 +34501,6 @@ export namespace Prisma {
     participations?: ParticipationCreateNestedManyWithoutUserInput
     watches?: WatchCreateNestedManyWithoutUserInput
     liveSessions?: LiveCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutStudentInput = {
@@ -37678,7 +34528,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedCreateNestedManyWithoutUserInput
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     liveSessions?: LiveUncheckedCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutStudentInput = {
@@ -37721,7 +34570,6 @@ export namespace Prisma {
     participations?: ParticipationUpdateManyWithoutUserNestedInput
     watches?: WatchUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStudentInput = {
@@ -37748,7 +34596,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedUpdateManyWithoutUserNestedInput
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUncheckedUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAdminInput = {
@@ -37776,7 +34623,6 @@ export namespace Prisma {
     participations?: ParticipationCreateNestedManyWithoutUserInput
     watches?: WatchCreateNestedManyWithoutUserInput
     liveSessions?: LiveCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAdminInput = {
@@ -37804,7 +34650,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedCreateNestedManyWithoutUserInput
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     liveSessions?: LiveUncheckedCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAdminInput = {
@@ -37847,7 +34692,6 @@ export namespace Prisma {
     participations?: ParticipationUpdateManyWithoutUserNestedInput
     watches?: WatchUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAdminInput = {
@@ -37874,7 +34718,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedUpdateManyWithoutUserNestedInput
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUncheckedUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseCreateWithoutCategoryInput = {
@@ -37971,7 +34814,6 @@ export namespace Prisma {
     participations?: ParticipationCreateNestedManyWithoutUserInput
     watches?: WatchCreateNestedManyWithoutUserInput
     liveSessions?: LiveCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCoursesInput = {
@@ -37999,7 +34841,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedCreateNestedManyWithoutUserInput
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     liveSessions?: LiveUncheckedCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCoursesInput = {
@@ -38045,9 +34886,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     lessons?: LessonCreateNestedManyWithoutWeekInput
-    resources?: ResourceCreateNestedManyWithoutWeekInput
     watches?: WatchCreateNestedManyWithoutWeekInput
-    aiQuizTemplates?: AIQuizTemplateCreateNestedManyWithoutWeekInput
   }
 
   export type WeekUncheckedCreateWithoutCourseInput = {
@@ -38065,9 +34904,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     lessons?: LessonUncheckedCreateNestedManyWithoutWeekInput
-    resources?: ResourceUncheckedCreateNestedManyWithoutWeekInput
     watches?: WatchUncheckedCreateNestedManyWithoutWeekInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedCreateNestedManyWithoutWeekInput
   }
 
   export type WeekCreateOrConnectWithoutCourseInput = {
@@ -38245,7 +35082,6 @@ export namespace Prisma {
     participations?: ParticipationUpdateManyWithoutUserNestedInput
     watches?: WatchUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCoursesInput = {
@@ -38272,7 +35108,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedUpdateManyWithoutUserNestedInput
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUncheckedUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CategoryUpsertWithoutCoursesInput = {
@@ -38508,35 +35343,6 @@ export namespace Prisma {
     data: LessonCreateManyWeekInput | LessonCreateManyWeekInput[]
   }
 
-  export type ResourceCreateWithoutWeekInput = {
-    id?: string
-    title: string
-    type: string
-    url?: string | null
-    content?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ResourceUncheckedCreateWithoutWeekInput = {
-    id?: string
-    title: string
-    type: string
-    url?: string | null
-    content?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ResourceCreateOrConnectWithoutWeekInput = {
-    where: ResourceWhereUniqueInput
-    create: XOR<ResourceCreateWithoutWeekInput, ResourceUncheckedCreateWithoutWeekInput>
-  }
-
-  export type ResourceCreateManyWeekInputEnvelope = {
-    data: ResourceCreateManyWeekInput | ResourceCreateManyWeekInput[]
-  }
-
   export type WatchCreateWithoutWeekInput = {
     id?: string
     state?: string
@@ -38564,43 +35370,6 @@ export namespace Prisma {
 
   export type WatchCreateManyWeekInputEnvelope = {
     data: WatchCreateManyWeekInput | WatchCreateManyWeekInput[]
-  }
-
-  export type AIQuizTemplateCreateWithoutWeekInput = {
-    id?: string
-    title: string
-    description?: string | null
-    instructorPrompt: string
-    defaultMcqCount?: number
-    defaultShortAnswerCount?: number
-    defaultLongAnswerCount?: number
-    active?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutAiQuizTemplatesInput
-  }
-
-  export type AIQuizTemplateUncheckedCreateWithoutWeekInput = {
-    id?: string
-    title: string
-    description?: string | null
-    instructorPrompt: string
-    defaultMcqCount?: number
-    defaultShortAnswerCount?: number
-    defaultLongAnswerCount?: number
-    active?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    userId: string
-  }
-
-  export type AIQuizTemplateCreateOrConnectWithoutWeekInput = {
-    where: AIQuizTemplateWhereUniqueInput
-    create: XOR<AIQuizTemplateCreateWithoutWeekInput, AIQuizTemplateUncheckedCreateWithoutWeekInput>
-  }
-
-  export type AIQuizTemplateCreateManyWeekInputEnvelope = {
-    data: AIQuizTemplateCreateManyWeekInput | AIQuizTemplateCreateManyWeekInput[]
   }
 
   export type CourseUpsertWithoutWeeksInput = {
@@ -38691,36 +35460,6 @@ export namespace Prisma {
     weekId?: StringFilter<"Lesson"> | string
   }
 
-  export type ResourceUpsertWithWhereUniqueWithoutWeekInput = {
-    where: ResourceWhereUniqueInput
-    update: XOR<ResourceUpdateWithoutWeekInput, ResourceUncheckedUpdateWithoutWeekInput>
-    create: XOR<ResourceCreateWithoutWeekInput, ResourceUncheckedCreateWithoutWeekInput>
-  }
-
-  export type ResourceUpdateWithWhereUniqueWithoutWeekInput = {
-    where: ResourceWhereUniqueInput
-    data: XOR<ResourceUpdateWithoutWeekInput, ResourceUncheckedUpdateWithoutWeekInput>
-  }
-
-  export type ResourceUpdateManyWithWhereWithoutWeekInput = {
-    where: ResourceScalarWhereInput
-    data: XOR<ResourceUpdateManyMutationInput, ResourceUncheckedUpdateManyWithoutWeekInput>
-  }
-
-  export type ResourceScalarWhereInput = {
-    AND?: ResourceScalarWhereInput | ResourceScalarWhereInput[]
-    OR?: ResourceScalarWhereInput[]
-    NOT?: ResourceScalarWhereInput | ResourceScalarWhereInput[]
-    id?: StringFilter<"Resource"> | string
-    title?: StringFilter<"Resource"> | string
-    type?: StringFilter<"Resource"> | string
-    url?: StringNullableFilter<"Resource"> | string | null
-    content?: StringNullableFilter<"Resource"> | string | null
-    createdAt?: DateTimeFilter<"Resource"> | Date | string
-    updatedAt?: DateTimeFilter<"Resource"> | Date | string
-    weekId?: StringFilter<"Resource"> | string
-  }
-
   export type WatchUpsertWithWhereUniqueWithoutWeekInput = {
     where: WatchWhereUniqueInput
     update: XOR<WatchUpdateWithoutWeekInput, WatchUncheckedUpdateWithoutWeekInput>
@@ -38735,22 +35474,6 @@ export namespace Prisma {
   export type WatchUpdateManyWithWhereWithoutWeekInput = {
     where: WatchScalarWhereInput
     data: XOR<WatchUpdateManyMutationInput, WatchUncheckedUpdateManyWithoutWeekInput>
-  }
-
-  export type AIQuizTemplateUpsertWithWhereUniqueWithoutWeekInput = {
-    where: AIQuizTemplateWhereUniqueInput
-    update: XOR<AIQuizTemplateUpdateWithoutWeekInput, AIQuizTemplateUncheckedUpdateWithoutWeekInput>
-    create: XOR<AIQuizTemplateCreateWithoutWeekInput, AIQuizTemplateUncheckedCreateWithoutWeekInput>
-  }
-
-  export type AIQuizTemplateUpdateWithWhereUniqueWithoutWeekInput = {
-    where: AIQuizTemplateWhereUniqueInput
-    data: XOR<AIQuizTemplateUpdateWithoutWeekInput, AIQuizTemplateUncheckedUpdateWithoutWeekInput>
-  }
-
-  export type AIQuizTemplateUpdateManyWithWhereWithoutWeekInput = {
-    where: AIQuizTemplateScalarWhereInput
-    data: XOR<AIQuizTemplateUpdateManyMutationInput, AIQuizTemplateUncheckedUpdateManyWithoutWeekInput>
   }
 
   export type UserCreateWithoutCreatedQuizzesInput = {
@@ -38778,7 +35501,6 @@ export namespace Prisma {
     participations?: ParticipationCreateNestedManyWithoutUserInput
     watches?: WatchCreateNestedManyWithoutUserInput
     liveSessions?: LiveCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedQuizzesInput = {
@@ -38806,7 +35528,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedCreateNestedManyWithoutUserInput
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     liveSessions?: LiveUncheckedCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedQuizzesInput = {
@@ -39007,7 +35728,6 @@ export namespace Prisma {
     participations?: ParticipationUpdateManyWithoutUserNestedInput
     watches?: WatchUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedQuizzesInput = {
@@ -39034,7 +35754,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedUpdateManyWithoutUserNestedInput
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUncheckedUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type QuestionUpsertWithWhereUniqueWithoutQuizInput = {
@@ -39154,9 +35873,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     course: CourseCreateNestedOneWithoutWeeksInput
-    resources?: ResourceCreateNestedManyWithoutWeekInput
     watches?: WatchCreateNestedManyWithoutWeekInput
-    aiQuizTemplates?: AIQuizTemplateCreateNestedManyWithoutWeekInput
   }
 
   export type WeekUncheckedCreateWithoutLessonsInput = {
@@ -39174,9 +35891,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     courseId: string
-    resources?: ResourceUncheckedCreateNestedManyWithoutWeekInput
     watches?: WatchUncheckedCreateNestedManyWithoutWeekInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedCreateNestedManyWithoutWeekInput
   }
 
   export type WeekCreateOrConnectWithoutLessonsInput = {
@@ -39238,9 +35953,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     course?: CourseUpdateOneRequiredWithoutWeeksNestedInput
-    resources?: ResourceUpdateManyWithoutWeekNestedInput
     watches?: WatchUpdateManyWithoutWeekNestedInput
-    aiQuizTemplates?: AIQuizTemplateUpdateManyWithoutWeekNestedInput
   }
 
   export type WeekUncheckedUpdateWithoutLessonsInput = {
@@ -39257,9 +35970,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courseId?: StringFieldUpdateOperationsInput | string
-    resources?: ResourceUncheckedUpdateManyWithoutWeekNestedInput
     watches?: WatchUncheckedUpdateManyWithoutWeekNestedInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedUpdateManyWithoutWeekNestedInput
   }
 
   export type WatchUpsertWithWhereUniqueWithoutLessonInput = {
@@ -39451,226 +36162,6 @@ export namespace Prisma {
     quizSubmissionId?: StringFilter<"StudentAnswer"> | string
   }
 
-  export type UserCreateWithoutAiQuizTemplatesInput = {
-    id?: string
-    name: string
-    email: string
-    password?: string | null
-    provider?: string | null
-    providerId?: string | null
-    image?: string | null
-    role?: $Enums.Role | null
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    instructor?: InstructorCreateNestedOneWithoutUserInput
-    student?: StudentCreateNestedOneWithoutUserInput
-    admin?: AdminCreateNestedOneWithoutUserInput
-    courses?: CourseCreateNestedManyWithoutUserInput
-    testimonials?: TestimonialCreateNestedManyWithoutUserInput
-    quizSubmissions?: QuizSubmissionCreateNestedManyWithoutUserInput
-    createdQuizzes?: QuizCreateNestedManyWithoutCreatedByInput
-    aiGenerationLogs?: AIGenerationLogCreateNestedManyWithoutRequestedByInput
-    courseProgress?: CourseProgressCreateNestedManyWithoutUserInput
-    certificates?: CertificateCreateNestedManyWithoutUserInput
-    reports?: ReportCreateNestedManyWithoutUserInput
-    participations?: ParticipationCreateNestedManyWithoutUserInput
-    watches?: WatchCreateNestedManyWithoutUserInput
-    liveSessions?: LiveCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutAiQuizTemplatesInput = {
-    id?: string
-    name: string
-    email: string
-    password?: string | null
-    provider?: string | null
-    providerId?: string | null
-    image?: string | null
-    role?: $Enums.Role | null
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    instructor?: InstructorUncheckedCreateNestedOneWithoutUserInput
-    student?: StudentUncheckedCreateNestedOneWithoutUserInput
-    admin?: AdminUncheckedCreateNestedOneWithoutUserInput
-    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
-    testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
-    quizSubmissions?: QuizSubmissionUncheckedCreateNestedManyWithoutUserInput
-    createdQuizzes?: QuizUncheckedCreateNestedManyWithoutCreatedByInput
-    aiGenerationLogs?: AIGenerationLogUncheckedCreateNestedManyWithoutRequestedByInput
-    courseProgress?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
-    certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
-    reports?: ReportUncheckedCreateNestedManyWithoutUserInput
-    participations?: ParticipationUncheckedCreateNestedManyWithoutUserInput
-    watches?: WatchUncheckedCreateNestedManyWithoutUserInput
-    liveSessions?: LiveUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutAiQuizTemplatesInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutAiQuizTemplatesInput, UserUncheckedCreateWithoutAiQuizTemplatesInput>
-  }
-
-  export type WeekCreateWithoutAiQuizTemplatesInput = {
-    id?: string
-    title: string
-    description?: string | null
-    status?: string
-    slug: string
-    duration: number
-    order: number
-    aiQuizContextPrompt?: string | null
-    aiQuizDefaultNumMCQ?: number | null
-    aiQuizDefaultNumShortAnswer?: number | null
-    quizIds?: WeekCreatequizIdsInput | string[]
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    course: CourseCreateNestedOneWithoutWeeksInput
-    lessons?: LessonCreateNestedManyWithoutWeekInput
-    resources?: ResourceCreateNestedManyWithoutWeekInput
-    watches?: WatchCreateNestedManyWithoutWeekInput
-  }
-
-  export type WeekUncheckedCreateWithoutAiQuizTemplatesInput = {
-    id?: string
-    title: string
-    description?: string | null
-    status?: string
-    slug: string
-    duration: number
-    order: number
-    aiQuizContextPrompt?: string | null
-    aiQuizDefaultNumMCQ?: number | null
-    aiQuizDefaultNumShortAnswer?: number | null
-    quizIds?: WeekCreatequizIdsInput | string[]
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    courseId: string
-    lessons?: LessonUncheckedCreateNestedManyWithoutWeekInput
-    resources?: ResourceUncheckedCreateNestedManyWithoutWeekInput
-    watches?: WatchUncheckedCreateNestedManyWithoutWeekInput
-  }
-
-  export type WeekCreateOrConnectWithoutAiQuizTemplatesInput = {
-    where: WeekWhereUniqueInput
-    create: XOR<WeekCreateWithoutAiQuizTemplatesInput, WeekUncheckedCreateWithoutAiQuizTemplatesInput>
-  }
-
-  export type UserUpsertWithoutAiQuizTemplatesInput = {
-    update: XOR<UserUpdateWithoutAiQuizTemplatesInput, UserUncheckedUpdateWithoutAiQuizTemplatesInput>
-    create: XOR<UserCreateWithoutAiQuizTemplatesInput, UserUncheckedCreateWithoutAiQuizTemplatesInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutAiQuizTemplatesInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutAiQuizTemplatesInput, UserUncheckedUpdateWithoutAiQuizTemplatesInput>
-  }
-
-  export type UserUpdateWithoutAiQuizTemplatesInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
-    providerId?: NullableStringFieldUpdateOperationsInput | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    instructor?: InstructorUpdateOneWithoutUserNestedInput
-    student?: StudentUpdateOneWithoutUserNestedInput
-    admin?: AdminUpdateOneWithoutUserNestedInput
-    courses?: CourseUpdateManyWithoutUserNestedInput
-    testimonials?: TestimonialUpdateManyWithoutUserNestedInput
-    quizSubmissions?: QuizSubmissionUpdateManyWithoutUserNestedInput
-    createdQuizzes?: QuizUpdateManyWithoutCreatedByNestedInput
-    aiGenerationLogs?: AIGenerationLogUpdateManyWithoutRequestedByNestedInput
-    courseProgress?: CourseProgressUpdateManyWithoutUserNestedInput
-    certificates?: CertificateUpdateManyWithoutUserNestedInput
-    reports?: ReportUpdateManyWithoutUserNestedInput
-    participations?: ParticipationUpdateManyWithoutUserNestedInput
-    watches?: WatchUpdateManyWithoutUserNestedInput
-    liveSessions?: LiveUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutAiQuizTemplatesInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    provider?: NullableStringFieldUpdateOperationsInput | string | null
-    providerId?: NullableStringFieldUpdateOperationsInput | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    instructor?: InstructorUncheckedUpdateOneWithoutUserNestedInput
-    student?: StudentUncheckedUpdateOneWithoutUserNestedInput
-    admin?: AdminUncheckedUpdateOneWithoutUserNestedInput
-    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
-    testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
-    quizSubmissions?: QuizSubmissionUncheckedUpdateManyWithoutUserNestedInput
-    createdQuizzes?: QuizUncheckedUpdateManyWithoutCreatedByNestedInput
-    aiGenerationLogs?: AIGenerationLogUncheckedUpdateManyWithoutRequestedByNestedInput
-    courseProgress?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
-    certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
-    reports?: ReportUncheckedUpdateManyWithoutUserNestedInput
-    participations?: ParticipationUncheckedUpdateManyWithoutUserNestedInput
-    watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
-    liveSessions?: LiveUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type WeekUpsertWithoutAiQuizTemplatesInput = {
-    update: XOR<WeekUpdateWithoutAiQuizTemplatesInput, WeekUncheckedUpdateWithoutAiQuizTemplatesInput>
-    create: XOR<WeekCreateWithoutAiQuizTemplatesInput, WeekUncheckedCreateWithoutAiQuizTemplatesInput>
-    where?: WeekWhereInput
-  }
-
-  export type WeekUpdateToOneWithWhereWithoutAiQuizTemplatesInput = {
-    where?: WeekWhereInput
-    data: XOR<WeekUpdateWithoutAiQuizTemplatesInput, WeekUncheckedUpdateWithoutAiQuizTemplatesInput>
-  }
-
-  export type WeekUpdateWithoutAiQuizTemplatesInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    order?: IntFieldUpdateOperationsInput | number
-    aiQuizContextPrompt?: NullableStringFieldUpdateOperationsInput | string | null
-    aiQuizDefaultNumMCQ?: NullableIntFieldUpdateOperationsInput | number | null
-    aiQuizDefaultNumShortAnswer?: NullableIntFieldUpdateOperationsInput | number | null
-    quizIds?: WeekUpdatequizIdsInput | string[]
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    course?: CourseUpdateOneRequiredWithoutWeeksNestedInput
-    lessons?: LessonUpdateManyWithoutWeekNestedInput
-    resources?: ResourceUpdateManyWithoutWeekNestedInput
-    watches?: WatchUpdateManyWithoutWeekNestedInput
-  }
-
-  export type WeekUncheckedUpdateWithoutAiQuizTemplatesInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    order?: IntFieldUpdateOperationsInput | number
-    aiQuizContextPrompt?: NullableStringFieldUpdateOperationsInput | string | null
-    aiQuizDefaultNumMCQ?: NullableIntFieldUpdateOperationsInput | number | null
-    aiQuizDefaultNumShortAnswer?: NullableIntFieldUpdateOperationsInput | number | null
-    quizIds?: WeekUpdatequizIdsInput | string[]
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    courseId?: StringFieldUpdateOperationsInput | string
-    lessons?: LessonUncheckedUpdateManyWithoutWeekNestedInput
-    resources?: ResourceUncheckedUpdateManyWithoutWeekNestedInput
-    watches?: WatchUncheckedUpdateManyWithoutWeekNestedInput
-  }
-
   export type UserCreateWithoutQuizSubmissionsInput = {
     id?: string
     name: string
@@ -39696,7 +36187,6 @@ export namespace Prisma {
     participations?: ParticipationCreateNestedManyWithoutUserInput
     watches?: WatchCreateNestedManyWithoutUserInput
     liveSessions?: LiveCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutQuizSubmissionsInput = {
@@ -39724,7 +36214,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedCreateNestedManyWithoutUserInput
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     liveSessions?: LiveUncheckedCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutQuizSubmissionsInput = {
@@ -39851,7 +36340,6 @@ export namespace Prisma {
     participations?: ParticipationUpdateManyWithoutUserNestedInput
     watches?: WatchUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutQuizSubmissionsInput = {
@@ -39878,7 +36366,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedUpdateManyWithoutUserNestedInput
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUncheckedUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type QuizUpsertWithoutSubmissionsInput = {
@@ -40208,7 +36695,6 @@ export namespace Prisma {
     participations?: ParticipationCreateNestedManyWithoutUserInput
     watches?: WatchCreateNestedManyWithoutUserInput
     liveSessions?: LiveCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAiGenerationLogsInput = {
@@ -40236,7 +36722,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedCreateNestedManyWithoutUserInput
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     liveSessions?: LiveUncheckedCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAiGenerationLogsInput = {
@@ -40338,7 +36823,6 @@ export namespace Prisma {
     participations?: ParticipationUpdateManyWithoutUserNestedInput
     watches?: WatchUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAiGenerationLogsInput = {
@@ -40365,7 +36849,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedUpdateManyWithoutUserNestedInput
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUncheckedUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCourseProgressInput = {
@@ -40393,7 +36876,6 @@ export namespace Prisma {
     participations?: ParticipationCreateNestedManyWithoutUserInput
     watches?: WatchCreateNestedManyWithoutUserInput
     liveSessions?: LiveCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCourseProgressInput = {
@@ -40421,7 +36903,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedCreateNestedManyWithoutUserInput
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     liveSessions?: LiveUncheckedCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCourseProgressInput = {
@@ -40513,7 +36994,6 @@ export namespace Prisma {
     participations?: ParticipationUpdateManyWithoutUserNestedInput
     watches?: WatchUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCourseProgressInput = {
@@ -40540,7 +37020,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedUpdateManyWithoutUserNestedInput
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUncheckedUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseUpsertWithoutCourseProgressInput = {
@@ -40621,7 +37100,6 @@ export namespace Prisma {
     participations?: ParticipationCreateNestedManyWithoutUserInput
     watches?: WatchCreateNestedManyWithoutUserInput
     liveSessions?: LiveCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCertificatesInput = {
@@ -40649,7 +37127,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedCreateNestedManyWithoutUserInput
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     liveSessions?: LiveUncheckedCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCertificatesInput = {
@@ -40741,7 +37218,6 @@ export namespace Prisma {
     participations?: ParticipationUpdateManyWithoutUserNestedInput
     watches?: WatchUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCertificatesInput = {
@@ -40768,7 +37244,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedUpdateManyWithoutUserNestedInput
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUncheckedUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseUpsertWithoutCertificatesInput = {
@@ -40849,7 +37324,6 @@ export namespace Prisma {
     participations?: ParticipationCreateNestedManyWithoutUserInput
     watches?: WatchCreateNestedManyWithoutUserInput
     liveSessions?: LiveCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTestimonialsInput = {
@@ -40877,7 +37351,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedCreateNestedManyWithoutUserInput
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     liveSessions?: LiveUncheckedCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTestimonialsInput = {
@@ -40969,7 +37442,6 @@ export namespace Prisma {
     participations?: ParticipationUpdateManyWithoutUserNestedInput
     watches?: WatchUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTestimonialsInput = {
@@ -40996,7 +37468,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedUpdateManyWithoutUserNestedInput
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUncheckedUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseUpsertWithoutTestimonialsInput = {
@@ -41126,7 +37597,6 @@ export namespace Prisma {
     participations?: ParticipationCreateNestedManyWithoutUserInput
     watches?: WatchCreateNestedManyWithoutUserInput
     liveSessions?: LiveCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReportsInput = {
@@ -41154,7 +37624,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedCreateNestedManyWithoutUserInput
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     liveSessions?: LiveUncheckedCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReportsInput = {
@@ -41250,7 +37719,6 @@ export namespace Prisma {
     participations?: ParticipationUpdateManyWithoutUserNestedInput
     watches?: WatchUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReportsInput = {
@@ -41277,7 +37745,6 @@ export namespace Prisma {
     participations?: ParticipationUncheckedUpdateManyWithoutUserNestedInput
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUncheckedUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseCreateWithoutParticipationsInput = {
@@ -41354,7 +37821,6 @@ export namespace Prisma {
     reports?: ReportCreateNestedManyWithoutUserInput
     watches?: WatchCreateNestedManyWithoutUserInput
     liveSessions?: LiveCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutParticipationsInput = {
@@ -41382,7 +37848,6 @@ export namespace Prisma {
     reports?: ReportUncheckedCreateNestedManyWithoutUserInput
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
     liveSessions?: LiveUncheckedCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutParticipationsInput = {
@@ -41478,7 +37943,6 @@ export namespace Prisma {
     reports?: ReportUpdateManyWithoutUserNestedInput
     watches?: WatchUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutParticipationsInput = {
@@ -41505,7 +37969,6 @@ export namespace Prisma {
     reports?: ReportUncheckedUpdateManyWithoutUserNestedInput
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUncheckedUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LessonCreateWithoutWatchesInput = {
@@ -41570,7 +38033,6 @@ export namespace Prisma {
     reports?: ReportCreateNestedManyWithoutUserInput
     participations?: ParticipationCreateNestedManyWithoutUserInput
     liveSessions?: LiveCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutWatchesInput = {
@@ -41598,7 +38060,6 @@ export namespace Prisma {
     reports?: ReportUncheckedCreateNestedManyWithoutUserInput
     participations?: ParticipationUncheckedCreateNestedManyWithoutUserInput
     liveSessions?: LiveUncheckedCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutWatchesInput = {
@@ -41622,8 +38083,6 @@ export namespace Prisma {
     updatedAt?: Date | string
     course: CourseCreateNestedOneWithoutWeeksInput
     lessons?: LessonCreateNestedManyWithoutWeekInput
-    resources?: ResourceCreateNestedManyWithoutWeekInput
-    aiQuizTemplates?: AIQuizTemplateCreateNestedManyWithoutWeekInput
   }
 
   export type WeekUncheckedCreateWithoutWatchesInput = {
@@ -41642,8 +38101,6 @@ export namespace Prisma {
     updatedAt?: Date | string
     courseId: string
     lessons?: LessonUncheckedCreateNestedManyWithoutWeekInput
-    resources?: ResourceUncheckedCreateNestedManyWithoutWeekInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedCreateNestedManyWithoutWeekInput
   }
 
   export type WeekCreateOrConnectWithoutWatchesInput = {
@@ -41727,7 +38184,6 @@ export namespace Prisma {
     reports?: ReportUpdateManyWithoutUserNestedInput
     participations?: ParticipationUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutWatchesInput = {
@@ -41754,7 +38210,6 @@ export namespace Prisma {
     reports?: ReportUncheckedUpdateManyWithoutUserNestedInput
     participations?: ParticipationUncheckedUpdateManyWithoutUserNestedInput
     liveSessions?: LiveUncheckedUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type WeekUpsertWithoutWatchesInput = {
@@ -41783,8 +38238,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     course?: CourseUpdateOneRequiredWithoutWeeksNestedInput
     lessons?: LessonUpdateManyWithoutWeekNestedInput
-    resources?: ResourceUpdateManyWithoutWeekNestedInput
-    aiQuizTemplates?: AIQuizTemplateUpdateManyWithoutWeekNestedInput
   }
 
   export type WeekUncheckedUpdateWithoutWatchesInput = {
@@ -41802,102 +38255,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courseId?: StringFieldUpdateOperationsInput | string
     lessons?: LessonUncheckedUpdateManyWithoutWeekNestedInput
-    resources?: ResourceUncheckedUpdateManyWithoutWeekNestedInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedUpdateManyWithoutWeekNestedInput
-  }
-
-  export type WeekCreateWithoutResourcesInput = {
-    id?: string
-    title: string
-    description?: string | null
-    status?: string
-    slug: string
-    duration: number
-    order: number
-    aiQuizContextPrompt?: string | null
-    aiQuizDefaultNumMCQ?: number | null
-    aiQuizDefaultNumShortAnswer?: number | null
-    quizIds?: WeekCreatequizIdsInput | string[]
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    course: CourseCreateNestedOneWithoutWeeksInput
-    lessons?: LessonCreateNestedManyWithoutWeekInput
-    watches?: WatchCreateNestedManyWithoutWeekInput
-    aiQuizTemplates?: AIQuizTemplateCreateNestedManyWithoutWeekInput
-  }
-
-  export type WeekUncheckedCreateWithoutResourcesInput = {
-    id?: string
-    title: string
-    description?: string | null
-    status?: string
-    slug: string
-    duration: number
-    order: number
-    aiQuizContextPrompt?: string | null
-    aiQuizDefaultNumMCQ?: number | null
-    aiQuizDefaultNumShortAnswer?: number | null
-    quizIds?: WeekCreatequizIdsInput | string[]
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    courseId: string
-    lessons?: LessonUncheckedCreateNestedManyWithoutWeekInput
-    watches?: WatchUncheckedCreateNestedManyWithoutWeekInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedCreateNestedManyWithoutWeekInput
-  }
-
-  export type WeekCreateOrConnectWithoutResourcesInput = {
-    where: WeekWhereUniqueInput
-    create: XOR<WeekCreateWithoutResourcesInput, WeekUncheckedCreateWithoutResourcesInput>
-  }
-
-  export type WeekUpsertWithoutResourcesInput = {
-    update: XOR<WeekUpdateWithoutResourcesInput, WeekUncheckedUpdateWithoutResourcesInput>
-    create: XOR<WeekCreateWithoutResourcesInput, WeekUncheckedCreateWithoutResourcesInput>
-    where?: WeekWhereInput
-  }
-
-  export type WeekUpdateToOneWithWhereWithoutResourcesInput = {
-    where?: WeekWhereInput
-    data: XOR<WeekUpdateWithoutResourcesInput, WeekUncheckedUpdateWithoutResourcesInput>
-  }
-
-  export type WeekUpdateWithoutResourcesInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    order?: IntFieldUpdateOperationsInput | number
-    aiQuizContextPrompt?: NullableStringFieldUpdateOperationsInput | string | null
-    aiQuizDefaultNumMCQ?: NullableIntFieldUpdateOperationsInput | number | null
-    aiQuizDefaultNumShortAnswer?: NullableIntFieldUpdateOperationsInput | number | null
-    quizIds?: WeekUpdatequizIdsInput | string[]
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    course?: CourseUpdateOneRequiredWithoutWeeksNestedInput
-    lessons?: LessonUpdateManyWithoutWeekNestedInput
-    watches?: WatchUpdateManyWithoutWeekNestedInput
-    aiQuizTemplates?: AIQuizTemplateUpdateManyWithoutWeekNestedInput
-  }
-
-  export type WeekUncheckedUpdateWithoutResourcesInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    order?: IntFieldUpdateOperationsInput | number
-    aiQuizContextPrompt?: NullableStringFieldUpdateOperationsInput | string | null
-    aiQuizDefaultNumMCQ?: NullableIntFieldUpdateOperationsInput | number | null
-    aiQuizDefaultNumShortAnswer?: NullableIntFieldUpdateOperationsInput | number | null
-    quizIds?: WeekUpdatequizIdsInput | string[]
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    courseId?: StringFieldUpdateOperationsInput | string
-    lessons?: LessonUncheckedUpdateManyWithoutWeekNestedInput
-    watches?: WatchUncheckedUpdateManyWithoutWeekNestedInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedUpdateManyWithoutWeekNestedInput
   }
 
   export type QuizCreateWithoutLiveSessionInput = {
@@ -41980,7 +38337,6 @@ export namespace Prisma {
     reports?: ReportCreateNestedManyWithoutUserInput
     participations?: ParticipationCreateNestedManyWithoutUserInput
     watches?: WatchCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLiveSessionsInput = {
@@ -42008,7 +38364,6 @@ export namespace Prisma {
     reports?: ReportUncheckedCreateNestedManyWithoutUserInput
     participations?: ParticipationUncheckedCreateNestedManyWithoutUserInput
     watches?: WatchUncheckedCreateNestedManyWithoutUserInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLiveSessionsInput = {
@@ -42110,7 +38465,6 @@ export namespace Prisma {
     reports?: ReportUpdateManyWithoutUserNestedInput
     participations?: ParticipationUpdateManyWithoutUserNestedInput
     watches?: WatchUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLiveSessionsInput = {
@@ -42137,7 +38491,6 @@ export namespace Prisma {
     reports?: ReportUncheckedUpdateManyWithoutUserNestedInput
     participations?: ParticipationUncheckedUpdateManyWithoutUserNestedInput
     watches?: WatchUncheckedUpdateManyWithoutUserNestedInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseCreateManyUserInput = {
@@ -42274,20 +38627,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     quizId?: string | null
-  }
-
-  export type AIQuizTemplateCreateManyUserInput = {
-    id?: string
-    title: string
-    description?: string | null
-    instructorPrompt: string
-    defaultMcqCount?: number
-    defaultShortAnswerCount?: number
-    defaultLongAnswerCount?: number
-    active?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    weekId: string
   }
 
   export type CourseUpdateWithoutUserInput = {
@@ -42687,45 +39026,6 @@ export namespace Prisma {
     quizId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type AIQuizTemplateUpdateWithoutUserInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    instructorPrompt?: StringFieldUpdateOperationsInput | string
-    defaultMcqCount?: IntFieldUpdateOperationsInput | number
-    defaultShortAnswerCount?: IntFieldUpdateOperationsInput | number
-    defaultLongAnswerCount?: IntFieldUpdateOperationsInput | number
-    active?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    week?: WeekUpdateOneRequiredWithoutAiQuizTemplatesNestedInput
-  }
-
-  export type AIQuizTemplateUncheckedUpdateWithoutUserInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    instructorPrompt?: StringFieldUpdateOperationsInput | string
-    defaultMcqCount?: IntFieldUpdateOperationsInput | number
-    defaultShortAnswerCount?: IntFieldUpdateOperationsInput | number
-    defaultLongAnswerCount?: IntFieldUpdateOperationsInput | number
-    active?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    weekId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type AIQuizTemplateUncheckedUpdateManyWithoutUserInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    instructorPrompt?: StringFieldUpdateOperationsInput | string
-    defaultMcqCount?: IntFieldUpdateOperationsInput | number
-    defaultShortAnswerCount?: IntFieldUpdateOperationsInput | number
-    defaultLongAnswerCount?: IntFieldUpdateOperationsInput | number
-    active?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    weekId?: StringFieldUpdateOperationsInput | string
-  }
-
   export type CourseCreateManyCategoryInput = {
     id?: string
     title: string
@@ -42872,9 +39172,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lessons?: LessonUpdateManyWithoutWeekNestedInput
-    resources?: ResourceUpdateManyWithoutWeekNestedInput
     watches?: WatchUpdateManyWithoutWeekNestedInput
-    aiQuizTemplates?: AIQuizTemplateUpdateManyWithoutWeekNestedInput
   }
 
   export type WeekUncheckedUpdateWithoutCourseInput = {
@@ -42891,9 +39189,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lessons?: LessonUncheckedUpdateManyWithoutWeekNestedInput
-    resources?: ResourceUncheckedUpdateManyWithoutWeekNestedInput
     watches?: WatchUncheckedUpdateManyWithoutWeekNestedInput
-    aiQuizTemplates?: AIQuizTemplateUncheckedUpdateManyWithoutWeekNestedInput
   }
 
   export type WeekUncheckedUpdateManyWithoutCourseInput = {
@@ -43040,16 +39336,6 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type ResourceCreateManyWeekInput = {
-    id?: string
-    title: string
-    type: string
-    url?: string | null
-    content?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
   export type WatchCreateManyWeekInput = {
     id?: string
     state?: string
@@ -43057,20 +39343,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     lessonId: string
-    userId: string
-  }
-
-  export type AIQuizTemplateCreateManyWeekInput = {
-    id?: string
-    title: string
-    description?: string | null
-    instructorPrompt: string
-    defaultMcqCount?: number
-    defaultShortAnswerCount?: number
-    defaultLongAnswerCount?: number
-    active?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
     userId: string
   }
 
@@ -43118,33 +39390,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ResourceUpdateWithoutWeekInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    url?: NullableStringFieldUpdateOperationsInput | string | null
-    content?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ResourceUncheckedUpdateWithoutWeekInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    url?: NullableStringFieldUpdateOperationsInput | string | null
-    content?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ResourceUncheckedUpdateManyWithoutWeekInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    url?: NullableStringFieldUpdateOperationsInput | string | null
-    content?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type WatchUpdateWithoutWeekInput = {
     state?: StringFieldUpdateOperationsInput | string
     lastTime?: IntFieldUpdateOperationsInput | number
@@ -43169,45 +39414,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lessonId?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type AIQuizTemplateUpdateWithoutWeekInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    instructorPrompt?: StringFieldUpdateOperationsInput | string
-    defaultMcqCount?: IntFieldUpdateOperationsInput | number
-    defaultShortAnswerCount?: IntFieldUpdateOperationsInput | number
-    defaultLongAnswerCount?: IntFieldUpdateOperationsInput | number
-    active?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutAiQuizTemplatesNestedInput
-  }
-
-  export type AIQuizTemplateUncheckedUpdateWithoutWeekInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    instructorPrompt?: StringFieldUpdateOperationsInput | string
-    defaultMcqCount?: IntFieldUpdateOperationsInput | number
-    defaultShortAnswerCount?: IntFieldUpdateOperationsInput | number
-    defaultLongAnswerCount?: IntFieldUpdateOperationsInput | number
-    active?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type AIQuizTemplateUncheckedUpdateManyWithoutWeekInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    instructorPrompt?: StringFieldUpdateOperationsInput | string
-    defaultMcqCount?: IntFieldUpdateOperationsInput | number
-    defaultShortAnswerCount?: IntFieldUpdateOperationsInput | number
-    defaultLongAnswerCount?: IntFieldUpdateOperationsInput | number
-    active?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
   }
 

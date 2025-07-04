@@ -1,7 +1,7 @@
 
 const Info = ({info}) => {
     return (
-        <section className="relative flex justify-center items-center hover:cursor-pointer">
+        <section className="relative hidden md:flex justify-center items-center hover:cursor-pointer ">
             <div
                 className="group flex justify-center transition-all rounded-full bg-gray-200 p-1 border border-yellow-300"
             >

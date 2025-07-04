@@ -8,10 +8,9 @@ import { ManualQuizEditor } from "./manual-quiz-editor";
 import { AIFixedQuizGenerator } from "./ai-fixed-quiz-generator";
 import { AIPoolQuizGenerator } from "./ai-pool-quiz-generator";
 import { toast } from "sonner";
-import AlertBanner from "@/components/alert-banner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+
 import {
   BookOpen,
   Brain,
@@ -22,6 +21,7 @@ import {
 } from "lucide-react";
 
 const EditQuizSet = ({ initialQuizData }) => {
+  console.log("initialQuizData...: ",initialQuizData)
   const [quizData, setQuizData] = useState(initialQuizData);
   const [isLoading, setIsLoading] = useState(
       !initialQuizData && initialQuizData !== null
@@ -133,15 +133,7 @@ const EditQuizSet = ({ initialQuizData }) => {
   const TypeIcon = currentTypeConfig?.icon || BookOpen;
 
   return (
-      <div className="space-y-6 max-w-full mx-auto p-4 sm:p-6 lg:p-8">
-        {/* !MARK: Status Banner */}
-        {!quizData.active && (
-            <AlertBanner
-                label="This quiz is currently unpublished and not visible to students."
-                variant="warning"
-            />
-        )}
-
+      <div className="md:space-y-6 max-w-full mx-auto sm:py-6 lg:p-8">
         {/*!MARK: Header Section - Top */}
         <div className="space-y-6">
           <div className="text-center sm:text-left">
@@ -177,32 +169,31 @@ const EditQuizSet = ({ initialQuizData }) => {
               <div className="flex items-center gap-2">
                 <Users className="h-4 w-4 text-muted-foreground" />
                 <span className="text-sm font-medium">Status:</span>
-                <Badge variant={quizData.active ? "default" : "secondary"}>
-                  {quizData.active ? "Published" : "Draft"}
+                <Badge variant={quizData.status==="published" ? "default" : "secondary"}>
+                  {quizData.status==="published" ? "Published" : "Draft"}
                 </Badge>
               </div>
               <QuizSetAction
                   quizId={quizData.id}
-                  isPublished={quizData.active}
-                  onPublishToggle={async (newPublishState) => {
+                  isPublished={quizData.status}
+                  onPublishToggle={async () => {
                     try {
-                      // API call to update quiz status
                       const response = await fetch(`/api/quiz/${quizData.id}`, {
                         method: "PATCH",
                         headers: {
                           "Content-Type": "application/json",
                         },
                         body: JSON.stringify({
-                          active: newPublishState,
+                          status: quizData.status ==="published" ? "draft" : "published",
                         }),
                       });
 
                       const result = await response.json();
 
                       if (response.ok) {
-                        setQuizData((prev) => ({ ...prev, active: newPublishState }));
+                        setQuizData((prev) => ({ ...prev, status: quizData.status ==="published" ? "draft" : "published" }));
                         toast.success(
-                            `Quiz ${newPublishState ? "published" : "unpublished"}!`
+                            `Quiz ${quizData.status ==="published" ? "is now draft" : "is now published"}!`
                         );
                       } else {
                         throw new Error(result.message);
@@ -210,7 +201,7 @@ const EditQuizSet = ({ initialQuizData }) => {
                     } catch (error) {
                       toast.error(
                           `Failed to ${
-                              newPublishState ? "publish" : "unpublish"
+                              quizData.status ==="published" ? "draft the quiz" : "publish the quiz"
                           } quiz: ${error.message}`
                       );
                     }

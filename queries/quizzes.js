@@ -167,8 +167,6 @@ export async function updateQuizBasicInfo(quizId, updateData) {
 
     if (updateData.status !== undefined) {
       updateObject.status = updateData.status;
-      // Automatically set active based on status
-      updateObject.active = updateData.status === "published";
     }
     
     if (updateData.active !== undefined) {

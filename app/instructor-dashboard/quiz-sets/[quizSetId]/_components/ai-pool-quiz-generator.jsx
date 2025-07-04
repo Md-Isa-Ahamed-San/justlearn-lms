@@ -6,10 +6,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Loader2, Info } from "lucide-react";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Loader2 } from "lucide-react";
 import { ManualQuizEditor } from "@/app/instructor-dashboard/quiz-sets/[quizSetId]/_components/manual-quiz-editor";
-
+import Info from "../../../../../components/info";
 export const AIPoolQuizGenerator = ({ quizData, setQuizData }) => {
   const [aiPrompt, setAiPrompt] = useState(quizData.aiPrompt || "");
   const [contextText, setContextText] = useState("");
@@ -142,15 +141,15 @@ export const AIPoolQuizGenerator = ({ quizData, setQuizData }) => {
 
   const totalQuestions = targetMcq + targetShort + targetLong;
   const hasGeneratedQuestions = quizData.questions && quizData.questions.length > 0;
-
+  let info = "Generating Questions can take upto 1 minute."
   return (
-      <div className="mt-6 border rounded-lg p-6 space-y-6">
+      <div className="mt-6 border rounded-lg p-2 md:space-y-6">
         <div className="flex items-center justify-between">
-          <div className="flex flex-row gap-2">
-            <h3 className="text-lg font-semibold text-gray-900">AI-Generated Quiz Pool</h3>
-            <Info className="h-4 w-4 text-gray-500" />
+
+          <div className="flex flex-row gap-2"><h3 className="text-center md:text-start text-lg font-semibold">AI-Generated Quiz Pool</h3>
+            <Info info={info}/>
           </div>
-          <div className="text-sm text-gray-600 px-3 py-1 rounded-full border">
+          <div className="text-sm text-center text-gray-600 px-2 md:px-3 rounded-md border mx-2">
             Pool: {poolSize} → {questionsPerStudent} per student
           </div>
         </div>

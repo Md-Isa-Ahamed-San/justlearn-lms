@@ -6,7 +6,7 @@ export async function PATCH(request, { params }) {
     try {
         const { quizId } = params;
         const updateData = await request.json();
-
+        console.log("updatedData: ",updateData)
 
         if (!quizId) {
             return NextResponse.json(

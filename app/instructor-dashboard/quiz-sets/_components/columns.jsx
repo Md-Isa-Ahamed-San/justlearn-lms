@@ -77,7 +77,7 @@ export const columns = [
     },
     cell: ({ row }) => {
       const status = row.getValue("status");
-      const isPublished = status === "published"; // Derive from status
+      const isPublished = status === "published";
 
       return (
         <Badge
