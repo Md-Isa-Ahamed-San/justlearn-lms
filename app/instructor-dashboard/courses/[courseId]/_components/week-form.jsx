@@ -13,6 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { Loader2, PlusCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -22,7 +23,9 @@ import { ModuleList } from "./module-list";
 
 const formSchema = z.object({
   title: z.string().min(1),
+  description: z.string().min(1),
 });
+
 const initialModules = [
   {
     id: "1",
@@ -34,6 +37,7 @@ const initialModules = [
     title: "Module 2",
   },
 ];
+
 export const WeeksForm = ({ initialData, courseId }) => {
   const [modules, setModules] = useState(initialModules);
   const router = useRouter();
@@ -46,6 +50,7 @@ export const WeeksForm = ({ initialData, courseId }) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
+      description: "",
     },
   });
 
@@ -58,6 +63,7 @@ export const WeeksForm = ({ initialData, courseId }) => {
         {
           id: Date.now().toString(),
           title: values.title,
+          description: values.description,
         },
       ]);
       toast.success("Module created");
@@ -87,74 +93,90 @@ export const WeeksForm = ({ initialData, courseId }) => {
   };
 
   return (
-    <div className="relative mt-6 border  rounded-md p-4">
-      {isUpdating && (
-        <div className="absolute h-full w-full 0/20 top-0 right-0 rounded-md flex items-center justify-center">
-          <Loader2 className="animate-spin h-6 w-6 text-sky-700" />
+      <div className="relative mt-6 border  rounded-md p-4">
+        {isUpdating && (
+            <div className="absolute h-full w-full 0/20 top-0 right-0 rounded-md flex items-center justify-center">
+              <Loader2 className="animate-spin h-6 w-6 text-sky-700" />
+            </div>
+        )}
+        <div className="font-medium flex items-center justify-between">
+          Course Weeks
+          <Button variant="ghost" onClick={toggleCreating}>
+            {isCreating ? (
+                <>Cancel</>
+            ) : (
+                <>
+                  <PlusCircle className="h-4 w-4 mr-2" />
+                  Add a week
+                </>
+            )}
+          </Button>
         </div>
-      )}
-      <div className="font-medium flex items-center justify-between">
-        Course Weeks
-        <Button variant="ghost" onClick={toggleCreating}>
-          {isCreating ? (
-            <>Cancel</>
-          ) : (
-            <>
-              <PlusCircle className="h-4 w-4 mr-2" />
-              Add a module
-            </>
-          )}
-        </Button>
-      </div>
 
-      {isCreating && (
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4 mt-4"
-          >
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      disabled={isSubmitting}
-                      placeholder="e.g. 'Introduction to the course...'"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button disabled={!isValid || isSubmitting} type="submit">
-              Create
-            </Button>
-          </form>
-        </Form>
-      )}
-      {!isCreating && (
-        <div
-          className={cn(
-            "text-sm mt-2",
-            !modules?.length && "text-slate-500 italic"
-          )}
-        >
-          {!modules?.length && "No module"}
-          <ModuleList
-            onEdit={onEdit}
-            onReorder={onReorder}
-            items={modules || []}
-          />
-        </div>
-      )}
-      {!isCreating && (
-        <p className="text-xs text-muted-foreground mt-4">
-          Drag & Drop to reorder the modules
-        </p>
-      )}
-    </div>
+        {isCreating && (
+            <Form {...form}>
+              <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-4 mt-4"
+              >
+                <FormField
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                                disabled={isSubmitting}
+                                placeholder="e.g. 'Introduction to the course...'"
+                                {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Textarea
+                                disabled={isSubmitting}
+                                placeholder="e.g. 'Detailed description of the week...'"
+                                {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <Button disabled={!isValid || isSubmitting} type="submit">
+                  Create
+                </Button>
+              </form>
+            </Form>
+        )}
+        {!isCreating && (
+            <div
+                className={cn(
+                    "text-sm mt-2",
+                    !modules?.length && "text-slate-500 italic"
+                )}
+            >
+              {!modules?.length && "No module"}
+              <ModuleList
+                  onEdit={onEdit}
+                  onReorder={onReorder}
+                  items={modules || []}
+              />
+            </div>
+        )}
+        {!isCreating && (
+            <p className="text-xs text-muted-foreground mt-4">
+              Drag & Drop to reorder the modules
+            </p>
+        )}
+      </div>
   );
 };

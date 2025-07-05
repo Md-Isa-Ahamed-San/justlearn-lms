@@ -126,6 +126,14 @@ export namespace $Enums {
 export type QuizStatus = (typeof QuizStatus)[keyof typeof QuizStatus]
 
 
+export const WeekStatus: {
+  draft: 'draft',
+  published: 'published'
+};
+
+export type WeekStatus = (typeof WeekStatus)[keyof typeof WeekStatus]
+
+
 export const QuestionType: {
   mcq: 'mcq',
   short_answer: 'short_answer',
@@ -195,6 +203,10 @@ export type SubmissionReason = (typeof SubmissionReason)[keyof typeof Submission
 export type QuizStatus = $Enums.QuizStatus
 
 export const QuizStatus: typeof $Enums.QuizStatus
+
+export type WeekStatus = $Enums.WeekStatus
+
+export const WeekStatus: typeof $Enums.WeekStatus
 
 export type QuestionType = $Enums.QuestionType
 
@@ -3090,6 +3102,8 @@ export namespace Prisma {
     providerId: string | null
     image: string | null
     role: $Enums.Role | null
+    resetPasswordToken: string | null
+    resetPasswordExpires: Date | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3104,6 +3118,8 @@ export namespace Prisma {
     providerId: string | null
     image: string | null
     role: $Enums.Role | null
+    resetPasswordToken: string | null
+    resetPasswordExpires: Date | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3118,6 +3134,8 @@ export namespace Prisma {
     providerId: number
     image: number
     role: number
+    resetPasswordToken: number
+    resetPasswordExpires: number
     isActive: number
     createdAt: number
     updatedAt: number
@@ -3134,6 +3152,8 @@ export namespace Prisma {
     providerId?: true
     image?: true
     role?: true
+    resetPasswordToken?: true
+    resetPasswordExpires?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -3148,6 +3168,8 @@ export namespace Prisma {
     providerId?: true
     image?: true
     role?: true
+    resetPasswordToken?: true
+    resetPasswordExpires?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -3162,6 +3184,8 @@ export namespace Prisma {
     providerId?: true
     image?: true
     role?: true
+    resetPasswordToken?: true
+    resetPasswordExpires?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -3249,6 +3273,8 @@ export namespace Prisma {
     providerId: string | null
     image: string | null
     role: $Enums.Role | null
+    resetPasswordToken: string | null
+    resetPasswordExpires: Date | null
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -3280,6 +3306,8 @@ export namespace Prisma {
     providerId?: boolean
     image?: boolean
     role?: boolean
+    resetPasswordToken?: boolean
+    resetPasswordExpires?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -3311,12 +3339,14 @@ export namespace Prisma {
     providerId?: boolean
     image?: boolean
     role?: boolean
+    resetPasswordToken?: boolean
+    resetPasswordExpires?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "provider" | "providerId" | "image" | "role" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "provider" | "providerId" | "image" | "role" | "resetPasswordToken" | "resetPasswordExpires" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     instructor?: boolean | User$instructorArgs<ExtArgs>
     student?: boolean | User$studentArgs<ExtArgs>
@@ -3362,6 +3392,8 @@ export namespace Prisma {
       providerId: string | null
       image: string | null
       role: $Enums.Role | null
+      resetPasswordToken: string | null
+      resetPasswordExpires: Date | null
       isActive: boolean
       createdAt: Date
       updatedAt: Date
@@ -3779,6 +3811,8 @@ export namespace Prisma {
     readonly providerId: FieldRef<"User", 'String'>
     readonly image: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
+    readonly resetPasswordToken: FieldRef<"User", 'String'>
+    readonly resetPasswordExpires: FieldRef<"User", 'DateTime'>
     readonly isActive: FieldRef<"User", 'Boolean'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
@@ -4518,8 +4552,6 @@ export namespace Prisma {
     phone: string | null
     bio: string | null
     designation: string | null
-    resetPasswordToken: string | null
-    resetPasswordExpires: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
@@ -4532,8 +4564,6 @@ export namespace Prisma {
     phone: string | null
     bio: string | null
     designation: string | null
-    resetPasswordToken: string | null
-    resetPasswordExpires: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
@@ -4547,8 +4577,6 @@ export namespace Prisma {
     bio: number
     designation: number
     socialMedia: number
-    resetPasswordToken: number
-    resetPasswordExpires: number
     createdAt: number
     updatedAt: number
     userId: number
@@ -4571,8 +4599,6 @@ export namespace Prisma {
     phone?: true
     bio?: true
     designation?: true
-    resetPasswordToken?: true
-    resetPasswordExpires?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -4585,8 +4611,6 @@ export namespace Prisma {
     phone?: true
     bio?: true
     designation?: true
-    resetPasswordToken?: true
-    resetPasswordExpires?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -4600,8 +4624,6 @@ export namespace Prisma {
     bio?: true
     designation?: true
     socialMedia?: true
-    resetPasswordToken?: true
-    resetPasswordExpires?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -4702,8 +4724,6 @@ export namespace Prisma {
     bio: string | null
     designation: string | null
     socialMedia: JsonValue | null
-    resetPasswordToken: string | null
-    resetPasswordExpires: Date | null
     createdAt: Date
     updatedAt: Date
     userId: string
@@ -4736,8 +4756,6 @@ export namespace Prisma {
     bio?: boolean
     designation?: boolean
     socialMedia?: boolean
-    resetPasswordToken?: boolean
-    resetPasswordExpires?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
@@ -4754,14 +4772,12 @@ export namespace Prisma {
     bio?: boolean
     designation?: boolean
     socialMedia?: boolean
-    resetPasswordToken?: boolean
-    resetPasswordExpires?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
   }
 
-  export type InstructorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "idNumber" | "department" | "phone" | "bio" | "designation" | "socialMedia" | "resetPasswordToken" | "resetPasswordExpires" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["instructor"]>
+  export type InstructorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "idNumber" | "department" | "phone" | "bio" | "designation" | "socialMedia" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["instructor"]>
   export type InstructorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -4779,8 +4795,6 @@ export namespace Prisma {
       bio: string | null
       designation: string | null
       socialMedia: Prisma.JsonValue | null
-      resetPasswordToken: string | null
-      resetPasswordExpires: Date | null
       createdAt: Date
       updatedAt: Date
       userId: string
@@ -5184,8 +5198,6 @@ export namespace Prisma {
     readonly bio: FieldRef<"Instructor", 'String'>
     readonly designation: FieldRef<"Instructor", 'String'>
     readonly socialMedia: FieldRef<"Instructor", 'Json'>
-    readonly resetPasswordToken: FieldRef<"Instructor", 'String'>
-    readonly resetPasswordExpires: FieldRef<"Instructor", 'DateTime'>
     readonly createdAt: FieldRef<"Instructor", 'DateTime'>
     readonly updatedAt: FieldRef<"Instructor", 'DateTime'>
     readonly userId: FieldRef<"Instructor", 'String'>
@@ -5605,8 +5617,6 @@ export namespace Prisma {
     phone: string | null
     bio: string | null
     profilePicture: string | null
-    resetPasswordToken: string | null
-    resetPasswordExpires: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
@@ -5620,8 +5630,6 @@ export namespace Prisma {
     phone: string | null
     bio: string | null
     profilePicture: string | null
-    resetPasswordToken: string | null
-    resetPasswordExpires: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
@@ -5636,8 +5644,6 @@ export namespace Prisma {
     bio: number
     profilePicture: number
     socialMedia: number
-    resetPasswordToken: number
-    resetPasswordExpires: number
     createdAt: number
     updatedAt: number
     userId: number
@@ -5661,8 +5667,6 @@ export namespace Prisma {
     phone?: true
     bio?: true
     profilePicture?: true
-    resetPasswordToken?: true
-    resetPasswordExpires?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -5676,8 +5680,6 @@ export namespace Prisma {
     phone?: true
     bio?: true
     profilePicture?: true
-    resetPasswordToken?: true
-    resetPasswordExpires?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -5692,8 +5694,6 @@ export namespace Prisma {
     bio?: true
     profilePicture?: true
     socialMedia?: true
-    resetPasswordToken?: true
-    resetPasswordExpires?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -5795,8 +5795,6 @@ export namespace Prisma {
     bio: string | null
     profilePicture: string | null
     socialMedia: JsonValue | null
-    resetPasswordToken: string | null
-    resetPasswordExpires: Date | null
     createdAt: Date
     updatedAt: Date
     userId: string
@@ -5830,8 +5828,6 @@ export namespace Prisma {
     bio?: boolean
     profilePicture?: boolean
     socialMedia?: boolean
-    resetPasswordToken?: boolean
-    resetPasswordExpires?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
@@ -5849,14 +5845,12 @@ export namespace Prisma {
     bio?: boolean
     profilePicture?: boolean
     socialMedia?: boolean
-    resetPasswordToken?: boolean
-    resetPasswordExpires?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
   }
 
-  export type StudentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "idNumber" | "session" | "department" | "phone" | "bio" | "profilePicture" | "socialMedia" | "resetPasswordToken" | "resetPasswordExpires" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["student"]>
+  export type StudentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "idNumber" | "session" | "department" | "phone" | "bio" | "profilePicture" | "socialMedia" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["student"]>
   export type StudentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -5875,8 +5869,6 @@ export namespace Prisma {
       bio: string | null
       profilePicture: string | null
       socialMedia: Prisma.JsonValue | null
-      resetPasswordToken: string | null
-      resetPasswordExpires: Date | null
       createdAt: Date
       updatedAt: Date
       userId: string
@@ -6281,8 +6273,6 @@ export namespace Prisma {
     readonly bio: FieldRef<"Student", 'String'>
     readonly profilePicture: FieldRef<"Student", 'String'>
     readonly socialMedia: FieldRef<"Student", 'Json'>
-    readonly resetPasswordToken: FieldRef<"Student", 'String'>
-    readonly resetPasswordExpires: FieldRef<"Student", 'DateTime'>
     readonly createdAt: FieldRef<"Student", 'DateTime'>
     readonly updatedAt: FieldRef<"Student", 'DateTime'>
     readonly userId: FieldRef<"Student", 'String'>
@@ -6702,8 +6692,6 @@ export namespace Prisma {
     bio: string | null
     designation: string | null
     profilePicture: string | null
-    resetPasswordToken: string | null
-    resetPasswordExpires: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
@@ -6717,8 +6705,6 @@ export namespace Prisma {
     bio: string | null
     designation: string | null
     profilePicture: string | null
-    resetPasswordToken: string | null
-    resetPasswordExpires: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
@@ -6733,8 +6719,6 @@ export namespace Prisma {
     designation: number
     profilePicture: number
     socialMedia: number
-    resetPasswordToken: number
-    resetPasswordExpires: number
     createdAt: number
     updatedAt: number
     userId: number
@@ -6758,8 +6742,6 @@ export namespace Prisma {
     bio?: true
     designation?: true
     profilePicture?: true
-    resetPasswordToken?: true
-    resetPasswordExpires?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -6773,8 +6755,6 @@ export namespace Prisma {
     bio?: true
     designation?: true
     profilePicture?: true
-    resetPasswordToken?: true
-    resetPasswordExpires?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -6789,8 +6769,6 @@ export namespace Prisma {
     designation?: true
     profilePicture?: true
     socialMedia?: true
-    resetPasswordToken?: true
-    resetPasswordExpires?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -6892,8 +6870,6 @@ export namespace Prisma {
     designation: string | null
     profilePicture: string | null
     socialMedia: JsonValue | null
-    resetPasswordToken: string | null
-    resetPasswordExpires: Date | null
     createdAt: Date
     updatedAt: Date
     userId: string
@@ -6927,8 +6903,6 @@ export namespace Prisma {
     designation?: boolean
     profilePicture?: boolean
     socialMedia?: boolean
-    resetPasswordToken?: boolean
-    resetPasswordExpires?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
@@ -6946,14 +6920,12 @@ export namespace Prisma {
     designation?: boolean
     profilePicture?: boolean
     socialMedia?: boolean
-    resetPasswordToken?: boolean
-    resetPasswordExpires?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
   }
 
-  export type AdminOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "idNumber" | "department" | "phone" | "bio" | "designation" | "profilePicture" | "socialMedia" | "resetPasswordToken" | "resetPasswordExpires" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["admin"]>
+  export type AdminOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "idNumber" | "department" | "phone" | "bio" | "designation" | "profilePicture" | "socialMedia" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["admin"]>
   export type AdminInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -6972,8 +6944,6 @@ export namespace Prisma {
       designation: string | null
       profilePicture: string | null
       socialMedia: Prisma.JsonValue | null
-      resetPasswordToken: string | null
-      resetPasswordExpires: Date | null
       createdAt: Date
       updatedAt: Date
       userId: string
@@ -7378,8 +7348,6 @@ export namespace Prisma {
     readonly designation: FieldRef<"Admin", 'String'>
     readonly profilePicture: FieldRef<"Admin", 'String'>
     readonly socialMedia: FieldRef<"Admin", 'Json'>
-    readonly resetPasswordToken: FieldRef<"Admin", 'String'>
-    readonly resetPasswordExpires: FieldRef<"Admin", 'DateTime'>
     readonly createdAt: FieldRef<"Admin", 'DateTime'>
     readonly updatedAt: FieldRef<"Admin", 'DateTime'>
     readonly userId: FieldRef<"Admin", 'String'>
@@ -10082,30 +10050,19 @@ export namespace Prisma {
   }
 
   export type WeekAvgAggregateOutputType = {
-    duration: number | null
     order: number | null
-    aiQuizDefaultNumMCQ: number | null
-    aiQuizDefaultNumShortAnswer: number | null
   }
 
   export type WeekSumAggregateOutputType = {
-    duration: number | null
     order: number | null
-    aiQuizDefaultNumMCQ: number | null
-    aiQuizDefaultNumShortAnswer: number | null
   }
 
   export type WeekMinAggregateOutputType = {
     id: string | null
     title: string | null
     description: string | null
-    status: string | null
-    slug: string | null
-    duration: number | null
+    status: $Enums.WeekStatus | null
     order: number | null
-    aiQuizContextPrompt: string | null
-    aiQuizDefaultNumMCQ: number | null
-    aiQuizDefaultNumShortAnswer: number | null
     createdAt: Date | null
     updatedAt: Date | null
     courseId: string | null
@@ -10115,13 +10072,8 @@ export namespace Prisma {
     id: string | null
     title: string | null
     description: string | null
-    status: string | null
-    slug: string | null
-    duration: number | null
+    status: $Enums.WeekStatus | null
     order: number | null
-    aiQuizContextPrompt: string | null
-    aiQuizDefaultNumMCQ: number | null
-    aiQuizDefaultNumShortAnswer: number | null
     createdAt: Date | null
     updatedAt: Date | null
     courseId: string | null
@@ -10132,12 +10084,7 @@ export namespace Prisma {
     title: number
     description: number
     status: number
-    slug: number
-    duration: number
     order: number
-    aiQuizContextPrompt: number
-    aiQuizDefaultNumMCQ: number
-    aiQuizDefaultNumShortAnswer: number
     quizIds: number
     createdAt: number
     updatedAt: number
@@ -10147,17 +10094,11 @@ export namespace Prisma {
 
 
   export type WeekAvgAggregateInputType = {
-    duration?: true
     order?: true
-    aiQuizDefaultNumMCQ?: true
-    aiQuizDefaultNumShortAnswer?: true
   }
 
   export type WeekSumAggregateInputType = {
-    duration?: true
     order?: true
-    aiQuizDefaultNumMCQ?: true
-    aiQuizDefaultNumShortAnswer?: true
   }
 
   export type WeekMinAggregateInputType = {
@@ -10165,12 +10106,7 @@ export namespace Prisma {
     title?: true
     description?: true
     status?: true
-    slug?: true
-    duration?: true
     order?: true
-    aiQuizContextPrompt?: true
-    aiQuizDefaultNumMCQ?: true
-    aiQuizDefaultNumShortAnswer?: true
     createdAt?: true
     updatedAt?: true
     courseId?: true
@@ -10181,12 +10117,7 @@ export namespace Prisma {
     title?: true
     description?: true
     status?: true
-    slug?: true
-    duration?: true
     order?: true
-    aiQuizContextPrompt?: true
-    aiQuizDefaultNumMCQ?: true
-    aiQuizDefaultNumShortAnswer?: true
     createdAt?: true
     updatedAt?: true
     courseId?: true
@@ -10197,12 +10128,7 @@ export namespace Prisma {
     title?: true
     description?: true
     status?: true
-    slug?: true
-    duration?: true
     order?: true
-    aiQuizContextPrompt?: true
-    aiQuizDefaultNumMCQ?: true
-    aiQuizDefaultNumShortAnswer?: true
     quizIds?: true
     createdAt?: true
     updatedAt?: true
@@ -10299,14 +10225,9 @@ export namespace Prisma {
   export type WeekGroupByOutputType = {
     id: string
     title: string
-    description: string | null
-    status: string
-    slug: string
-    duration: number
+    description: string
+    status: $Enums.WeekStatus
     order: number
-    aiQuizContextPrompt: string | null
-    aiQuizDefaultNumMCQ: number | null
-    aiQuizDefaultNumShortAnswer: number | null
     quizIds: string[]
     createdAt: Date
     updatedAt: Date
@@ -10337,12 +10258,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     status?: boolean
-    slug?: boolean
-    duration?: boolean
     order?: boolean
-    aiQuizContextPrompt?: boolean
-    aiQuizDefaultNumMCQ?: boolean
-    aiQuizDefaultNumShortAnswer?: boolean
     quizIds?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -10360,19 +10276,14 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     status?: boolean
-    slug?: boolean
-    duration?: boolean
     order?: boolean
-    aiQuizContextPrompt?: boolean
-    aiQuizDefaultNumMCQ?: boolean
-    aiQuizDefaultNumShortAnswer?: boolean
     quizIds?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     courseId?: boolean
   }
 
-  export type WeekOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "status" | "slug" | "duration" | "order" | "aiQuizContextPrompt" | "aiQuizDefaultNumMCQ" | "aiQuizDefaultNumShortAnswer" | "quizIds" | "createdAt" | "updatedAt" | "courseId", ExtArgs["result"]["week"]>
+  export type WeekOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "status" | "order" | "quizIds" | "createdAt" | "updatedAt" | "courseId", ExtArgs["result"]["week"]>
   export type WeekInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | CourseDefaultArgs<ExtArgs>
     lessons?: boolean | Week$lessonsArgs<ExtArgs>
@@ -10390,14 +10301,9 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
-      description: string | null
-      status: string
-      slug: string
-      duration: number
+      description: string
+      status: $Enums.WeekStatus
       order: number
-      aiQuizContextPrompt: string | null
-      aiQuizDefaultNumMCQ: number | null
-      aiQuizDefaultNumShortAnswer: number | null
       quizIds: string[]
       createdAt: Date
       updatedAt: Date
@@ -10800,13 +10706,8 @@ export namespace Prisma {
     readonly id: FieldRef<"Week", 'String'>
     readonly title: FieldRef<"Week", 'String'>
     readonly description: FieldRef<"Week", 'String'>
-    readonly status: FieldRef<"Week", 'String'>
-    readonly slug: FieldRef<"Week", 'String'>
-    readonly duration: FieldRef<"Week", 'Int'>
+    readonly status: FieldRef<"Week", 'WeekStatus'>
     readonly order: FieldRef<"Week", 'Int'>
-    readonly aiQuizContextPrompt: FieldRef<"Week", 'String'>
-    readonly aiQuizDefaultNumMCQ: FieldRef<"Week", 'Int'>
-    readonly aiQuizDefaultNumShortAnswer: FieldRef<"Week", 'Int'>
     readonly quizIds: FieldRef<"Week", 'String[]'>
     readonly createdAt: FieldRef<"Week", 'DateTime'>
     readonly updatedAt: FieldRef<"Week", 'DateTime'>
@@ -12556,7 +12457,6 @@ export namespace Prisma {
     duration: number | null
     videoUrl: string | null
     active: boolean | null
-    slug: string | null
     access: string | null
     order: number | null
     createdAt: Date | null
@@ -12571,7 +12471,6 @@ export namespace Prisma {
     duration: number | null
     videoUrl: string | null
     active: boolean | null
-    slug: string | null
     access: string | null
     order: number | null
     createdAt: Date | null
@@ -12586,7 +12485,6 @@ export namespace Prisma {
     duration: number
     videoUrl: number
     active: number
-    slug: number
     access: number
     order: number
     attachments: number
@@ -12614,7 +12512,6 @@ export namespace Prisma {
     duration?: true
     videoUrl?: true
     active?: true
-    slug?: true
     access?: true
     order?: true
     createdAt?: true
@@ -12629,7 +12526,6 @@ export namespace Prisma {
     duration?: true
     videoUrl?: true
     active?: true
-    slug?: true
     access?: true
     order?: true
     createdAt?: true
@@ -12644,7 +12540,6 @@ export namespace Prisma {
     duration?: true
     videoUrl?: true
     active?: true
-    slug?: true
     access?: true
     order?: true
     attachments?: true
@@ -12747,7 +12642,6 @@ export namespace Prisma {
     duration: number
     videoUrl: string | null
     active: boolean
-    slug: string
     access: string
     order: number
     attachments: JsonValue | null
@@ -12782,7 +12676,6 @@ export namespace Prisma {
     duration?: boolean
     videoUrl?: boolean
     active?: boolean
-    slug?: boolean
     access?: boolean
     order?: boolean
     attachments?: boolean
@@ -12803,7 +12696,6 @@ export namespace Prisma {
     duration?: boolean
     videoUrl?: boolean
     active?: boolean
-    slug?: boolean
     access?: boolean
     order?: boolean
     attachments?: boolean
@@ -12812,7 +12704,7 @@ export namespace Prisma {
     weekId?: boolean
   }
 
-  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "duration" | "videoUrl" | "active" | "slug" | "access" | "order" | "attachments" | "createdAt" | "updatedAt" | "weekId", ExtArgs["result"]["lesson"]>
+  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "duration" | "videoUrl" | "active" | "access" | "order" | "attachments" | "createdAt" | "updatedAt" | "weekId", ExtArgs["result"]["lesson"]>
   export type LessonInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     week?: boolean | WeekDefaultArgs<ExtArgs>
     watches?: boolean | Lesson$watchesArgs<ExtArgs>
@@ -12832,7 +12724,6 @@ export namespace Prisma {
       duration: number
       videoUrl: string | null
       active: boolean
-      slug: string
       access: string
       order: number
       attachments: Prisma.JsonValue | null
@@ -13239,7 +13130,6 @@ export namespace Prisma {
     readonly duration: FieldRef<"Lesson", 'Int'>
     readonly videoUrl: FieldRef<"Lesson", 'String'>
     readonly active: FieldRef<"Lesson", 'Boolean'>
-    readonly slug: FieldRef<"Lesson", 'String'>
     readonly access: FieldRef<"Lesson", 'String'>
     readonly order: FieldRef<"Lesson", 'Int'>
     readonly attachments: FieldRef<"Lesson", 'Json'>
@@ -24287,7 +24177,6 @@ export namespace Prisma {
     description: string | null
     thumbnail: string | null
     videoId: string | null
-    slug: string | null
     schedule: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -24301,7 +24190,6 @@ export namespace Prisma {
     description: string | null
     thumbnail: string | null
     videoId: string | null
-    slug: string | null
     schedule: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -24315,7 +24203,6 @@ export namespace Prisma {
     description: number
     thumbnail: number
     videoId: number
-    slug: number
     schedule: number
     createdAt: number
     updatedAt: number
@@ -24331,7 +24218,6 @@ export namespace Prisma {
     description?: true
     thumbnail?: true
     videoId?: true
-    slug?: true
     schedule?: true
     createdAt?: true
     updatedAt?: true
@@ -24345,7 +24231,6 @@ export namespace Prisma {
     description?: true
     thumbnail?: true
     videoId?: true
-    slug?: true
     schedule?: true
     createdAt?: true
     updatedAt?: true
@@ -24359,7 +24244,6 @@ export namespace Prisma {
     description?: true
     thumbnail?: true
     videoId?: true
-    slug?: true
     schedule?: true
     createdAt?: true
     updatedAt?: true
@@ -24446,7 +24330,6 @@ export namespace Prisma {
     description: string
     thumbnail: string | null
     videoId: string
-    slug: string
     schedule: Date
     createdAt: Date
     updatedAt: Date
@@ -24477,7 +24360,6 @@ export namespace Prisma {
     description?: boolean
     thumbnail?: boolean
     videoId?: boolean
-    slug?: boolean
     schedule?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -24495,7 +24377,6 @@ export namespace Prisma {
     description?: boolean
     thumbnail?: boolean
     videoId?: boolean
-    slug?: boolean
     schedule?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -24503,7 +24384,7 @@ export namespace Prisma {
     userId?: boolean
   }
 
-  export type LiveOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "thumbnail" | "videoId" | "slug" | "schedule" | "createdAt" | "updatedAt" | "quizId" | "userId", ExtArgs["result"]["live"]>
+  export type LiveOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "thumbnail" | "videoId" | "schedule" | "createdAt" | "updatedAt" | "quizId" | "userId", ExtArgs["result"]["live"]>
   export type LiveInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     quiz?: boolean | Live$quizArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -24521,7 +24402,6 @@ export namespace Prisma {
       description: string
       thumbnail: string | null
       videoId: string
-      slug: string
       schedule: Date
       createdAt: Date
       updatedAt: Date
@@ -24926,7 +24806,6 @@ export namespace Prisma {
     readonly description: FieldRef<"Live", 'String'>
     readonly thumbnail: FieldRef<"Live", 'String'>
     readonly videoId: FieldRef<"Live", 'String'>
-    readonly slug: FieldRef<"Live", 'String'>
     readonly schedule: FieldRef<"Live", 'DateTime'>
     readonly createdAt: FieldRef<"Live", 'DateTime'>
     readonly updatedAt: FieldRef<"Live", 'DateTime'>
@@ -25352,6 +25231,8 @@ export namespace Prisma {
     providerId: 'providerId',
     image: 'image',
     role: 'role',
+    resetPasswordToken: 'resetPasswordToken',
+    resetPasswordExpires: 'resetPasswordExpires',
     isActive: 'isActive',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -25368,8 +25249,6 @@ export namespace Prisma {
     bio: 'bio',
     designation: 'designation',
     socialMedia: 'socialMedia',
-    resetPasswordToken: 'resetPasswordToken',
-    resetPasswordExpires: 'resetPasswordExpires',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     userId: 'userId'
@@ -25387,8 +25266,6 @@ export namespace Prisma {
     bio: 'bio',
     profilePicture: 'profilePicture',
     socialMedia: 'socialMedia',
-    resetPasswordToken: 'resetPasswordToken',
-    resetPasswordExpires: 'resetPasswordExpires',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     userId: 'userId'
@@ -25406,8 +25283,6 @@ export namespace Prisma {
     designation: 'designation',
     profilePicture: 'profilePicture',
     socialMedia: 'socialMedia',
-    resetPasswordToken: 'resetPasswordToken',
-    resetPasswordExpires: 'resetPasswordExpires',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     userId: 'userId'
@@ -25453,12 +25328,7 @@ export namespace Prisma {
     title: 'title',
     description: 'description',
     status: 'status',
-    slug: 'slug',
-    duration: 'duration',
     order: 'order',
-    aiQuizContextPrompt: 'aiQuizContextPrompt',
-    aiQuizDefaultNumMCQ: 'aiQuizDefaultNumMCQ',
-    aiQuizDefaultNumShortAnswer: 'aiQuizDefaultNumShortAnswer',
     quizIds: 'quizIds',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
@@ -25500,7 +25370,6 @@ export namespace Prisma {
     duration: 'duration',
     videoUrl: 'videoUrl',
     active: 'active',
-    slug: 'slug',
     access: 'access',
     order: 'order',
     attachments: 'attachments',
@@ -25669,7 +25538,6 @@ export namespace Prisma {
     description: 'description',
     thumbnail: 'thumbnail',
     videoId: 'videoId',
-    slug: 'slug',
     schedule: 'schedule',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
@@ -25730,13 +25598,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -25747,6 +25608,13 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -25796,6 +25664,20 @@ export namespace Prisma {
    * Reference to a field of type 'Visibility[]'
    */
   export type ListEnumVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Visibility[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'WeekStatus'
+   */
+  export type EnumWeekStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WeekStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'WeekStatus[]'
+   */
+  export type ListEnumWeekStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WeekStatus[]'>
     
 
 
@@ -25884,6 +25766,8 @@ export namespace Prisma {
     providerId?: StringNullableFilter<"User"> | string | null
     image?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleNullableFilter<"User"> | $Enums.Role | null
+    resetPasswordToken?: StringNullableFilter<"User"> | string | null
+    resetPasswordExpires?: DateTimeNullableFilter<"User"> | Date | string | null
     isActive?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
@@ -25912,6 +25796,8 @@ export namespace Prisma {
     providerId?: SortOrder
     image?: SortOrder
     role?: SortOrder
+    resetPasswordToken?: SortOrder
+    resetPasswordExpires?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -25943,6 +25829,8 @@ export namespace Prisma {
     providerId?: StringNullableFilter<"User"> | string | null
     image?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleNullableFilter<"User"> | $Enums.Role | null
+    resetPasswordToken?: StringNullableFilter<"User"> | string | null
+    resetPasswordExpires?: DateTimeNullableFilter<"User"> | Date | string | null
     isActive?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
@@ -25971,6 +25859,8 @@ export namespace Prisma {
     providerId?: SortOrder
     image?: SortOrder
     role?: SortOrder
+    resetPasswordToken?: SortOrder
+    resetPasswordExpires?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -25991,6 +25881,8 @@ export namespace Prisma {
     providerId?: StringNullableWithAggregatesFilter<"User"> | string | null
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
     role?: EnumRoleNullableWithAggregatesFilter<"User"> | $Enums.Role | null
+    resetPasswordToken?: StringNullableWithAggregatesFilter<"User"> | string | null
+    resetPasswordExpires?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     isActive?: BoolWithAggregatesFilter<"User"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -26007,8 +25899,6 @@ export namespace Prisma {
     bio?: StringNullableFilter<"Instructor"> | string | null
     designation?: StringNullableFilter<"Instructor"> | string | null
     socialMedia?: JsonNullableFilter<"Instructor">
-    resetPasswordToken?: StringNullableFilter<"Instructor"> | string | null
-    resetPasswordExpires?: DateTimeNullableFilter<"Instructor"> | Date | string | null
     createdAt?: DateTimeFilter<"Instructor"> | Date | string
     updatedAt?: DateTimeFilter<"Instructor"> | Date | string
     userId?: StringFilter<"Instructor"> | string
@@ -26023,8 +25913,6 @@ export namespace Prisma {
     bio?: SortOrder
     designation?: SortOrder
     socialMedia?: SortOrder
-    resetPasswordToken?: SortOrder
-    resetPasswordExpires?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -26043,8 +25931,6 @@ export namespace Prisma {
     bio?: StringNullableFilter<"Instructor"> | string | null
     designation?: StringNullableFilter<"Instructor"> | string | null
     socialMedia?: JsonNullableFilter<"Instructor">
-    resetPasswordToken?: StringNullableFilter<"Instructor"> | string | null
-    resetPasswordExpires?: DateTimeNullableFilter<"Instructor"> | Date | string | null
     createdAt?: DateTimeFilter<"Instructor"> | Date | string
     updatedAt?: DateTimeFilter<"Instructor"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -26058,8 +25944,6 @@ export namespace Prisma {
     bio?: SortOrder
     designation?: SortOrder
     socialMedia?: SortOrder
-    resetPasswordToken?: SortOrder
-    resetPasswordExpires?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -26081,8 +25965,6 @@ export namespace Prisma {
     bio?: StringNullableWithAggregatesFilter<"Instructor"> | string | null
     designation?: StringNullableWithAggregatesFilter<"Instructor"> | string | null
     socialMedia?: JsonNullableWithAggregatesFilter<"Instructor">
-    resetPasswordToken?: StringNullableWithAggregatesFilter<"Instructor"> | string | null
-    resetPasswordExpires?: DateTimeNullableWithAggregatesFilter<"Instructor"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Instructor"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Instructor"> | Date | string
     userId?: StringWithAggregatesFilter<"Instructor"> | string
@@ -26100,8 +25982,6 @@ export namespace Prisma {
     bio?: StringNullableFilter<"Student"> | string | null
     profilePicture?: StringNullableFilter<"Student"> | string | null
     socialMedia?: JsonNullableFilter<"Student">
-    resetPasswordToken?: StringNullableFilter<"Student"> | string | null
-    resetPasswordExpires?: DateTimeNullableFilter<"Student"> | Date | string | null
     createdAt?: DateTimeFilter<"Student"> | Date | string
     updatedAt?: DateTimeFilter<"Student"> | Date | string
     userId?: StringFilter<"Student"> | string
@@ -26117,8 +25997,6 @@ export namespace Prisma {
     bio?: SortOrder
     profilePicture?: SortOrder
     socialMedia?: SortOrder
-    resetPasswordToken?: SortOrder
-    resetPasswordExpires?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -26138,8 +26016,6 @@ export namespace Prisma {
     bio?: StringNullableFilter<"Student"> | string | null
     profilePicture?: StringNullableFilter<"Student"> | string | null
     socialMedia?: JsonNullableFilter<"Student">
-    resetPasswordToken?: StringNullableFilter<"Student"> | string | null
-    resetPasswordExpires?: DateTimeNullableFilter<"Student"> | Date | string | null
     createdAt?: DateTimeFilter<"Student"> | Date | string
     updatedAt?: DateTimeFilter<"Student"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -26154,8 +26030,6 @@ export namespace Prisma {
     bio?: SortOrder
     profilePicture?: SortOrder
     socialMedia?: SortOrder
-    resetPasswordToken?: SortOrder
-    resetPasswordExpires?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -26178,8 +26052,6 @@ export namespace Prisma {
     bio?: StringNullableWithAggregatesFilter<"Student"> | string | null
     profilePicture?: StringNullableWithAggregatesFilter<"Student"> | string | null
     socialMedia?: JsonNullableWithAggregatesFilter<"Student">
-    resetPasswordToken?: StringNullableWithAggregatesFilter<"Student"> | string | null
-    resetPasswordExpires?: DateTimeNullableWithAggregatesFilter<"Student"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Student"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Student"> | Date | string
     userId?: StringWithAggregatesFilter<"Student"> | string
@@ -26197,8 +26069,6 @@ export namespace Prisma {
     designation?: StringNullableFilter<"Admin"> | string | null
     profilePicture?: StringNullableFilter<"Admin"> | string | null
     socialMedia?: JsonNullableFilter<"Admin">
-    resetPasswordToken?: StringNullableFilter<"Admin"> | string | null
-    resetPasswordExpires?: DateTimeNullableFilter<"Admin"> | Date | string | null
     createdAt?: DateTimeFilter<"Admin"> | Date | string
     updatedAt?: DateTimeFilter<"Admin"> | Date | string
     userId?: StringFilter<"Admin"> | string
@@ -26214,8 +26084,6 @@ export namespace Prisma {
     designation?: SortOrder
     profilePicture?: SortOrder
     socialMedia?: SortOrder
-    resetPasswordToken?: SortOrder
-    resetPasswordExpires?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -26235,8 +26103,6 @@ export namespace Prisma {
     designation?: StringNullableFilter<"Admin"> | string | null
     profilePicture?: StringNullableFilter<"Admin"> | string | null
     socialMedia?: JsonNullableFilter<"Admin">
-    resetPasswordToken?: StringNullableFilter<"Admin"> | string | null
-    resetPasswordExpires?: DateTimeNullableFilter<"Admin"> | Date | string | null
     createdAt?: DateTimeFilter<"Admin"> | Date | string
     updatedAt?: DateTimeFilter<"Admin"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -26251,8 +26117,6 @@ export namespace Prisma {
     designation?: SortOrder
     profilePicture?: SortOrder
     socialMedia?: SortOrder
-    resetPasswordToken?: SortOrder
-    resetPasswordExpires?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -26275,8 +26139,6 @@ export namespace Prisma {
     designation?: StringNullableWithAggregatesFilter<"Admin"> | string | null
     profilePicture?: StringNullableWithAggregatesFilter<"Admin"> | string | null
     socialMedia?: JsonNullableWithAggregatesFilter<"Admin">
-    resetPasswordToken?: StringNullableWithAggregatesFilter<"Admin"> | string | null
-    resetPasswordExpires?: DateTimeNullableWithAggregatesFilter<"Admin"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Admin"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Admin"> | Date | string
     userId?: StringWithAggregatesFilter<"Admin"> | string
@@ -26471,14 +26333,9 @@ export namespace Prisma {
     NOT?: WeekWhereInput | WeekWhereInput[]
     id?: StringFilter<"Week"> | string
     title?: StringFilter<"Week"> | string
-    description?: StringNullableFilter<"Week"> | string | null
-    status?: StringFilter<"Week"> | string
-    slug?: StringFilter<"Week"> | string
-    duration?: IntFilter<"Week"> | number
+    description?: StringFilter<"Week"> | string
+    status?: EnumWeekStatusFilter<"Week"> | $Enums.WeekStatus
     order?: IntFilter<"Week"> | number
-    aiQuizContextPrompt?: StringNullableFilter<"Week"> | string | null
-    aiQuizDefaultNumMCQ?: IntNullableFilter<"Week"> | number | null
-    aiQuizDefaultNumShortAnswer?: IntNullableFilter<"Week"> | number | null
     quizIds?: StringNullableListFilter<"Week">
     createdAt?: DateTimeFilter<"Week"> | Date | string
     updatedAt?: DateTimeFilter<"Week"> | Date | string
@@ -26493,12 +26350,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     status?: SortOrder
-    slug?: SortOrder
-    duration?: SortOrder
     order?: SortOrder
-    aiQuizContextPrompt?: SortOrder
-    aiQuizDefaultNumMCQ?: SortOrder
-    aiQuizDefaultNumShortAnswer?: SortOrder
     quizIds?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -26514,14 +26366,9 @@ export namespace Prisma {
     OR?: WeekWhereInput[]
     NOT?: WeekWhereInput | WeekWhereInput[]
     title?: StringFilter<"Week"> | string
-    description?: StringNullableFilter<"Week"> | string | null
-    status?: StringFilter<"Week"> | string
-    slug?: StringFilter<"Week"> | string
-    duration?: IntFilter<"Week"> | number
+    description?: StringFilter<"Week"> | string
+    status?: EnumWeekStatusFilter<"Week"> | $Enums.WeekStatus
     order?: IntFilter<"Week"> | number
-    aiQuizContextPrompt?: StringNullableFilter<"Week"> | string | null
-    aiQuizDefaultNumMCQ?: IntNullableFilter<"Week"> | number | null
-    aiQuizDefaultNumShortAnswer?: IntNullableFilter<"Week"> | number | null
     quizIds?: StringNullableListFilter<"Week">
     createdAt?: DateTimeFilter<"Week"> | Date | string
     updatedAt?: DateTimeFilter<"Week"> | Date | string
@@ -26536,12 +26383,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     status?: SortOrder
-    slug?: SortOrder
-    duration?: SortOrder
     order?: SortOrder
-    aiQuizContextPrompt?: SortOrder
-    aiQuizDefaultNumMCQ?: SortOrder
-    aiQuizDefaultNumShortAnswer?: SortOrder
     quizIds?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -26559,14 +26401,9 @@ export namespace Prisma {
     NOT?: WeekScalarWhereWithAggregatesInput | WeekScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Week"> | string
     title?: StringWithAggregatesFilter<"Week"> | string
-    description?: StringNullableWithAggregatesFilter<"Week"> | string | null
-    status?: StringWithAggregatesFilter<"Week"> | string
-    slug?: StringWithAggregatesFilter<"Week"> | string
-    duration?: IntWithAggregatesFilter<"Week"> | number
+    description?: StringWithAggregatesFilter<"Week"> | string
+    status?: EnumWeekStatusWithAggregatesFilter<"Week"> | $Enums.WeekStatus
     order?: IntWithAggregatesFilter<"Week"> | number
-    aiQuizContextPrompt?: StringNullableWithAggregatesFilter<"Week"> | string | null
-    aiQuizDefaultNumMCQ?: IntNullableWithAggregatesFilter<"Week"> | number | null
-    aiQuizDefaultNumShortAnswer?: IntNullableWithAggregatesFilter<"Week"> | number | null
     quizIds?: StringNullableListFilter<"Week">
     createdAt?: DateTimeWithAggregatesFilter<"Week"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Week"> | Date | string
@@ -26722,7 +26559,6 @@ export namespace Prisma {
     duration?: IntFilter<"Lesson"> | number
     videoUrl?: StringNullableFilter<"Lesson"> | string | null
     active?: BoolFilter<"Lesson"> | boolean
-    slug?: StringFilter<"Lesson"> | string
     access?: StringFilter<"Lesson"> | string
     order?: IntFilter<"Lesson"> | number
     attachments?: JsonNullableFilter<"Lesson">
@@ -26740,7 +26576,6 @@ export namespace Prisma {
     duration?: SortOrder
     videoUrl?: SortOrder
     active?: SortOrder
-    slug?: SortOrder
     access?: SortOrder
     order?: SortOrder
     attachments?: SortOrder
@@ -26761,7 +26596,6 @@ export namespace Prisma {
     duration?: IntFilter<"Lesson"> | number
     videoUrl?: StringNullableFilter<"Lesson"> | string | null
     active?: BoolFilter<"Lesson"> | boolean
-    slug?: StringFilter<"Lesson"> | string
     access?: StringFilter<"Lesson"> | string
     order?: IntFilter<"Lesson"> | number
     attachments?: JsonNullableFilter<"Lesson">
@@ -26779,7 +26613,6 @@ export namespace Prisma {
     duration?: SortOrder
     videoUrl?: SortOrder
     active?: SortOrder
-    slug?: SortOrder
     access?: SortOrder
     order?: SortOrder
     attachments?: SortOrder
@@ -26803,7 +26636,6 @@ export namespace Prisma {
     duration?: IntWithAggregatesFilter<"Lesson"> | number
     videoUrl?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
     active?: BoolWithAggregatesFilter<"Lesson"> | boolean
-    slug?: StringWithAggregatesFilter<"Lesson"> | string
     access?: StringWithAggregatesFilter<"Lesson"> | string
     order?: IntWithAggregatesFilter<"Lesson"> | number
     attachments?: JsonNullableWithAggregatesFilter<"Lesson">
@@ -27626,7 +27458,6 @@ export namespace Prisma {
     description?: StringFilter<"Live"> | string
     thumbnail?: StringNullableFilter<"Live"> | string | null
     videoId?: StringFilter<"Live"> | string
-    slug?: StringFilter<"Live"> | string
     schedule?: DateTimeFilter<"Live"> | Date | string
     createdAt?: DateTimeFilter<"Live"> | Date | string
     updatedAt?: DateTimeFilter<"Live"> | Date | string
@@ -27642,7 +27473,6 @@ export namespace Prisma {
     description?: SortOrder
     thumbnail?: SortOrder
     videoId?: SortOrder
-    slug?: SortOrder
     schedule?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -27662,7 +27492,6 @@ export namespace Prisma {
     description?: StringFilter<"Live"> | string
     thumbnail?: StringNullableFilter<"Live"> | string | null
     videoId?: StringFilter<"Live"> | string
-    slug?: StringFilter<"Live"> | string
     schedule?: DateTimeFilter<"Live"> | Date | string
     createdAt?: DateTimeFilter<"Live"> | Date | string
     updatedAt?: DateTimeFilter<"Live"> | Date | string
@@ -27677,7 +27506,6 @@ export namespace Prisma {
     description?: SortOrder
     thumbnail?: SortOrder
     videoId?: SortOrder
-    slug?: SortOrder
     schedule?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -27697,7 +27525,6 @@ export namespace Prisma {
     description?: StringWithAggregatesFilter<"Live"> | string
     thumbnail?: StringNullableWithAggregatesFilter<"Live"> | string | null
     videoId?: StringWithAggregatesFilter<"Live"> | string
-    slug?: StringWithAggregatesFilter<"Live"> | string
     schedule?: DateTimeWithAggregatesFilter<"Live"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"Live"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Live"> | Date | string
@@ -27714,6 +27541,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -27742,6 +27571,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -27769,6 +27600,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27796,6 +27629,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27824,6 +27659,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -27837,6 +27674,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27850,6 +27689,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27863,8 +27704,6 @@ export namespace Prisma {
     bio?: string | null
     designation?: string | null
     socialMedia?: InputJsonValue | null
-    resetPasswordToken?: string | null
-    resetPasswordExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutInstructorInput
@@ -27878,8 +27717,6 @@ export namespace Prisma {
     bio?: string | null
     designation?: string | null
     socialMedia?: InputJsonValue | null
-    resetPasswordToken?: string | null
-    resetPasswordExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -27892,8 +27729,6 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
-    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutInstructorNestedInput
@@ -27906,8 +27741,6 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
-    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -27921,8 +27754,6 @@ export namespace Prisma {
     bio?: string | null
     designation?: string | null
     socialMedia?: InputJsonValue | null
-    resetPasswordToken?: string | null
-    resetPasswordExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -27935,8 +27766,6 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
-    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -27948,8 +27777,6 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
-    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -27964,8 +27791,6 @@ export namespace Prisma {
     bio?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    resetPasswordToken?: string | null
-    resetPasswordExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutStudentInput
@@ -27980,8 +27805,6 @@ export namespace Prisma {
     bio?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    resetPasswordToken?: string | null
-    resetPasswordExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -27995,8 +27818,6 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
-    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutStudentNestedInput
@@ -28010,8 +27831,6 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
-    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -28026,8 +27845,6 @@ export namespace Prisma {
     bio?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    resetPasswordToken?: string | null
-    resetPasswordExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -28041,8 +27858,6 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
-    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -28055,8 +27870,6 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
-    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -28071,8 +27884,6 @@ export namespace Prisma {
     designation?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    resetPasswordToken?: string | null
-    resetPasswordExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAdminInput
@@ -28087,8 +27898,6 @@ export namespace Prisma {
     designation?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    resetPasswordToken?: string | null
-    resetPasswordExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -28102,8 +27911,6 @@ export namespace Prisma {
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
-    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAdminNestedInput
@@ -28117,8 +27924,6 @@ export namespace Prisma {
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
-    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -28133,8 +27938,6 @@ export namespace Prisma {
     designation?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    resetPasswordToken?: string | null
-    resetPasswordExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -28148,8 +27951,6 @@ export namespace Prisma {
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
-    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -28162,8 +27963,6 @@ export namespace Prisma {
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
-    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -28372,14 +28171,9 @@ export namespace Prisma {
   export type WeekCreateInput = {
     id?: string
     title: string
-    description?: string | null
-    status?: string
-    slug: string
-    duration: number
+    description: string
+    status?: $Enums.WeekStatus
     order: number
-    aiQuizContextPrompt?: string | null
-    aiQuizDefaultNumMCQ?: number | null
-    aiQuizDefaultNumShortAnswer?: number | null
     quizIds?: WeekCreatequizIdsInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -28391,14 +28185,9 @@ export namespace Prisma {
   export type WeekUncheckedCreateInput = {
     id?: string
     title: string
-    description?: string | null
-    status?: string
-    slug: string
-    duration: number
+    description: string
+    status?: $Enums.WeekStatus
     order: number
-    aiQuizContextPrompt?: string | null
-    aiQuizDefaultNumMCQ?: number | null
-    aiQuizDefaultNumShortAnswer?: number | null
     quizIds?: WeekCreatequizIdsInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -28409,14 +28198,9 @@ export namespace Prisma {
 
   export type WeekUpdateInput = {
     title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumWeekStatusFieldUpdateOperationsInput | $Enums.WeekStatus
     order?: IntFieldUpdateOperationsInput | number
-    aiQuizContextPrompt?: NullableStringFieldUpdateOperationsInput | string | null
-    aiQuizDefaultNumMCQ?: NullableIntFieldUpdateOperationsInput | number | null
-    aiQuizDefaultNumShortAnswer?: NullableIntFieldUpdateOperationsInput | number | null
     quizIds?: WeekUpdatequizIdsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28427,14 +28211,9 @@ export namespace Prisma {
 
   export type WeekUncheckedUpdateInput = {
     title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumWeekStatusFieldUpdateOperationsInput | $Enums.WeekStatus
     order?: IntFieldUpdateOperationsInput | number
-    aiQuizContextPrompt?: NullableStringFieldUpdateOperationsInput | string | null
-    aiQuizDefaultNumMCQ?: NullableIntFieldUpdateOperationsInput | number | null
-    aiQuizDefaultNumShortAnswer?: NullableIntFieldUpdateOperationsInput | number | null
     quizIds?: WeekUpdatequizIdsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28446,14 +28225,9 @@ export namespace Prisma {
   export type WeekCreateManyInput = {
     id?: string
     title: string
-    description?: string | null
-    status?: string
-    slug: string
-    duration: number
+    description: string
+    status?: $Enums.WeekStatus
     order: number
-    aiQuizContextPrompt?: string | null
-    aiQuizDefaultNumMCQ?: number | null
-    aiQuizDefaultNumShortAnswer?: number | null
     quizIds?: WeekCreatequizIdsInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -28462,14 +28236,9 @@ export namespace Prisma {
 
   export type WeekUpdateManyMutationInput = {
     title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumWeekStatusFieldUpdateOperationsInput | $Enums.WeekStatus
     order?: IntFieldUpdateOperationsInput | number
-    aiQuizContextPrompt?: NullableStringFieldUpdateOperationsInput | string | null
-    aiQuizDefaultNumMCQ?: NullableIntFieldUpdateOperationsInput | number | null
-    aiQuizDefaultNumShortAnswer?: NullableIntFieldUpdateOperationsInput | number | null
     quizIds?: WeekUpdatequizIdsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28477,14 +28246,9 @@ export namespace Prisma {
 
   export type WeekUncheckedUpdateManyInput = {
     title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumWeekStatusFieldUpdateOperationsInput | $Enums.WeekStatus
     order?: IntFieldUpdateOperationsInput | number
-    aiQuizContextPrompt?: NullableStringFieldUpdateOperationsInput | string | null
-    aiQuizDefaultNumMCQ?: NullableIntFieldUpdateOperationsInput | number | null
-    aiQuizDefaultNumShortAnswer?: NullableIntFieldUpdateOperationsInput | number | null
     quizIds?: WeekUpdatequizIdsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28663,7 +28427,6 @@ export namespace Prisma {
     duration?: number
     videoUrl?: string | null
     active?: boolean
-    slug: string
     access?: string
     order?: number
     attachments?: InputJsonValue | null
@@ -28680,7 +28443,6 @@ export namespace Prisma {
     duration?: number
     videoUrl?: string | null
     active?: boolean
-    slug: string
     access?: string
     order?: number
     attachments?: InputJsonValue | null
@@ -28696,7 +28458,6 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
-    slug?: StringFieldUpdateOperationsInput | string
     access?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     attachments?: InputJsonValue | InputJsonValue | null
@@ -28712,7 +28473,6 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
-    slug?: StringFieldUpdateOperationsInput | string
     access?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     attachments?: InputJsonValue | InputJsonValue | null
@@ -28729,7 +28489,6 @@ export namespace Prisma {
     duration?: number
     videoUrl?: string | null
     active?: boolean
-    slug: string
     access?: string
     order?: number
     attachments?: InputJsonValue | null
@@ -28744,7 +28503,6 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
-    slug?: StringFieldUpdateOperationsInput | string
     access?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     attachments?: InputJsonValue | InputJsonValue | null
@@ -28758,7 +28516,6 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
-    slug?: StringFieldUpdateOperationsInput | string
     access?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     attachments?: InputJsonValue | InputJsonValue | null
@@ -29568,7 +29325,6 @@ export namespace Prisma {
     description: string
     thumbnail?: string | null
     videoId: string
-    slug: string
     schedule: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -29582,7 +29338,6 @@ export namespace Prisma {
     description: string
     thumbnail?: string | null
     videoId: string
-    slug: string
     schedule: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -29595,7 +29350,6 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     videoId?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
     schedule?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29608,7 +29362,6 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     videoId?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
     schedule?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29622,7 +29375,6 @@ export namespace Prisma {
     description: string
     thumbnail?: string | null
     videoId: string
-    slug: string
     schedule: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -29635,7 +29387,6 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     videoId?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
     schedule?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29646,7 +29397,6 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     videoId?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
     schedule?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29690,6 +29440,18 @@ export namespace Prisma {
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel> | null
     notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel> | null
     not?: NestedEnumRoleNullableFilter<$PrismaModel> | $Enums.Role | null
+    isSet?: boolean
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
     isSet?: boolean
   }
 
@@ -29843,6 +29605,8 @@ export namespace Prisma {
     providerId?: SortOrder
     image?: SortOrder
     role?: SortOrder
+    resetPasswordToken?: SortOrder
+    resetPasswordExpires?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -29857,6 +29621,8 @@ export namespace Prisma {
     providerId?: SortOrder
     image?: SortOrder
     role?: SortOrder
+    resetPasswordToken?: SortOrder
+    resetPasswordExpires?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -29871,6 +29637,8 @@ export namespace Prisma {
     providerId?: SortOrder
     image?: SortOrder
     role?: SortOrder
+    resetPasswordToken?: SortOrder
+    resetPasswordExpires?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -29924,6 +29692,21 @@ export namespace Prisma {
     isSet?: boolean
   }
 
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+    isSet?: boolean
+  }
+
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
@@ -29969,18 +29752,6 @@ export namespace Prisma {
     isSet?: boolean
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-    isSet?: boolean
-  }
-
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -29994,8 +29765,6 @@ export namespace Prisma {
     bio?: SortOrder
     designation?: SortOrder
     socialMedia?: SortOrder
-    resetPasswordToken?: SortOrder
-    resetPasswordExpires?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -30012,8 +29781,6 @@ export namespace Prisma {
     phone?: SortOrder
     bio?: SortOrder
     designation?: SortOrder
-    resetPasswordToken?: SortOrder
-    resetPasswordExpires?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -30026,8 +29793,6 @@ export namespace Prisma {
     phone?: SortOrder
     bio?: SortOrder
     designation?: SortOrder
-    resetPasswordToken?: SortOrder
-    resetPasswordExpires?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -30068,21 +29833,6 @@ export namespace Prisma {
     isSet?: boolean
   }
 
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-    isSet?: boolean
-  }
-
   export type StudentCountOrderByAggregateInput = {
     id?: SortOrder
     idNumber?: SortOrder
@@ -30092,8 +29842,6 @@ export namespace Prisma {
     bio?: SortOrder
     profilePicture?: SortOrder
     socialMedia?: SortOrder
-    resetPasswordToken?: SortOrder
-    resetPasswordExpires?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -30111,8 +29859,6 @@ export namespace Prisma {
     phone?: SortOrder
     bio?: SortOrder
     profilePicture?: SortOrder
-    resetPasswordToken?: SortOrder
-    resetPasswordExpires?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -30126,8 +29872,6 @@ export namespace Prisma {
     phone?: SortOrder
     bio?: SortOrder
     profilePicture?: SortOrder
-    resetPasswordToken?: SortOrder
-    resetPasswordExpires?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -30146,8 +29890,6 @@ export namespace Prisma {
     designation?: SortOrder
     profilePicture?: SortOrder
     socialMedia?: SortOrder
-    resetPasswordToken?: SortOrder
-    resetPasswordExpires?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -30165,8 +29907,6 @@ export namespace Prisma {
     bio?: SortOrder
     designation?: SortOrder
     profilePicture?: SortOrder
-    resetPasswordToken?: SortOrder
-    resetPasswordExpires?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -30180,8 +29920,6 @@ export namespace Prisma {
     bio?: SortOrder
     designation?: SortOrder
     profilePicture?: SortOrder
-    resetPasswordToken?: SortOrder
-    resetPasswordExpires?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -30361,16 +30099,11 @@ export namespace Prisma {
     _max?: NestedEnumVisibilityFilter<$PrismaModel>
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-    isSet?: boolean
+  export type EnumWeekStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.WeekStatus | EnumWeekStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WeekStatus[] | ListEnumWeekStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WeekStatus[] | ListEnumWeekStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWeekStatusFilter<$PrismaModel> | $Enums.WeekStatus
   }
 
   export type StringNullableListFilter<$PrismaModel = never> = {
@@ -30401,12 +30134,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     status?: SortOrder
-    slug?: SortOrder
-    duration?: SortOrder
     order?: SortOrder
-    aiQuizContextPrompt?: SortOrder
-    aiQuizDefaultNumMCQ?: SortOrder
-    aiQuizDefaultNumShortAnswer?: SortOrder
     quizIds?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -30414,10 +30142,7 @@ export namespace Prisma {
   }
 
   export type WeekAvgOrderByAggregateInput = {
-    duration?: SortOrder
     order?: SortOrder
-    aiQuizDefaultNumMCQ?: SortOrder
-    aiQuizDefaultNumShortAnswer?: SortOrder
   }
 
   export type WeekMaxOrderByAggregateInput = {
@@ -30425,12 +30150,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     status?: SortOrder
-    slug?: SortOrder
-    duration?: SortOrder
     order?: SortOrder
-    aiQuizContextPrompt?: SortOrder
-    aiQuizDefaultNumMCQ?: SortOrder
-    aiQuizDefaultNumShortAnswer?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     courseId?: SortOrder
@@ -30441,39 +30161,24 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     status?: SortOrder
-    slug?: SortOrder
-    duration?: SortOrder
     order?: SortOrder
-    aiQuizContextPrompt?: SortOrder
-    aiQuizDefaultNumMCQ?: SortOrder
-    aiQuizDefaultNumShortAnswer?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     courseId?: SortOrder
   }
 
   export type WeekSumOrderByAggregateInput = {
-    duration?: SortOrder
     order?: SortOrder
-    aiQuizDefaultNumMCQ?: SortOrder
-    aiQuizDefaultNumShortAnswer?: SortOrder
   }
 
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-    isSet?: boolean
+  export type EnumWeekStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WeekStatus | EnumWeekStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WeekStatus[] | ListEnumWeekStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WeekStatus[] | ListEnumWeekStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWeekStatusWithAggregatesFilter<$PrismaModel> | $Enums.WeekStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWeekStatusFilter<$PrismaModel>
+    _max?: NestedEnumWeekStatusFilter<$PrismaModel>
   }
 
   export type EnumQuizStatusFilter<$PrismaModel = never> = {
@@ -30488,6 +30193,18 @@ export namespace Prisma {
     in?: $Enums.QuizGenerationType[] | ListEnumQuizGenerationTypeFieldRefInput<$PrismaModel> | null
     notIn?: $Enums.QuizGenerationType[] | ListEnumQuizGenerationTypeFieldRefInput<$PrismaModel> | null
     not?: NestedEnumQuizGenerationTypeNullableFilter<$PrismaModel> | $Enums.QuizGenerationType | null
+    isSet?: boolean
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
     isSet?: boolean
   }
 
@@ -30603,6 +30320,23 @@ export namespace Prisma {
     isSet?: boolean
   }
 
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+    isSet?: boolean
+  }
+
   export type WeekScalarRelationFilter = {
     is?: WeekWhereInput
     isNot?: WeekWhereInput
@@ -30615,7 +30349,6 @@ export namespace Prisma {
     duration?: SortOrder
     videoUrl?: SortOrder
     active?: SortOrder
-    slug?: SortOrder
     access?: SortOrder
     order?: SortOrder
     attachments?: SortOrder
@@ -30636,7 +30369,6 @@ export namespace Prisma {
     duration?: SortOrder
     videoUrl?: SortOrder
     active?: SortOrder
-    slug?: SortOrder
     access?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
@@ -30651,7 +30383,6 @@ export namespace Prisma {
     duration?: SortOrder
     videoUrl?: SortOrder
     active?: SortOrder
-    slug?: SortOrder
     access?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
@@ -31205,7 +30936,6 @@ export namespace Prisma {
     description?: SortOrder
     thumbnail?: SortOrder
     videoId?: SortOrder
-    slug?: SortOrder
     schedule?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -31219,7 +30949,6 @@ export namespace Prisma {
     description?: SortOrder
     thumbnail?: SortOrder
     videoId?: SortOrder
-    slug?: SortOrder
     schedule?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -31233,7 +30962,6 @@ export namespace Prisma {
     description?: SortOrder
     thumbnail?: SortOrder
     videoId?: SortOrder
-    slug?: SortOrder
     schedule?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -31442,6 +31170,11 @@ export namespace Prisma {
 
   export type NullableEnumRoleFieldUpdateOperationsInput = {
     set?: $Enums.Role | null
+    unset?: boolean
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
     unset?: boolean
   }
 
@@ -31833,11 +31566,6 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
-    unset?: boolean
   }
 
   export type UserUpdateOneRequiredWithoutInstructorNestedInput = {
@@ -32249,13 +31977,8 @@ export namespace Prisma {
     connect?: WatchWhereUniqueInput | WatchWhereUniqueInput[]
   }
 
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-    unset?: boolean
+  export type EnumWeekStatusFieldUpdateOperationsInput = {
+    set?: $Enums.WeekStatus
   }
 
   export type WeekUpdatequizIdsInput = {
@@ -32406,6 +32129,15 @@ export namespace Prisma {
 
   export type NullableEnumQuizGenerationTypeFieldUpdateOperationsInput = {
     set?: $Enums.QuizGenerationType | null
+    unset?: boolean
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
     unset?: boolean
   }
 
@@ -33037,6 +32769,18 @@ export namespace Prisma {
     isSet?: boolean
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+    isSet?: boolean
+  }
+
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -33122,6 +32866,21 @@ export namespace Prisma {
     isSet?: boolean
   }
 
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+    isSet?: boolean
+  }
+
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
@@ -33142,18 +32901,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-    isSet?: boolean
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -33192,21 +32939,6 @@ export namespace Prisma {
   export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
     equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    isSet?: boolean
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
     isSet?: boolean
   }
 
@@ -33267,21 +32999,21 @@ export namespace Prisma {
     _max?: NestedEnumVisibilityFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-    isSet?: boolean
+  export type NestedEnumWeekStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.WeekStatus | EnumWeekStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WeekStatus[] | ListEnumWeekStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WeekStatus[] | ListEnumWeekStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWeekStatusFilter<$PrismaModel> | $Enums.WeekStatus
+  }
+
+  export type NestedEnumWeekStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WeekStatus | EnumWeekStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WeekStatus[] | ListEnumWeekStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WeekStatus[] | ListEnumWeekStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWeekStatusWithAggregatesFilter<$PrismaModel> | $Enums.WeekStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWeekStatusFilter<$PrismaModel>
+    _max?: NestedEnumWeekStatusFilter<$PrismaModel>
   }
 
   export type NestedEnumQuizStatusFilter<$PrismaModel = never> = {
@@ -33317,6 +33049,23 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumQuizGenerationTypeNullableFilter<$PrismaModel>
     _max?: NestedEnumQuizGenerationTypeNullableFilter<$PrismaModel>
+    isSet?: boolean
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
     isSet?: boolean
   }
 
@@ -33395,8 +33144,6 @@ export namespace Prisma {
     bio?: string | null
     designation?: string | null
     socialMedia?: InputJsonValue | null
-    resetPasswordToken?: string | null
-    resetPasswordExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -33409,8 +33156,6 @@ export namespace Prisma {
     bio?: string | null
     designation?: string | null
     socialMedia?: InputJsonValue | null
-    resetPasswordToken?: string | null
-    resetPasswordExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -33429,8 +33174,6 @@ export namespace Prisma {
     bio?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    resetPasswordToken?: string | null
-    resetPasswordExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -33444,8 +33187,6 @@ export namespace Prisma {
     bio?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    resetPasswordToken?: string | null
-    resetPasswordExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -33464,8 +33205,6 @@ export namespace Prisma {
     designation?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    resetPasswordToken?: string | null
-    resetPasswordExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -33479,8 +33218,6 @@ export namespace Prisma {
     designation?: string | null
     profilePicture?: string | null
     socialMedia?: InputJsonValue | null
-    resetPasswordToken?: string | null
-    resetPasswordExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -33854,7 +33591,6 @@ export namespace Prisma {
     description: string
     thumbnail?: string | null
     videoId: string
-    slug: string
     schedule: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -33867,7 +33603,6 @@ export namespace Prisma {
     description: string
     thumbnail?: string | null
     videoId: string
-    slug: string
     schedule: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -33901,8 +33636,6 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
-    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -33914,8 +33647,6 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
-    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -33939,8 +33670,6 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
-    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -33953,8 +33682,6 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
-    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -33978,8 +33705,6 @@ export namespace Prisma {
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
-    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -33992,8 +33717,6 @@ export namespace Prisma {
     designation?: NullableStringFieldUpdateOperationsInput | string | null
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
     socialMedia?: InputJsonValue | InputJsonValue | null
-    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
-    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -34346,7 +34069,6 @@ export namespace Prisma {
     description?: StringFilter<"Live"> | string
     thumbnail?: StringNullableFilter<"Live"> | string | null
     videoId?: StringFilter<"Live"> | string
-    slug?: StringFilter<"Live"> | string
     schedule?: DateTimeFilter<"Live"> | Date | string
     createdAt?: DateTimeFilter<"Live"> | Date | string
     updatedAt?: DateTimeFilter<"Live"> | Date | string
@@ -34363,6 +34085,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -34390,6 +34114,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -34432,6 +34158,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34458,6 +34186,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34485,6 +34215,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -34512,6 +34244,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -34554,6 +34288,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34580,6 +34316,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34607,6 +34345,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -34634,6 +34374,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -34676,6 +34418,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34702,6 +34446,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34798,6 +34544,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -34825,6 +34573,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -34874,14 +34624,9 @@ export namespace Prisma {
   export type WeekCreateWithoutCourseInput = {
     id?: string
     title: string
-    description?: string | null
-    status?: string
-    slug: string
-    duration: number
+    description: string
+    status?: $Enums.WeekStatus
     order: number
-    aiQuizContextPrompt?: string | null
-    aiQuizDefaultNumMCQ?: number | null
-    aiQuizDefaultNumShortAnswer?: number | null
     quizIds?: WeekCreatequizIdsInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -34892,14 +34637,9 @@ export namespace Prisma {
   export type WeekUncheckedCreateWithoutCourseInput = {
     id?: string
     title: string
-    description?: string | null
-    status?: string
-    slug: string
-    duration: number
+    description: string
+    status?: $Enums.WeekStatus
     order: number
-    aiQuizContextPrompt?: string | null
-    aiQuizDefaultNumMCQ?: number | null
-    aiQuizDefaultNumShortAnswer?: number | null
     quizIds?: WeekCreatequizIdsInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -35066,6 +34806,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35092,6 +34834,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35159,14 +34903,9 @@ export namespace Prisma {
     NOT?: WeekScalarWhereInput | WeekScalarWhereInput[]
     id?: StringFilter<"Week"> | string
     title?: StringFilter<"Week"> | string
-    description?: StringNullableFilter<"Week"> | string | null
-    status?: StringFilter<"Week"> | string
-    slug?: StringFilter<"Week"> | string
-    duration?: IntFilter<"Week"> | number
+    description?: StringFilter<"Week"> | string
+    status?: EnumWeekStatusFilter<"Week"> | $Enums.WeekStatus
     order?: IntFilter<"Week"> | number
-    aiQuizContextPrompt?: StringNullableFilter<"Week"> | string | null
-    aiQuizDefaultNumMCQ?: IntNullableFilter<"Week"> | number | null
-    aiQuizDefaultNumShortAnswer?: IntNullableFilter<"Week"> | number | null
     quizIds?: StringNullableListFilter<"Week">
     createdAt?: DateTimeFilter<"Week"> | Date | string
     updatedAt?: DateTimeFilter<"Week"> | Date | string
@@ -35309,7 +35048,6 @@ export namespace Prisma {
     duration?: number
     videoUrl?: string | null
     active?: boolean
-    slug: string
     access?: string
     order?: number
     attachments?: InputJsonValue | null
@@ -35325,7 +35063,6 @@ export namespace Prisma {
     duration?: number
     videoUrl?: string | null
     active?: boolean
-    slug: string
     access?: string
     order?: number
     attachments?: InputJsonValue | null
@@ -35451,7 +35188,6 @@ export namespace Prisma {
     duration?: IntFilter<"Lesson"> | number
     videoUrl?: StringNullableFilter<"Lesson"> | string | null
     active?: BoolFilter<"Lesson"> | boolean
-    slug?: StringFilter<"Lesson"> | string
     access?: StringFilter<"Lesson"> | string
     order?: IntFilter<"Lesson"> | number
     attachments?: JsonNullableFilter<"Lesson">
@@ -35485,6 +35221,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -35512,6 +35250,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -35668,7 +35408,6 @@ export namespace Prisma {
     description: string
     thumbnail?: string | null
     videoId: string
-    slug: string
     schedule: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -35681,7 +35420,6 @@ export namespace Prisma {
     description: string
     thumbnail?: string | null
     videoId: string
-    slug: string
     schedule: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -35712,6 +35450,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35738,6 +35478,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35839,7 +35581,6 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     videoId?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
     schedule?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35851,7 +35592,6 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     videoId?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
     schedule?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35861,14 +35601,9 @@ export namespace Prisma {
   export type WeekCreateWithoutLessonsInput = {
     id?: string
     title: string
-    description?: string | null
-    status?: string
-    slug: string
-    duration: number
+    description: string
+    status?: $Enums.WeekStatus
     order: number
-    aiQuizContextPrompt?: string | null
-    aiQuizDefaultNumMCQ?: number | null
-    aiQuizDefaultNumShortAnswer?: number | null
     quizIds?: WeekCreatequizIdsInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -35879,14 +35614,9 @@ export namespace Prisma {
   export type WeekUncheckedCreateWithoutLessonsInput = {
     id?: string
     title: string
-    description?: string | null
-    status?: string
-    slug: string
-    duration: number
+    description: string
+    status?: $Enums.WeekStatus
     order: number
-    aiQuizContextPrompt?: string | null
-    aiQuizDefaultNumMCQ?: number | null
-    aiQuizDefaultNumShortAnswer?: number | null
     quizIds?: WeekCreatequizIdsInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -35941,14 +35671,9 @@ export namespace Prisma {
 
   export type WeekUpdateWithoutLessonsInput = {
     title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumWeekStatusFieldUpdateOperationsInput | $Enums.WeekStatus
     order?: IntFieldUpdateOperationsInput | number
-    aiQuizContextPrompt?: NullableStringFieldUpdateOperationsInput | string | null
-    aiQuizDefaultNumMCQ?: NullableIntFieldUpdateOperationsInput | number | null
-    aiQuizDefaultNumShortAnswer?: NullableIntFieldUpdateOperationsInput | number | null
     quizIds?: WeekUpdatequizIdsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35958,14 +35683,9 @@ export namespace Prisma {
 
   export type WeekUncheckedUpdateWithoutLessonsInput = {
     title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumWeekStatusFieldUpdateOperationsInput | $Enums.WeekStatus
     order?: IntFieldUpdateOperationsInput | number
-    aiQuizContextPrompt?: NullableStringFieldUpdateOperationsInput | string | null
-    aiQuizDefaultNumMCQ?: NullableIntFieldUpdateOperationsInput | number | null
-    aiQuizDefaultNumShortAnswer?: NullableIntFieldUpdateOperationsInput | number | null
     quizIds?: WeekUpdatequizIdsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36171,6 +35891,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -36198,6 +35920,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -36324,6 +36048,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36350,6 +36076,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36679,6 +36407,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -36706,6 +36436,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -36807,6 +36539,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36833,6 +36567,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36860,6 +36596,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -36887,6 +36625,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -36978,6 +36718,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37004,6 +36746,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37084,6 +36828,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -37111,6 +36857,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -37202,6 +36950,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37228,6 +36978,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37308,6 +37060,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -37335,6 +37089,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -37426,6 +37182,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37452,6 +37210,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37581,6 +37341,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -37608,6 +37370,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -37703,6 +37467,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37729,6 +37495,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37805,6 +37573,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -37832,6 +37602,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -37927,6 +37699,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37953,6 +37727,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37978,7 +37754,6 @@ export namespace Prisma {
     duration?: number
     videoUrl?: string | null
     active?: boolean
-    slug: string
     access?: string
     order?: number
     attachments?: InputJsonValue | null
@@ -37994,7 +37769,6 @@ export namespace Prisma {
     duration?: number
     videoUrl?: string | null
     active?: boolean
-    slug: string
     access?: string
     order?: number
     attachments?: InputJsonValue | null
@@ -38017,6 +37791,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -38044,6 +37820,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -38070,14 +37848,9 @@ export namespace Prisma {
   export type WeekCreateWithoutWatchesInput = {
     id?: string
     title: string
-    description?: string | null
-    status?: string
-    slug: string
-    duration: number
+    description: string
+    status?: $Enums.WeekStatus
     order: number
-    aiQuizContextPrompt?: string | null
-    aiQuizDefaultNumMCQ?: number | null
-    aiQuizDefaultNumShortAnswer?: number | null
     quizIds?: WeekCreatequizIdsInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -38088,14 +37861,9 @@ export namespace Prisma {
   export type WeekUncheckedCreateWithoutWatchesInput = {
     id?: string
     title: string
-    description?: string | null
-    status?: string
-    slug: string
-    duration: number
+    description: string
+    status?: $Enums.WeekStatus
     order: number
-    aiQuizContextPrompt?: string | null
-    aiQuizDefaultNumMCQ?: number | null
-    aiQuizDefaultNumShortAnswer?: number | null
     quizIds?: WeekCreatequizIdsInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -38125,7 +37893,6 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
-    slug?: StringFieldUpdateOperationsInput | string
     access?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     attachments?: InputJsonValue | InputJsonValue | null
@@ -38140,7 +37907,6 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
-    slug?: StringFieldUpdateOperationsInput | string
     access?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     attachments?: InputJsonValue | InputJsonValue | null
@@ -38168,6 +37934,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38194,6 +37962,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38225,14 +37995,9 @@ export namespace Prisma {
 
   export type WeekUpdateWithoutWatchesInput = {
     title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumWeekStatusFieldUpdateOperationsInput | $Enums.WeekStatus
     order?: IntFieldUpdateOperationsInput | number
-    aiQuizContextPrompt?: NullableStringFieldUpdateOperationsInput | string | null
-    aiQuizDefaultNumMCQ?: NullableIntFieldUpdateOperationsInput | number | null
-    aiQuizDefaultNumShortAnswer?: NullableIntFieldUpdateOperationsInput | number | null
     quizIds?: WeekUpdatequizIdsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38242,14 +38007,9 @@ export namespace Prisma {
 
   export type WeekUncheckedUpdateWithoutWatchesInput = {
     title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumWeekStatusFieldUpdateOperationsInput | $Enums.WeekStatus
     order?: IntFieldUpdateOperationsInput | number
-    aiQuizContextPrompt?: NullableStringFieldUpdateOperationsInput | string | null
-    aiQuizDefaultNumMCQ?: NullableIntFieldUpdateOperationsInput | number | null
-    aiQuizDefaultNumShortAnswer?: NullableIntFieldUpdateOperationsInput | number | null
     quizIds?: WeekUpdatequizIdsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38321,6 +38081,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -38348,6 +38110,8 @@ export namespace Prisma {
     providerId?: string | null
     image?: string | null
     role?: $Enums.Role | null
+    resetPasswordToken?: string | null
+    resetPasswordExpires?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -38449,6 +38213,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38475,6 +38241,8 @@ export namespace Prisma {
     providerId?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38622,7 +38390,6 @@ export namespace Prisma {
     description: string
     thumbnail?: string | null
     videoId: string
-    slug: string
     schedule: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -38995,7 +38762,6 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     videoId?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
     schedule?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39007,7 +38773,6 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     videoId?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
     schedule?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39019,7 +38784,6 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     videoId?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
     schedule?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39102,14 +38866,9 @@ export namespace Prisma {
   export type WeekCreateManyCourseInput = {
     id?: string
     title: string
-    description?: string | null
-    status?: string
-    slug: string
-    duration: number
+    description: string
+    status?: $Enums.WeekStatus
     order: number
-    aiQuizContextPrompt?: string | null
-    aiQuizDefaultNumMCQ?: number | null
-    aiQuizDefaultNumShortAnswer?: number | null
     quizIds?: WeekCreatequizIdsInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -39160,14 +38919,9 @@ export namespace Prisma {
 
   export type WeekUpdateWithoutCourseInput = {
     title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumWeekStatusFieldUpdateOperationsInput | $Enums.WeekStatus
     order?: IntFieldUpdateOperationsInput | number
-    aiQuizContextPrompt?: NullableStringFieldUpdateOperationsInput | string | null
-    aiQuizDefaultNumMCQ?: NullableIntFieldUpdateOperationsInput | number | null
-    aiQuizDefaultNumShortAnswer?: NullableIntFieldUpdateOperationsInput | number | null
     quizIds?: WeekUpdatequizIdsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39177,14 +38931,9 @@ export namespace Prisma {
 
   export type WeekUncheckedUpdateWithoutCourseInput = {
     title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumWeekStatusFieldUpdateOperationsInput | $Enums.WeekStatus
     order?: IntFieldUpdateOperationsInput | number
-    aiQuizContextPrompt?: NullableStringFieldUpdateOperationsInput | string | null
-    aiQuizDefaultNumMCQ?: NullableIntFieldUpdateOperationsInput | number | null
-    aiQuizDefaultNumShortAnswer?: NullableIntFieldUpdateOperationsInput | number | null
     quizIds?: WeekUpdatequizIdsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39194,14 +38943,9 @@ export namespace Prisma {
 
   export type WeekUncheckedUpdateManyWithoutCourseInput = {
     title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumWeekStatusFieldUpdateOperationsInput | $Enums.WeekStatus
     order?: IntFieldUpdateOperationsInput | number
-    aiQuizContextPrompt?: NullableStringFieldUpdateOperationsInput | string | null
-    aiQuizDefaultNumMCQ?: NullableIntFieldUpdateOperationsInput | number | null
-    aiQuizDefaultNumShortAnswer?: NullableIntFieldUpdateOperationsInput | number | null
     quizIds?: WeekUpdatequizIdsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39328,7 +39072,6 @@ export namespace Prisma {
     duration?: number
     videoUrl?: string | null
     active?: boolean
-    slug: string
     access?: string
     order?: number
     attachments?: InputJsonValue | null
@@ -39352,7 +39095,6 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
-    slug?: StringFieldUpdateOperationsInput | string
     access?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     attachments?: InputJsonValue | InputJsonValue | null
@@ -39367,7 +39109,6 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
-    slug?: StringFieldUpdateOperationsInput | string
     access?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     attachments?: InputJsonValue | InputJsonValue | null
@@ -39382,7 +39123,6 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
-    slug?: StringFieldUpdateOperationsInput | string
     access?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     attachments?: InputJsonValue | InputJsonValue | null

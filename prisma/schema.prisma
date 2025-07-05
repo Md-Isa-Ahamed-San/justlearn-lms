@@ -18,6 +18,11 @@ enum QuizStatus {
   published
 }
 
+enum WeekStatus {
+  draft
+  published
+}
+
 enum QuestionType {
   mcq
   short_answer
@@ -64,17 +69,19 @@ enum SubmissionReason {
 
 // Core Tables
 model User {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  name       String
-  email      String   @unique
-  password   String?
-  provider   String?
-  providerId String?
-  image      String?
-  role       Role?
-  isActive   Boolean  @default(true)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
+  name                 String
+  email                String    @unique
+  password             String?
+  provider             String?
+  providerId           String?
+  image                String?
+  role                 Role?
+  resetPasswordToken   String?
+  resetPasswordExpires DateTime?
+  isActive             Boolean   @default(true)
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
 
   // Relationships
   instructor       Instructor?       @relation("UserInstructor")
@@ -97,17 +104,16 @@ model User {
 }
 
 model Instructor {
-  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
-  idNumber             Int       @unique
-  department           String
-  phone                String?
-  bio                  String?
-  designation          String?
-  socialMedia          Json?
-  resetPasswordToken   String?
-  resetPasswordExpires DateTime?
-  createdAt            DateTime  @default(now())
-  updatedAt            DateTime  @updatedAt
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  idNumber    Int     @unique
+  department  String
+  phone       String?
+  bio         String?
+  designation String?
+  socialMedia Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Foreign Key
   userId String @unique @db.ObjectId
@@ -117,18 +123,17 @@ model Instructor {
 }
 
 model Student {
-  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
-  idNumber             Int       @unique
-  session              String
-  department           String
-  phone                String?
-  bio                  String?
-  profilePicture       String?
-  socialMedia          Json?
-  resetPasswordToken   String?
-  resetPasswordExpires DateTime?
-  createdAt            DateTime  @default(now())
-  updatedAt            DateTime  @updatedAt
+  id             String  @id @default(auto()) @map("_id") @db.ObjectId
+  idNumber       Int     @unique
+  session        String
+  department     String
+  phone          String?
+  bio            String?
+  profilePicture String?
+  socialMedia    Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Foreign Key
   userId String @unique @db.ObjectId
@@ -138,18 +143,17 @@ model Student {
 }
 
 model Admin {
-  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
-  idNumber             Int       @unique
-  department           String
-  phone                String?
-  bio                  String?
-  designation          String?
-  profilePicture       String?
-  socialMedia          Json?
-  resetPasswordToken   String?
-  resetPasswordExpires DateTime?
-  createdAt            DateTime  @default(now())
-  updatedAt            DateTime  @updatedAt
+  id             String  @id @default(auto()) @map("_id") @db.ObjectId
+  idNumber       Int     @unique
+  department     String
+  phone          String?
+  bio            String?
+  designation    String?
+  profilePicture String?
+  socialMedia    Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Foreign Key
   userId String @unique @db.ObjectId
@@ -199,20 +203,16 @@ model Course {
   participations Participation[]  @relation("CourseParticipations")
 }
 
+//!MARK: Week
 model Week {
-  id                          String   @id @default(auto()) @map("_id") @db.ObjectId
-  title                       String
-  description                 String?
-  status                      String   @default("not-active")
-  slug                        String
-  duration                    Int
-  order                       Int
-  aiQuizContextPrompt         String?
-  aiQuizDefaultNumMCQ         Int?     @default(5)
-  aiQuizDefaultNumShortAnswer Int?     @default(2)
-  quizIds                     String[] @db.ObjectId // Array of quiz IDs
-  createdAt                   DateTime @default(now())
-  updatedAt                   DateTime @updatedAt
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  status      WeekStatus @default(draft)
+  order       Int
+  quizIds     String[]   @db.ObjectId
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 
   // Foreign Keys
   courseId String @db.ObjectId
@@ -268,7 +268,6 @@ model Lesson {
   duration    Int      @default(0)
   videoUrl    String?  @map("video_url")
   active      Boolean  @default(false)
-  slug        String
   access      String   @default("private")
   order       Int      @default(0)
   attachments Json?
@@ -475,7 +474,6 @@ model Live {
   description String
   thumbnail   String?
   videoId     String   @map("video_id")
-  slug        String
   schedule    DateTime
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

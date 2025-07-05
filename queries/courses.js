@@ -3,49 +3,48 @@ import { unstable_cache } from "next/cache";
 
 const REVALIDATE_TIME = 300;
 
+// ===== COURSE FUNCTIONS =====
+
 // ✅ Get All Courses (Cached)
 export const getCourseList = unstable_cache(
-  async () => {
-    try {
-      const courses = await db.course.findMany({
-        include: {
-          category: true,
-          user: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              role: true,
-              isActive: true,
-              instructor: {
-                select: {
-                  id: true,
-                  designation: true,
-                  bio: true,
-
-                  department: true,
+    async () => {
+      try {
+        const courses = await db.course.findMany({
+          include: {
+            category: true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                role: true,
+                isActive: true,
+                instructor: {
+                  select: {
+                    id: true,
+                    designation: true,
+                    bio: true,
+                    department: true,
+                  },
                 },
               },
             },
           },
-        },
-      });
+        });
 
-      return courses;
-    } catch (error) {
-      console.error("❌ Error fetching course list:", error);
-      throw error;
+        return courses;
+      } catch (error) {
+        console.error("❌ Error fetching course list:", error);
+        throw error;
+      }
+    },
+    () => ["all-courses"],
+    {
+      revalidate: REVALIDATE_TIME,
     }
-  },
-  () => ["all-courses"],
-  {
-    revalidate: REVALIDATE_TIME,
-  }
 );
 
-// ✅ Get Course Details by ID (Cached per Course)
-// Modify your database query to ensure proper relations are loaded
-// ✅ Get Course Details By ID
+// ✅ Get Course Details by ID
 export const getCourseDetailsById = async (id) => {
   try {
     const course = await db.course.findUnique({
@@ -82,123 +81,208 @@ export const getCourseDetailsById = async (id) => {
   }
 };
 
-// ✅ Get Instructor Stats (Cache removed)
-export const getInstructorDetailedStats = async (instructorId) => {
+// ✅ Get Courses by Category
+export const getCoursesByCategory = async (categoryId) => {
   try {
-    // Add validation for instructorId
-    if (!instructorId) {
-      console.error("❌ No instructorId provided");
-      throw new Error("Instructor ID is required");
+    if (!categoryId) {
+      throw new Error("Category ID is required to fetch courses.");
     }
 
-    console.log("🔄 Fetching instructor stats for:", instructorId);
-
-    // First, get the instructor record with user relationship
-    const instructor = await db.instructor.findUnique({
-      where: { id: instructorId },
+    const courses = await db.course.findMany({
+      where: {
+        categoryId: categoryId,
+        active: true,
+      },
       include: {
+        category: true,
         user: {
-          select: { id: true },
+          include: {
+            instructor: true,
+          },
+        },
+        weeks: {
+          include: {
+            lessons: {
+              select: {
+                id: true,
+                title: true,
+                duration: true,
+                order: true,
+              },
+              orderBy: { order: "asc" },
+            },
+          },
+          orderBy: { order: "asc" },
+        },
+        _count: {
+          select: {
+            testimonials: true,
+            courseProgress: true,
+          },
         },
       },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return courses;
+  } catch (error) {
+    console.error(
+        `Error fetching courses for category ${categoryId}:`,
+        error.message
+    );
+    throw new Error(
+        `Failed to retrieve courses for category. Details: ${error.message}`
+    );
+  }
+};
+
+// ✅ Get Instructor Courses
+export const getInstructorCourses = async (instructorId) => {
+  try {
+    if (!instructorId) {
+      console.error("❌ No instructorId provided");
+      return [];
+    }
+
+    const instructor = await db.instructor.findUnique({
+      where: { id: instructorId },
     });
 
     if (!instructor) {
-      throw new Error(`Instructor with ID ${instructorId} not found`);
+      console.error(`Instructor with ID ${instructorId} not found`);
+      return [];
     }
 
-    // Get all courses created by this instructor's user account
     const courses = await db.course.findMany({
       where: {
-        userId: instructor.user.id, // Use the user.id from the instructor
-        active: true, // Only count active courses
+        userId: instructor.userId,
       },
-      select: { id: true },
+      include: {
+        category: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            thumbnail: true,
+          },
+        },
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            role: true,
+            image: true,
+            instructor: {
+              select: {
+                id: true,
+                designation: true,
+                bio: true,
+                department: true,
+              },
+            },
+          },
+        },
+        weeks: {
+          include: {
+            lessons: {
+              select: {
+                id: true,
+                title: true,
+                duration: true,
+                order: true,
+              },
+              orderBy: {
+                order: "asc",
+              },
+            },
+          },
+          orderBy: {
+            order: "asc",
+          },
+        },
+        testimonials: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                image: true,
+              },
+            },
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
+        _count: {
+          select: {
+            testimonials: true,
+            courseProgress: true,
+            certificates: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
-    const courseIds = courses.map((course) => course.id);
-    const courseCount = courseIds.length;
+    // Transform the data to include additional calculated fields
+    const transformedCourses = courses.map((course) => {
+      const totalDuration = course.weeks.reduce((total, week) => {
+        const weekDuration = week.lessons.reduce((weekTotal, lesson) => {
+          return weekTotal + (lesson.duration || 0);
+        }, 0);
+        return total + weekDuration;
+      }, 0);
 
-    // If no courses, return early with zero stats
-    if (courseCount === 0) {
+      const totalLessons = course.weeks.reduce((total, week) => {
+        return total + week.lessons.length;
+      }, 0);
+
+      const averageRating =
+          course.testimonials.length > 0
+              ? course.testimonials.reduce(
+              (sum, testimonial) => sum + (testimonial.rating || 0),
+              0
+          ) / course.testimonials.length
+              : 0;
+
       return {
-        courseCount: 0,
-        totalStudents: 0,
-        averageRating: 0,
-        testimonialCount: 0,
+        ...course,
+        totalDuration,
+        totalLessons,
+        totalWeeks: course.weeks.length,
+        totalStudents: course._count.courseProgress,
+        totalTestimonials: course._count.testimonials,
+        totalCertificates: course._count.certificates,
+        averageRating: Math.round(averageRating * 10) / 10,
       };
-    }
-
-    // Get student statistics using CourseProgress (instead of enrollment)
-    const courseProgressStats = await db.courseProgress.groupBy({
-      by: ["courseId"],
-      where: {
-        courseId: { in: courseIds },
-      },
-      _count: { id: true },
     });
 
-    const totalStudents = courseProgressStats.reduce(
-      (total, item) => total + item._count.id,
-      0
-    );
-
-    // Alternative: Get unique students from Participation table
-    // const participationStats = await db.participation.groupBy({
-    //   by: ["courseId"],
-    //   where: {
-    //     courseId: { in: courseIds },
-    //   },
-    //   _count: { id: true },
-    // });
-
-    // Get testimonials for instructor's courses
-    const testimonials = await db.testimonial.findMany({
-      where: {
-        courseId: { in: courseIds },
-        rating: {
-          not: null,
-          gte: 1,
-        }, // Get all testimonials with valid ratings
-      },
-      select: { rating: true },
-    });
-
-    const testimonialCount = testimonials.length;
-    const totalRating = testimonials.reduce(
-      (sum, t) => sum + (t.rating || 0),
-      0
-    );
-    const averageRating =
-      testimonialCount > 0 ? totalRating / testimonialCount : 0;
-
-    return {
-      courseCount,
-      totalStudents,
-      averageRating: parseFloat(averageRating.toFixed(2)),
-      testimonialCount,
-    };
+    return transformedCourses;
   } catch (error) {
     console.error(
-      `❌ Error fetching stats for instructor ${instructorId}:`,
-      error
+        `❌ Error fetching courses for instructor ${instructorId}:`,
+        error
     );
-    throw error;
+    return [];
   }
 };
+
+// ===== USER ENROLLMENT FUNCTIONS =====
 
 // ✅ Get User's Enrolled Courses
 export const getUserEnrolledCourses = async (userId) => {
   try {
-    // Add validation for userId
     if (!userId) {
       console.error("❌ No userId provided");
       throw new Error("User ID is required");
     }
 
-    console.log("🔄 Fetching enrolled courses for user:", userId);
-
-    // Get all course progress records for the user (which represents enrollment)
     const enrolledCourses = await db.courseProgress.findMany({
       where: {
         userId: userId,
@@ -235,14 +319,12 @@ export const getUserEnrolledCourses = async (userId) => {
                 id: true,
                 title: true,
                 order: true,
-                duration: true,
                 lessons: {
                   select: {
                     id: true,
                     title: true,
                     duration: true,
                     order: true,
-                    active: true,
                   },
                   orderBy: {
                     order: "asc",
@@ -256,22 +338,20 @@ export const getUserEnrolledCourses = async (userId) => {
             _count: {
               select: {
                 testimonials: true,
-                courseProgress: true, // Total enrolled students
+                courseProgress: true,
               },
             },
           },
         },
       },
       orderBy: {
-        createdAt: "desc", // Most recently enrolled first
+        createdAt: "desc",
       },
     });
 
-    // Transform the data to include additional calculated fields
     const transformedCourses = enrolledCourses.map((enrollment) => {
       const course = enrollment.course;
 
-      // Calculate total course duration
       const totalDuration = course.weeks.reduce((total, week) => {
         const weekDuration = week.lessons.reduce((weekTotal, lesson) => {
           return weekTotal + (lesson.duration || 0);
@@ -279,7 +359,6 @@ export const getUserEnrolledCourses = async (userId) => {
         return total + weekDuration;
       }, 0);
 
-      // Calculate total lessons
       const totalLessons = course.weeks.reduce((total, week) => {
         return total + week.lessons.length;
       }, 0);
@@ -301,233 +380,153 @@ export const getUserEnrolledCourses = async (userId) => {
       };
     });
 
-    console.log(
-      `✅ Found ${transformedCourses.length} enrolled courses for user ${userId}`
-    );
-
     return transformedCourses;
   } catch (error) {
     console.error(
-      `❌ Error fetching enrolled courses for user ${userId}:`,
-      error
+        `❌ Error fetching enrolled courses for user ${userId}:`,
+        error
     );
     throw error;
   }
 };
 
-// ✅ Get User's Enrolled Courses with Detailed Progress (Alternative version)
-export const getUserEnrolledCoursesWithProgress = unstable_cache(
-  async (userId) => {
-    try {
-      if (!userId) {
-        throw new Error("User ID is required");
-      }
+// ✅ Get User's Course Enrollment Status
+export const getUserCourseEnrollmentStatus = unstable_cache(
+    async (userId, courseId) => {
+      try {
+        if (!userId || !courseId) {
+          throw new Error("Both User ID and Course ID are required");
+        }
 
-      console.log(
-        "🔄 Fetching detailed enrolled courses with progress for user:",
-        userId
-      );
-
-      const enrolledCourses = await db.courseProgress.findMany({
-        where: {
-          userId: userId,
-        },
-        include: {
-          course: {
-            include: {
-              category: true,
-              user: {
-                include: {
-                  instructor: true,
-                },
-              },
-              weeks: {
-                include: {
-                  lessons: {
-                    select: {
-                      id: true,
-                      title: true,
-                      duration: true,
-                      order: true,
-                      active: true,
-                      // Get user's watch progress for each lesson
-                      watches: {
-                        where: {
-                          userId: userId,
-                        },
-                        select: {
-                          id: true,
-                          state: true,
-                          lastTime: true,
-                        },
-                      },
-                    },
-                    orderBy: {
-                      order: "asc",
-                    },
-                  },
-                  // Get user's quiz attempts for each week
-                  // quizzes: {
-                  //   select: {
-                  //     id: true,
-                  //     title: true,
-                  //     status: true,
-                  //     submissions: {
-                  //       where: {
-                  //         userId: userId,
-                  //       },
-                  //       select: {
-                  //         id: true,
-                  //         status: true,
-                  //         score: true,
-                  //         attemptNumber: true,
-                  //         endTime: true,
-                  //       },
-                  //       orderBy: {
-                  //         attemptNumber: "desc",
-                  //       },
-                  //       take: 1, // Get latest attempt
-                  //     },
-                  //   },
-                  // },
-                },
-                orderBy: {
-                  order: "asc",
-                },
-              },
-            },
+        const enrollment = await db.courseProgress.findFirst({
+          where: {
+            userId: userId,
+            courseId: courseId,
           },
-        },
-        orderBy: {
-          createdAt: "desc",
-        },
-      });
-
-      // Transform with detailed progress information
-      const detailedCourses = enrolledCourses.map((enrollment) => {
-        const course = enrollment.course;
-
-        // Calculate watched lessons
-        let totalWatchedLessons = 0;
-        let totalCompletedQuizzes = 0;
-        let totalLessons = 0;
-        let totalQuizzes = 0;
-
-        course.weeks.forEach((week) => {
-          totalLessons += week.lessons.length;
-          totalQuizzes += week.quizzes.length;
-
-          // Count watched lessons (state === 'completed' or similar)
-          week.lessons.forEach((lesson) => {
-            if (
-              lesson.watches.length > 0 &&
-              lesson.watches[0].state === "completed"
-            ) {
-              totalWatchedLessons++;
-            }
-          });
-
-          // Count completed quizzes
-          week.quizzes.forEach((quiz) => {
-            if (
-              quiz.submissions.length > 0 &&
-              quiz.submissions[0].status === "completed"
-            ) {
-              totalCompletedQuizzes++;
-            }
-          });
+          select: {
+            id: true,
+            status: true,
+            progress: true,
+            createdAt: true,
+            updatedAt: true,
+          },
         });
 
-        const lessonsCompletionRate =
-          totalLessons > 0 ? (totalWatchedLessons / totalLessons) * 100 : 0;
-        const quizzesCompletionRate =
-          totalQuizzes > 0 ? (totalCompletedQuizzes / totalQuizzes) * 100 : 0;
-
         return {
-          enrollmentId: enrollment.id,
-          enrollmentStatus: enrollment.status,
-          progress: enrollment.progress,
-          enrolledAt: enrollment.createdAt,
-          lastUpdated: enrollment.updatedAt,
-          progressDetails: {
-            totalLessons,
-            watchedLessons: totalWatchedLessons,
-            lessonsCompletionRate:
-              Math.round(lessonsCompletionRate * 100) / 100,
-            totalQuizzes,
-            completedQuizzes: totalCompletedQuizzes,
-            quizzesCompletionRate:
-              Math.round(quizzesCompletionRate * 100) / 100,
-          },
-          course,
+          isEnrolled: !!enrollment,
+          enrollment: enrollment || null,
         };
-      });
-
-      return detailedCourses;
-    } catch (error) {
-      console.error(
-        `❌ Error fetching detailed enrolled courses for user ${userId}:`,
-        error
-      );
-      throw error;
-    }
-  },
-  (userId) => [`user-enrolled-courses-detailed-${userId}`],
-  {
-    revalidate: REVALIDATE_TIME,
-  }
-);
-
-// ✅ Get User's Course Enrollment Status (Check if enrolled in specific course)
-export const getUserCourseEnrollmentStatus = unstable_cache(
-  async (userId, courseId) => {
-    try {
-      if (!userId || !courseId) {
-        throw new Error("Both User ID and Course ID are required");
+      } catch (error) {
+        console.error(`❌ Error checking enrollment status:`, error);
+        throw error;
       }
-
-      const enrollment = await db.courseProgress.findFirst({
-        where: {
-          userId: userId,
-          courseId: courseId,
-        },
-        select: {
-          id: true,
-          status: true,
-          progress: true,
-          createdAt: true,
-          updatedAt: true,
-        },
-      });
-
-      return {
-        isEnrolled: !!enrollment,
-        enrollment: enrollment || null,
-      };
-    } catch (error) {
-      console.error(`❌ Error checking enrollment status:`, error);
-      throw error;
+    },
+    (userId, courseId) => [`enrollment-status-${userId}-${courseId}`],
+    {
+      revalidate: REVALIDATE_TIME,
     }
-  },
-  (userId, courseId) => [`enrollment-status-${userId}-${courseId}`],
-  {
-    revalidate: REVALIDATE_TIME,
-  }
 );
 
-export async function getInstructorAnalytics(instructorUserId) {
+// ===== INSTRUCTOR ANALYTICS FUNCTIONS =====
+
+// ✅ Get Instructor Detailed Stats
+export const getInstructorDetailedStats = async (instructorId) => {
   try {
-    // Get instructor's courses with related data
+    if (!instructorId) {
+      console.error("❌ No instructorId provided");
+      throw new Error("Instructor ID is required");
+    }
+
+    const instructor = await db.instructor.findUnique({
+      where: { id: instructorId },
+      include: {
+        user: {
+          select: { id: true },
+        },
+      },
+    });
+
+    if (!instructor) {
+      throw new Error(`Instructor with ID ${instructorId} not found`);
+    }
+
+    const courses = await db.course.findMany({
+      where: {
+        userId: instructor.userId,
+      },
+      select: { id: true },
+    });
+
+    const courseIds = courses.map((course) => course.id);
+    const courseCount = courseIds.length;
+
+    if (courseCount === 0) {
+      return {
+        courseCount: 0,
+        totalStudents: 0,
+        averageRating: 0,
+        testimonialCount: 0,
+      };
+    }
+
+    const courseProgressStats = await db.courseProgress.groupBy({
+      by: ["courseId"],
+      where: {
+        courseId: { in: courseIds },
+      },
+      _count: { id: true },
+    });
+
+    const totalStudents = courseProgressStats.reduce(
+        (total, item) => total + item._count.id,
+        0
+    );
+
+    const testimonials = await db.testimonial.findMany({
+      where: {
+        courseId: { in: courseIds },
+        rating: {
+          not: null,
+          gte: 1,
+        },
+      },
+      select: { rating: true },
+    });
+
+    const testimonialCount = testimonials.length;
+    const totalRating = testimonials.reduce(
+        (sum, t) => sum + (t.rating || 0),
+        0
+    );
+    const averageRating =
+        testimonialCount > 0 ? totalRating / testimonialCount : 0;
+
+    return {
+      courseCount,
+      totalStudents,
+      averageRating: parseFloat(averageRating.toFixed(2)),
+      testimonialCount,
+    };
+  } catch (error) {
+    console.error(
+        `❌ Error fetching stats for instructor ${instructorId}:`,
+        error
+    );
+    throw error;
+  }
+};
+
+// ✅ Get Instructor Analytics
+export const getInstructorAnalytics = async (instructorUserId) => {
+  try {
     const instructorCourses = await db.course.findMany({
       where: {
         userId: instructorUserId,
-        active: true,
       },
       include: {
         weeks: {
           include: {
             lessons: true,
-            resources: true,
           },
         },
         testimonials: true,
@@ -557,11 +556,9 @@ export async function getInstructorAnalytics(instructorUserId) {
       },
     });
 
-    // Get all quizzes created by this instructor for their courses
     const instructorQuizzes = await db.quiz.findMany({
       where: {
         createdByUserId: instructorUserId,
-        active: true,
       },
       include: {
         submissions: {
@@ -579,13 +576,8 @@ export async function getInstructorAnalytics(instructorUserId) {
       },
     });
 
-    // Create a map of quiz IDs to quiz data for easier lookup
-    const quizMap = new Map(instructorQuizzes.map(quiz => [quiz.id, quiz]));
-
-    // Calculate total courses
     const totalCourses = instructorCourses.length;
 
-    // Calculate unique students across all courses (based on course progress and participations)
     const uniqueStudentIds = new Set();
     instructorCourses.forEach((course) => {
       course.courseProgress.forEach((progress) => {
@@ -597,7 +589,6 @@ export async function getInstructorAnalytics(instructorUserId) {
     });
     const totalStudents = uniqueStudentIds.size;
 
-    // Calculate total lessons, quizzes, and quiz submissions
     let totalLessons = 0;
     let totalQuizzes = 0;
     let completedCourses = 0;
@@ -605,39 +596,33 @@ export async function getInstructorAnalytics(instructorUserId) {
     instructorCourses.forEach((course) => {
       course.weeks.forEach((week) => {
         totalLessons += week.lessons.length;
-        // Count quizzes associated with this week
         totalQuizzes += week.quizIds.length;
       });
 
-      // Count completed courses (progress = 100)
       completedCourses += course.courseProgress.filter(
-        (progress) => progress.progress === 100
+          (progress) => progress.progress === 100
       ).length;
     });
 
-    // Calculate total quiz submissions from instructor's quizzes
     const totalQuizSubmissions = instructorQuizzes.reduce(
-      (sum, quiz) => sum + quiz.submissions.length,
-      0
+        (sum, quiz) => sum + quiz.submissions.length,
+        0
     );
 
-    // Calculate average rating
     const allTestimonials = instructorCourses.flatMap(
-      (course) => course.testimonials
+        (course) => course.testimonials
     );
     const averageRating =
-      allTestimonials.length > 0
-        ? allTestimonials.reduce(
+        allTestimonials.length > 0
+            ? allTestimonials.reduce(
             (sum, testimonial) => sum + (testimonial.rating || 0),
             0
-          ) / allTestimonials.length
-        : 0;
+        ) / allTestimonials.length
+            : 0;
 
-    // Calculate completion rate
     const completionRate =
-      totalStudents > 0 ? (completedCourses / totalStudents) * 100 : 0;
+        totalStudents > 0 ? (completedCourses / totalStudents) * 100 : 0;
 
-    // Get recent quiz submission activity
     const recentActivity = await db.quizSubmission.findMany({
       where: {
         quiz: {
@@ -664,29 +649,27 @@ export async function getInstructorAnalytics(instructorUserId) {
       take: 10,
     });
 
-    // Get course performance data
     const coursePerformance = instructorCourses.map((course) => {
       const courseStudents = course.courseProgress.length;
       const courseCompletions = course.courseProgress.filter(
-        (progress) => progress.progress === 100
+          (progress) => progress.progress === 100
       ).length;
       const courseRating =
-        course.testimonials.length > 0
-          ? course.testimonials.reduce(
+          course.testimonials.length > 0
+              ? course.testimonials.reduce(
               (sum, testimonial) => sum + (testimonial.rating || 0),
               0
-            ) / course.testimonials.length
-          : 0;
+          ) / course.testimonials.length
+              : 0;
 
-      // Calculate quizzes for this course by checking which quizzes have weekIds that match this course's weeks
-      const courseWeekIds = course.weeks.map(week => week.id);
-      const courseQuizzes = instructorQuizzes.filter(quiz =>
-        quiz.weekIds.some(weekId => courseWeekIds.includes(weekId))
+      const courseWeekIds = course.weeks.map((week) => week.id);
+      const courseQuizzes = instructorQuizzes.filter((quiz) =>
+          quiz.weekIds.some((weekId) => courseWeekIds.includes(weekId))
       );
 
       const courseQuizSubmissions = courseQuizzes.reduce(
-        (sum, quiz) => sum + quiz.submissions.length,
-        0
+          (sum, quiz) => sum + quiz.submissions.length,
+          0
       );
 
       return {
@@ -695,18 +678,17 @@ export async function getInstructorAnalytics(instructorUserId) {
         students: courseStudents,
         completions: courseCompletions,
         completionRate:
-          courseStudents > 0 ? (courseCompletions / courseStudents) * 100 : 0,
+            courseStudents > 0 ? (courseCompletions / courseStudents) * 100 : 0,
         rating: courseRating,
         totalLessons: course.weeks.reduce(
-          (sum, week) => sum + week.lessons.length,
-          0
+            (sum, week) => sum + week.lessons.length,
+            0
         ),
         totalQuizzes: courseQuizzes.length,
         totalQuizSubmissions: courseQuizSubmissions,
       };
     });
 
-    // Monthly statistics (last 6 months) - enrollments
     const sixMonthsAgo = new Date();
     sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
 
@@ -725,7 +707,6 @@ export async function getInstructorAnalytics(instructorUserId) {
       },
     });
 
-    // Monthly quiz submissions statistics
     const monthlyQuizSubmissions = await db.quizSubmission.groupBy({
       by: ["createdAt"],
       where: {
@@ -741,28 +722,38 @@ export async function getInstructorAnalytics(instructorUserId) {
       },
     });
 
-    // Quiz statistics
     const quizStats = {
       totalQuizzes: instructorQuizzes.length,
-      draftQuizzes: instructorQuizzes.filter(q => q.status === 'draft').length,
-      publishedQuizzes: instructorQuizzes.filter(q => q.status === 'published').length,
-      aiGeneratedQuizzes: instructorQuizzes.filter(q => q.source === 'ai_instructor_generated').length,
-      manualQuizzes: instructorQuizzes.filter(q => q.source === 'manual').length,
-      averageQuestionsPerQuiz: instructorQuizzes.length > 0 
-        ? Math.round(instructorQuizzes.reduce((sum, quiz) => sum + quiz.questions.length, 0) / instructorQuizzes.length)
-        : 0,
+      draftQuizzes: instructorQuizzes.filter((q) => q.status === "draft")
+          .length,
+      publishedQuizzes: instructorQuizzes.filter((q) => q.status === "published")
+          .length,
+      aiGeneratedQuizzes: instructorQuizzes.filter(
+          (q) => q.generationType === "ai_fixed" || q.generationType === "ai_pool"
+      ).length,
+      manualQuizzes: instructorQuizzes.filter((q) => q.generationType === "manual")
+          .length,
+      averageQuestionsPerQuiz:
+          instructorQuizzes.length > 0
+              ? Math.round(
+                  instructorQuizzes.reduce(
+                      (sum, quiz) => sum + quiz.questions.length,
+                      0
+                  ) / instructorQuizzes.length
+              )
+              : 0,
     };
 
-    // Calculate average quiz scores
-    const completedSubmissions = instructorQuizzes.flatMap(quiz => 
-      quiz.submissions.filter(sub => sub.status === 'completed')
+    const completedSubmissions = instructorQuizzes.flatMap((quiz) =>
+        quiz.submissions.filter((sub) => sub.status === "completed")
     );
-    const averageQuizScore = completedSubmissions.length > 0
-      ? completedSubmissions.reduce((sum, sub) => sum + (sub.score || 0), 0) / completedSubmissions.length
-      : 0;
+    const averageQuizScore =
+        completedSubmissions.length > 0
+            ? completedSubmissions.reduce((sum, sub) => sum + (sub.score || 0), 0) /
+            completedSubmissions.length
+            : 0;
 
     return {
-      // Basic metrics
       totalCourses,
       totalStudents,
       totalLessons,
@@ -772,217 +763,98 @@ export async function getInstructorAnalytics(instructorUserId) {
       averageRating: Math.round(averageRating * 10) / 10,
       completionRate: Math.round(completionRate * 10) / 10,
       totalCertificates: instructorCourses.reduce(
-        (sum, course) => sum + course.certificates.length,
-        0
+          (sum, course) => sum + course.certificates.length,
+          0
       ),
-
-      // Activity data
       recentActivity,
       coursePerformance,
       monthlyEnrollments,
       monthlyQuizSubmissions,
-
-      // Additional metrics
       totalTestimonials: allTestimonials.length,
-      publishedCourses: instructorCourses.filter((course) => course.active).length,
+      publishedCourses: instructorCourses.filter((course) => course.active)
+          .length,
       averageStudentsPerCourse:
-        totalCourses > 0 ? Math.round(totalStudents / totalCourses) : 0,
-      
-      // Quiz-specific metrics
+          totalCourses > 0 ? Math.round(totalStudents / totalCourses) : 0,
       quizStats,
       averageQuizScore: Math.round(averageQuizScore * 10) / 10,
-      
-      // Resource metrics
-      totalResources: instructorCourses.reduce(
-        (sum, course) => sum + course.weeks.reduce(
-          (weekSum, week) => weekSum + week.resources.length, 0
-        ), 0
-      ),
-
-      // Engagement metrics
       totalParticipations: instructorCourses.reduce(
-        (sum, course) => sum + course.participations.length,
-        0
+          (sum, course) => sum + course.participations.length,
+          0
       ),
     };
   } catch (error) {
     console.error("Error fetching instructor analytics:", error);
     throw new Error("Failed to fetch analytics data");
   }
-}
+};
 
-export async function getAllCategories() {
+// ===== CATEGORY FUNCTIONS =====
+
+// ✅ Get All Categories
+export const getAllCategories = async () => {
   try {
-    const categories = await db.category.findMany();
-    // console.log(" getAllCategories ~ categories:", categories)
+    const categories = await db.category.findMany({
+      orderBy: {
+        title: "asc",
+      },
+    });
 
     return categories;
   } catch (error) {
     console.error("Error fetching categories:", error);
     throw new Error(`Failed to fetch categories: ${error.message}`);
   }
-}
+};
 
-export const getInstructorCourses = async (instructorId) => {
+// ✅ Get Category by ID
+export const getCategoryById = async (categoryId) => {
   try {
-    if (!instructorId) {
-      console.error("❌ No instructorId provided");
-      return []; // Return empty array instead of throwing error
+    if (!categoryId) {
+      throw new Error("Category ID is required to fetch category details.");
     }
 
-    // console.log("🔄 Fetching courses for instructor:", instructorId);
-
-    const instructor = await db.instructor.findUnique({
-      where: { id: instructorId }
-      
-    });
-
-    if (!instructor) {
-      console.error(`Instructor with ID ${instructorId} not found`);
-      return []; // Return empty array instead of throwing error
-    }
-
-    const courses = await db.course.findMany({
-      where: {
-        userId: instructor.userId, // Fixed: use instructor.userId instead of instructor.id
-      },
+    const category = await db.category.findUnique({
+      where: { id: categoryId },
       include: {
-        category: {
-          select: {
-            id: true,
-            title: true,
-            description: true,
-            thumbnail: true,
-          },
-        },
-        user: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            role: true,
-            image: true,
-            instructor: {
-              select: {
-                id: true,
-                designation: true,
-                bio: true,
-                department: true,
-              },
-            },
-          },
-        },
-        weeks: {
-          include: {
-            lessons: {
-              select: {
-                id: true,
-                title: true,
-                duration: true,
-                order: true,
-                active: true,
-              },
-              orderBy: {
-                order: "asc",
-              },
-            },
-            // quizzes: {
-            //   select: {
-            //     id: true,
-            //     title: true,
-            //     status: true,
-            //     active: true,
-            //   },
-            // },
-          },
-          orderBy: {
-            order: "asc",
-          },
-        },
-        testimonials: {
+        courses: {
           include: {
             user: {
+              include: {
+                instructor: true,
+              },
+            },
+            _count: {
               select: {
-                id: true,
-                name: true,
-                image: true,
+                testimonials: true,
+                courseProgress: true,
               },
             },
           },
-          orderBy: {
-            createdAt: "desc",
-          },
         },
-        _count: {
-          select: {
-            testimonials: true,
-            courseProgress: true,
-            certificates: true,
-          },
-        },
-      },
-      orderBy: {
-        createdAt: "desc",
       },
     });
 
-    // Transform the data to include additional calculated fields
-    const transformedCourses = courses.map((course) => {
-      // Calculate total course duration
-      const totalDuration = course.weeks.reduce((total, week) => {
-        const weekDuration = week.lessons.reduce((weekTotal, lesson) => {
-          return weekTotal + (lesson.duration || 0);
-        }, 0);
-        return total + weekDuration;
-      }, 0);
-
-      // Calculate total lessons and quizzes
-      const totalLessons = course.weeks.reduce((total, week) => {
-        return total + week.lessons.length;
-      }, 0);
-
-      // const totalQuizzes = course.weeks.reduce((total, week) => {
-      //   return total + week.quizzes.length;
-      // }, 0);
-
-      // Calculate average rating
-      const averageRating =
-        course.testimonials.length > 0
-          ? course.testimonials.reduce(
-              (sum, testimonial) => sum + (testimonial.rating || 0),
-              0
-            ) / course.testimonials.length
-          : 0;
-
-      return {
-        ...course,
-        totalDuration,
-        totalLessons,
-        // totalQuizzes,
-        totalWeeks: course.weeks.length,
-        totalStudents: course._count.courseProgress,
-        totalTestimonials: course._count.testimonials,
-        totalCertificates: course._count.certificates,
-        averageRating: Math.round(averageRating * 10) / 10, // Round to 1 decimal
-      };
-    });
-
-    console.log(
-      `✅ Found ${transformedCourses.length} courses for instructor ${instructorId}`
-    );
-
-    return transformedCourses;
+    return category;
   } catch (error) {
     console.error(
-      `❌ Error fetching courses for instructor ${instructorId}:`,
-      error
+        `Error fetching category ${categoryId}:`,
+        error.message
     );
-    return []; // Return empty array on error instead of throwing
+    throw new Error(
+        `Failed to retrieve category details. Details: ${error.message}`
+    );
   }
 };
 
-export async function getStudentsInCourse(courseId) {
+// ===== STUDENT FUNCTIONS =====
+
+// ✅ Get Students in Course
+export const getStudentsInCourse = async (courseId) => {
   try {
+    if (!courseId) {
+      throw new Error("Course ID is required to fetch students.");
+    }
+
     const participations = await db.participation.findMany({
       where: {
         courseId: courseId,
@@ -1001,24 +873,965 @@ export async function getStudentsInCourse(courseId) {
     }
 
     // Filter for users who are students and extract student details
-    const students = participations.map((participation) => {
-      const user = participation.user;
+    const students = participations
+        .map((participation) => {
+          const user = participation.user;
 
-      if (user.student) {
-        return {
-          userId: user.id,
-          name: user.name,
-          email: user.email,
-          studentDetails: user.student, // The complete Student model
-          participationData: participation.progress,
-        };
-      }
-      return null; // Filter out non-student users
-    }).filter(student => student !== null); // Remove null entries
-    console.log("ss:",students)
+          if (user.student) {
+            return {
+              userId: user.id,
+              name: user.name,
+              email: user.email,
+              studentDetails: user.student, // The complete Student model
+              participationData: participation.progress,
+            };
+          }
+          return null; // Filter out non-student users
+        })
+        .filter((student) => student !== null); // Remove null entries
+
     return students;
   } catch (error) {
     console.error("Error fetching students in course:", error);
     return []; // Return an empty array in case of an error
   }
-}
+};
+
+// ✅ Get Student by ID
+export const getStudentById = async (studentId) => {
+  try {
+    if (!studentId) {
+      throw new Error("Student ID is required to fetch student details.");
+    }
+
+    const student = await db.student.findUnique({
+      where: { id: studentId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true,
+            isActive: true,
+            createdAt: true,
+          },
+        },
+      },
+    });
+
+    return student;
+  } catch (error) {
+    console.error(
+        `Error fetching student ${studentId}:`,
+        error.message
+    );
+    throw new Error(
+        `Failed to retrieve student details. Details: ${error.message}`
+    );
+  }
+};
+
+// ===== QUIZ FUNCTIONS =====
+
+// ✅ Get All Quizzes by Instructor ID
+export const getAllQuizzesByInstructorId = async (instructorId) => {
+  try {
+    if (!instructorId) {
+      throw new Error("Instructor ID is required to fetch their quizzes.");
+    }
+
+    const quizzes = await db.quiz.findMany({
+      where: {
+        createdByUserId: instructorId,
+      },
+      include: {
+        questions: {
+          select: {
+            id: true,
+            type: true,
+            text: true,
+            mark: true,
+            order: true,
+          },
+          orderBy: {
+            order: "asc",
+          },
+        },
+        submissions: {
+          select: {
+            id: true,
+            status: true,
+            score: true,
+            attemptNumber: true,
+            createdAt: true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+              },
+            },
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
+        _count: {
+          select: {
+            questions: true,
+            submissions: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return quizzes;
+  } catch (error) {
+    console.error(
+        `Error fetching quizzes for instructor ${instructorId} using Prisma:`,
+        error.message
+    );
+    throw new Error(
+        `Failed to retrieve quizzes for instructor. Details: ${error.message}`
+    );
+  }
+};
+
+// ✅ Get Quiz by ID
+export const getQuizById = async (quizId) => {
+  try {
+    if (!quizId) {
+      throw new Error("Quiz ID is required to fetch quiz details.");
+    }
+
+    const quiz = await db.quiz.findUnique({
+      where: { id: quizId },
+      include: {
+        questions: {
+          include: {
+            studentAnswers: {
+              include: {
+                quizSubmission: {
+                  include: {
+                    user: {
+                      select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          orderBy: {
+            order: "asc",
+          },
+        },
+        submissions: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+              },
+            },
+            studentAnswers: {
+              include: {
+                question: {
+                  select: {
+                    id: true,
+                    text: true,
+                    type: true,
+                    mark: true,
+                  },
+                },
+              },
+            },
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
+        createdBy: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            instructor: {
+              select: {
+                id: true,
+                designation: true,
+                department: true,
+              },
+            },
+          },
+        },
+        _count: {
+          select: {
+            questions: true,
+            submissions: true,
+          },
+        },
+      },
+    });
+
+    return quiz;
+  } catch (error) {
+    console.error(
+        `Error fetching quiz ${quizId}:`,
+        error.message
+    );
+    throw new Error(
+        `Failed to retrieve quiz details. Details: ${error.message}`
+    );
+  }
+};
+
+// ✅ Get Quiz Submissions by Quiz ID
+export const getQuizSubmissionsByQuizId = async (quizId) => {
+  try {
+    if (!quizId) {
+      throw new Error("Quiz ID is required to fetch submissions.");
+    }
+
+    const submissions = await db.quizSubmission.findMany({
+      where: {
+        quizId: quizId,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            student: {
+              select: {
+                id: true,
+                idNumber: true,
+                session: true,
+                department: true,
+              },
+            },
+          },
+        },
+        studentAnswers: {
+          include: {
+            question: {
+              select: {
+                id: true,
+                text: true,
+                type: true,
+                mark: true,
+                correctAnswer: true,
+              },
+            },
+          },
+        },
+        quiz: {
+          select: {
+            id: true,
+            title: true,
+            timeLimit: true,
+            maxAttempts: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return submissions;
+  } catch (error) {
+    console.error(
+        `Error fetching submissions for quiz ${quizId}:`,
+        error.message
+    );
+    throw new Error(
+        `Failed to retrieve quiz submissions. Details: ${error.message}`
+    );
+  }
+};
+
+// ===== WEEK & LESSON FUNCTIONS =====
+
+// ✅ Get Week by ID
+export const getWeekById = async (weekId) => {
+  try {
+    if (!weekId) {
+      throw new Error("Week ID is required to fetch week details.");
+    }
+
+    const week = await db.week.findUnique({
+      where: { id: weekId },
+      include: {
+        lessons: {
+          orderBy: {
+            order: "asc",
+          },
+        },
+        course: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+                instructor: {
+                  select: {
+                    id: true,
+                    designation: true,
+                    department: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return week;
+  } catch (error) {
+    console.error(
+        `Error fetching week ${weekId}:`,
+        error.message
+    );
+    throw new Error(
+        `Failed to retrieve week details. Details: ${error.message}`
+    );
+  }
+};
+
+// ✅ Get Lesson by ID
+export const getLessonById = async (lessonId) => {
+  try {
+    if (!lessonId) {
+      throw new Error("Lesson ID is required to fetch lesson details.");
+    }
+
+    const lesson = await db.lesson.findUnique({
+      where: { id: lessonId },
+      include: {
+        week: {
+          include: {
+            course: {
+              select: {
+                id: true,
+                title: true,
+                description: true,
+                user: {
+                  select: {
+                    id: true,
+                    name: true,
+                    instructor: {
+                      select: {
+                        id: true,
+                        designation: true,
+                        department: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        watches: {
+          select: {
+            id: true,
+            state: true,
+            lastTime: true,
+            userId: true,
+          },
+        },
+      },
+    });
+
+    return lesson;
+  } catch (error) {
+    console.error(
+        `Error fetching lesson ${lessonId}:`,
+        error.message
+    );
+    throw new Error(
+        `Failed to retrieve lesson details. Details: ${error.message}`
+    );
+  }
+};
+
+// ✅ Get User's Watch Progress for a Lesson
+export const getUserLessonWatchProgress = unstable_cache(
+    async (userId, lessonId) => {
+      try {
+        if (!userId || !lessonId) {
+          throw new Error("Both User ID and Lesson ID are required.");
+        }
+
+        const watch = await db.watch.findFirst({
+          where: {
+            userId: userId,
+            lessonId: lessonId,
+          },
+          select: {
+            id: true,
+            state: true,
+            lastTime: true,
+          },
+        });
+
+        return watch || null;
+      } catch (error) {
+        console.error(
+            `Error fetching watch progress for user ${userId} and lesson ${lessonId}:`,
+            error
+        );
+        throw error;
+      }
+    },
+    (userId, lessonId) => [`user-lesson-watch-${userId}-${lessonId}`],
+    {
+      revalidate: REVALIDATE_TIME,
+    }
+);
+
+// ✅ Get User's Watch Progress for a Week
+export const getUserWeekWatchProgress = unstable_cache(
+    async (userId, weekId) => {
+      try {
+        if (!userId || !weekId) {
+          throw new Error("Both User ID and Week ID are required.");
+        }
+
+        const watches = await db.watch.findMany({
+          where: {
+            userId: userId,
+            weekId: weekId,
+          },
+          select: {
+            id: true,
+            state: true,
+            lastTime: true,
+            lessonId: true,
+          },
+        });
+
+        // Group watches by lessonId to easily check progress per lesson
+        const progressByLesson = watches.reduce((acc, watch) => {
+          if (!acc[watch.lessonId]) {
+            acc[watch.lessonId] = [];
+          }
+          acc[watch.lessonId].push({
+            state: watch.state,
+            lastTime: watch.lastTime,
+          });
+          return acc;
+        }, {});
+
+        return progressByLesson;
+      } catch (error) {
+        console.error(
+            `Error fetching week watch progress for user ${userId} and week ${weekId}:`,
+            error
+        );
+        throw error;
+      }
+    },
+    (userId, weekId) => [`user-week-watch-${userId}-${weekId}`],
+    {
+      revalidate: REVALIDATE_TIME,
+    }
+);
+
+// ===== TESTIMONIAL FUNCTIONS =====
+
+// ✅ Get Testimonials for a Course
+export const getCourseTestimonials = async (courseId) => {
+  try {
+    if (!courseId) {
+      throw new Error("Course ID is required to fetch testimonials.");
+    }
+
+    const testimonials = await db.testimonial.findMany({
+      where: {
+        courseId: courseId,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            image: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return testimonials;
+  } catch (error) {
+    console.error(
+        `Error fetching testimonials for course ${courseId}:`,
+        error.message
+    );
+    throw new Error(
+        `Failed to retrieve testimonials for the course. Details: ${error.message}`
+    );
+  }
+};
+
+// ===== CERTIFICATE FUNCTIONS =====
+
+// ✅ Get Certificates for a User
+export const getUserCertificates = async (userId) => {
+  try {
+    if (!userId) {
+      throw new Error("User ID is required to fetch certificates.");
+    }
+
+    const certificates = await db.certificate.findMany({
+      where: {
+        userId: userId,
+      },
+      include: {
+        course: {
+          select: {
+            id: true,
+            title: true,
+            thumbnail: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return certificates;
+  } catch (error) {
+    console.error(
+        `Error fetching certificates for user ${userId}:`,
+        error.message
+    );
+    throw new Error(
+        `Failed to retrieve certificates for the user. Details: ${error.message}`
+    );
+  }
+};
+
+// ✅ Get Certificate by ID
+export const getCertificateById = async (certificateId) => {
+  try {
+    if (!certificateId) {
+      throw new Error("Certificate ID is required to fetch certificate details.");
+    }
+
+    const certificate = await db.certificate.findUnique({
+      where: { id: certificateId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+        course: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            thumbnail: true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+                instructor: {
+                  select: {
+                    id: true,
+                    designation: true,
+                    department: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return certificate;
+  } catch (error) {
+    console.error(
+        `Error fetching certificate ${certificateId}:`,
+        error.message
+    );
+    throw new Error(
+        `Failed to retrieve certificate details. Details: ${error.message}`
+    );
+  }
+};
+
+// ===== LIVE SESSION FUNCTIONS =====
+
+// ✅ Get All Live Sessions
+export const getAllLiveSessions = async () => {
+  try {
+    const liveSessions = await db.live.findMany({
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            instructor: {
+              select: {
+                id: true,
+                designation: true,
+              },
+            },
+          },
+        },
+        quiz: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
+      },
+      orderBy: {
+        schedule: "asc",
+      },
+    });
+
+    return liveSessions;
+  } catch (error) {
+    console.error("Error fetching all live sessions:", error);
+    throw new Error(`Failed to fetch live sessions. Details: ${error.message}`);
+  }
+};
+
+// ✅ Get Live Session by ID
+export const getLiveSessionById = async (sessionId) => {
+  try {
+    if (!sessionId) {
+      throw new Error("Session ID is required to fetch live session details.");
+    }
+
+    const liveSession = await db.live.findUnique({
+      where: { id: sessionId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            instructor: {
+              select: {
+                id: true,
+                designation: true,
+                department: true,
+              },
+            },
+          },
+        },
+        quiz: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+          },
+        },
+      },
+    });
+
+    return liveSession;
+  } catch (error) {
+    console.error(
+        `Error fetching live session ${sessionId}:`,
+        error.message
+    );
+    throw new Error(
+        `Failed to retrieve live session details. Details: ${error.message}`
+    );
+  }
+};
+
+// ✅ Get Live Sessions by Instructor ID
+export const getLiveSessionsByInstructorId = async (instructorUserId) => {
+  try {
+    if (!instructorUserId) {
+      throw new Error("Instructor User ID is required to fetch their live sessions.");
+    }
+
+    const liveSessions = await db.live.findMany({
+      where: {
+        userId: instructorUserId,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            instructor: {
+              select: {
+                id: true,
+                designation: true,
+              },
+            },
+          },
+        },
+        quiz: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
+      },
+      orderBy: {
+        schedule: "asc",
+      },
+    });
+
+    return liveSessions;
+  } catch (error) {
+    console.error(
+        `Error fetching live sessions for instructor ${instructorUserId}:`,
+        error.message
+    );
+    throw new Error(
+        `Failed to retrieve live sessions for the instructor. Details: ${error.message}`
+    );
+  }
+};
+
+// ===== AI GENERATION LOG FUNCTIONS =====
+
+// ✅ Get AI Generation Logs by User ID
+export const getAIGenerationLogsByUserId = async (userId) => {
+  try {
+    if (!userId) {
+      throw new Error("User ID is required to fetch AI generation logs.");
+    }
+
+    const logs = await db.aIGenerationLog.findMany({
+      where: {
+        requestedByUserId: userId,
+      },
+      include: {
+        quiz: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return logs;
+  } catch (error) {
+    console.error(
+        `Error fetching AI generation logs for user ${userId}:`,
+        error.message
+    );
+    throw new Error(
+        `Failed to retrieve AI generation logs. Details: ${error.message}`
+    );
+  }
+};
+
+// ✅ Get AI Generation Log by ID
+export const getAIGenerationLogById = async (logId) => {
+  try {
+    if (!logId) {
+      throw new Error("Log ID is required to fetch AI generation log details.");
+    }
+
+    const log = await db.aIGenerationLog.findUnique({
+      where: { id: logId },
+      include: {
+        quiz: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
+        requestedBy: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    return log;
+  } catch (error) {
+    console.error(
+        `Error fetching AI generation log ${logId}:`,
+        error.message
+    );
+    throw new Error(
+        `Failed to retrieve AI generation log details. Details: ${error.message}`
+    );
+  }
+};
+
+// ===== REPORT FUNCTIONS =====
+
+// ✅ Get Reports by User ID
+export const getUserReports = async (userId) => {
+  try {
+    if (!userId) {
+      throw new Error("User ID is required to fetch reports.");
+    }
+
+    const reports = await db.report.findMany({
+      where: {
+        userId: userId,
+      },
+      include: {
+        course: {
+          select: {
+            id: true,
+            title: true,
+            thumbnail: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return reports;
+  } catch (error) {
+    console.error(`Error fetching reports for user ${userId}:`, error.message);
+    throw new Error(`Failed to retrieve reports. Details: ${error.message}`);
+  }
+};
+
+// ✅ Get Report by ID
+export const getReportById = async (reportId) => {
+  try {
+    if (!reportId) {
+      throw new Error("Report ID is required to fetch report details.");
+    }
+
+    const report = await db.report.findUnique({
+      where: { id: reportId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+        course: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            thumbnail: true,
+          },
+        },
+      },
+    });
+
+    return report;
+  } catch (error) {
+    console.error(`Error fetching report ${reportId}:`, error.message);
+    throw new Error(`Failed to retrieve report details. Details: ${error.message}`);
+  }
+};
+
+// ===== PARTICIPATION FUNCTIONS =====
+
+// ✅ Get Participations by User ID
+export const getUserParticipations = async (userId) => {
+  try {
+    if (!userId) {
+      throw new Error("User ID is required to fetch participations.");
+    }
+
+    const participations = await db.participation.findMany({
+      where: {
+        userId: userId,
+      },
+      include: {
+        course: {
+          select: {
+            id: true,
+            title: true,
+            thumbnail: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return participations;
+  } catch (error) {
+    console.error(
+        `Error fetching participations for user ${userId}:`,
+        error.message
+    );
+    throw new Error(`Failed to retrieve participations. Details: ${error.message}`);
+  }
+};
+
+// ✅ Get Participation by ID
+export const getParticipationById = async (participationId) => {
+  try {
+    if (!participationId) {
+      throw new Error("Participation ID is required to fetch participation details.");
+    }
+
+    const participation = await db.participation.findUnique({
+      where: { id: participationId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+        course: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            thumbnail: true,
+          },
+        },
+      },
+    });
+
+    return participation;
+  } catch (error) {
+    console.error(
+        `Error fetching participation ${participationId}:`,
+        error.message
+    );
+    throw new Error(
+        `Failed to retrieve participation details. Details: ${error.message}`
+    );
+  }
+};

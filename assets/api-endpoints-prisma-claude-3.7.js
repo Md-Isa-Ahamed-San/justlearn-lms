@@ -170,9 +170,7 @@ export async function GET(request, { params }) {
         },
         weeks: {
           orderBy: { order: 'asc' },
-          include: {
-            resources: true,
-          },
+
         },
         _count: {
           select: { participations: true },
@@ -234,7 +232,7 @@ export async function GET(request, { params }) {
       where: { classId: params.classId },
       orderBy: { order: 'asc' },
       include: {
-        resources: true,
+
         quiz: {
           select: {
             id: true,
@@ -294,7 +292,7 @@ export async function GET(request, { params }) {
     const week = await db.week.findUnique({
       where: { id: params.id },
       include: {
-        resources: true,
+
         quiz: {
           include: {
             questions: true,
@@ -506,9 +504,7 @@ export async function POST(request, { params }) {
     // Get the week data with resources
     const week = await db.week.findUnique({
       where: { id: params.weekId },
-      include: {
-        resources: true,
-      },
+
     });
     
     if (!week) {

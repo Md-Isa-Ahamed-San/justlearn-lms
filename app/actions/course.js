@@ -267,7 +267,7 @@ export async function getCourseWithDetails(courseId) {
                 },
               },
             },
-            resources: true,
+
           },
           orderBy: { order: "asc" },
         },
