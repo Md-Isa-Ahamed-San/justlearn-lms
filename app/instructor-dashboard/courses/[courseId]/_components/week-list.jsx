@@ -11,35 +11,35 @@ import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
-export const ModuleList = ({ items, onReorder, onEdit }) => {
+export const WeekList = ({ items, onReorder, onEdit }) => {
   const [isMounted, setIsMounted] = useState(false);
-  const [modules, setModules] = useState(items);
+  const [weeks, setWeeks] = useState(items);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
   useEffect(() => {
-    setModules(items);
+    setWeeks(items);
   }, [items]);
 
   const onDragEnd = (result) => {
     if (!result.destination) return;
 
-    const items = Array.from(modules);
+    const items = Array.from(weeks);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
 
     const startIndex = Math.min(result.source.index, result.destination.index);
     const endIndex = Math.max(result.source.index, result.destination.index);
 
-    const updatedModules = items.slice(startIndex, endIndex + 1);
+    const updatedWeeks = items.slice(startIndex, endIndex + 1);
 
-    setModules(items);
+    setWeeks(items);
 
-    const bulkUpdateData = updatedModules.map((module) => ({
-      id: module.id,
-      position: items.findIndex((item) => item.id === module.id),
+    const bulkUpdateData = updatedWeeks.map((week) => ({
+      id: week.id,
+      position: items.findIndex((item) => item.id === week.id),
     }));
 
     onReorder(bulkUpdateData);
@@ -51,16 +51,16 @@ export const ModuleList = ({ items, onReorder, onEdit }) => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="modules">
+      <Droppable droppableId="weeks">
         {(provided) => (
           <div {...provided.droppableProps} ref={provided.innerRef}>
-            {modules.map((module, index) => (
-              <Draggable key={module.id} draggableId={module.id} index={index}>
+            {weeks.map((week, index) => (
+              <Draggable key={week.id} draggableId={week.id} index={index}>
                 {(provided) => (
                   <div
                     className={cn(
-                      "flex items-center gap-x-2  border-slate-200 border text-slate-700 rounded-md mb-4 text-sm",
-                      module.isPublished &&
+                      "flex items-center gap-x-2  border-slate-200 border  rounded-md mb-4 text-sm",
+                      week.isPublished &&
                         "bg-sky-100 border-sky-200 text-sky-700"
                     )}
                     ref={provided.innerRef}
@@ -69,25 +69,25 @@ export const ModuleList = ({ items, onReorder, onEdit }) => {
                     <div
                       className={cn(
                         "px-2 py-3 border-r border-r-slate-200 hover: rounded-l-md transition",
-                        module.isPublished &&
+                        week.isPublished &&
                           "border-r-sky-200 hover:bg-sky-200"
                       )}
                       {...provided.dragHandleProps}
                     >
                       <Grip className="h-5 w-5" />
                     </div>
-                    {module.title}
+                    {week.title}
                     <div className="ml-auto pr-2 flex items-center gap-x-2">
                       <Badge
                         className={cn(
                           "0",
-                          module.isPublished && "bg-emerald-600"
+                          week.isPublished && "bg-emerald-600"
                         )}
                       >
-                        {module.isPublished ? "Published" : "Draft"}
+                        {week.isPublished ? "Published" : "Draft"}
                       </Badge>
                       <Pencil
-                        onClick={() => onEdit(module.id)}
+                        onClick={() => onEdit(week.id)}
                         className="w-4 h-4 cursor-pointer hover:opacity-75 transition"
                       />
                     </div>

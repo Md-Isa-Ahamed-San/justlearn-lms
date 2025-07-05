@@ -61,7 +61,7 @@ export const LessonTitleForm = ({ initialData, courseId, lessonId }) => {
         </Button>
       </div>
       {!isEditing && (
-        <p className="text-sm mt-2">{"Introduction to React.js"}</p>
+        <p className="text-sm mt-2">{initialData}</p>
       )}
       {isEditing && (
         <Form {...form}>

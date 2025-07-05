@@ -1,8 +1,9 @@
 "use server";
 
 // Adjust the import path based on your setup
-import { getLoggedInUser } from "@/lib/loggedin-user";
-import { db } from "../../lib/prisma";
+
+import {getLoggedInUser} from "@/lib/loggedin-user";
+import {db} from "@/lib/prisma";
 
 export async function createCourse(data) {
   try {

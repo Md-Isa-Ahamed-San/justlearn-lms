@@ -19,27 +19,28 @@ import { Loader2, PlusCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
-import { ModuleList } from "./module-list";
+import { WeekList} from "./week-list";
+import {createWeek} from "@/app/actions/week";
 
 const formSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
 });
 
-const initialModules = [
+const initialWeeks = [
   {
     id: "1",
-    title: "Module 1",
+    title: "Week 1",
     isPublished: true,
   },
   {
     id: "2",
-    title: "Module 2",
+    title: "Week 2",
   },
 ];
 
-export const WeeksForm = ({ initialData, courseId }) => {
-  const [modules, setModules] = useState(initialModules);
+export const WeeksForm = ({ weekData, courseId }) => {
+  const [weeks, setWeeks] = useState(weekData);
   const router = useRouter();
   const [isCreating, setIsCreating] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -58,15 +59,22 @@ export const WeeksForm = ({ initialData, courseId }) => {
 
   const onSubmit = async (values) => {
     try {
-      setModules((modules) => [
-        ...modules,
-        {
-          id: Date.now().toString(),
-          title: values.title,
-          description: values.description,
-        },
+      const newWeek = await createWeek(courseId, { // Pass courseId and form values
+        title: values.title,
+        description: values.description,
+        order: weeks?.length+1||1,
+      });
+
+      setWeeks((weeks) => [
+        ...weeks,
+          ...newWeek
+        // {
+        //   id: Date.now().toString(),
+        //   title: values.title,
+        //   description: values.description,
+        // },
       ]);
-      toast.success("Module created");
+      toast.success("Week created");
       toggleCreating();
       router.refresh();
     } catch (error) {
@@ -89,7 +97,7 @@ export const WeeksForm = ({ initialData, courseId }) => {
   };
 
   const onEdit = (id) => {
-    router.push(`/instructor-dashboard/courses/1/week/${1}`);
+    router.push(`/instructor-dashboard/courses/${courseId}/week/${id}`);
   };
 
   return (
@@ -161,20 +169,20 @@ export const WeeksForm = ({ initialData, courseId }) => {
             <div
                 className={cn(
                     "text-sm mt-2",
-                    !modules?.length && "text-slate-500 italic"
+                    !weeks?.length && " italic"
                 )}
             >
-              {!modules?.length && "No module"}
-              <ModuleList
+              {!weeks?.length && "No module"}
+              <WeekList
                   onEdit={onEdit}
                   onReorder={onReorder}
-                  items={modules || []}
+                  items={weeks || []}
               />
             </div>
         )}
         {!isCreating && (
             <p className="text-xs text-muted-foreground mt-4">
-              Drag & Drop to reorder the modules
+              Drag & Drop to reorder the weeks
             </p>
         )}
       </div>

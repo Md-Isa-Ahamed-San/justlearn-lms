@@ -70,7 +70,7 @@ export const VideoUrlForm = ({ initialData, courseId, lessonId }) => {
       {!isEditing && (
         <>
           <p className="text-sm mt-2">
-            {"https://www.youtube.com/embed/Cn4G2lZ_g2I?si=8FxqU8_NU6rYOrG1"}
+            {initialData}
           </p>
           <div className="mt-6">
             {/* <VideoPlayer /> */}

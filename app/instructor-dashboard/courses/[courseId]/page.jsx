@@ -14,8 +14,9 @@ import { TitleForm } from "./_components/title-form";
 import { CourseActions } from "./_components/course-action";
 import AlertBanner from "@/components/alert-banner";
 import { QuizSetForm } from "./_components/quiz-set-form";
-import { getCourseDetailsById } from "../../../../queries/courses";
-import { chalkLog } from "../../../../utils/logger";
+import { getCourseDetailsById } from "@/queries/courses";
+import {chalkLog} from "@/utils/logger";
+
 export const dynamic = "force-dynamic";
 const EditCourse = async ({ params }) => {
   const { courseId } = params;
@@ -23,7 +24,7 @@ const EditCourse = async ({ params }) => {
   let courseData = null;
   // if (courseId) {
     courseData = await getCourseDetailsById(courseId);
-    // chalkLog.log(" EditCourse ~ courseData:", courseData);
+    chalkLog.log(" EditCourse ~ courseData:", courseData);
   // }
   return (
     <>
@@ -69,7 +70,7 @@ const EditCourse = async ({ params }) => {
                 <h2 className="text-xl">Course Weeks</h2>
               </div>
 
-              <WeeksForm initialData={[]} courseId={courseData?.id} />
+              <WeeksForm weekData={courseData?.weeks} courseId={courseData?.id} />
             </div>
           </div>
         </div>
