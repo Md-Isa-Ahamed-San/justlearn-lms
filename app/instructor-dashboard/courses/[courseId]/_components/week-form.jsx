@@ -67,7 +67,7 @@ export const WeeksForm = ({ weekData, courseId }) => {
 
       setWeeks((weeks) => [
         ...weeks,
-          ...newWeek
+          newWeek
         // {
         //   id: Date.now().toString(),
         //   title: values.title,

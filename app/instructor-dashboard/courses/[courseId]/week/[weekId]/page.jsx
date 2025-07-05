@@ -15,9 +15,26 @@ import { ModuleBasicDetailsForm } from "./_components/module-basic-details-form"
 import { LessonForm } from "./_components/lesson-form";
 import { CourseActions } from "../../_components/course-action";
 import { getWeekDetailsByIds } from "@/queries/week";
+import {getServerUserData} from "@/queries/users";
+import {getAllQuizzesByInstructorId} from "@/queries/quizzes";
 
 const Week = async ({ params }) => {
   const { courseId, weekId } = await params;
+  let allQuizzes = []; // Fixed: properly declare the variable
+
+  try {
+    const data = await getServerUserData();
+
+    if (data?.userData?.id) {
+      const quizzes = await getAllQuizzesByInstructorId(data.userData.id);
+      // Ensure we always have an array
+      allQuizzes = Array.isArray(quizzes) ? quizzes : [];
+    }
+  } catch (err) {
+    console.log("Error fetching quiz sets:", err);
+    // Keep allQuizzes as empty array on error
+    allQuizzes = [];
+  }
 
   try {
     const weekDetails = await getWeekDetailsByIds(courseId, weekId);
@@ -50,7 +67,7 @@ const Week = async ({ params }) => {
                       Week Setup
                     </h1>
                     <span className="text-sm text-slate-700">
-                    Complete all fields ({weekDetails.lessons?.length || 0} lessons)
+                    Complete all fields ({weekDetails.lessons?.length || 0} lessons, {weekDetails.quizIds?.length || 0} quizzes)
                   </span>
                   </div>
                   <CourseActions
@@ -80,12 +97,13 @@ const Week = async ({ params }) => {
                 <div>
                   <div className="flex items-center gap-x-2">
                     <IconBadge icon={BookOpenCheck} />
-                    <h2 className="text-xl">Week Lessons</h2>
+                    <h2 className="text-xl">Week Lessons & Quizzes</h2>
                   </div>
                   <LessonForm
                       weekDetails={weekDetails}
                       courseId={courseId}
                       weekId={weekId}
+                      availableQuizzes={allQuizzes}
                   />
                 </div>
               </div>
@@ -104,7 +122,7 @@ const Week = async ({ params }) => {
                       {weekDetails.description || "No description"}
                     </p>
                     <div className="text-xs text-muted-foreground">
-                      {weekDetails.lessons?.length || 0} lessons • Status: {weekDetails.status}
+                      {weekDetails.lessons?.length || 0} lessons • {weekDetails.quizIds?.length || 0} quizzes • Status: {weekDetails.status}
                     </div>
                   </div>
                 </div>
