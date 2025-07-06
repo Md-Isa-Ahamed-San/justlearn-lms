@@ -58,7 +58,10 @@ export const LessonModal = ({
                             Back to course setup
                         </Link>
                         <div className="flex justify-end">
-                            <CourseActions/>
+                            {/*<CourseActions isActive={lessonData?.active}*/}
+                            {/*               courseId={courseId}*/}
+                            {/*               weekId={weekId}*/}
+                            {/*               lessonId={lessonData?.id}/>*/}
                         </div>
                     </div>
 
@@ -76,11 +79,14 @@ export const LessonModal = ({
                                     <LessonTitleForm
                                         initialData={lessonData?.title}
                                         courseId={courseId}
+                                        weekId={weekId}
                                         lessonId={lessonData?.id}
+
                                     />
                                     <LessonDescriptionForm
                                         descriptionData={lessonData?.description}
                                         courseId={courseId}
+                                        weekId={weekId}
                                         lessonId={lessonData?.id}
                                     />
                                 </div>
@@ -101,6 +107,7 @@ export const LessonModal = ({
                                     <VideoUrlForm
                                         initialData={lessonData?.videoUrl}
                                         courseId={courseId}
+                                        weekId={weekId}
                                         lessonId={lessonData?.id}
                                     />
                                 </div>

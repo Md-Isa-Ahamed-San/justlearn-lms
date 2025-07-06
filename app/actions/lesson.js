@@ -105,7 +105,7 @@ export async function createLesson(data) {
     }
 }
 // !!MARK: updateLesson
-export async function updateLesson(data) {
+export async function updateLesson(data, lessonId, courseId, weekId) {
     try {
         const loggedinUser = await getLoggedInUser();
 
@@ -116,23 +116,24 @@ export async function updateLesson(data) {
             };
         }
 
-        // Validate required fields
-        if (!data.lessonId || !data.weekId || !data.courseId) {
+        if (!lessonId) {
             return {
                 success: false,
-                error: "Lesson ID, Week ID, and Course ID are required"
+                error: "Lesson ID needed."
             };
         }
 
-        // Validate that the lesson exists and belongs to the correct week/course
+        // Validate that the lesson exists and get course/week info for revalidation
         const existingLesson = await db.lesson.findFirst({
             where: {
-                id: data.lessonId,
-                weekId: data.weekId,
+                id: lessonId,
+            },
+            include: {
                 week: {
-                    courseId: data.courseId,
-                    course: {
-                        userId: loggedinUser.id,
+                    select: {
+                        id: true,
+                        title: true,
+                        courseId: true,
                     },
                 },
             },
@@ -141,7 +142,7 @@ export async function updateLesson(data) {
         if (!existingLesson) {
             return {
                 success: false,
-                error: "Lesson not found or you don't have permission to modify it"
+                error: "Lesson not found."
             };
         }
 
@@ -154,7 +155,40 @@ export async function updateLesson(data) {
         if (data.duration !== undefined) updateData.duration = data.duration;
         if (data.access !== undefined) updateData.access = data.access;
         if (data.active !== undefined) updateData.active = data.active;
-        if (data.attachments !== undefined) updateData.attachments = data.attachments;
+
+        // Handle attachments with validation
+        if (data.attachments !== undefined) {
+            // Validate attachments structure
+            if (Array.isArray(data.attachments)) {
+                const validAttachments = data.attachments.filter(attachment => {
+                    return attachment &&
+                        typeof attachment === 'object' &&
+                        attachment.name &&
+                        attachment.url &&
+                        attachment.type;
+                });
+
+                // Validate URLs in attachments
+                for (const attachment of validAttachments) {
+                    try {
+                        new URL(attachment.url);
+                    } catch (error) {
+                        return {
+                            success: false,
+                            error: `Invalid URL in attachment: ${attachment.name}`
+                        };
+                    }
+                }
+
+                updateData.attachments = validAttachments;
+            } else {
+                return {
+                    success: false,
+                    error: "Attachments must be an array"
+                };
+            }
+        }
+
         if (data.order !== undefined) {
             const orderNumber = parseInt(data.order, 10);
             if (isNaN(orderNumber)) {
@@ -166,10 +200,18 @@ export async function updateLesson(data) {
             updateData.order = orderNumber;
         }
 
-        // Update the lesson
+        // Check if there's any data to update
+        if (Object.keys(updateData).length === 0) {
+            return {
+                success: false,
+                error: "No valid data provided for update"
+            };
+        }
+
+        // Update the lesson using the lessonId parameter
         const updatedLesson = await db.lesson.update({
             where: {
-                id: data.lessonId,
+                id: lessonId,
             },
             data: updateData,
             include: {
@@ -182,10 +224,12 @@ export async function updateLesson(data) {
                 },
             },
         });
+console.log("updatedLesson: ",updatedLesson)
 
         // Revalidate relevant paths
-        revalidatePath(`/instructor-dashboard/courses/${data.courseId}/week/${data.weekId}`);
-        revalidatePath(`/instructor-dashboard/courses/${data.courseId}`);
+        revalidatePath(`/instructor-dashboard/courses/${courseId}/week/${weekId}`);
+        revalidatePath(`/instructor-dashboard/courses/${courseId}`);
+        revalidatePath(`/instructor-dashboard/courses/${courseId}/week/${weekId}/lesson/${lessonId}`);
 
         return {
             success: true,

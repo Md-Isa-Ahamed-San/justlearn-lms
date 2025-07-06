@@ -8,7 +8,6 @@ export async function getWeekDetailsByIds(courseId, weekId) {
         const weekDetails = await db.week.findFirst({
             where: {
                 id: weekId,
-                courseId: courseId,
             },
             include: {
                 course: {
@@ -55,13 +54,13 @@ export async function getWeekDetailsByIds(courseId, weekId) {
                                 email: true,
                             },
                         },
-                        lesson: {
-                            select: {
-                                id: true,
-                                title: true,
-                                order: true,
-                            },
-                        },
+                        // lesson: {
+                        //     select: {
+                        //         id: true,
+                        //         title: true,
+                        //         order: true,
+                        //     },
+                        // },
                     },
                 },
             },

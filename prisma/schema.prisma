@@ -261,6 +261,7 @@ model Quiz {
   @@index([generationType])
 }
 
+// MARK: LESSON
 model Lesson {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String

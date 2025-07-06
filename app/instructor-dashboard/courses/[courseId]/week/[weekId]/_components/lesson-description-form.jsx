@@ -1,21 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import {useState, useEffect} from "react";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
 import * as z from "zod";
-import dynamic from 'next/dynamic';
-import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { Pencil } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { toast } from "sonner";
-
-// Dynamic import of ReactQuill to avoid SSR issues
-const ReactQuill = dynamic(() => import('react-quill'), {
-    ssr: false,
-    loading: () => <div className="h-32 bg-gray-100 animate-pulse rounded border"></div>
-});
+import {Button} from "@/components/ui/button";
+import {Form, FormControl, FormField, FormItem, FormMessage} from "@/components/ui/form";
+import {Textarea} from "@/components/ui/textarea";
+import {Pencil} from "lucide-react";
+import {cn} from "@/lib/utils";
+import {toast} from "sonner";
+import {updateLesson} from "@/app/actions/lesson";
 
 const formSchema = z.object({
     description: z.string().min(1, "Description is required"),
@@ -25,9 +20,11 @@ export const LessonDescriptionForm = ({
                                           descriptionData,
                                           courseId,
                                           lessonId,
-                                          onUpdate
+                                          weekId
                                       }) => {
     const [isEditing, setIsEditing] = useState(false);
+    // Add local state to track current description
+    const [currentDescription, setCurrentDescription] = useState(descriptionData || "");
 
     const toggleEdit = () => setIsEditing((current) => !current);
 
@@ -38,35 +35,23 @@ export const LessonDescriptionForm = ({
         },
     });
 
-    const { isSubmitting, isValid } = form.formState;
+    const {isSubmitting, isValid} = form.formState;
 
     // Reset form when descriptionData changes
     useEffect(() => {
         if (descriptionData !== undefined) {
-            form.reset({ description: descriptionData });
+            form.reset({description: descriptionData});
+            // Update local state when descriptionData changes
+            setCurrentDescription(descriptionData || "");
         }
     }, [descriptionData, form]);
 
     const onSubmit = async (values) => {
         try {
-            // Call the parent's onUpdate function if provided
-            if (onUpdate) {
-                await onUpdate({ description: values.description });
-            } else {
-                // Default API call if no onUpdate provided
-                const response = await fetch(`/api/courses/${courseId}/lessons/${lessonId}`, {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(values),
-                });
+            await updateLesson(values, lessonId, courseId, weekId);
 
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || "Failed to update lesson description");
-                }
-            }
+            // Update local state immediately after successful update
+            setCurrentDescription(values.description);
 
             toast.success("Lesson description updated successfully");
             toggleEdit();
@@ -76,23 +61,19 @@ export const LessonDescriptionForm = ({
         }
     };
 
-    // Quill modules configuration
-    const modules = {
-        toolbar: [
-            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-            ['bold', 'italic', 'underline', 'strike'],
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-            ['link'],
-            ['clean']
-        ],
-    };
+    // Simple markdown-like formatting
+    const formatText = (text) => {
+        if (!text) return "";
 
-    const formats = [
-        'header',
-        'bold', 'italic', 'underline', 'strike',
-        'list', 'bullet',
-        'link'
-    ];
+        return text
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // **bold**
+            .replace(/\*(.*?)\*/g, '<em>$1</em>') // *italic*
+            .replace(/\n/g, '<br>') // line breaks
+            .replace(/^# (.*$)/gm, '<h3>$1</h3>') // # headers
+            .replace(/^## (.*$)/gm, '<h4>$1</h4>') // ## headers
+            .replace(/^- (.*$)/gm, '<li>$1</li>') // - bullet points
+            .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>'); // wrap lists
+    };
 
     return (
         <div className="mt-6 border rounded-md p-4">
@@ -103,7 +84,7 @@ export const LessonDescriptionForm = ({
                         <>Cancel</>
                     ) : (
                         <>
-                            <Pencil className="h-4 w-4 mr-2" />
+                            <Pencil className="h-4 w-4 mr-2"/>
                             Edit description
                         </>
                     )}
@@ -114,15 +95,15 @@ export const LessonDescriptionForm = ({
                 <div
                     className={cn(
                         "text-sm mt-2 text-white",
-                        !descriptionData && " italic"
+                        !currentDescription && " italic"
                     )}
                 >
-                    {!descriptionData ? (
+                    {!currentDescription ? (
                         <p>No description provided</p>
                     ) : (
                         <div
                             className="prose prose-sm max-w-none text-foreground"
-                            dangerouslySetInnerHTML={{ __html: descriptionData }}
+                            dangerouslySetInnerHTML={{__html: formatText(currentDescription)}}
                         />
                     )}
                 </div>
@@ -137,21 +118,17 @@ export const LessonDescriptionForm = ({
                         <FormField
                             control={form.control}
                             name="description"
-                            render={({ field }) => (
+                            render={({field}) => (
                                 <FormItem>
                                     <FormControl>
-                                        <ReactQuill
-                                            theme="snow"
-                                            value={field.value}
-                                            onChange={field.onChange}
-                                            modules={modules}
-                                            formats={formats}
-                                            placeholder="Enter lesson description..."
-                                            style={{ minHeight: '200px' }}
-
+                                        <Textarea
+                                            {...field}
+                                            placeholder="Enter lesson description... (Use **bold**, *italic*, # headers, - bullet points)"
+                                            className="resize-none"
+                                            rows={8}
                                         />
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage/>
                                 </FormItem>
                             )}
                         />
