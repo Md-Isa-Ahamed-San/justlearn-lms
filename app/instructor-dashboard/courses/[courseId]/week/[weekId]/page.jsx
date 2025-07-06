@@ -20,15 +20,14 @@ import {getAllQuizzesByInstructorId} from "@/queries/quizzes";
 
 const Week = async ({ params }) => {
   const { courseId, weekId } = await params;
-  let allQuizzes = []; // Fixed: properly declare the variable
+  let allQuizzes = [];
 
   try {
     const data = await getServerUserData();
-
     if (data?.userData?.id) {
       const quizzes = await getAllQuizzesByInstructorId(data.userData.id);
-      // Ensure we always have an array
-      allQuizzes = Array.isArray(quizzes) ? quizzes : [];
+
+      allQuizzes = Array.isArray(quizzes) ? quizzes.filter(quiz=>quiz.status==="published") : [];
     }
   } catch (err) {
     console.log("Error fetching quiz sets:", err);
