@@ -256,7 +256,7 @@ export const AIFixedQuizGenerator = ({ quizData, setQuizData }) => {
             </div>
           </DialogContent>
         </Dialog>
-
+{/*gg*/}
         {quizData.questions && quizData.questions.length > 0 && (
             <div className="mt-8">
               <ManualQuizEditor quizData={quizData} setQuizData={setQuizData} />
