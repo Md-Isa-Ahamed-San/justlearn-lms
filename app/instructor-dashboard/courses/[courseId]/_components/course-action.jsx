@@ -6,15 +6,17 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export const CourseActions = ({ isPublished, courseId, weekId }) => {
-    const [published, setPublished] = useState(isPublished);
+export const CourseActions = ({ status, courseId, disabled }) => {
+    const [currentStatus, setCurrentStatus] = useState(status);
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
+    const isPublished = currentStatus === "public";
+
     const handleToggleStatus = async () => {
-        const newStatus = !published;
+        const newStatus = isPublished ? "private" : "public";
         const payload = {
-            status: newStatus
+            visibility: newStatus
         };
 
         setIsLoading(true);
@@ -32,8 +34,8 @@ export const CourseActions = ({ isPublished, courseId, weekId }) => {
                 throw new Error("Failed to update course");
             }
 
-            setPublished(newStatus);
-            toast.success(`Course ${newStatus ? 'published' : 'saved as draft'} successfully`);
+            setCurrentStatus(newStatus);
+            toast.success(`Course ${newStatus === 'public' ? 'published' : 'saved as draft'} successfully`);
             router.refresh();
         } catch (error) {
             console.error("Error updating course:", error);
@@ -71,24 +73,25 @@ export const CourseActions = ({ isPublished, courseId, weekId }) => {
 
     return (
         <div className="flex items-center gap-x-2">
-            <p className="text-sm font-medium">
-                {published ? "Published" : "Draft"}
+            <p className="text-sm font-medium bg-primary-foreground p-3 rounded-lg">
+                Status: {isPublished ? "Published" : "Draft"}
             </p>
 
             <Button
-                variant="outline"
-                size="sm"
                 onClick={handleToggleStatus}
-                disabled={isLoading}
+                disabled={disabled || isLoading}
+
+                size="sm"
+                className="bg-foreground"
             >
-                {isLoading ? "Updating..." : (published ? "Save as Draft" : "Publish")}
+                {isLoading ? "Updating..." : "Toggle Status"}
             </Button>
 
             <Button
                 size="sm"
                 variant="destructive"
                 onClick={handleDeleteCourse}
-                disabled={isLoading}
+                disabled={disabled || isLoading}
             >
                 <Trash className="h-4 w-4" />
             </Button>

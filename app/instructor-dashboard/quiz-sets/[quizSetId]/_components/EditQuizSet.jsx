@@ -71,7 +71,36 @@ const EditQuizSet = ({ initialQuizData }) => {
       setQuizData((prev) => ({ ...prev, [field]: originalValue }));
     }
   };
+const handleTogglePublish = async () => {
+  try {
+    const response = await fetch(`/api/quiz/${quizData.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        status: quizData.status ==="published" ? "draft" : "published",
+      }),
+    });
 
+    const result = await response.json();
+
+    if (response.ok) {
+      setQuizData((prev) => ({ ...prev, status: quizData.status ==="published" ? "draft" : "published" }));
+      toast.success(
+          `Quiz ${quizData.status ==="published" ? "is now draft" : "is now published"}!`
+      );
+    } else {
+      throw new Error(result.message);
+    }
+  } catch (error) {
+    toast.error(
+        `Failed to ${
+            quizData.status ==="published" ? "draft the quiz" : "publish the quiz"
+        } quiz: ${error.message}`
+    );
+  }
+}
   if (isLoading) {
     return (
         <div className="min-h-[400px] flex items-center justify-center">
@@ -176,36 +205,7 @@ const EditQuizSet = ({ initialQuizData }) => {
               <QuizSetAction
                   quizId={quizData.id}
                   isPublished={quizData.status}
-                  onPublishToggle={async () => {
-                    try {
-                      const response = await fetch(`/api/quiz/${quizData.id}`, {
-                        method: "PATCH",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                          status: quizData.status ==="published" ? "draft" : "published",
-                        }),
-                      });
-
-                      const result = await response.json();
-
-                      if (response.ok) {
-                        setQuizData((prev) => ({ ...prev, status: quizData.status ==="published" ? "draft" : "published" }));
-                        toast.success(
-                            `Quiz ${quizData.status ==="published" ? "is now draft" : "is now published"}!`
-                        );
-                      } else {
-                        throw new Error(result.message);
-                      }
-                    } catch (error) {
-                      toast.error(
-                          `Failed to ${
-                              quizData.status ==="published" ? "draft the quiz" : "publish the quiz"
-                          } quiz: ${error.message}`
-                      );
-                    }
-                  }}
+                  onPublishToggle={handleTogglePublish}
               />
             </div>
           </div>

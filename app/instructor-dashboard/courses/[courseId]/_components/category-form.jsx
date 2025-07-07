@@ -101,7 +101,7 @@ export const CategoryForm = ({ initialData = {}, courseId }) => { // ✅ Added d
 
   if (isLoading) {
     return (
-      <div className="mt-6 border rounded-md p-4">
+      <div className="mt-6 border rounded-md p-4 bg-card">
         <div className="font-medium flex items-center justify-between">
           Course Category
           <Button variant="ghost" disabled>
@@ -115,7 +115,7 @@ export const CategoryForm = ({ initialData = {}, courseId }) => { // ✅ Added d
   }
 
   return (
-    <div className="mt-6 border rounded-md p-4">
+    <div className="mt-6 border rounded-md p-4 bg-card">
       <div className="font-medium flex items-center justify-between">
         Course Category
         <Button variant="ghost" onClick={toggleEdit}>

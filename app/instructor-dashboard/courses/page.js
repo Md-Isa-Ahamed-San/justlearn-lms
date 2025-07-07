@@ -39,7 +39,7 @@ const CoursesPage = async () => {
       {safeCoursesData.length > 0 ? (
         <DataTable columns={columns} data={safeCoursesData} />
       ) : (
-        <div className="text-center py-8">
+        <div className="text-center py-8 bg-card">
           <p className="text-gray-500">No courses found.</p>
         </div>
       )}

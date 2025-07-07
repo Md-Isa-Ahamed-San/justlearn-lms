@@ -64,7 +64,7 @@ export const ModuleBasicDetailsForm = ({ initialData, courseId, weekId }) => {
     };
 
     return (
-        <div className="mt-6 border rounded-md p-4">
+        <div className="mt-6 border rounded-md p-4 bg-card">
             <div className="font-medium flex items-center justify-between">
                 Week Title & Description
                 <Button variant="ghost" onClick={toggleEditing}>

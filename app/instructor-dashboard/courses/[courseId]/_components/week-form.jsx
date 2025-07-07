@@ -101,7 +101,7 @@ export const WeeksForm = ({ weekData, courseId }) => {
   };
 
   return (
-      <div className="relative mt-6 border  rounded-md p-4">
+      <div className="relative mt-6 border rounded-md p-4 bg-card">
         {isUpdating && (
             <div className="absolute h-full w-full 0/20 top-0 right-0 rounded-md flex items-center justify-center">
               <Loader2 className="animate-spin h-6 w-6 text-sky-700" />

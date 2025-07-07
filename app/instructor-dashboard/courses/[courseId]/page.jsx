@@ -34,7 +34,8 @@ const EditCourse = async ({ params }) => {
       />
       <div className="p-6">
         <div className="flex items-center justify-end">
-          <CourseActions />
+          <CourseActions status={courseData?.
+              visibility} courseId={courseId} />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
           <div>
