@@ -16,6 +16,7 @@ import AlertBanner from "@/components/alert-banner";
 import { QuizSetForm } from "./_components/quiz-set-form";
 import { getCourseDetailsById } from "@/queries/courses";
 import {chalkLog} from "@/utils/logger";
+import {LearningForm} from "@/app/instructor-dashboard/courses/[courseId]/_components/learning-form";
 
 export const dynamic = "force-dynamic";
 const EditCourse = async ({ params }) => {
@@ -30,14 +31,14 @@ const EditCourse = async ({ params }) => {
     <>
       <AlertBanner
         label="This course is unpublished. It will not be visible in the course."
-        variant="warning"
+       className="bg-accent text-foreground"
       />
       <div className="p-6">
         <div className="flex items-center justify-end">
           <CourseActions status={courseData?.
               visibility} courseId={courseId} />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <div>
             <div className="flex items-center gap-x-2">
               <IconBadge icon={LayoutDashboard} />
@@ -53,16 +54,13 @@ const EditCourse = async ({ params }) => {
               initialData={{ description: courseData?.description }}
               courseId={courseData?.id}
             />
-            <ImageForm
-              initialData={{ imageUrl: courseData?.thumbnail }}
-              courseId={courseData?.id}
-            />
+
             <CategoryForm
               initialData={{ category: courseData?.category }}
               courseId={courseData?.id}
             />
+            <WeeksForm weekData={courseData?.weeks} courseId={courseData?.id} />
 
-            <QuizSetForm initialData={{}} courseId={courseData?.id} />
           </div>
           <div className="space-y-6">
             <div>
@@ -71,7 +69,15 @@ const EditCourse = async ({ params }) => {
                 <h2 className="text-xl">Course Weeks</h2>
               </div>
 
-              <WeeksForm weekData={courseData?.weeks} courseId={courseData?.id} />
+
+              <ImageForm
+                  initialData={{ imageUrl: courseData?.thumbnail }}
+                  courseId={courseData?.id}
+              />
+              <LearningForm
+                  initialData={{ learning: courseData?.learning }}
+                  courseId={courseData?.id}
+              />
             </div>
           </div>
         </div>

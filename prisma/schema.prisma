@@ -174,11 +174,11 @@ model Category {
   courses Course[]
 }
 
+// !MARK: COURSE
 model Course {
   id          String     @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
-  subtitle    String?
   thumbnail   String
   active      Boolean    @default(true)
   learning    Json // Array of learning outcomes

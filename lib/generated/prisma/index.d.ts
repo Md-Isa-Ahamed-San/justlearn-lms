@@ -8779,7 +8779,6 @@ export namespace Prisma {
     id: string | null
     title: string | null
     description: string | null
-    subtitle: string | null
     thumbnail: string | null
     active: boolean | null
     rating: number | null
@@ -8795,7 +8794,6 @@ export namespace Prisma {
     id: string | null
     title: string | null
     description: string | null
-    subtitle: string | null
     thumbnail: string | null
     active: boolean | null
     rating: number | null
@@ -8811,7 +8809,6 @@ export namespace Prisma {
     id: number
     title: number
     description: number
-    subtitle: number
     thumbnail: number
     active: number
     learning: number
@@ -8838,7 +8835,6 @@ export namespace Prisma {
     id?: true
     title?: true
     description?: true
-    subtitle?: true
     thumbnail?: true
     active?: true
     rating?: true
@@ -8854,7 +8850,6 @@ export namespace Prisma {
     id?: true
     title?: true
     description?: true
-    subtitle?: true
     thumbnail?: true
     active?: true
     rating?: true
@@ -8870,7 +8865,6 @@ export namespace Prisma {
     id?: true
     title?: true
     description?: true
-    subtitle?: true
     thumbnail?: true
     active?: true
     learning?: true
@@ -8974,7 +8968,6 @@ export namespace Prisma {
     id: string
     title: string
     description: string
-    subtitle: string | null
     thumbnail: string
     active: boolean
     learning: JsonValue
@@ -9010,7 +9003,6 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
-    subtitle?: boolean
     thumbnail?: boolean
     active?: boolean
     learning?: boolean
@@ -9038,7 +9030,6 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
-    subtitle?: boolean
     thumbnail?: boolean
     active?: boolean
     learning?: boolean
@@ -9051,7 +9042,7 @@ export namespace Prisma {
     categoryId?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "subtitle" | "thumbnail" | "active" | "learning" | "rating" | "createdAt" | "updatedAt" | "code" | "visibility" | "userId" | "categoryId", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "thumbnail" | "active" | "learning" | "rating" | "createdAt" | "updatedAt" | "code" | "visibility" | "userId" | "categoryId", ExtArgs["result"]["course"]>
   export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -9080,7 +9071,6 @@ export namespace Prisma {
       id: string
       title: string
       description: string
-      subtitle: string | null
       thumbnail: string
       active: boolean
       learning: Prisma.JsonValue
@@ -9494,7 +9484,6 @@ export namespace Prisma {
     readonly id: FieldRef<"Course", 'String'>
     readonly title: FieldRef<"Course", 'String'>
     readonly description: FieldRef<"Course", 'String'>
-    readonly subtitle: FieldRef<"Course", 'String'>
     readonly thumbnail: FieldRef<"Course", 'String'>
     readonly active: FieldRef<"Course", 'Boolean'>
     readonly learning: FieldRef<"Course", 'Json'>
@@ -25307,7 +25296,6 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     description: 'description',
-    subtitle: 'subtitle',
     thumbnail: 'thumbnail',
     active: 'active',
     learning: 'learning',
@@ -26211,7 +26199,6 @@ export namespace Prisma {
     id?: StringFilter<"Course"> | string
     title?: StringFilter<"Course"> | string
     description?: StringFilter<"Course"> | string
-    subtitle?: StringNullableFilter<"Course"> | string | null
     thumbnail?: StringFilter<"Course"> | string
     active?: BoolFilter<"Course"> | boolean
     learning?: JsonFilter<"Course">
@@ -26236,7 +26223,6 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    subtitle?: SortOrder
     thumbnail?: SortOrder
     active?: SortOrder
     learning?: SortOrder
@@ -26264,7 +26250,6 @@ export namespace Prisma {
     NOT?: CourseWhereInput | CourseWhereInput[]
     title?: StringFilter<"Course"> | string
     description?: StringFilter<"Course"> | string
-    subtitle?: StringNullableFilter<"Course"> | string | null
     thumbnail?: StringFilter<"Course"> | string
     active?: BoolFilter<"Course"> | boolean
     learning?: JsonFilter<"Course">
@@ -26289,7 +26274,6 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    subtitle?: SortOrder
     thumbnail?: SortOrder
     active?: SortOrder
     learning?: SortOrder
@@ -26314,7 +26298,6 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Course"> | string
     title?: StringWithAggregatesFilter<"Course"> | string
     description?: StringWithAggregatesFilter<"Course"> | string
-    subtitle?: StringNullableWithAggregatesFilter<"Course"> | string | null
     thumbnail?: StringWithAggregatesFilter<"Course"> | string
     active?: BoolWithAggregatesFilter<"Course"> | boolean
     learning?: JsonWithAggregatesFilter<"Course">
@@ -28035,7 +28018,6 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    subtitle?: string | null
     thumbnail: string
     active?: boolean
     learning: InputJsonValue
@@ -28058,7 +28040,6 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    subtitle?: string | null
     thumbnail: string
     active?: boolean
     learning: InputJsonValue
@@ -28080,7 +28061,6 @@ export namespace Prisma {
   export type CourseUpdateInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: InputJsonValue | InputJsonValue
@@ -28102,7 +28082,6 @@ export namespace Prisma {
   export type CourseUncheckedUpdateInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: InputJsonValue | InputJsonValue
@@ -28125,7 +28104,6 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    subtitle?: string | null
     thumbnail: string
     active?: boolean
     learning: InputJsonValue
@@ -28141,7 +28119,6 @@ export namespace Prisma {
   export type CourseUpdateManyMutationInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: InputJsonValue | InputJsonValue
@@ -28155,7 +28132,6 @@ export namespace Prisma {
   export type CourseUncheckedUpdateManyInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: InputJsonValue | InputJsonValue
@@ -30005,7 +29981,6 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    subtitle?: SortOrder
     thumbnail?: SortOrder
     active?: SortOrder
     learning?: SortOrder
@@ -30026,7 +30001,6 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    subtitle?: SortOrder
     thumbnail?: SortOrder
     active?: SortOrder
     rating?: SortOrder
@@ -30042,7 +30016,6 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    subtitle?: SortOrder
     thumbnail?: SortOrder
     active?: SortOrder
     rating?: SortOrder
@@ -33231,7 +33204,6 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    subtitle?: string | null
     thumbnail: string
     active?: boolean
     learning: InputJsonValue
@@ -33253,7 +33225,6 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    subtitle?: string | null
     thumbnail: string
     active?: boolean
     learning: InputJsonValue
@@ -33744,7 +33715,6 @@ export namespace Prisma {
     id?: StringFilter<"Course"> | string
     title?: StringFilter<"Course"> | string
     description?: StringFilter<"Course"> | string
-    subtitle?: StringNullableFilter<"Course"> | string | null
     thumbnail?: StringFilter<"Course"> | string
     active?: BoolFilter<"Course"> | boolean
     learning?: JsonFilter<"Course">
@@ -34470,7 +34440,6 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    subtitle?: string | null
     thumbnail: string
     active?: boolean
     learning: InputJsonValue
@@ -34492,7 +34461,6 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    subtitle?: string | null
     thumbnail: string
     active?: boolean
     learning: InputJsonValue
@@ -34996,7 +34964,6 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    subtitle?: string | null
     thumbnail: string
     active?: boolean
     learning: InputJsonValue
@@ -35018,7 +34985,6 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    subtitle?: string | null
     thumbnail: string
     active?: boolean
     learning: InputJsonValue
@@ -35123,7 +35089,6 @@ export namespace Prisma {
   export type CourseUpdateWithoutWeeksInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: InputJsonValue | InputJsonValue
@@ -35144,7 +35109,6 @@ export namespace Prisma {
   export type CourseUncheckedUpdateWithoutWeeksInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: InputJsonValue | InputJsonValue
@@ -36654,7 +36618,6 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    subtitle?: string | null
     thumbnail: string
     active?: boolean
     learning: InputJsonValue
@@ -36676,7 +36639,6 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    subtitle?: string | null
     thumbnail: string
     active?: boolean
     learning: InputJsonValue
@@ -36780,7 +36742,6 @@ export namespace Prisma {
   export type CourseUpdateWithoutCourseProgressInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: InputJsonValue | InputJsonValue
@@ -36801,7 +36762,6 @@ export namespace Prisma {
   export type CourseUncheckedUpdateWithoutCourseProgressInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: InputJsonValue | InputJsonValue
@@ -36886,7 +36846,6 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    subtitle?: string | null
     thumbnail: string
     active?: boolean
     learning: InputJsonValue
@@ -36908,7 +36867,6 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    subtitle?: string | null
     thumbnail: string
     active?: boolean
     learning: InputJsonValue
@@ -37012,7 +36970,6 @@ export namespace Prisma {
   export type CourseUpdateWithoutCertificatesInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: InputJsonValue | InputJsonValue
@@ -37033,7 +36990,6 @@ export namespace Prisma {
   export type CourseUncheckedUpdateWithoutCertificatesInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: InputJsonValue | InputJsonValue
@@ -37118,7 +37074,6 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    subtitle?: string | null
     thumbnail: string
     active?: boolean
     learning: InputJsonValue
@@ -37140,7 +37095,6 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    subtitle?: string | null
     thumbnail: string
     active?: boolean
     learning: InputJsonValue
@@ -37244,7 +37198,6 @@ export namespace Prisma {
   export type CourseUpdateWithoutTestimonialsInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: InputJsonValue | InputJsonValue
@@ -37265,7 +37218,6 @@ export namespace Prisma {
   export type CourseUncheckedUpdateWithoutTestimonialsInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: InputJsonValue | InputJsonValue
@@ -37287,7 +37239,6 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    subtitle?: string | null
     thumbnail: string
     active?: boolean
     learning: InputJsonValue
@@ -37309,7 +37260,6 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    subtitle?: string | null
     thumbnail: string
     active?: boolean
     learning: InputJsonValue
@@ -37409,7 +37359,6 @@ export namespace Prisma {
   export type CourseUpdateWithoutReportsInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: InputJsonValue | InputJsonValue
@@ -37430,7 +37379,6 @@ export namespace Prisma {
   export type CourseUncheckedUpdateWithoutReportsInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: InputJsonValue | InputJsonValue
@@ -37519,7 +37467,6 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    subtitle?: string | null
     thumbnail: string
     active?: boolean
     learning: InputJsonValue
@@ -37541,7 +37488,6 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    subtitle?: string | null
     thumbnail: string
     active?: boolean
     learning: InputJsonValue
@@ -37641,7 +37587,6 @@ export namespace Prisma {
   export type CourseUpdateWithoutParticipationsInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: InputJsonValue | InputJsonValue
@@ -37662,7 +37607,6 @@ export namespace Prisma {
   export type CourseUncheckedUpdateWithoutParticipationsInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: InputJsonValue | InputJsonValue
@@ -38265,7 +38209,6 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    subtitle?: string | null
     thumbnail: string
     active?: boolean
     learning: InputJsonValue
@@ -38399,7 +38342,6 @@ export namespace Prisma {
   export type CourseUpdateWithoutUserInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: InputJsonValue | InputJsonValue
@@ -38420,7 +38362,6 @@ export namespace Prisma {
   export type CourseUncheckedUpdateWithoutUserInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: InputJsonValue | InputJsonValue
@@ -38441,7 +38382,6 @@ export namespace Prisma {
   export type CourseUncheckedUpdateManyWithoutUserInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: InputJsonValue | InputJsonValue
@@ -38794,7 +38734,6 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    subtitle?: string | null
     thumbnail: string
     active?: boolean
     learning: InputJsonValue
@@ -38809,7 +38748,6 @@ export namespace Prisma {
   export type CourseUpdateWithoutCategoryInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: InputJsonValue | InputJsonValue
@@ -38830,7 +38768,6 @@ export namespace Prisma {
   export type CourseUncheckedUpdateWithoutCategoryInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: InputJsonValue | InputJsonValue
@@ -38851,7 +38788,6 @@ export namespace Prisma {
   export type CourseUncheckedUpdateManyWithoutCategoryInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     learning?: InputJsonValue | InputJsonValue

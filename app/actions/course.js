@@ -21,7 +21,6 @@ export async function createCourse(data) {
     const courseData = {
       title: data.title,
       description: data.description,
-      subtitle: data.subtitle || null,
       thumbnail: data.thumbnail,
       code: data.code,
       visibility: data.visibility || "private",
@@ -48,12 +47,8 @@ export async function createCourse(data) {
             title: true,
           },
         },
-        weeks: {
-          include: {
-            lessons: true,
-            quizzes: true,
-          },
-        },
+        weeks:true
+
       },
     });
 
@@ -86,8 +81,6 @@ export async function updateCourse(courseId, dataToUpdate) {
     if (dataToUpdate.title !== undefined) updateData.title = dataToUpdate.title;
     if (dataToUpdate.description !== undefined)
       updateData.description = dataToUpdate.description;
-    if (dataToUpdate.subtitle !== undefined)
-      updateData.subtitle = dataToUpdate.subtitle;
     if (dataToUpdate.thumbnail !== undefined)
       updateData.thumbnail = dataToUpdate.thumbnail;
     if (dataToUpdate.code !== undefined) updateData.code = dataToUpdate.code;
@@ -344,7 +337,6 @@ export async function getCoursesByInstructor(
             _count: {
               select: {
                 lessons: true,
-                quizzes: true,
               },
             },
           },

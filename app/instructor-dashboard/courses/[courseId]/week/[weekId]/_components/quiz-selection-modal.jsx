@@ -17,13 +17,14 @@ const QuizSelectionModal = ({
                             }) => {
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-accent rounded-lg p-6 w-full max-w-2xl max-h-[80vh] overflow-y-auto">
+            <div className="bg-popover border border-border rounded-lg p-6 w-full max-w-2xl max-h-[80vh] overflow-y-auto">
                 <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold">Add Quiz to Week</h3>
+                    <h3 className="text-lg font-poppins font-bold text-popover-foreground">Add Quiz to Week</h3>
                     <Button
                         variant="ghost"
                         size="sm"
                         onClick={() => setIsAddingQuiz(false)}
+                        className="text-popover-foreground hover:bg-accent hover:text-accent-foreground"
                     >
                         <X className="h-4 w-4"/>
                     </Button>
@@ -31,10 +32,10 @@ const QuizSelectionModal = ({
 
                 <div className="space-y-3 mb-6">
                     {availableQuizzes.length === 0 ? (
-                        <div className="text-center py-8 ">
-                            <FileQuestion className="h-12 w-12 mx-auto mb-2 opacity-50"/>
-                            <p>No quizzes available</p>
-                            <p className="text-sm">Create a quiz first to add it to this week</p>
+                        <div className="text-center py-8">
+                            <FileQuestion className="h-12 w-12 mx-auto mb-2 text-muted-foreground opacity-50"/>
+                            <p className="text-popover-foreground">No quizzes available</p>
+                            <p className="text-sm text-muted-foreground">Create a quiz first to add it to this week</p>
                         </div>
                     ) : (
                         availableQuizzes
@@ -43,9 +44,9 @@ const QuizSelectionModal = ({
                                 <Card
                                     key={quiz.id}
                                     className={cn(
-                                        "cursor-pointer transition-all hover:shadow-md",
+                                        "cursor-pointer transition-all hover:shadow-md bg-card border-border",
                                         selectedQuiz === quiz.id
-                                            ? "ring-2 ring-blue-500 bg-blue-50"
+                                            ? "ring-2 ring-blue-500 bg-blue-50 dark:bg-blue-950"
                                             : "hover:bg-secondary"
                                     )}
                                     onClick={() => handleQuizSelect(quiz.id)}
@@ -54,7 +55,7 @@ const QuizSelectionModal = ({
                                         <div className="flex items-start justify-between">
                                             <div className="flex-1">
                                                 <div className="flex items-center gap-2 mb-2">
-                                                    <h4 className="font-medium">{quiz.title}</h4>
+                                                    <h4 className="font-medium text-card-foreground font-poppins font-bold">{quiz.title}</h4>
                                                     <Badge className={cn("text-xs", getQuizStatusColor(quiz.status))}>
                                                         {quiz.status}
                                                     </Badge>
@@ -62,8 +63,8 @@ const QuizSelectionModal = ({
                                                         <CheckCircle className="h-4 w-4 text-blue-500"/>
                                                     )}
                                                 </div>
-                                                <p className="text-sm  mb-3">{quiz.description}</p>
-                                                <div className="flex items-center gap-4 text-xs ">
+                                                <p className="text-sm text-card-foreground mb-3">{quiz.description}</p>
+                                                <div className="flex items-center gap-4 text-xs text-muted-foreground">
                                                     <div className="flex items-center gap-1">
                                                         <FileQuestion className="h-3 w-3"/>
                                                         <span>{quiz.questionsPerStudent || 0} questions</span>
@@ -89,12 +90,14 @@ const QuizSelectionModal = ({
                     <Button
                         variant="outline"
                         onClick={() => setIsAddingQuiz(false)}
+                        className="border-border text-foreground hover:bg-accent hover:text-accent-foreground"
                     >
                         Cancel
                     </Button>
                     <Button
                         onClick={handleAddQuiz}
                         disabled={!selectedQuiz}
+                        className="bg-primary text-primary-foreground hover:bg-primary/90"
                     >
                         Add Quiz
                     </Button>

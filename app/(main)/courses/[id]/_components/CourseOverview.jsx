@@ -14,7 +14,7 @@ const CourseOverview = ({courseDetails}) => {
                   <h3 className="mb-4 text-2xl font-bold">Course Description</h3>
                   <div className="max-w-none">
                     <p>{courseDetails?.description}</p>
-                    <p className="mt-4">{courseDetails?.subtitle}</p>
+
                   </div>
                 </div>
 

@@ -15,7 +15,7 @@ const CoursesPage = async () => {
     serverUserData = await getServerUserData();
     const userData = serverUserData?.userData;
     console.log(" CoursesPage ~ userData:", userData);
-    
+
     if (userData?.instructor?.id) {
       courses = await getInstructorCourses(userData.instructor.id);
       chalkLog.log(" CoursesPage ~ courses of a instructor:", courses);
@@ -23,7 +23,7 @@ const CoursesPage = async () => {
   } catch (error) {
     // During static generation or if user is not authenticated, this might fail
     console.log("Could not fetch data:", error.message);
-    
+
     // You can either:
     // 1. Return empty array (current approach)
     // 2. Redirect to login
@@ -35,15 +35,15 @@ const CoursesPage = async () => {
   const safeCoursesData = Array.isArray(courses) ? courses : [];
 
   return (
-    <div className="p-6">
-      {safeCoursesData.length > 0 ? (
-        <DataTable columns={columns} data={safeCoursesData} />
-      ) : (
-        <div className="text-center py-8 bg-card">
-          <p className="text-gray-500">No courses found.</p>
-        </div>
-      )}
-    </div>
+      <div className="p-6 bg-background">
+        {safeCoursesData.length > 0 ? (
+            <DataTable columns={columns} data={safeCoursesData} />
+        ) : (
+            <div className="text-center py-8 bg-card border border-border rounded-lg">
+              <p className="text-muted-foreground">No courses found.</p>
+            </div>
+        )}
+      </div>
   );
 };
 

@@ -15,7 +15,6 @@ export async function getWeekDetailsByIds(courseId, weekId) {
                         id: true,
                         title: true,
                         description: true,
-                        subtitle: true,
                         thumbnail: true,
                         active: true,
                         code: true,

@@ -49,14 +49,8 @@ export const LessonModal = ({
 
                 <div className="p-4 sm:p-6">
                     {/* Header Section */}
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-                        <Link
-                            href={`/dashboard/courses/${courseId}`}
-                            className="flex items-center text-sm hover:opacity-75 transition"
-                        >
-                            <ArrowLeft className="h-4 w-4 mr-2"/>
-                            Back to course setup
-                        </Link>
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 ">
+
                         <div className="flex justify-end">
                             {/*<CourseActions isActive={lessonData?.active}*/}
                             {/*               courseId={courseId}*/}

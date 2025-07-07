@@ -36,7 +36,6 @@ export async function PATCH(request, { params }) {
     const allowedFields = [
       "title",
       "description",
-      "subtitle",
       "thumbnail",
       "active",
       "learning",
