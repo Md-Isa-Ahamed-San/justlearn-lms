@@ -35,7 +35,7 @@ const menuItems = [
 ];
 
 async function Menu({ currentPath }) {
-      let serverUserData = null;
+  let serverUserData = null;
     
     try {
       serverUserData = await getServerUserData();

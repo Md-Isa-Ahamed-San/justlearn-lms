@@ -88,7 +88,8 @@ const HomePage = async () => {
   console.log("inside home page........");
 
   // const user = await getAllUsers()
-  const courses = await getCourseList();
+  const fetchedCourse = await getCourseList();
+  const courses = fetchedCourse.filter(item=>item.visibility==="public" && item.active===true)
   // console.log(" HomePage ~ courses:", courses)
   const categories = await getCategories();
   // const cc = await getCourseDetails("664aca881387e2ad2e8be484")

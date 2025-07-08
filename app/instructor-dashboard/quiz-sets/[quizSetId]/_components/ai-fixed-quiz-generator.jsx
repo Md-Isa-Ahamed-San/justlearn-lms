@@ -117,19 +117,19 @@ export const AIFixedQuizGenerator = ({ quizData, setQuizData }) => {
   let info = "Generating Questions can take upto 1 minute."
 
   return (
-      <div className="mt-6 border rounded-md p-4 space-y-6">
+      <div className="mt-6 bg-card border border-border rounded-md p-4 space-y-6">
         <div className="flex items-center justify-between">
           <div className="flex flex-row gap-2">
-            <h3 className="text-lg font-semibold">AI-Generated Quiz</h3>
+            <h3 className="text-lg font-poppins font-bold text-card-foreground">AI-Generated Quiz</h3>
             <Info info={info}/>
           </div>
-          <div className="text-sm text-gray-600">
+          <div className="text-sm text-muted-foreground">
             Total: {totalQuestions} questions
           </div>
         </div>
 
         <div>
-          <Label htmlFor="aiPrompt">Custom Prompt (Optional)</Label>
+          <Label htmlFor="aiPrompt" className="text-card-foreground font-poppins font-bold">Custom Prompt (Optional)</Label>
           <Textarea
               id="aiPrompt"
               value={aiPrompt}
@@ -137,11 +137,12 @@ export const AIFixedQuizGenerator = ({ quizData, setQuizData }) => {
               placeholder="e.g., Generate questions focusing on the key concepts of Chapter 3, include practical examples..."
               rows={3}
               disabled={isGenerating}
+              className="bg-input border-border text-foreground"
           />
         </div>
 
         <div>
-          <Label htmlFor="contextText">Context Data (Paste Text)</Label>
+          <Label htmlFor="contextText" className="text-card-foreground font-poppins font-bold">Context Data (Paste Text)</Label>
           <Textarea
               id="contextText"
               value={contextText}
@@ -149,22 +150,24 @@ export const AIFixedQuizGenerator = ({ quizData, setQuizData }) => {
               placeholder="Paste your document text here..."
               rows={8}
               disabled={isGenerating}
+              className="bg-input border-border text-foreground"
           />
         </div>
 
-        <div className="text-sm text-center my-2 text-gray-500">OR</div>
+        <div className="text-sm text-center my-2 text-muted-foreground">OR</div>
 
         <div>
-          <Label htmlFor="contextFile">Context Data (Upload PDF, DOCX, TXT)</Label>
+          <Label htmlFor="contextFile" className="text-card-foreground font-poppins font-bold">Context Data (Upload PDF, DOCX, TXT)</Label>
           <Input
               id="contextFile"
               type="file"
               accept=".pdf,.docx,.txt"
               onChange={handleFileChange}
               disabled={isGenerating}
+              className="bg-input border-border text-foreground"
           />
           {contextFile && (
-              <p className="text-xs mt-1 text-gray-600">
+              <p className="text-xs mt-1 text-muted-foreground">
                 Selected: {contextFile.name} ({(contextFile.size / 1024).toFixed(1)} KB)
               </p>
           )}
@@ -172,7 +175,7 @@ export const AIFixedQuizGenerator = ({ quizData, setQuizData }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <Label htmlFor="targetMcq">Multiple Choice Questions</Label>
+            <Label htmlFor="targetMcq" className="text-card-foreground font-poppins font-bold">Multiple Choice Questions</Label>
             <Input
                 id="targetMcq"
                 type="number"
@@ -181,11 +184,12 @@ export const AIFixedQuizGenerator = ({ quizData, setQuizData }) => {
                 min="0"
                 max="20"
                 disabled={isGenerating}
+                className="bg-input border-border text-foreground"
             />
-            <p className="text-xs text-gray-500 mt-1">1 mark each</p>
+            <p className="text-xs text-muted-foreground mt-1">1 mark each</p>
           </div>
           <div>
-            <Label htmlFor="targetShort">Short Answer Questions</Label>
+            <Label htmlFor="targetShort" className="text-card-foreground font-poppins font-bold">Short Answer Questions</Label>
             <Input
                 id="targetShort"
                 type="number"
@@ -194,11 +198,12 @@ export const AIFixedQuizGenerator = ({ quizData, setQuizData }) => {
                 min="0"
                 max="10"
                 disabled={isGenerating}
+                className="bg-input border-border text-foreground"
             />
-            <p className="text-xs text-gray-500 mt-1">2 marks each</p>
+            <p className="text-xs text-muted-foreground mt-1">2 marks each</p>
           </div>
           <div>
-            <Label htmlFor="targetLong">Long Answer Questions</Label>
+            <Label htmlFor="targetLong" className="text-card-foreground font-poppins font-bold">Long Answer Questions</Label>
             <Input
                 id="targetLong"
                 type="number"
@@ -207,14 +212,15 @@ export const AIFixedQuizGenerator = ({ quizData, setQuizData }) => {
                 min="0"
                 max="5"
                 disabled={isGenerating}
+                className="bg-input border-border text-foreground"
             />
-            <p className="text-xs text-gray-500 mt-1">5 marks each</p>
+            <p className="text-xs text-muted-foreground mt-1">5 marks each</p>
           </div>
         </div>
 
-        <div className="p-3 rounded text-sm">
-          <p><strong>Total Marks:</strong> {targetMcq * 1 + targetShort * 2 + targetLong * 5}</p>
-          <p className="mt-1">
+        <div className="p-3 bg-card rounded border border-border text-sm">
+          <p className="text-card-foreground"><strong>Total Marks:</strong> {targetMcq * 1 + targetShort * 2 + targetLong * 5}</p>
+          <p className="mt-1 text-muted-foreground">
             MCQ: {targetMcq} × 1 = {targetMcq} marks |
             Short: {targetShort} × 2 = {targetShort * 2} marks |
             Long: {targetLong} × 5 = {targetLong * 5} marks
@@ -224,7 +230,7 @@ export const AIFixedQuizGenerator = ({ quizData, setQuizData }) => {
         <Button
             onClick={handleGenerate}
             disabled={isGenerating || totalQuestions === 0}
-            className="w-full"
+            className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
         >
           {isGenerating ? (
               <>
@@ -238,25 +244,25 @@ export const AIFixedQuizGenerator = ({ quizData, setQuizData }) => {
 
         {/* Success Modal */}
         <Dialog open={showSuccessModal} onOpenChange={setShowSuccessModal}>
-          <DialogContent className="sm:max-w-md">
+          <DialogContent className="sm:max-w-md bg-popover border-border">
             <DialogHeader>
-              <DialogTitle className="flex items-center gap-2">
+              <DialogTitle className="flex items-center gap-2 text-popover-foreground font-poppins font-bold">
                 <CheckCircle className="h-5 w-5 text-green-600" />
                 Quiz Generated Successfully!
               </DialogTitle>
-              <DialogDescription>
+              <DialogDescription className="text-muted-foreground">
                 Generated {quizData.questions?.length || 0} questions successfully!
                 You can now edit the questions below or save the quiz.
               </DialogDescription>
             </DialogHeader>
             <div className="flex justify-end">
-              <Button onClick={() => setShowSuccessModal(false)}>
+              <Button onClick={() => setShowSuccessModal(false)} className="bg-primary text-primary-foreground hover:bg-primary/90">
                 Continue Editing
               </Button>
             </div>
           </DialogContent>
         </Dialog>
-{/*gg*/}
+        {/*gg*/}
         {quizData.questions && quizData.questions.length > 0 && (
             <div className="mt-8">
               <ManualQuizEditor quizData={quizData} setQuizData={setQuizData} />

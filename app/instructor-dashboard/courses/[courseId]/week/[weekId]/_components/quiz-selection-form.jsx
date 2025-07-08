@@ -132,7 +132,7 @@ export const QuizSelectionForm = ({
                     <span>Add Quiz to Week</span>
                 </Button>
             ) : (
-                <div className="border rounded-lg p-4 bg-gray-50">
+                <div className="border rounded-lg p-4">
                     <div className="flex items-center justify-between mb-4">
                         <h3 className="font-medium">Select Quizzes for this Week</h3>
                         <div className="flex gap-2">
@@ -168,7 +168,7 @@ export const QuizSelectionForm = ({
                                         "cursor-pointer transition-all hover:shadow-md",
                                         selectedQuizzes.includes(quiz.id)
                                             ? "ring-2 ring-blue-500 bg-blue-50"
-                                            : "hover:bg-gray-50"
+                                            : "hover:bg-gray-700"
                                     )}
                                     onClick={() => handleQuizSelect(quiz.id)}
                                 >

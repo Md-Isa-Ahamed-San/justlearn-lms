@@ -347,12 +347,12 @@ export const ManualQuizEditor = ({ quizData, setQuizData, initialQuestions = nul
     const isDisabled = bulkProcessing || isPublished;
 
     return (
-        <div className="mt-6 border rounded-md p-2 sm:p-4">
-            <div className="font-medium flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-3">
+        <div className="mt-6 bg-card border border-border rounded-md p-2 sm:p-4">
+            <div className="font-poppins font-bold text-card-foreground flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-3">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
                     <h3 className="text-lg">Questions</h3>
                     {shouldShowPagination && (
-                        <div className="text-sm text-gray-600 bg-gray-50 px-3 py-1 rounded-full">
+                        <div className="text-sm text-muted-foreground bg-secondary text-secondary-foreground px-3 py-1 rounded-full">
                             Showing {startIndex + 1}-{Math.min(endIndex, sortedQuestions.length)} of {sortedQuestions.length}
                         </div>
                     )}
@@ -365,7 +365,7 @@ export const ManualQuizEditor = ({ quizData, setQuizData, initialQuestions = nul
                             onClick={handleAddAllAIQuestions}
                             variant="outline"
                             disabled={processing || bulkProcessing}
-                            className="text-xs sm:text-sm"
+                            className="text-xs sm:text-sm border-border text-foreground hover:bg-accent hover:text-accent-foreground"
                         >
                             <Database className="h-4 w-4 mr-2" />
                             <span className="hidden sm:inline">Add All AI Generated Questions</span>
@@ -378,7 +378,7 @@ export const ManualQuizEditor = ({ quizData, setQuizData, initialQuestions = nul
                         variant="outline"
                         disabled={isDisabled}
                         title={isPublished ? "Cannot modify questions in a published quiz" : ""}
-                        className="text-xs sm:text-sm"
+                        className="text-xs sm:text-sm border-border text-foreground hover:bg-accent hover:text-accent-foreground"
                     >
                         <PlusCircle className="h-4 w-4 mr-2" />
                         Add a Question
@@ -391,13 +391,14 @@ export const ManualQuizEditor = ({ quizData, setQuizData, initialQuestions = nul
                 <div id="questions-section">
                     {/* Pagination Controls - Top */}
                     {shouldShowPagination && (
-                        <div className="flex flex-col sm:flex-row items-center justify-between mb-6 p-2 sm:p-4 bg-gray-50 rounded-lg gap-3">
+                        <div className="flex flex-col sm:flex-row items-center justify-between mb-6 p-2 sm:p-4 bg-card rounded-lg gap-3">
                             <div className="flex items-center gap-2">
                                 <Button
                                     variant="outline"
                                     size="sm"
                                     onClick={() => handlePageChange(currentPage - 1)}
                                     disabled={currentPage === 1}
+                                    className="border-border text-foreground hover:bg-accent hover:text-accent-foreground"
                                 >
                                     <ChevronLeft className="h-4 w-4" />
                                     <span className="hidden sm:inline">Previous</span>
@@ -410,7 +411,12 @@ export const ManualQuizEditor = ({ quizData, setQuizData, initialQuestions = nul
                                             variant={currentPage === page ? "default" : "outline"}
                                             size="sm"
                                             onClick={() => handlePageChange(page)}
-                                            className="w-8 h-8 p-0"
+                                            className={cn(
+                                                "w-8 h-8 p-0",
+                                                currentPage === page
+                                                    ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                                                    : "border-border text-foreground hover:bg-accent hover:text-accent-foreground"
+                                            )}
                                         >
                                             {page}
                                         </Button>
@@ -422,13 +428,14 @@ export const ManualQuizEditor = ({ quizData, setQuizData, initialQuestions = nul
                                     size="sm"
                                     onClick={() => handlePageChange(currentPage + 1)}
                                     disabled={currentPage === totalPages}
+                                    className="border-border text-foreground hover:bg-accent hover:text-accent-foreground"
                                 >
                                     <span className="hidden sm:inline">Next</span>
                                     <ChevronRight className="h-4 w-4" />
                                 </Button>
                             </div>
 
-                            <div className="text-sm text-gray-600">
+                            <div className="text-sm text-muted-foreground">
                                 Page {currentPage} of {totalPages}
                             </div>
                         </div>
@@ -441,7 +448,7 @@ export const ManualQuizEditor = ({ quizData, setQuizData, initialQuestions = nul
                             return (
                                 <div
                                     key={question.id || `question-${actualIndex}`}
-                                    className="shadow-md p-3 sm:p-4 lg:p-6 rounded-md border"
+                                    className="bg-card shadow-md p-3 sm:p-4 lg:p-6 rounded-md border border-border"
                                 >
                                     <div className="flex flex-col sm:flex-row items-start justify-between mb-3 gap-3">
                                         <div className="flex flex-col gap-2 flex-1">
@@ -454,11 +461,11 @@ export const ManualQuizEditor = ({ quizData, setQuizData, initialQuestions = nul
                                                     className="rounded-md w-full max-w-xs sm:max-w-sm"
                                                 />
                                             )}
-                                            <h4 className="mb-1 font-semibold text-sm sm:text-base">
+                                            <h4 className="mb-1 font-poppins font-bold text-card-foreground text-sm sm:text-base">
                                                 {actualIndex + 1}. {question.text}
                                             </h4>
                                         </div>
-                                        <div className="text-sm text-gray-500 flex flex-row sm:flex-col items-center sm:items-end gap-2 sm:gap-1">
+                                        <div className="text-sm text-muted-foreground flex flex-row sm:flex-col items-center sm:items-end gap-2 sm:gap-1">
                                             <span>
                                                 {question.mark} {question.mark === 1 ? "point" : "points"}
                                             </span>
@@ -471,7 +478,7 @@ export const ManualQuizEditor = ({ quizData, setQuizData, initialQuestions = nul
                                     </div>
 
                                     {question.explanation && (
-                                        <p className="text-xs text-gray-600 mb-3 italic">
+                                        <p className="text-xs text-muted-foreground mb-3 italic">
                                             <strong>Explanation:</strong> {question.explanation}
                                         </p>
                                     )}
@@ -485,7 +492,7 @@ export const ManualQuizEditor = ({ quizData, setQuizData, initialQuestions = nul
                                                         "py-1.5 rounded-sm text-sm flex items-center gap-2",
                                                         option.isCorrect
                                                             ? "text-emerald-700"
-                                                            : "text-gray-600"
+                                                            : "text-muted-foreground"
                                                     )}
                                                     key={`${question.id}-option-${optionIndex}`}
                                                 >
@@ -495,7 +502,7 @@ export const ManualQuizEditor = ({ quizData, setQuizData, initialQuestions = nul
                                                         <Circle className="size-4 flex-shrink-0" />
                                                     )}
                                                     <p className="break-words">
-                                                        <span className="font-medium mr-1">
+                                                        <span className="font-poppins font-bold mr-1">
                                                             {String.fromCharCode(65 + optionIndex)}.
                                                         </span>
                                                         {option.label}
@@ -507,15 +514,15 @@ export const ManualQuizEditor = ({ quizData, setQuizData, initialQuestions = nul
 
                                     {/* Short Answer and Long Answer Questions */}
                                     {(question.type === "short_answer" || question.type === "long_answer") && (
-                                        <div className="mb-4 p-3 bg-gray-50 rounded-md">
-                                            <p className="text-sm text-gray-700 mb-1">
-                                                <strong>
+                                        <div className="mb-4 p-3 bg-secondary rounded-md">
+                                            <p className="text-sm text-secondary-foreground mb-1">
+                                                <strong className="font-poppins font-bold">
                                                     {question.type === "short_answer"
                                                         ? "Correct Answer:"
                                                         : "Sample Answer:"}
                                                 </strong>
                                             </p>
-                                            <p className="text-sm whitespace-pre-wrap break-words">
+                                            <p className="text-sm text-secondary-foreground whitespace-pre-wrap break-words">
                                                 {typeof question.correctAnswer === "string"
                                                     ? question.correctAnswer
                                                     : JSON.stringify(question.correctAnswer)}
@@ -546,7 +553,7 @@ export const ManualQuizEditor = ({ quizData, setQuizData, initialQuestions = nul
                                                 onClick={() => openEditModal(question)}
                                                 disabled={isDisabled}
                                                 title={isPublished ? "Cannot edit questions in a published quiz" : ""}
-                                                className="text-xs sm:text-sm"
+                                                className="text-xs sm:text-sm text-foreground hover:bg-accent hover:text-accent-foreground"
                                             >
                                                 <Pencil className="w-3 h-3 mr-1" />
                                                 Edit
@@ -571,13 +578,14 @@ export const ManualQuizEditor = ({ quizData, setQuizData, initialQuestions = nul
 
                     {/* Pagination Controls - Bottom */}
                     {shouldShowPagination && (
-                        <div className="flex flex-col sm:flex-row items-center justify-center mt-6 p-2 sm:p-4 bg-gray-50 rounded-lg gap-3">
+                        <div className="flex flex-col sm:flex-row items-center justify-center mt-6 p-2 sm:p-4 bg-card rounded-lg gap-3">
                             <div className="flex items-center gap-2">
                                 <Button
                                     variant="outline"
                                     size="sm"
                                     onClick={() => handlePageChange(currentPage - 1)}
                                     disabled={currentPage === 1}
+                                    className="border-border text-foreground hover:bg-accent hover:text-accent-foreground"
                                 >
                                     <ChevronLeft className="h-4 w-4" />
                                     <span className="hidden sm:inline">Previous</span>
@@ -590,7 +598,12 @@ export const ManualQuizEditor = ({ quizData, setQuizData, initialQuestions = nul
                                             variant={currentPage === page ? "default" : "outline"}
                                             size="sm"
                                             onClick={() => handlePageChange(page)}
-                                            className="w-8 h-8 p-0"
+                                            className={cn(
+                                                "w-8 h-8 p-0",
+                                                currentPage === page
+                                                    ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                                                    : "border-border text-foreground hover:bg-accent hover:text-accent-foreground"
+                                            )}
                                         >
                                             {page}
                                         </Button>
@@ -602,13 +615,14 @@ export const ManualQuizEditor = ({ quizData, setQuizData, initialQuestions = nul
                                     size="sm"
                                     onClick={() => handlePageChange(currentPage + 1)}
                                     disabled={currentPage === totalPages}
+                                    className="border-border text-foreground hover:bg-accent hover:text-accent-foreground"
                                 >
                                     <span className="hidden sm:inline">Next</span>
                                     <ChevronRight className="h-4 w-4" />
                                 </Button>
                             </div>
 
-                            <div className="text-sm text-gray-600">
+                            <div className="text-sm text-muted-foreground">
                                 Page {currentPage} of {totalPages} • {sortedQuestions.length} total questions
                             </div>
                         </div>
@@ -618,8 +632,8 @@ export const ManualQuizEditor = ({ quizData, setQuizData, initialQuestions = nul
 
             {/* No Questions State */}
             {!hasQuestions && !bulkProcessing && (
-                <div className="text-center py-8 text-gray-500">
-                    <p className="text-lg mb-2">
+                <div className="text-center py-8 text-muted-foreground">
+                    <p className="text-lg mb-2 font-poppins font-bold">
                         No questions in this {isAiGenerated ? 'AI-generated' : ''} quiz yet.
                     </p>
                     <p className="text-sm">
@@ -633,16 +647,16 @@ export const ManualQuizEditor = ({ quizData, setQuizData, initialQuestions = nul
             {/* Bulk Processing State */}
             {bulkProcessing && (
                 <div className="text-center py-8 text-blue-600">
-                    <p className="text-lg">Creating AI-generated questions...</p>
+                    <p className="text-lg font-poppins font-bold">Creating AI-generated questions...</p>
                     <p className="text-sm">Please wait.</p>
                 </div>
             )}
 
             {/* Add/Edit Question Modal */}
             <Dialog open={isModalOpen} onOpenChange={handleModalOpenChange}>
-                <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto mx-2 sm:mx-auto">
+                <DialogContent className="bg-popover border-border max-w-4xl max-h-[90vh] overflow-y-auto mx-2 sm:mx-auto">
                     <DialogHeader>
-                        <DialogTitle>
+                        <DialogTitle className="text-popover-foreground font-poppins font-bold">
                             {editingQuestion ? "Edit Question" : "Add New Question"}
                         </DialogTitle>
                     </DialogHeader>

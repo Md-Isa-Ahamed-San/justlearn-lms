@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { ManualQuizEditor } from "@/app/instructor-dashboard/quiz-sets/[quizSetId]/_components/manual-quiz-editor";
 import Info from "../../../../../components/info";
+
 export const AIPoolQuizGenerator = ({ quizData, setQuizData }) => {
   const [aiPrompt, setAiPrompt] = useState(quizData.aiPrompt || "");
   const [contextText, setContextText] = useState("");
@@ -142,14 +143,16 @@ export const AIPoolQuizGenerator = ({ quizData, setQuizData }) => {
   const totalQuestions = targetMcq + targetShort + targetLong;
   const hasGeneratedQuestions = quizData.questions && quizData.questions.length > 0;
   let info = "Generating Questions can take upto 1 minute."
+
   return (
-      <div className="mt-6 border rounded-lg p-2 md:space-y-6">
+      <div className="mt-6 bg-card border border-border rounded-lg p-2 md:space-y-6">
         <div className="flex items-center justify-between">
 
-          <div className="flex flex-row gap-2"><h3 className="text-center md:text-start text-lg font-semibold">AI-Generated Quiz Pool</h3>
+          <div className="flex flex-row gap-2">
+            <h3 className="text-center md:text-start text-lg font-poppins font-bold text-card-foreground">AI-Generated Quiz Pool</h3>
             <Info info={info}/>
           </div>
-          <div className="text-sm text-center text-gray-600 px-2 md:px-3 rounded-md border mx-2">
+          <div className="text-sm text-center text-muted-foreground px-2 md:px-3 rounded-md border border-border mx-2">
             Pool: {poolSize} → {questionsPerStudent} per student
           </div>
         </div>
@@ -159,8 +162,8 @@ export const AIPoolQuizGenerator = ({ quizData, setQuizData }) => {
             <>
               <div className="space-y-4">
                 <div>
-                  <Label htmlFor="aiPoolPrompt" className="text-sm font-medium">
-                    Custom Prompt <span className="text-gray-500">(Optional)</span>
+                  <Label htmlFor="aiPoolPrompt" className="text-sm font-poppins font-bold text-card-foreground">
+                    Custom Prompt <span className="text-muted-foreground">(Optional)</span>
                   </Label>
                   <Textarea
                       id="aiPoolPrompt"
@@ -169,13 +172,13 @@ export const AIPoolQuizGenerator = ({ quizData, setQuizData }) => {
                       placeholder="e.g., Generate diverse questions about React hooks, focusing on useState and useEffect..."
                       rows={3}
                       disabled={isGenerating}
-                      className="mt-1"
+                      className="mt-1 bg-input border-border text-foreground"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="poolContextText" className="text-sm font-medium">
-                    Context Data <span className="text-gray-500">(Paste Text)</span>
+                  <Label htmlFor="poolContextText" className="text-sm font-poppins font-bold text-card-foreground">
+                    Context Data <span className="text-muted-foreground">(Paste Text)</span>
                   </Label>
                   <Textarea
                       id="poolContextText"
@@ -184,19 +187,19 @@ export const AIPoolQuizGenerator = ({ quizData, setQuizData }) => {
                       placeholder="Paste your document text, lecture notes, or study material here..."
                       rows={8}
                       disabled={isGenerating || !!contextFile}
-                      className="mt-1 font-mono text-sm"
+                      className="mt-1 font-mono text-sm bg-input border-border text-foreground"
                   />
                 </div>
 
                 <div className="flex items-center justify-center">
-                  <div className="text-sm text-gray-500 px-4 py-1 rounded-full border">
+                  <div className="text-sm text-muted-foreground px-4 py-1 rounded-full border border-border">
                     OR
                   </div>
                 </div>
 
                 <div>
-                  <Label htmlFor="poolContextFile" className="text-sm font-medium">
-                    Upload Context File <span className="text-gray-500">(PDF, DOCX, TXT)</span>
+                  <Label htmlFor="poolContextFile" className="text-sm font-poppins font-bold text-card-foreground">
+                    Upload Context File <span className="text-muted-foreground">(PDF, DOCX, TXT)</span>
                   </Label>
                   <Input
                       id="poolContextFile"
@@ -204,7 +207,7 @@ export const AIPoolQuizGenerator = ({ quizData, setQuizData }) => {
                       accept=".pdf,.docx,.txt"
                       onChange={handleFileChange}
                       disabled={isGenerating || !!contextText}
-                      className="mt-1"
+                      className="mt-1 bg-input border-border text-foreground"
                   />
                   {contextFile && (
                       <p className="text-xs mt-2 text-green-600 bg-green-50 px-2 py-1 rounded">
@@ -215,10 +218,10 @@ export const AIPoolQuizGenerator = ({ quizData, setQuizData }) => {
 
                 {/* Question Type Controls */}
                 <div>
-                  <Label className="text-sm font-medium mb-3 block">Question Types for Pool</Label>
+                  <Label className="text-sm font-poppins font-bold text-card-foreground mb-3 block">Question Types for Pool</Label>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                      <Label htmlFor="targetMcq" className="text-sm">Multiple Choice Questions</Label>
+                      <Label htmlFor="targetMcq" className="text-sm font-poppins font-bold text-card-foreground">Multiple Choice Questions</Label>
                       <Input
                           id="targetMcq"
                           type="number"
@@ -231,12 +234,12 @@ export const AIPoolQuizGenerator = ({ quizData, setQuizData }) => {
                           min="0"
                           max="50"
                           disabled={isGenerating}
-                          className="mt-1"
+                          className="mt-1 bg-input border-border text-foreground"
                       />
-                      <p className="text-xs text-gray-500 mt-1">1 mark each</p>
+                      <p className="text-xs text-muted-foreground mt-1">1 mark each</p>
                     </div>
                     <div>
-                      <Label htmlFor="targetShort" className="text-sm">Short Answer Questions</Label>
+                      <Label htmlFor="targetShort" className="text-sm font-poppins font-bold text-card-foreground">Short Answer Questions</Label>
                       <Input
                           id="targetShort"
                           type="number"
@@ -249,12 +252,12 @@ export const AIPoolQuizGenerator = ({ quizData, setQuizData }) => {
                           min="0"
                           max="30"
                           disabled={isGenerating}
-                          className="mt-1"
+                          className="mt-1 bg-input border-border text-foreground"
                       />
-                      <p className="text-xs text-gray-500 mt-1">2 marks each</p>
+                      <p className="text-xs text-muted-foreground mt-1">2 marks each</p>
                     </div>
                     <div>
-                      <Label htmlFor="targetLong" className="text-sm">Long Answer Questions</Label>
+                      <Label htmlFor="targetLong" className="text-sm font-poppins font-bold text-card-foreground">Long Answer Questions</Label>
                       <Input
                           id="targetLong"
                           type="number"
@@ -267,9 +270,9 @@ export const AIPoolQuizGenerator = ({ quizData, setQuizData }) => {
                           min="0"
                           max="20"
                           disabled={isGenerating}
-                          className="mt-1"
+                          className="mt-1 bg-input border-border text-foreground"
                       />
-                      <p className="text-xs text-gray-500 mt-1">5 marks each</p>
+                      <p className="text-xs text-muted-foreground mt-1">5 marks each</p>
                     </div>
                   </div>
                 </div>
@@ -277,7 +280,7 @@ export const AIPoolQuizGenerator = ({ quizData, setQuizData }) => {
                 {/* Pool Configuration */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="poolSize" className="text-sm font-medium">
+                    <Label htmlFor="poolSize" className="text-sm font-poppins font-bold text-card-foreground">
                       Total Questions in Pool
                     </Label>
                     <Input
@@ -288,15 +291,15 @@ export const AIPoolQuizGenerator = ({ quizData, setQuizData }) => {
                         min="1"
                         max="100"
                         disabled={isGenerating}
-                        className="mt-1 bg-gray-50"
+                        className="mt-1 bg-input border-border text-foreground"
                         readOnly
                     />
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       Auto-calculated from question types
                     </p>
                   </div>
                   <div>
-                    <Label htmlFor="questionsPerStudent" className="text-sm font-medium">
+                    <Label htmlFor="questionsPerStudent" className="text-sm font-poppins font-bold text-card-foreground">
                       Questions per Student
                     </Label>
                     <Input
@@ -307,44 +310,43 @@ export const AIPoolQuizGenerator = ({ quizData, setQuizData }) => {
                         min="1"
                         max={poolSize}
                         disabled={isGenerating}
-                        className="mt-1"
+                        className="mt-1 bg-input border-border text-foreground"
                     />
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       Each student gets a random subset
                     </p>
                   </div>
                 </div>
 
                 {/* Pool Summary */}
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <h4 className="text-sm font-medium mb-2">Pool Summary</h4>
+                <div className="p-4 bg-card rounded-lg border border-border">
+                  <h4 className="text-sm font-poppins font-bold text-card-foreground mb-2">Pool Summary</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                     <div>
-                      <p><strong>Total Pool Size:</strong> {totalQuestions} questions</p>
-                      <p className="text-gray-600 mt-1">
+                      <p className="text-card-foreground"><strong>Total Pool Size:</strong> {totalQuestions} questions</p>
+                      <p className="text-muted-foreground mt-1">
                         MCQ: {targetMcq} | Short: {targetShort} | Long: {targetLong}
                       </p>
                     </div>
                     <div>
-                      <p><strong>Total Marks Range:</strong> {targetMcq * 1 + targetShort * 2 + targetLong * 5} marks</p>
-                      <p className="text-gray-600 mt-1">
+                      <p className="text-card-foreground"><strong>Total Marks Range:</strong> {targetMcq * 1 + targetShort * 2 + targetLong * 5} marks</p>
+                      <p className="text-muted-foreground mt-1">
                         Per student: ~{Math.round((targetMcq * 1 + targetShort * 2 + targetLong * 5) * (questionsPerStudent / totalQuestions))} marks
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-blue-50 p-3 rounded-lg">
-                  <p className="text-blue-800 text-sm">
-                    <Info className="inline h-4 w-4 mr-1" />
+                <div className="p-3 rounded-lg border border-border bg-card">
+                  <div className="text-foreground text-sm " >
                     Generating Question Pool can take up to 2 minutes.
-                  </p>
+                  </div>
                 </div>
 
                 <Button
                     onClick={handleGenerate}
                     disabled={isGenerating || (!aiPrompt && !contextText && !contextFile) || totalQuestions === 0}
-                    className="w-full bg-blue-600 hover:bg-blue-700"
+                    className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
                     size="lg"
                 >
                   {isGenerating ? (
@@ -363,14 +365,7 @@ export const AIPoolQuizGenerator = ({ quizData, setQuizData }) => {
         {/* Show ManualQuizEditor when questions are generated - same pattern as AIFixedQuizGenerator */}
         {hasGeneratedQuestions && (
             <div className="mt-8">
-              {/*<div className="mb-4 p-3 bg-green-50 border border-green-200 rounded">*/}
-              {/*  <p className="text-green-800 font-medium">*/}
-              {/*    ✅ Generated {quizData.questions.length} questions successfully!*/}
-              {/*  </p>*/}
-              {/*  <p className="text-green-600 text-sm mt-1">*/}
-              {/*    Question pool created with {quizData.poolSize} total questions. Each student will receive {quizData.questionsPerStudent} randomly selected questions. You can edit the questions below.*/}
-              {/*  </p>*/}
-              {/*</div>*/}
+
               <ManualQuizEditor quizData={quizData} setQuizData={setQuizData} />
             </div>
         )}

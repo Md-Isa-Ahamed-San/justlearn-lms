@@ -19,10 +19,11 @@ const CoursesPage = async ({ searchParams }) => {
     : [];
 
   // Fetch all courses and categories
-  const [courses, categories] = await Promise.all([
+  const [fetchedCourses, categories] = await Promise.all([
     getCourseList(),
     getCategories(),
   ]);
+  const courses = fetchedCourses.filter(item=>item.visibility==="public" && item.active===true)
 
   // Filter courses based on selected categories
   const filteredCourses =

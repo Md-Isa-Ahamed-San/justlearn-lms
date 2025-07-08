@@ -150,13 +150,13 @@ export const columns = [
         },
         cell: ({ row }) => {
             const course = row.original;
-            const active = course.active || false;
+            const visibility  = course.visibility==="public" || false;
             const createdAt = new Date(course.createdAt);
             
             return (
                 <div className="space-y-2 min-w-[120px]">
-                    <Badge className={cn("text-xs", active ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800")}>
-                        {active ? "Published" : "Draft"}
+                    <Badge className={cn("text-xs", visibility  ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800")}>
+                        {visibility  ? "Published" : "Draft"}
                     </Badge>
                     
                     <div className="text-xs text-muted-foreground">
