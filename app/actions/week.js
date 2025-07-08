@@ -125,3 +125,165 @@ export async function toggleAddRemoveQuizFromWeek(weekId, quizId) {
         };
     }
 }
+
+export async function updateWeek(weekId, data) {
+    try {
+        // Handle both FormData and regular objects
+        const updateFields = data instanceof FormData ? Object.fromEntries(data) : data;
+
+        console.log("updateWeek ~ weekId:", weekId);
+        console.log("updateWeek ~ data:", updateFields);
+
+        const allowedFields = [
+            "title",
+            "description",
+            "status", // WeekStatus enum: draft, published
+            "order",
+            "quizIds", // Array of quiz IDs
+        ];
+
+        const updateData = {};
+        Object.keys(updateFields).forEach((key) => {
+            if (allowedFields.includes(key) && updateFields[key] !== undefined && updateFields[key] !== "") {
+                if (key === "quizIds") {
+                    try {
+                        updateData[key] = Array.isArray(updateFields[key]) ? updateFields[key] : JSON.parse(updateFields[key]);
+                    } catch (error) {
+                        throw new Error(`Invalid array format for ${key}`);
+                    }
+                }
+                // Handle enum fields (status)
+                else if (key === "status") {
+                    if (!["draft", "published"].includes(updateFields[key])) {
+                        throw new Error(`Invalid status value. Must be 'draft' or 'published'`);
+                    }
+                    updateData[key] = updateFields[key];
+                }
+                // Handle number fields (order)
+                else if (key === "order") {
+                    updateData[key] = parseInt(updateFields[key], 10);
+                    if (isNaN(updateData[key])) {
+                        throw new Error(`Invalid number format for ${key}`);
+                    }
+                }
+                // Handle rest of the string fields (title, description)
+                else {
+                    updateData[key] = updateFields[key];
+                }
+            }
+        });
+
+        if (Object.keys(updateData).length === 0) {
+            return {
+                success: false,
+                error: "No valid fields provided for update",
+            };
+        }
+
+        // Add updatedAt timestamp
+        updateData.updatedAt = new Date();
+
+        // Validate status if provided
+        if (updateData.status && !["draft", "published"].includes(updateData.status)) {
+            return {
+                success: false,
+                error: "Invalid status value. Must be 'draft' or 'published'",
+            };
+        }
+
+        // Validate order if provided
+        if (updateData.order && updateData.order < 1) {
+            return {
+                success: false,
+                error: "Order must be a positive number starting from 1",
+            };
+        }
+
+        // Validate quizIds if provided
+        if (updateData.quizIds && (!Array.isArray(updateData.quizIds) || updateData.quizIds.some(id => typeof id !== 'string'))) {
+            return {
+                success: false,
+                error: "QuizIds must be an array of valid quiz ID strings",
+            };
+        }
+
+        // Check if week exists before updating
+        const existingWeek = await db.week.findUnique({
+            where: { id: weekId },
+            include: {
+                course: true,
+                lessons: true,
+            },
+        });
+
+        if (!existingWeek) {
+            return {
+                success: false,
+                error: "Week not found",
+            };
+        }
+
+        // Update the week
+        const updatedWeek = await db.week.update({
+            where: { id: weekId },
+            data: updateData,
+            include: {
+                course: {
+                    include: {
+                        category: true,
+                        user: {
+                            include: {
+                                instructor: true,
+                            },
+                        },
+                    },
+                },
+                lessons: {
+                    orderBy: { order: "asc" },
+                },
+            },
+        });
+
+        // Revalidate relevant paths
+        revalidatePath(`/courses/${existingWeek.courseId}`);
+        revalidatePath(`/admin/courses/${existingWeek.courseId}`);
+        revalidatePath(`/weeks/${weekId}`);
+
+        return {
+            success: true,
+            message: "Week updated successfully",
+            week: updatedWeek,
+            updatedFields: Object.keys(updateData).filter(key => key !== "updatedAt"),
+        };
+
+    } catch (error) {
+        console.error("Error updating week:", error);
+
+        // Handle specific Prisma errors
+        if (error.code === "P2025") {
+            return {
+                success: false,
+                error: "Week not found",
+            };
+        }
+
+        if (error.code === "P2002") {
+            return {
+                success: false,
+                error: "Duplicate value for unique field",
+            };
+        }
+
+        if (error.code === "P2003") {
+            return {
+                success: false,
+                error: "Foreign key constraint failed",
+            };
+        }
+
+        return {
+            success: false,
+            error: error.message || "Internal server error",
+        };
+    }
+}

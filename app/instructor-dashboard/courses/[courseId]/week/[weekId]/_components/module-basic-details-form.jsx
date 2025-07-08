@@ -18,6 +18,7 @@ import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
+import {updateWeek} from "@/app/actions/week";
 
 const formSchema = z.object({
     title: z.string().min(1, "Title is required"),
@@ -42,15 +43,9 @@ export const ModuleBasicDetailsForm = ({ initialData, courseId, weekId }) => {
 
     const onSubmit = async (values) => {
         try {
-            const response = await fetch(`/api/courses/${courseId}/weeks/${weekId}`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(values),
-            });
+            const response = await updateWeek(weekId, values);
 
-            if (!response.ok) {
+            if (!response.success) {
                 throw new Error("Failed to update week");
             }
 

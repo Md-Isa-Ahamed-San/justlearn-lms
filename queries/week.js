@@ -1,4 +1,6 @@
 import {db} from "@/lib/prisma";
+
+
 export async function getWeekDetailsByIds(courseId, weekId) {
     try {
         if (!courseId || !weekId) {
@@ -81,3 +83,8 @@ export async function getWeekDetailsByIds(courseId, weekId) {
         );
     }
 }
+
+
+
+
+

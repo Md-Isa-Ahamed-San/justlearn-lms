@@ -13,10 +13,10 @@ import {
 import Link from "next/link";
 import { ModuleBasicDetailsForm } from "./_components/module-basic-details-form";
 import { LessonForm } from "./_components/lesson-form";
-import { CourseActions } from "../../_components/course-action";
 import { getWeekDetailsByIds } from "@/queries/week";
 import {getServerUserData} from "@/queries/users";
 import {getAllQuizzesByInstructorId} from "@/queries/quizzes";
+import {WeekActions} from "@/app/instructor-dashboard/courses/[courseId]/week/[weekId]/_components/week-action";
 
 const Week = async ({ params }) => {
   const { courseId, weekId } = await params;
@@ -69,11 +69,11 @@ const Week = async ({ params }) => {
                     Complete all fields ({weekDetails.lessons?.length || 0} lessons, {weekDetails.quizIds?.length || 0} quizzes)
                   </span>
                   </div>
-                  <CourseActions
+                  <WeekActions
                       disabled={!weekDetails.title || !weekDetails.description}
                       courseId={courseId}
                       weekId={weekId}
-                      isPublished={isPublished}
+                      status={isPublished}
                   />
                 </div>
               </div>

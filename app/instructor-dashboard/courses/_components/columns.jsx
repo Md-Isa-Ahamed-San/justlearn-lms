@@ -9,19 +9,23 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import { 
-    ArrowUpDown, 
-    GraduationCap, 
-    MoreHorizontal, 
-    Pencil, 
+import {
+    ArrowUpDown,
+    GraduationCap,
+    MoreHorizontal,
+    Pencil,
     Star,
     Users,
     Clock,
     BookOpen,
     Calendar,
-    Trophy
+    Trophy,
+    Copy
 } from "lucide-react";
 import Link from "next/link";
+import {CopyButton} from "@/utils/CopyButton";
+
+
 
 export const columns = [
     {
@@ -43,14 +47,17 @@ export const columns = [
                     {/* Course Title & Code */}
                     <div>
                         <h3 className="font-semibold text-sm">{course.title}</h3>
-                        <p className="text-xs text-muted-foreground">Code: {course.code}</p>
+                        <div className="flex items-center gap-2 mt-1">
+                            <p className="text-sm text-muted-foreground font-medium">Code: {course.code}</p>
+                            <CopyButton text={course.code} />
+                        </div>
                     </div>
-                    
+
                     {/* Course Description */}
-                    <p className="text-xs text-muted-foreground line-clamp-2">
-                        {course.description}
-                    </p>
-                    
+                    {/*<p className="text-xs text-muted-foreground line-clamp-2">*/}
+                    {/*    {course.description}*/}
+                    {/*</p>*/}
+
                     {/* Category */}
                     <Badge variant="outline" className="text-xs">
                         {course.category?.title}
@@ -77,29 +84,29 @@ export const columns = [
                             {course.averageRating || 0}
                         </div>
                     </div>
-                    
+
                     {/* Duration & Lessons */}
                     <div className="flex items-center space-x-4">
-                        <div className="flex items-center text-xs text-muted-foreground">
-                            <Clock className="h-3 w-3 mr-1" />
-                            {course.totalDuration || 0}min
-                        </div>
+                        {/*<div className="flex items-center text-xs text-muted-foreground">*/}
+                        {/*    <Clock className="h-3 w-3 mr-1" />*/}
+                        {/*    {course.totalDuration || 0}min*/}
+                        {/*</div>*/}
                         <div className="flex items-center text-xs text-muted-foreground">
                             <BookOpen className="h-3 w-3 mr-1" />
                             {course.totalLessons || 0} lessons
                         </div>
                     </div>
-                    
+
                     {/* Weeks & Certificates */}
                     <div className="flex items-center space-x-4">
                         <div className="flex items-center text-xs text-muted-foreground">
                             <Calendar className="h-3 w-3 mr-1" />
                             {course.totalWeeks || 0} weeks
                         </div>
-                        <div className="flex items-center text-xs text-muted-foreground">
-                            <Trophy className="h-3 w-3 mr-1" />
-                            {course.totalCertificates || 0} certs
-                        </div>
+                        {/*<div className="flex items-center text-xs text-muted-foreground">*/}
+                        {/*    <Trophy className="h-3 w-3 mr-1" />*/}
+                        {/*    {course.totalCertificates || 0} certs*/}
+                        {/*</div>*/}
                     </div>
                 </div>
             );
@@ -152,13 +159,13 @@ export const columns = [
             const course = row.original;
             const visibility  = course.visibility==="public" || false;
             const createdAt = new Date(course.createdAt);
-            
+
             return (
                 <div className="space-y-2 min-w-[120px]">
                     <Badge className={cn("text-xs", visibility  ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800")}>
                         {visibility  ? "Published" : "Draft"}
                     </Badge>
-                    
+
                     <div className="text-xs text-muted-foreground">
                         <p>Visibility: {course.visibility}</p>
                         <p>Created: {createdAt.toLocaleDateString()}</p>
@@ -173,7 +180,7 @@ export const columns = [
         cell: ({ row }) => {
             const course = row.original;
             const id = course.id;
-            
+
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -186,19 +193,13 @@ export const columns = [
                         <Link href={`/instructor-dashboard/courses/${id}`}>
                             <DropdownMenuItem className="cursor-pointer">
                                 <Pencil className="h-4 w-4 mr-2" />
-                                Edit Course
-                            </DropdownMenuItem>
-                        </Link>
-                        <Link href={`/instructor-dashboard/courses/${id}/weeks`}>
-                            <DropdownMenuItem className="cursor-pointer">
-                                <Calendar className="h-4 w-4 mr-2" />
-                                Manage Weeks
+                                Manage Course
                             </DropdownMenuItem>
                         </Link>
                         <Link href={`/instructor-dashboard/courses/${id}/allJoinedStudents`}>
                             <DropdownMenuItem className="cursor-pointer">
                                 <GraduationCap className="h-4 w-4 mr-2" />
-                                View All Students
+                                Enrolled Students
                             </DropdownMenuItem>
                         </Link>
                         <Link href={`/instructor-dashboard/courses/${id}/reviews`}>
