@@ -98,6 +98,7 @@ model User {
   participations   Participation[]   @relation("UserParticipations")
   watches          Watch[]           @relation("UserWatches")
   liveSessions     Live[]            @relation("UserLiveSessions")
+  lessonProgress   LessonProgress[]  @relation("UserLessonProgress")
 
   @@index([role, isActive])
   @@index([createdAt])
@@ -279,10 +280,33 @@ model Lesson {
   weekId String @db.ObjectId
 
   // Relationships
-  week    Week    @relation(fields: [weekId], references: [id])
-  watches Watch[]
+  week           Week             @relation(fields: [weekId], references: [id])
+  watches        Watch[]
+  LessonProgress LessonProgress[]
 }
 
+// !MARK: LESSON PROGRESS
+model LessonProgress {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  status      String    @default("not_started") // not_started, in_progress, completed
+  completedAt DateTime?
+  timeSpent   Int?      @default(0) // in seconds
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Foreign Keys
+  userId   String @db.ObjectId
+  lessonId String @db.ObjectId
+
+  // Relationships
+  user   User   @relation("UserLessonProgress", fields: [userId], references: [id])
+  lesson Lesson @relation(fields: [lessonId], references: [id])
+
+  @@unique([userId, lessonId])
+  @@index([userId, status])
+}
+
+//!MARK: QUESTION
 model Question {
   id            String       @id @default(auto()) @map("_id") @db.ObjectId
   type          QuestionType @default(mcq)

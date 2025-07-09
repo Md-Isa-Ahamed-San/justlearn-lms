@@ -74,6 +74,24 @@ export const getCourseDetailsById = async (id) => {
       },
     });
 
+    // If you need to fetch quizzes for each week, you'll need to do it separately
+    if (course && course.weeks) {
+      for (const week of course.weeks) {
+        if (week.quizIds && week.quizIds.length > 0) {
+          week.quizzes = await db.quiz.findMany({
+            where: {
+              id: {
+                in: week.quizIds,
+              },
+            },
+            orderBy: { createdAt: "asc" },
+          });
+        } else {
+          week.quizzes = [];
+        }
+      }
+    }
+
     return course;
   } catch (error) {
     console.error(`Error fetching course ${id}:`, error);

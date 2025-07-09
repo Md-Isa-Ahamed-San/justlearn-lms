@@ -62,7 +62,7 @@ const DashboardPage = async () => {
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
           <p className="text-muted-foreground">
-            Welcome back! Here's what's happening with your courses.
+            Welcome back! Here&apos's what&apos's happening with your courses.
           </p>
         </div>
         <div className="flex items-center space-x-2">
@@ -250,7 +250,7 @@ const DashboardPage = async () => {
                         {activity.user?.name || 'Unknown User'}
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        Submitted quiz in "{activity.quiz?.week?.course?.title}"
+                        Submitted quiz in {activity.quiz?.week?.course?.title}
                       </p>
                       <p className="text-xs text-muted-foreground">
                         {formatTime(activity.createdAt)}

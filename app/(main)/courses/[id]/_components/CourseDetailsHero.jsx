@@ -27,9 +27,7 @@ const CourseDetailsHero = ({
           <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl">
             <span className="block">{title}</span>
           </h1>
-          <p className="mt-3 text-lg  sm:mx-auto sm:mt-5 sm:max-w-xl sm:text-xl md:mt-5">
-            {description}
-          </p>
+
           <ClassJoin isJoined={isJoined} userId={userId} courseId={courseId}/>
         </div>
       </div>

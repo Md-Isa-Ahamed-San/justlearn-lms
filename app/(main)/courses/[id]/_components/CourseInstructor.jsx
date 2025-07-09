@@ -1,3 +1,4 @@
+
 import { TabsContent } from "@/components/ui/tabs";
 import { getInstructorDetailedStats } from "@/queries/courses";
 import {

@@ -3,6 +3,7 @@
 import { getLoggedInUser } from "@/lib/loggedin-user";
 import { db } from "@/lib/prisma";
 import { revalidatePath } from 'next/cache';
+import { markLessonComplete, markLessonIncomplete } from "@/queries/lesson";
 // !MARK: createLesson
 export async function createLesson(data) {
     try {
@@ -395,5 +396,26 @@ export async function reorderLessons(data) {
             success: false,
             error: `Failed to reorder lessons: ${error.message}`
         };
+    }
+}
+
+
+
+
+export async function toggleLessonProgress(userId, lessonId, courseId, isCompleted) {
+    try {
+        if (isCompleted) {
+            await markLessonIncomplete(userId, lessonId);
+        } else {
+            await markLessonComplete(userId, lessonId);
+        }
+
+        // Revalidate the course page to update the UI
+        revalidatePath(`/courses/${courseId}`);
+
+        return { success: true };
+    } catch (error) {
+        console.error('Error updating lesson progress:', error);
+        return { success: false, error: error.message };
     }
 }

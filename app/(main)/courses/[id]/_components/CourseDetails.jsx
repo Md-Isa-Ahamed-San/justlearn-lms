@@ -1,3 +1,4 @@
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from "next/image";
 
@@ -29,12 +30,10 @@ import CourseOverview from "./CourseOverview";
 import { formatPrice } from "../../../../../lib/formatPrice";
 import { formatDate } from "../../../../../lib/formatDate";
 
-const CourseDetails = ({ courseDetails }) => {
-  // console.log(" CourseDetails ~ courseDetails:", courseDetails)
-
-  // Format date to readable format
-
-  // Get instructor initials for avatar fallback
+const CourseDetails = ({   courseDetails,
+                         currentUser,
+                         completedLessons,
+                         onMarkLessonComplete  }) => {
   const getInstructorInitials = () => {
     if (!courseDetails?.user) return "IN";
     return `${courseDetails.user.name.charAt(0)}`;
@@ -189,9 +188,10 @@ const CourseDetails = ({ courseDetails }) => {
 
             <CourseOverview courseDetails={courseDetails} />
             <CourseCurriculum
-              courseDetails={courseDetails}
-              getTotalDuration={getTotalDuration}
-              getTotalLessons={getTotalLessons}
+                courseDetails={courseDetails}
+                currentUser={currentUser}
+                completedLessons={completedLessons}
+                onMarkLessonComplete={onMarkLessonComplete}
             />
 
             <CourseInstructor courseDetails={courseDetails} />
