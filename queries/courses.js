@@ -301,7 +301,7 @@ export const getUserEnrolledCourses = async (userId) => {
       throw new Error("User ID is required");
     }
 
-    const enrolledCourses = await db.courseProgress.findMany({
+    const enrolledCourses = await db.participation.findMany({
       where: {
         userId: userId,
       },
@@ -356,7 +356,7 @@ export const getUserEnrolledCourses = async (userId) => {
             _count: {
               select: {
                 testimonials: true,
-                courseProgress: true,
+                participations: true,
               },
             },
           },
@@ -383,7 +383,6 @@ export const getUserEnrolledCourses = async (userId) => {
 
       return {
         enrollmentId: enrollment.id,
-        enrollmentStatus: enrollment.status,
         progress: enrollment.progress,
         enrolledAt: enrollment.createdAt,
         lastUpdated: enrollment.updatedAt,
@@ -392,7 +391,7 @@ export const getUserEnrolledCourses = async (userId) => {
           totalDuration,
           totalLessons,
           totalWeeks: course.weeks.length,
-          totalStudents: course._count.courseProgress,
+          totalStudents: course._count.participations,
           totalTestimonials: course._count.testimonials,
         },
       };

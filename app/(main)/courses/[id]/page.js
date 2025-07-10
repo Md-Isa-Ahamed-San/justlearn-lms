@@ -23,13 +23,6 @@ const SingleCoursePage = async ({ params }) => {
         ? await getCompletedLessonsByCourse(userData.id, courseDetails.id)
         : [];
 
-    // Create a bound server action with courseId
-    const handleLessonProgress = async (lessonId) => {
-        "use server";
-        const isCompleted = completedLessons.includes(lessonId);
-        return toggleLessonProgress(userData.id, lessonId, id, isCompleted);
-    };
-
     return (
         <div>
             <ScrollToTop />
@@ -47,7 +40,7 @@ const SingleCoursePage = async ({ params }) => {
                 courseDetails={courseDetails}
                 currentUser={userData}
                 completedLessons={completedLessons}
-                onMarkLessonComplete={handleLessonProgress}
+
             />
 
             <Testimonials testimonials={courseDetails?.testimonials} />

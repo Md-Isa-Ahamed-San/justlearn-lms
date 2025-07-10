@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { TabsContent } from "@/components/ui/tabs";
+import {useParams, useRouter} from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -21,7 +22,7 @@ import {
   Users,
   Award,
 } from "lucide-react";
-import {toast} from "sonner"
+import { toast } from "sonner";
 import {
   Accordion,
   AccordionContent,
@@ -30,31 +31,69 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+
+import { LessonModal } from "@/app/(main)/courses/[id]/_components/LessonModal";
+import {markLessonComplete} from "@/app/actions/lesson";
+
 
 const CourseCurriculum = ({
                             courseDetails,
                             currentUser,
                             completedLessons,
-                            onMarkLessonComplete
+
                           }) => {
   const [selectedLesson, setSelectedLesson] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
-  const handleMarkLessonComplete = async () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
+  const params = useParams()
+  const handleMarkLessonComplete = async (lessonId) => {
+    console.log("Processing lesson completion for ID:", lessonId);
     setIsUpdating(true);
+
     try {
-      const result = await onMarkLessonComplete(lesson.id);
-      if (result && !result.success) {
-        console.error('Failed to update lesson progress:', result.error);
-      toast.error(result.error);
+      const userId = currentUser?.id;
+
+      if (!userId) {
+        toast.error('User not authenticated');
+        return;
       }
+
+      const result = await markLessonComplete({ lessonId, userId });
+      console.log("Server action result:", result);
+
+      // Handle both patterns: structured response or direct data
+      if (result?.success === false) {
+        // Structured error response
+        console.error('Server action failed:', result.error);
+        toast.error(result.error || 'Failed to update lesson progress');
+      } else if (result?.success === true) {
+        // Structured success response
+        toast.success(result.message || 'Lesson marked as complete!');
+        setIsModalOpen(false);
+      } else if (result && typeof result === 'object' && result.id) {
+        // Direct data response (lessonProgress object)
+        toast.success('Lesson marked as complete!');
+        setIsModalOpen(false);
+      } else {
+        // Unexpected response format
+        console.error('Unexpected server response:', result);
+        toast.error('Unexpected response from server');
+      }
+
     } catch (error) {
-      console.error('Error updating lesson progress:', error);
+      console.error('Error calling server action:', error);
+      // Handle thrown errors
+      if (error.message) {
+        toast.error(error.message);
+      } else {
+        toast.error('Something went wrong. Please try again.');
+      }
     } finally {
       setIsUpdating(false);
     }
-  }
+  };
+
   console.log("CourseCurriculum ~ courseDetails:", courseDetails);
 
   const isLessonCompleted = (lessonId) => {
@@ -83,8 +122,9 @@ const CourseCurriculum = ({
   };
 
   const onNavigateToQuiz = (quizId) => {
-    // Add your quiz navigation logic here
-    console.log("Navigate to quiz:", quizId);
+    router.push(`/courses/${params.id}/quiz-participation/${quizId}`);
+
+
   };
 
   const getTotalDuration = () => {
@@ -97,124 +137,9 @@ const CourseCurriculum = ({
     return courseDetails.weeks.reduce((total, week) => total + (week.lessons?.length || 0), 0);
   };
 
-  const LessonModal = ({ lesson, week }) => {
-    const isCompleted = isLessonCompleted(lesson.id);
-
-    return (
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-background border-border">
-          <DialogHeader>
-            <DialogTitle className="text-foreground font-poppins font-bold">
-              {lesson.title}
-            </DialogTitle>
-          </DialogHeader>
-
-          <div className="space-y-6">
-            {/* Lesson Description */}
-            <div>
-              <p className="text-muted-foreground">{lesson.description}</p>
-            </div>
-
-            {/* Video Player */}
-            {lesson.videoUrl && (
-                <Card className="bg-card border-border">
-                  <CardHeader>
-                    <CardTitle className="text-card-foreground font-poppins font-bold flex items-center gap-2">
-                      <Video className="h-5 w-5" />
-                      Lesson Video
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
-                      <div className="flex flex-col items-center gap-2">
-                        <Play className="h-12 w-12 text-muted-foreground" />
-                        <p className="text-sm text-muted-foreground">Video Player</p>
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            className="border-border text-foreground hover:bg-accent hover:text-accent-foreground"
-                            onClick={() => window.open(lesson.videoUrl, '_blank')}
-                        >
-                          Watch on YouTube
-                        </Button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-            )}
-
-            {/* Lesson Resources */}
-            {lesson.attachments && lesson.attachments.length > 0 && (
-                <Card className="bg-card border-border">
-                  <CardHeader>
-                    <CardTitle className="text-card-foreground font-poppins font-bold">
-                      Resources & Attachments
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      {lesson.attachments.map((attachment, idx) => (
-                          <div
-                              key={idx}
-                              className="flex items-center justify-between p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors cursor-pointer"
-                              onClick={() => handleAttachmentClick(attachment)}
-                          >
-                            <div className="flex items-center gap-3">
-                              {getAttachmentIcon(attachment.type)}
-                              <div>
-                                <p className="font-medium text-foreground">{attachment.name}</p>
-                                <p className="text-sm text-muted-foreground capitalize">
-                                  {attachment.type}
-                                </p>
-                              </div>
-                            </div>
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                className="text-foreground hover:bg-accent hover:text-accent-foreground"
-                            >
-                              {attachment.type === 'link' ? 'Open' : 'Download'}
-                            </Button>
-                          </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-            )}
-
-            {/* Lesson Progress */}
-            {currentUser && (
-                <Card className="bg-card border-border">
-                  <CardContent className="pt-6">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        {isCompleted ? (
-                            <CheckCircle className="h-5 w-5 text-green-500" />
-                        ) : (
-                            <Circle className="h-5 w-5 text-muted-foreground" />
-                        )}
-                        <span className="font-medium text-foreground">
-                      {isCompleted ? 'Completed' : 'Not Completed'}
-                    </span>
-                      </div>
-
-                      <Button
-                          onClick={handleMarkLessonComplete}
-                          variant={isCompleted ? "outline" : "default"}
-                          disabled={isUpdating}
-                          className={isCompleted
-                              ? "border-border text-foreground hover:bg-accent hover:text-accent-foreground"
-                              : "bg-primary text-primary-foreground hover:bg-primary/90"
-                          }
-                      >
-                        {isUpdating ? 'Updating...' : (isCompleted ? 'Mark as Incomplete' : 'Mark as Complete')}
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-            )}
-          </div>
-        </DialogContent>
-    );
+  const handleLessonClick = (lesson) => {
+    setSelectedLesson(lesson);
+    setIsModalOpen(true);
   };
 
   return (
@@ -299,20 +224,15 @@ const CourseCurriculum = ({
                                   </Badge>
                               )}
                               {currentUser ? (
-                                  <Dialog>
-                                    <DialogTrigger asChild>
-                                      <Button
-                                          variant="ghost"
-                                          size="sm"
-                                          className="h-8 gap-1 text-foreground hover:bg-accent hover:text-accent-foreground"
-                                          onClick={() => setSelectedLesson(lesson)}
-                                      >
-                                        <Play className="h-3 w-3" />
-                                        Start Lesson
-                                      </Button>
-                                    </DialogTrigger>
-                                    <LessonModal lesson={lesson} week={week} />
-                                  </Dialog>
+                                  <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      className="h-8 gap-1 text-foreground hover:bg-accent hover:text-accent-foreground"
+                                      onClick={() => handleLessonClick(lesson)}
+                                  >
+                                    <Play className="h-3 w-3" />
+                                    Open Lesson
+                                  </Button>
                               ) : (
                                   <Button
                                       variant="ghost"
@@ -375,6 +295,30 @@ const CourseCurriculum = ({
                 </AccordionItem>
             ))}
           </Accordion>
+
+          {/* Lesson Modal */}
+          <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+            <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-background border-border">
+              <DialogHeader>
+                <DialogTitle className="text-foreground font-poppins font-bold">
+                  {selectedLesson?.title}
+                </DialogTitle>
+              </DialogHeader>
+
+              {selectedLesson && (
+                  <LessonModal
+                      lesson={selectedLesson}
+                      week={courseDetails?.weeks?.find(w => w.lessons?.some(l => l.id === selectedLesson.id))}
+                      isLessonCompleted={isLessonCompleted}
+                      getAttachmentIcon={getAttachmentIcon}
+                      currentUser={currentUser}
+                      handleAttachmentClick={handleAttachmentClick}
+                      handleMarkLessonComplete={handleMarkLessonComplete}
+                      isUpdating={isUpdating}
+                  />
+              )}
+            </DialogContent>
+          </Dialog>
         </div>
       </TabsContent>
   );

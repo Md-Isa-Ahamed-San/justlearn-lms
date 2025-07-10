@@ -62,7 +62,7 @@ const DashboardPage = async () => {
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
           <p className="text-muted-foreground">
-            Welcome back! Here&apos's what&apos's happening with your courses.
+            Welcome back! Here&aposs what&aposs happening with your courses.
           </p>
         </div>
         <div className="flex items-center space-x-2">

@@ -114,46 +114,8 @@ export async function getCompletedLessonsByCourse(userId, courseId) {
         );
     }
 }
-export async function markLessonComplete(userId, lessonId) {
-    try {
-        if (!userId || !lessonId) {
-            throw new Error("User ID and Lesson ID are required to mark lesson as complete.");
-        }
 
-        // Use upsert to create or update the lesson progress
-        const lessonProgress = await db.lessonProgress.upsert({
-            where: {
-                userId_lessonId: {
-                    userId: userId,
-                    lessonId: lessonId
-                }
-            },
-            update: {
-                status: "completed",
-                completedAt: new Date(),
-                updatedAt: new Date()
-            },
-            create: {
-                userId: userId,
-                lessonId: lessonId,
-                status: "completed",
-                completedAt: new Date(),
-                timeSpent: 0
-            }
-        });
 
-        return lessonProgress;
-    } catch (error) {
-        console.error(
-            `Error marking lesson ${lessonId} as complete for user ${userId} using Prisma:`,
-            error.message
-        );
-
-        throw new Error(
-            `Failed to mark lesson as complete. Details: ${error.message}`
-        );
-    }
-}
 
 export async function markLessonIncomplete(userId, lessonId) {
     try {

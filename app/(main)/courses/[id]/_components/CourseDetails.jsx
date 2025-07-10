@@ -33,7 +33,7 @@ import { formatDate } from "../../../../../lib/formatDate";
 const CourseDetails = ({   courseDetails,
                          currentUser,
                          completedLessons,
-                         onMarkLessonComplete  }) => {
+                          }) => {
   const getInstructorInitials = () => {
     if (!courseDetails?.user) return "IN";
     return `${courseDetails.user.name.charAt(0)}`;
@@ -191,7 +191,7 @@ const CourseDetails = ({   courseDetails,
                 courseDetails={courseDetails}
                 currentUser={currentUser}
                 completedLessons={completedLessons}
-                onMarkLessonComplete={onMarkLessonComplete}
+
             />
 
             <CourseInstructor courseDetails={courseDetails} />

@@ -3,7 +3,6 @@
 import { getLoggedInUser } from "@/lib/loggedin-user";
 import { db } from "@/lib/prisma";
 import { revalidatePath } from 'next/cache';
-import { markLessonComplete, markLessonIncomplete } from "@/queries/lesson";
 // !MARK: createLesson
 export async function createLesson(data) {
     try {
@@ -417,5 +416,70 @@ export async function toggleLessonProgress(userId, lessonId, courseId, isComplet
     } catch (error) {
         console.error('Error updating lesson progress:', error);
         return { success: false, error: error.message };
+    }
+}
+
+export async function markLessonComplete({userId, lessonId}) {
+    try {
+        if (!userId || !lessonId) {
+            return {
+                success: false,
+                error: "User ID and Lesson ID are required to mark lesson as complete."
+            };
+        }
+
+        // Verify that the lesson exists
+        const lesson = await db.lesson.findUnique({
+            where: { id: lessonId }
+        });
+
+        if (!lesson) {
+            return {
+                success: false,
+                error: `Lesson with ID ${lessonId} not found.`
+            };
+        }
+
+        // Use upsert to create or update the lesson progress
+        const lessonProgress = await db.lessonProgress.upsert({
+            where: {
+                userId_lessonId: {
+                    userId: userId,
+                    lessonId: lessonId
+                }
+            },
+            update: {
+                status: "completed",
+                completedAt: new Date(),
+                updatedAt: new Date()
+            },
+            create: {
+                userId: userId,
+                lessonId: lessonId,
+                status: "completed",
+                completedAt: new Date(),
+                timeSpent: 0
+            }
+        });
+
+        // Revalidate the course page to update the UI
+        revalidatePath('/courses/686bd330132d72f488155d02');
+
+        return {
+            success: true,
+            data: lessonProgress,
+            message: "Lesson marked as complete successfully"
+        };
+
+    } catch (error) {
+        console.error(
+            `Error marking lesson ${lessonId} as complete for user ${userId} using Prisma:`,
+            error.message
+        );
+
+        return {
+            success: false,
+            error: `Failed to mark lesson as complete. Details: ${error.message}`
+        };
     }
 }
