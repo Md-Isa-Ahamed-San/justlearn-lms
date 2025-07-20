@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import QuizRulesPage from "./quiz-rules-page"
-import QuizInterface from "./quiz-interface"
+import QuizInterface from "./quizInterface/quiz-interface"
 
 
 

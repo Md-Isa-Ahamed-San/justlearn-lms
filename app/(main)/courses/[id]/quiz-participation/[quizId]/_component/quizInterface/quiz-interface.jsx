@@ -2,83 +2,20 @@
 
 import { useState, useEffect, useRef, useCallback, useReducer } from "react"
 import { toast } from "sonner" // NEW: Import the toast function
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Progress } from "@/components/ui/progress"
-import { Badge } from "@/components/ui/badge"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+
 import { AlertTriangle, Shield, ChevronLeft, ChevronRight, WifiOff, Wifi, Clock } from "lucide-react"
-import QuizTimer from "./quiz-timer"
-import AntiCheatMonitor from "./anti-cheat-monitor"
+import QuizTimer from "../quiz-timer"
+import AntiCheatMonitor from "../anti-cheat-monitor"
+import QuizHeader
+    from "@/app/(main)/courses/[id]/quiz-participation/[quizId]/_component/quizInterface/_components/quiz-header";
+import QuizNavigationSidebar
+    from "@/app/(main)/courses/[id]/quiz-participation/[quizId]/_component/quizInterface/_components/quiz-navigation-sidebar";
+import QuestionInterface
+    from "@/app/(main)/courses/[id]/quiz-participation/[quizId]/_component/quizInterface/_components/question-interface";
 
-function QuizQuestion({ question, answer, onAnswerChange, disabled }) {
-    const handleMCQChange = (checked, optionLabel) => {
-        const currentAnswers = answer?.answer || []
-        let newAnswers
-        if (checked) {
-            newAnswers = [...currentAnswers, optionLabel]
-        } else {
-            newAnswers = currentAnswers.filter((label) => label !== optionLabel)
-        }
-        onAnswerChange(question.id, newAnswers, 'mcq')
-    }
-
-    switch (question.type) {
-        case 'mcq':
-            return (
-                <div className="space-y-4">
-                    <p className="text-lg font-medium text-card-foreground">{question.text}</p>
-                    <div className="space-y-3">
-                        {question.options.map((opt, i) => (
-                            <div key={i} className="flex items-center space-x-3 rounded-md border p-3 hover:bg-accent/50 transition-colors">
-                                <Checkbox
-                                    id={`q-${question.id}-opt-${i}`}
-                                    checked={answer?.answer?.includes(opt.label) || false}
-                                    onCheckedChange={(checked) => handleMCQChange(checked, opt.label)}
-                                    disabled={disabled}
-                                />
-                                <Label htmlFor={`q-${question.id}-opt-${i}`} className="text-base font-normal cursor-pointer flex-1">
-                                    {opt.label}
-                                </Label>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )
-        case 'short_answer':
-            return (
-                <div className="space-y-4">
-                    <p className="text-lg font-medium text-card-foreground">{question.text}</p>
-                    <Input
-                        placeholder="Type your short answer here..."
-                        value={answer?.answer || ""}
-                        onChange={(e) => onAnswerChange(question.id, e.target.value, 'short_answer')}
-                        disabled={disabled}
-                    />
-                </div>
-            )
-        case 'long_answer':
-            return (
-                <div className="space-y-4">
-                    <p className="text-lg font-medium text-card-foreground">{question.text}</p>
-                    <Textarea
-                        placeholder="Type your detailed answer here..."
-                        value={answer?.answer || ""}
-                        onChange={(e) => onAnswerChange(question.id, e.target.value, 'long_answer')}
-                        rows={8}
-                        disabled={disabled}
-                    />
-                </div>
-            )
-        default:
-            return <p>Unsupported question type.</p>
-    }
-}
-
+// !MARK: QUIZ REDUCER
 const quizReducer = (state, action) => {
     switch (action.type) {
         case 'ADD_VIOLATION':
@@ -137,7 +74,7 @@ const quizReducer = (state, action) => {
             return state
     }
 }
-
+//!MARK: QuizInterface component
 export default function QuizInterface({ quiz, currentUser, courseId, userSubmissions }) {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
     const [timeRemaining, setTimeRemaining] = useState(quiz.timeLimit * 60)
@@ -182,6 +119,7 @@ export default function QuizInterface({ quiz, currentUser, courseId, userSubmiss
     const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100
 
     // Enhanced offline handling with smart submission logic
+    // !MARK: HANDLE OFFLINE
     const handleOffline = useCallback(() => {
         if (state.isOffline || hasAutoSubmittedRef.current) return
 
@@ -301,7 +239,7 @@ export default function QuizInterface({ quiz, currentUser, courseId, userSubmiss
             }
         }
     }, [state.isOffline, state.disconnectionCount, state.answers, state.violations, timeRemaining, currentQuestionIndex, quiz.id, currentUser.id])
-
+// !MARK: HANDLE ONLINE
     const handleOnline = useCallback(() => {
         if (!state.isOffline || hasAutoSubmittedRef.current) return
 
@@ -426,6 +364,7 @@ export default function QuizInterface({ quiz, currentUser, courseId, userSubmiss
     ])
 
     // Improved violation handler with better dependency management
+    // !MARK: HANDLE VIOLATION
     const handleViolation = useCallback((type, message) => {
         // Prevent handling violations if already submitting or offline
         if (hasAutoSubmittedRef.current || state.isOffline) return
@@ -468,6 +407,7 @@ export default function QuizInterface({ quiz, currentUser, courseId, userSubmiss
     }, [state.violations, state.isFullscreenSupported, state.isOffline, isFullscreen])
 
     // Improved auto-submit with race condition prevention
+    // !MARK: autoSubmitQuiz
     const autoSubmitQuiz = useCallback((reason) => {
         if (hasAutoSubmittedRef.current) {
             console.log("🚫 Auto-submit already in progress, skipping...")
@@ -905,60 +845,18 @@ export default function QuizInterface({ quiz, currentUser, courseId, userSubmiss
                 </div>
             )}
 
-            {/* Header with Enhanced Security Status */}
-            <div className="mb-6">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <div>
-                        <h1 className="text-2xl font-bold text-foreground">{quiz.title}</h1>
-                        <p className="text-muted-foreground mt-1">
-                            Question {currentQuestionIndex + 1} of {totalQuestions}
-                        </p>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row gap-3">
-                        {/* Enhanced Security Badge with offline status */}
-                        <Badge
-                            variant={securityStatus.variant}
-                            className="flex items-center gap-2 px-3 py-1"
-                        >
-                            <securityStatus.icon className="h-3 w-3" />
-                            {securityStatus.text}
-                        </Badge>
-
-                        {/* Connection Status Badge */}
-                        {state.isOffline ? (
-                            <Badge variant="destructive" className="flex items-center gap-2 px-3 py-1">
-                                <WifiOff className="h-3 w-3" />
-                                Disconnected ({state.disconnectionCount}x)
-                            </Badge>
-                        ) : (
-                            <Badge variant="default" className="flex items-center gap-2 px-3 py-1">
-                                <Wifi className="h-3 w-3" />
-                                Connected
-                            </Badge>
-                        )}
-
-                        {/* Offline Time Tracker */}
-                        {state.totalOfflineTime > 0 && (
-                            <Badge variant="secondary" className="flex items-center gap-2 px-3 py-1">
-                                <Clock className="h-3 w-3" />
-                                Offline: {Math.floor(state.totalOfflineTime / 1000)}s
-                            </Badge>
-                        )}
-                    </div>
-                </div>
-
-                {/* Enhanced Progress Bar */}
-                <div className="mt-4">
-                    <div className="flex justify-between items-center mb-2">
-                        <span className="text-sm text-muted-foreground">Progress</span>
-                        <span className="text-sm text-foreground font-medium">{Math.round(progress)}%</span>
-                    </div>
-                    <Progress value={progress} className="h-2" />
-                </div>
-            </div>
-
-            {/* Quiz Timer with Enhanced Status */}
+            {/*!MARK: QUIZ HEADER*/}
+           <QuizHeader
+                quiz={quiz}
+                currentQuestionIndex={currentQuestionIndex}
+                totalQuestions={totalQuestions}
+                securityStatus={securityStatus}
+                // isFullscreen={isFullscreen}
+                state={state}
+                progress={progress}
+                // onFullscreenToggle={handleFullscreenToggle}
+            />
+            {/*!MARK: QUIZ TIMER*/}
             <div className="mb-6">
                 <QuizTimer
                     initialTime={timeRemaining}
@@ -971,160 +869,28 @@ export default function QuizInterface({ quiz, currentUser, courseId, userSubmiss
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
                 {/* Question Navigation Sidebar */}
-                <div className="lg:col-span-1">
-                    <Card className="bg-card border-border">
-                        <CardHeader>
-                            <CardTitle className="text-card-foreground font-poppins font-bold">
-                                Questions
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="grid grid-cols-5 lg:grid-cols-3 gap-2">
-                                {quiz.questions.map((question, index) => {
-                                    const answerData = state.answers[question.id];
-                                    let isAnswered = false;
-                                    if (answerData) {
-                                        if (Array.isArray(answerData.answer)) {
-                                            isAnswered = answerData.answer.length > 0;
-                                        } else {
-                                            isAnswered = !!answerData.answer;
-                                        }
-                                    }
-                                    const isCurrent = index === currentQuestionIndex
 
-                                    return (
-                                        <Button
-                                            key={question.id}
-                                            variant={isCurrent ? "default" : isAnswered ? "secondary" : "outline"}
-                                            size="sm"
-                                            onClick={() => goToQuestion(index)}
-                                            className={`
-                                                h-8 w-8 p-0 text-xs
-                                                ${isCurrent ? 'bg-primary text-primary-foreground' : ''}
-                                                ${isAnswered && !isCurrent ? 'bg-secondary text-secondary-foreground' : ''}
-                                                ${!isAnswered && !isCurrent ? 'border-border text-foreground hover:bg-accent' : ''}
-                                            `}
-                                            disabled={state.isSubmitting}
-                                        >
-                                            {index + 1}
-                                        </Button>
-                                    )
-                                })}
-                            </div>
-
-                            {/* Answer Summary */}
-                            <div className="mt-4 pt-4 border-t border-border">
-                                <div className="text-sm text-muted-foreground space-y-1">
-                                    <div>Answered: {Object.values(state.answers).filter(a => (Array.isArray(a.answer) ? a.answer.length > 0 : !!a.answer)).length}/{totalQuestions}</div>
-                                    <div>Remaining: {totalQuestions - Object.values(state.answers).filter(a => (Array.isArray(a.answer) ? a.answer.length > 0 : !!a.answer)).length}</div>
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-                    {/* Debug Information (Remove in production) */}
-
-                    <Card className="mt-6 bg-card border-border">
-                        <CardHeader>
-                            <CardTitle className="text-sm text-card-foreground">Debug Info</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="text-xs text-muted-foreground space-y-1">
-                                <div>Violations: {state.violations.length}</div>
-                                <div>Warnings: {state.warningCount}</div>
-                                <div>Fullscreen: {isFullscreen ? 'Active' : 'Inactive'}</div>
-                                <div>Fullscreen Supported: {state.isFullscreenSupported ? 'Yes' : 'No'}</div>
-                                <div>Offline: {state.isOffline ? 'Yes' : 'No'}</div>
-                                <div>Disconnections: {state.disconnectionCount}</div>
-                                <div>Total Offline Time: {Math.floor(state.totalOfflineTime / 1000)}s</div>
-                                <div>Auto-Submit Pending: {state.shouldAutoSubmitOnReconnect ? 'Yes' : 'No'}</div>
-                                <div>Timer Paused: {timerPaused ? 'Yes' : 'No'}</div>
-                                <div>Answered Questions: {Object.keys(state.answers).length}</div>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                </div>
-
+                <QuizNavigationSidebar
+                    quiz={quiz}
+                    state={state}
+                    currentQuestionIndex={currentQuestionIndex}
+                    totalQuestions={totalQuestions}
+                    goToQuestion={goToQuestion}
+                    isFullscreen={isFullscreen}
+                    timerPaused={timerPaused}
+                />
                 {/* Main Question Area */}
-                <div className="lg:col-span-3">
-                    <Card className="bg-card border-border">
-                        <CardContent className="p-6">
-                            {/* Question Component */}
-                            <QuizQuestion
-                                question={currentQuestion}
-                                answer={state.answers[currentQuestion.id]}
-                                onAnswerChange={handleAnswerChange}
-                                disabled={state.isSubmitting || state.isOffline}
-                            />
+                <QuestionInterface
+                    currentQuestion={currentQuestion}
+                    state={state}
 
-                            {/* Offline Mode Notice */}
-                            {state.isOffline && (
-                                <Alert className="mt-4 bg-destructive/10 border-destructive">
-                                    <WifiOff className="h-4 w-4" />
-                                    <AlertDescription className="text-foreground">
-                                        <strong>Offline Mode Active</strong>
-                                        <br />
-                                        {state.disconnectionCount === 1 ? (
-                                            state.shouldAutoSubmitOnReconnect ? (
-                                                "Grace period expired. Quiz will auto-submit when connection returns."
-                                            ) : (
-                                                "Reconnect within 30 seconds to avoid auto-submission."
-                                            )
-                                        ) : (
-                                            "Multiple disconnections detected. Quiz will auto-submit immediately when connection returns."
-                                        )}
-                                    </AlertDescription>
-                                </Alert>
-                            )}
-
-                            {/* Navigation Controls */}
-                            <div className="flex flex-col sm:flex-row gap-4 justify-between items-center mt-8 pt-6 border-t border-border">
-                                {/* Previous Button */}
-                                <Button
-                                    variant="outline"
-                                    onClick={previousQuestion}
-                                    disabled={currentQuestionIndex === 0 || state.isSubmitting}
-                                    className="w-full sm:w-auto border-border text-foreground hover:bg-accent"
-                                >
-                                    <ChevronLeft className="h-4 w-4 mr-2" />
-                                    Previous
-                                </Button>
-
-                                {/* Question Counter */}
-                                <div className="text-sm text-muted-foreground">
-                                    Question {currentQuestionIndex + 1} of {totalQuestions}
-                                </div>
-
-                                {/* Next/Submit Button */}
-                                {currentQuestionIndex === totalQuestions - 1 ? (
-                                    <Button
-                                        onClick={handleManualSubmit}
-                                        disabled={state.isSubmitting || state.isOffline}
-                                        className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90"
-                                    >
-                                        {state.isSubmitting ? (
-                                            <>
-                                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                                                Submitting...
-                                            </>
-                                        ) : (
-                                            'Submit Quiz'
-                                        )}
-                                    </Button>
-                                ) : (
-                                    <Button
-                                        onClick={nextQuestion}
-                                        disabled={state.isSubmitting}
-                                        className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90"
-                                    >
-                                        Next
-                                        <ChevronRight className="h-4 w-4 ml-2" />
-                                    </Button>
-                                )}
-                            </div>
-                        </CardContent>
-                    </Card>
-                </div>
+                    previousQuestion={previousQuestion}
+                    nextQuestion={nextQuestion}
+                    handleManualSubmit={handleManualSubmit}
+                    currentQuestionIndex={currentQuestionIndex}
+                    totalQuestions={totalQuestions}
+                    handleAnswerChange={handleAnswerChange}
+                />
             </div>
 
             {/* Anti-Cheat Monitor Component */}
