@@ -12,7 +12,7 @@ datasource db {
   relationMode = "prisma"
 }
 
-// Enums
+// Simplified Enums
 enum QuizStatus {
   draft
   published
@@ -33,11 +33,7 @@ enum AttemptStatus {
   not_started
   in_progress
   completed
-}
-
-enum QuizAccessType {
-  instructor_created
-  student_personal
+  auto_submitted
 }
 
 enum Role {
@@ -63,8 +59,13 @@ enum SubmissionReason {
   tab_switch_auto_submit
   minimize_auto_submit
   offline_auto_submit
-  browser_close_auto_submit
-  focus_loss_auto_submit
+  violation_limit_exceeded
+}
+
+enum SecurityLevel {
+  low
+  medium
+  high
 }
 
 // Core Tables
@@ -175,7 +176,6 @@ model Category {
   courses Course[]
 }
 
-// !MARK: COURSE
 model Course {
   id          String     @id @default(auto()) @map("_id") @db.ObjectId
   title       String
@@ -204,7 +204,6 @@ model Course {
   participations Participation[]  @relation("CourseParticipations")
 }
 
-//!MARK: Week
 model Week {
   id          String     @id @default(auto()) @map("_id") @db.ObjectId
   title       String
@@ -227,24 +226,39 @@ model Week {
 }
 
 model Quiz {
-  id                     String              @id @default(auto()) @map("_id") @db.ObjectId
-  title                  String
-  description            String
-  status                 QuizStatus          @default(draft)
-  active                 Boolean             @default(true)
-  weekIds                String[]            @db.ObjectId
-  generationType         QuizGenerationType? @default(ai_pool)
-  poolSize               Int?                @default(50)
-  questionsPerStudent    Int?                @default(10)
+  id                       String              @id @default(auto()) @map("_id") @db.ObjectId
+  title                    String
+  description              String
+  status                   QuizStatus          @default(draft)
+  active                   Boolean             @default(true)
+  weekIds                  String[]            @db.ObjectId
+  generationType           QuizGenerationType? @default(ai_pool)
+  poolSize                 Int?                @default(50)
+  MCQPerStudent            Int?                @default(10)
+  shortQuestionsPerStudent Int?                @default(2)
+  longQuestionsPerStudent  Int?                @default(2)
+
   aiPrompt               String?
   aiContextData          Json?
   aiContextFiles         String[]
-  targetMcqCount         Int?                @default(5)
-  timeLimit              Int?                @default(5)
-  maxAttempts            Int?                @default(1)
-  showResultsImmediately Boolean             @default(true)
-  createdAt              DateTime            @default(now())
-  updatedAt              DateTime            @updatedAt
+  targetMcqCount         Int?     @default(5)
+  timeLimit              Int?     @default(5)
+  maxAttempts            Int?     @default(1)
+  showResultsImmediately Boolean  @default(true)
+
+  // Simplified Anti-Cheating Settings
+  securityLevel         SecurityLevel @default(medium)
+  enableAntiCheating    Boolean       @default(true)
+  enableFullscreen      Boolean       @default(true)
+  maxViolationsAllowed  Int           @default(2)
+  autoSubmitOnViolation Boolean       @default(true)
+  blockCopyPaste        Boolean       @default(true)
+  blockRightClick       Boolean       @default(true)
+  blockTabSwitching     Boolean       @default(true)
+  blockWindowMinimize   Boolean       @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Foreign Keys
   createdByUserId String @db.ObjectId
@@ -262,7 +276,6 @@ model Quiz {
   @@index([generationType])
 }
 
-// MARK: LESSON
 model Lesson {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
@@ -285,7 +298,6 @@ model Lesson {
   LessonProgress LessonProgress[]
 }
 
-// !MARK: LESSON PROGRESS
 model LessonProgress {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   status      String    @default("not_started") // not_started, in_progress, completed
@@ -306,7 +318,6 @@ model LessonProgress {
   @@index([userId, status])
 }
 
-//!MARK: QUESTION
 model Question {
   id            String       @id @default(auto()) @map("_id") @db.ObjectId
   type          QuestionType @default(mcq)
@@ -333,21 +344,25 @@ model Question {
 }
 
 model QuizSubmission {
-  id                   String           @id @default(auto()) @map("_id") @db.ObjectId
-  startTime            DateTime?
-  endTime              DateTime?
-  status               AttemptStatus    @default(not_started)
-  score                Float?           @default(0)
-  attemptNumber        Int              @default(1)
-  timeSpent            Int?
-  submissionReason     SubmissionReason @default(manual_submit)
-  suspiciousActivities Json?
-  tabSwitchCount       Int              @default(0)
-  minimizeCount        Int              @default(0)
-  offlineCount         Int              @default(0)
-  totalViolations      Int              @default(0)
-  createdAt            DateTime         @default(now())
-  updatedAt            DateTime         @updatedAt
+  id               String           @id @default(auto()) @map("_id") @db.ObjectId
+  startTime        DateTime?
+  endTime          DateTime?
+  status           AttemptStatus    @default(not_started)
+  score            Float?           @default(0)
+  attemptNumber    Int              @default(1)
+  timeSpent        Int?
+  submissionReason SubmissionReason @default(manual_submit)
+
+  // Simplified Anti-Cheating Data
+  tabSwitchCount   Int     @default(0)
+  minimizeCount    Int     @default(0)
+  offlineCount     Int     @default(0)
+  totalViolations  Int     @default(0)
+  violationLog     Json? // Simple array of violations with timestamps
+  flaggedForReview Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Foreign Keys
   userId String @db.ObjectId
@@ -357,6 +372,10 @@ model QuizSubmission {
   user           User            @relation("UserQuizSubmissions", fields: [userId], references: [id])
   quiz           Quiz            @relation(fields: [quizId], references: [id])
   studentAnswers StudentAnswer[]
+
+  @@index([userId, quizId])
+  @@index([status, createdAt])
+  @@index([flaggedForReview])
 }
 
 model StudentAnswer {
@@ -364,6 +383,7 @@ model StudentAnswer {
   submittedAnswer Json
   isCorrect       Boolean  @default(false)
   marksAwarded    Float    @default(0)
+  timeSpent       Int?     @default(0) // seconds spent on this question
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
@@ -374,6 +394,9 @@ model StudentAnswer {
   // Relationships
   question       Question       @relation(fields: [questionId], references: [id])
   quizSubmission QuizSubmission @relation(fields: [quizSubmissionId], references: [id])
+
+  @@index([questionId])
+  @@index([quizSubmissionId])
 }
 
 model AIGenerationLog {

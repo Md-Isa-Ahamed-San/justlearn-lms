@@ -199,4 +199,92 @@ export async function updateQuizBasicInfo(quizId, updateData) {
   }
 }
 
+export async function getQuizWithDetails(quizId) {
+  try {
+    const quiz = await db.quiz.findUnique({
+      where: {
+        id: quizId,
+      },
+      // The 'include' block fetches all related data in a single query.
+      include: {
+        // --- Core Quiz Information ---
+        // Fetch the user who created the quiz, but only select necessary fields.
+        createdBy: {
+          select: {
+            id: true,
+            name: true,
+            image: true,
+          },
+        },
+
+        // --- Question Data ---
+        // Fetch all questions associated with this quiz.
+        // For 'ai_pool' quizzes, this list represents the entire question pool.
+        // For 'manual' and 'ai_fixed', this is the definitive set of questions.
+        questions: {
+          orderBy: {
+            order: 'asc', // Order questions as intended by the creator.
+          },
+          select: {
+            id: true,
+            type: true,
+            text: true,
+            image: true,
+            explanation: true,
+            options: true,       // For MCQs
+            correctAnswer: true, // For all types
+            mark: true,
+            order: true,
+          },
+        },
+
+        // --- Contextual Information ---
+        // Fetch the weeks this quiz is a part of, and the course for that week.
+        // Note: Since weekIds is an array, this relationship needs to be handled
+        // by querying the Week model separately if you need the full week objects.
+        // A direct include won't work on an array of IDs.
+        // Let's fetch the course context differently. See implementation below.
+      },
+    });
+
+    if (!quiz) {
+      console.log(`No quiz found with ID: ${quizId}`);
+      return null;
+    }
+
+    // --- Fetching Week and Course Context ---
+    // Since `weekIds` is an array of strings, we perform a second query to get context.
+    // This is a clean way to handle this part of your schema.
+    const weeks = await db.week.findMany({
+      where: {
+        id: { in: quiz.weekIds },
+      },
+      select: {
+        id: true,
+        title: true,
+        course: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
+      },
+    });
+
+    // Combine the results into a single, comprehensive object.
+    const quizWithContext = {
+      ...quiz,
+      weeks: weeks,
+    };
+
+    return quizWithContext;
+
+  } catch (error) {
+    console.error("Failed to get quiz details:", error);
+    // Depending on your error handling strategy, you might throw the error
+    // or return null/a custom error object.
+    throw new Error("An error occurred while fetching the quiz.");
+  }
+}
+
 
