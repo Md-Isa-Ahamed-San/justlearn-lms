@@ -14,8 +14,8 @@ const sampleUserData = {
     },
     expires: "2025-08-17T13:29:24.922Z",
     // !MARK: COMMENTED FOR GITHUB ERROR
-    // accessToken:
-    //     "ya29.a0AS3H6NzIfqqjORf8-GEuUrGjGimC8UvUPOnsedeOoKtgvjzbQRgnCAmXhr6dLw0177",
+    accessToken:
+        "ya29.a0AS3H6NzIfqqjORf8-GEuUrGjGimC8UvUPOnsedeOoKtgvjzbQRgnCAmXhr6dLw0177",
     provider: "google",
     userData: {
         id: "6842e2f52433a7219fcb76e1",
