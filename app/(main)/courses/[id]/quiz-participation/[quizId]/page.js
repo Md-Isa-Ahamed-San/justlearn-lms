@@ -14,7 +14,7 @@ const sampleUserData = {
     },
     expires: "2025-08-17T13:29:24.922Z",
     accessToken:
-        "ya29.a0AS3H6NzIfqqjORf8-GEu_bVWX3CZyO1qAbFYNEdrs-URz-Soz7VF63X9J-duxP5TDln2PcGo3So4j8_G-o79DdM0SflO7WUHfhVm0UrGjGimC8UvUPOnsedeOUX2dofBiloP_k6M_0KMFwB53c3EtA42ORaZWFZoyemIkpxXLAaCgYKAYwSARISFQHGX2MioKtgvjzbQRgnCAmXhr6dLw0177",
+        "sample token",
     provider: "google",
     userData: {
         id: "6842e2f52433a7219fcb76e1",
