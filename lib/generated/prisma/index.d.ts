@@ -258,7 +258,7 @@ export const SecurityLevel: typeof $Enums.SecurityLevel
  */
 export class PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
-  U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
+  const U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
   ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
 > {
   [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
@@ -601,8 +601,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.12.0
-   * Query Engine version: 8047c96bbd92db98a2abc7c9323ce77c02c89dbc
+   * Prisma Client JS version: 6.13.0
+   * Query Engine version: 361e86d0ea4987e9f53a565309b3eed797a6bcbd
    */
   export type PrismaVersion = {
     client: string
@@ -2611,16 +2611,24 @@ export namespace Prisma {
     /**
      * @example
      * ```
-     * // Defaults to stdout
+     * // Shorthand for `emit: 'stdout'`
      * log: ['query', 'info', 'warn', 'error']
      * 
-     * // Emit as events
+     * // Emit as events only
      * log: [
-     *   { emit: 'stdout', level: 'query' },
-     *   { emit: 'stdout', level: 'info' },
-     *   { emit: 'stdout', level: 'warn' }
-     *   { emit: 'stdout', level: 'error' }
+     *   { emit: 'event', level: 'query' },
+     *   { emit: 'event', level: 'info' },
+     *   { emit: 'event', level: 'warn' }
+     *   { emit: 'event', level: 'error' }
      * ]
+     * 
+     * / Emit as events and log to stdout
+     * og: [
+     *  { emit: 'stdout', level: 'query' },
+     *  { emit: 'stdout', level: 'info' },
+     *  { emit: 'stdout', level: 'warn' }
+     *  { emit: 'stdout', level: 'error' }
+     * 
      * ```
      * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
      */
@@ -2681,10 +2689,15 @@ export namespace Prisma {
     emit: 'stdout' | 'event'
   }
 
-  export type GetLogType<T extends LogLevel | LogDefinition> = T extends LogDefinition ? T['emit'] extends 'event' ? T['level'] : never : never
-  export type GetEvents<T extends any> = T extends Array<LogLevel | LogDefinition> ?
-    GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]>
-    : never
+  export type CheckIsLogLevel<T> = T extends LogLevel ? T : never;
+
+  export type GetLogType<T> = CheckIsLogLevel<
+    T extends LogDefinition ? T['level'] : T
+  >;
+
+  export type GetEvents<T extends any[]> = T extends Array<LogLevel | LogDefinition>
+    ? GetLogType<T[number]>
+    : never;
 
   export type QueryEvent = {
     timestamp: Date
@@ -16029,36 +16042,33 @@ export namespace Prisma {
     score: number | null
     attemptNumber: number | null
     timeSpent: number | null
-    tabSwitchCount: number | null
-    minimizeCount: number | null
-    offlineCount: number | null
-    totalViolations: number | null
+    disconnectionCount: number | null
+    totalOfflineCount: number | null
+    warningCount: number | null
   }
 
   export type QuizSubmissionSumAggregateOutputType = {
     score: number | null
     attemptNumber: number | null
     timeSpent: number | null
-    tabSwitchCount: number | null
-    minimizeCount: number | null
-    offlineCount: number | null
-    totalViolations: number | null
+    disconnectionCount: number | null
+    totalOfflineCount: number | null
+    warningCount: number | null
   }
 
   export type QuizSubmissionMinAggregateOutputType = {
     id: string | null
     startTime: Date | null
     endTime: Date | null
-    status: $Enums.AttemptStatus | null
     score: number | null
     attemptNumber: number | null
     timeSpent: number | null
     submissionReason: $Enums.SubmissionReason | null
-    tabSwitchCount: number | null
-    minimizeCount: number | null
-    offlineCount: number | null
-    totalViolations: number | null
-    flaggedForReview: boolean | null
+    disconnectionCount: number | null
+    isFullscreenSupported: boolean | null
+    totalOfflineCount: number | null
+    warningCount: number | null
+    warningMessage: string | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
@@ -16069,16 +16079,15 @@ export namespace Prisma {
     id: string | null
     startTime: Date | null
     endTime: Date | null
-    status: $Enums.AttemptStatus | null
     score: number | null
     attemptNumber: number | null
     timeSpent: number | null
     submissionReason: $Enums.SubmissionReason | null
-    tabSwitchCount: number | null
-    minimizeCount: number | null
-    offlineCount: number | null
-    totalViolations: number | null
-    flaggedForReview: boolean | null
+    disconnectionCount: number | null
+    isFullscreenSupported: boolean | null
+    totalOfflineCount: number | null
+    warningCount: number | null
+    warningMessage: string | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
@@ -16089,17 +16098,16 @@ export namespace Prisma {
     id: number
     startTime: number
     endTime: number
-    status: number
     score: number
     attemptNumber: number
     timeSpent: number
     submissionReason: number
-    tabSwitchCount: number
-    minimizeCount: number
-    offlineCount: number
-    totalViolations: number
-    violationLog: number
-    flaggedForReview: number
+    disconnectionCount: number
+    isFullscreenSupported: number
+    totalOfflineCount: number
+    violations: number
+    warningCount: number
+    warningMessage: number
     createdAt: number
     updatedAt: number
     userId: number
@@ -16112,36 +16120,33 @@ export namespace Prisma {
     score?: true
     attemptNumber?: true
     timeSpent?: true
-    tabSwitchCount?: true
-    minimizeCount?: true
-    offlineCount?: true
-    totalViolations?: true
+    disconnectionCount?: true
+    totalOfflineCount?: true
+    warningCount?: true
   }
 
   export type QuizSubmissionSumAggregateInputType = {
     score?: true
     attemptNumber?: true
     timeSpent?: true
-    tabSwitchCount?: true
-    minimizeCount?: true
-    offlineCount?: true
-    totalViolations?: true
+    disconnectionCount?: true
+    totalOfflineCount?: true
+    warningCount?: true
   }
 
   export type QuizSubmissionMinAggregateInputType = {
     id?: true
     startTime?: true
     endTime?: true
-    status?: true
     score?: true
     attemptNumber?: true
     timeSpent?: true
     submissionReason?: true
-    tabSwitchCount?: true
-    minimizeCount?: true
-    offlineCount?: true
-    totalViolations?: true
-    flaggedForReview?: true
+    disconnectionCount?: true
+    isFullscreenSupported?: true
+    totalOfflineCount?: true
+    warningCount?: true
+    warningMessage?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -16152,16 +16157,15 @@ export namespace Prisma {
     id?: true
     startTime?: true
     endTime?: true
-    status?: true
     score?: true
     attemptNumber?: true
     timeSpent?: true
     submissionReason?: true
-    tabSwitchCount?: true
-    minimizeCount?: true
-    offlineCount?: true
-    totalViolations?: true
-    flaggedForReview?: true
+    disconnectionCount?: true
+    isFullscreenSupported?: true
+    totalOfflineCount?: true
+    warningCount?: true
+    warningMessage?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -16172,17 +16176,16 @@ export namespace Prisma {
     id?: true
     startTime?: true
     endTime?: true
-    status?: true
     score?: true
     attemptNumber?: true
     timeSpent?: true
     submissionReason?: true
-    tabSwitchCount?: true
-    minimizeCount?: true
-    offlineCount?: true
-    totalViolations?: true
-    violationLog?: true
-    flaggedForReview?: true
+    disconnectionCount?: true
+    isFullscreenSupported?: true
+    totalOfflineCount?: true
+    violations?: true
+    warningCount?: true
+    warningMessage?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -16280,17 +16283,16 @@ export namespace Prisma {
     id: string
     startTime: Date | null
     endTime: Date | null
-    status: $Enums.AttemptStatus
     score: number | null
     attemptNumber: number
     timeSpent: number | null
     submissionReason: $Enums.SubmissionReason
-    tabSwitchCount: number
-    minimizeCount: number
-    offlineCount: number
-    totalViolations: number
-    violationLog: JsonValue | null
-    flaggedForReview: boolean
+    disconnectionCount: number
+    isFullscreenSupported: boolean
+    totalOfflineCount: number
+    violations: JsonValue
+    warningCount: number
+    warningMessage: string | null
     createdAt: Date
     updatedAt: Date
     userId: string
@@ -16320,17 +16322,16 @@ export namespace Prisma {
     id?: boolean
     startTime?: boolean
     endTime?: boolean
-    status?: boolean
     score?: boolean
     attemptNumber?: boolean
     timeSpent?: boolean
     submissionReason?: boolean
-    tabSwitchCount?: boolean
-    minimizeCount?: boolean
-    offlineCount?: boolean
-    totalViolations?: boolean
-    violationLog?: boolean
-    flaggedForReview?: boolean
+    disconnectionCount?: boolean
+    isFullscreenSupported?: boolean
+    totalOfflineCount?: boolean
+    violations?: boolean
+    warningCount?: boolean
+    warningMessage?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
@@ -16347,24 +16348,23 @@ export namespace Prisma {
     id?: boolean
     startTime?: boolean
     endTime?: boolean
-    status?: boolean
     score?: boolean
     attemptNumber?: boolean
     timeSpent?: boolean
     submissionReason?: boolean
-    tabSwitchCount?: boolean
-    minimizeCount?: boolean
-    offlineCount?: boolean
-    totalViolations?: boolean
-    violationLog?: boolean
-    flaggedForReview?: boolean
+    disconnectionCount?: boolean
+    isFullscreenSupported?: boolean
+    totalOfflineCount?: boolean
+    violations?: boolean
+    warningCount?: boolean
+    warningMessage?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
     quizId?: boolean
   }
 
-  export type QuizSubmissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "startTime" | "endTime" | "status" | "score" | "attemptNumber" | "timeSpent" | "submissionReason" | "tabSwitchCount" | "minimizeCount" | "offlineCount" | "totalViolations" | "violationLog" | "flaggedForReview" | "createdAt" | "updatedAt" | "userId" | "quizId", ExtArgs["result"]["quizSubmission"]>
+  export type QuizSubmissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "startTime" | "endTime" | "score" | "attemptNumber" | "timeSpent" | "submissionReason" | "disconnectionCount" | "isFullscreenSupported" | "totalOfflineCount" | "violations" | "warningCount" | "warningMessage" | "createdAt" | "updatedAt" | "userId" | "quizId", ExtArgs["result"]["quizSubmission"]>
   export type QuizSubmissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     quiz?: boolean | QuizDefaultArgs<ExtArgs>
@@ -16383,17 +16383,16 @@ export namespace Prisma {
       id: string
       startTime: Date | null
       endTime: Date | null
-      status: $Enums.AttemptStatus
       score: number | null
       attemptNumber: number
       timeSpent: number | null
       submissionReason: $Enums.SubmissionReason
-      tabSwitchCount: number
-      minimizeCount: number
-      offlineCount: number
-      totalViolations: number
-      violationLog: Prisma.JsonValue | null
-      flaggedForReview: boolean
+      disconnectionCount: number
+      isFullscreenSupported: boolean
+      totalOfflineCount: number
+      violations: Prisma.JsonValue
+      warningCount: number
+      warningMessage: string | null
       createdAt: Date
       updatedAt: Date
       userId: string
@@ -16796,17 +16795,16 @@ export namespace Prisma {
     readonly id: FieldRef<"QuizSubmission", 'String'>
     readonly startTime: FieldRef<"QuizSubmission", 'DateTime'>
     readonly endTime: FieldRef<"QuizSubmission", 'DateTime'>
-    readonly status: FieldRef<"QuizSubmission", 'AttemptStatus'>
     readonly score: FieldRef<"QuizSubmission", 'Float'>
     readonly attemptNumber: FieldRef<"QuizSubmission", 'Int'>
     readonly timeSpent: FieldRef<"QuizSubmission", 'Int'>
     readonly submissionReason: FieldRef<"QuizSubmission", 'SubmissionReason'>
-    readonly tabSwitchCount: FieldRef<"QuizSubmission", 'Int'>
-    readonly minimizeCount: FieldRef<"QuizSubmission", 'Int'>
-    readonly offlineCount: FieldRef<"QuizSubmission", 'Int'>
-    readonly totalViolations: FieldRef<"QuizSubmission", 'Int'>
-    readonly violationLog: FieldRef<"QuizSubmission", 'Json'>
-    readonly flaggedForReview: FieldRef<"QuizSubmission", 'Boolean'>
+    readonly disconnectionCount: FieldRef<"QuizSubmission", 'Int'>
+    readonly isFullscreenSupported: FieldRef<"QuizSubmission", 'Boolean'>
+    readonly totalOfflineCount: FieldRef<"QuizSubmission", 'Int'>
+    readonly violations: FieldRef<"QuizSubmission", 'Json'>
+    readonly warningCount: FieldRef<"QuizSubmission", 'Int'>
+    readonly warningMessage: FieldRef<"QuizSubmission", 'String'>
     readonly createdAt: FieldRef<"QuizSubmission", 'DateTime'>
     readonly updatedAt: FieldRef<"QuizSubmission", 'DateTime'>
     readonly userId: FieldRef<"QuizSubmission", 'String'>
@@ -17270,6 +17268,7 @@ export namespace Prisma {
   export type StudentAnswerCountAggregateOutputType = {
     id: number
     submittedAnswer: number
+    answerExplanation: number
     isCorrect: number
     marksAwarded: number
     timeSpent: number
@@ -17316,6 +17315,7 @@ export namespace Prisma {
   export type StudentAnswerCountAggregateInputType = {
     id?: true
     submittedAnswer?: true
+    answerExplanation?: true
     isCorrect?: true
     marksAwarded?: true
     timeSpent?: true
@@ -17415,6 +17415,7 @@ export namespace Prisma {
   export type StudentAnswerGroupByOutputType = {
     id: string
     submittedAnswer: JsonValue
+    answerExplanation: JsonValue | null
     isCorrect: boolean
     marksAwarded: number
     timeSpent: number | null
@@ -17446,6 +17447,7 @@ export namespace Prisma {
   export type StudentAnswerSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     submittedAnswer?: boolean
+    answerExplanation?: boolean
     isCorrect?: boolean
     marksAwarded?: boolean
     timeSpent?: boolean
@@ -17462,6 +17464,7 @@ export namespace Prisma {
   export type StudentAnswerSelectScalar = {
     id?: boolean
     submittedAnswer?: boolean
+    answerExplanation?: boolean
     isCorrect?: boolean
     marksAwarded?: boolean
     timeSpent?: boolean
@@ -17471,7 +17474,7 @@ export namespace Prisma {
     quizSubmissionId?: boolean
   }
 
-  export type StudentAnswerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "submittedAnswer" | "isCorrect" | "marksAwarded" | "timeSpent" | "createdAt" | "updatedAt" | "questionId" | "quizSubmissionId", ExtArgs["result"]["studentAnswer"]>
+  export type StudentAnswerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "submittedAnswer" | "answerExplanation" | "isCorrect" | "marksAwarded" | "timeSpent" | "createdAt" | "updatedAt" | "questionId" | "quizSubmissionId", ExtArgs["result"]["studentAnswer"]>
   export type StudentAnswerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     question?: boolean | QuestionDefaultArgs<ExtArgs>
     quizSubmission?: boolean | QuizSubmissionDefaultArgs<ExtArgs>
@@ -17486,6 +17489,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       submittedAnswer: Prisma.JsonValue
+      answerExplanation: Prisma.JsonValue | null
       isCorrect: boolean
       marksAwarded: number
       timeSpent: number | null
@@ -17889,6 +17893,7 @@ export namespace Prisma {
   interface StudentAnswerFieldRefs {
     readonly id: FieldRef<"StudentAnswer", 'String'>
     readonly submittedAnswer: FieldRef<"StudentAnswer", 'Json'>
+    readonly answerExplanation: FieldRef<"StudentAnswer", 'Json'>
     readonly isCorrect: FieldRef<"StudentAnswer", 'Boolean'>
     readonly marksAwarded: FieldRef<"StudentAnswer", 'Float'>
     readonly timeSpent: FieldRef<"StudentAnswer", 'Int'>
@@ -26792,17 +26797,16 @@ export namespace Prisma {
     id: 'id',
     startTime: 'startTime',
     endTime: 'endTime',
-    status: 'status',
     score: 'score',
     attemptNumber: 'attemptNumber',
     timeSpent: 'timeSpent',
     submissionReason: 'submissionReason',
-    tabSwitchCount: 'tabSwitchCount',
-    minimizeCount: 'minimizeCount',
-    offlineCount: 'offlineCount',
-    totalViolations: 'totalViolations',
-    violationLog: 'violationLog',
-    flaggedForReview: 'flaggedForReview',
+    disconnectionCount: 'disconnectionCount',
+    isFullscreenSupported: 'isFullscreenSupported',
+    totalOfflineCount: 'totalOfflineCount',
+    violations: 'violations',
+    warningCount: 'warningCount',
+    warningMessage: 'warningMessage',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     userId: 'userId',
@@ -26815,6 +26819,7 @@ export namespace Prisma {
   export const StudentAnswerScalarFieldEnum: {
     id: 'id',
     submittedAnswer: 'submittedAnswer',
+    answerExplanation: 'answerExplanation',
     isCorrect: 'isCorrect',
     marksAwarded: 'marksAwarded',
     timeSpent: 'timeSpent',
@@ -27124,20 +27129,6 @@ export namespace Prisma {
    * Reference to a field of type 'QuestionType[]'
    */
   export type ListEnumQuestionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuestionType[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'AttemptStatus'
-   */
-  export type EnumAttemptStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttemptStatus'>
-    
-
-
-  /**
-   * Reference to a field of type 'AttemptStatus[]'
-   */
-  export type ListEnumAttemptStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttemptStatus[]'>
     
 
 
@@ -28287,17 +28278,16 @@ export namespace Prisma {
     id?: StringFilter<"QuizSubmission"> | string
     startTime?: DateTimeNullableFilter<"QuizSubmission"> | Date | string | null
     endTime?: DateTimeNullableFilter<"QuizSubmission"> | Date | string | null
-    status?: EnumAttemptStatusFilter<"QuizSubmission"> | $Enums.AttemptStatus
     score?: FloatNullableFilter<"QuizSubmission"> | number | null
     attemptNumber?: IntFilter<"QuizSubmission"> | number
     timeSpent?: IntNullableFilter<"QuizSubmission"> | number | null
     submissionReason?: EnumSubmissionReasonFilter<"QuizSubmission"> | $Enums.SubmissionReason
-    tabSwitchCount?: IntFilter<"QuizSubmission"> | number
-    minimizeCount?: IntFilter<"QuizSubmission"> | number
-    offlineCount?: IntFilter<"QuizSubmission"> | number
-    totalViolations?: IntFilter<"QuizSubmission"> | number
-    violationLog?: JsonNullableFilter<"QuizSubmission">
-    flaggedForReview?: BoolFilter<"QuizSubmission"> | boolean
+    disconnectionCount?: IntFilter<"QuizSubmission"> | number
+    isFullscreenSupported?: BoolFilter<"QuizSubmission"> | boolean
+    totalOfflineCount?: IntFilter<"QuizSubmission"> | number
+    violations?: JsonFilter<"QuizSubmission">
+    warningCount?: IntFilter<"QuizSubmission"> | number
+    warningMessage?: StringNullableFilter<"QuizSubmission"> | string | null
     createdAt?: DateTimeFilter<"QuizSubmission"> | Date | string
     updatedAt?: DateTimeFilter<"QuizSubmission"> | Date | string
     userId?: StringFilter<"QuizSubmission"> | string
@@ -28311,17 +28301,16 @@ export namespace Prisma {
     id?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
-    status?: SortOrder
     score?: SortOrder
     attemptNumber?: SortOrder
     timeSpent?: SortOrder
     submissionReason?: SortOrder
-    tabSwitchCount?: SortOrder
-    minimizeCount?: SortOrder
-    offlineCount?: SortOrder
-    totalViolations?: SortOrder
-    violationLog?: SortOrder
-    flaggedForReview?: SortOrder
+    disconnectionCount?: SortOrder
+    isFullscreenSupported?: SortOrder
+    totalOfflineCount?: SortOrder
+    violations?: SortOrder
+    warningCount?: SortOrder
+    warningMessage?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -28338,17 +28327,16 @@ export namespace Prisma {
     NOT?: QuizSubmissionWhereInput | QuizSubmissionWhereInput[]
     startTime?: DateTimeNullableFilter<"QuizSubmission"> | Date | string | null
     endTime?: DateTimeNullableFilter<"QuizSubmission"> | Date | string | null
-    status?: EnumAttemptStatusFilter<"QuizSubmission"> | $Enums.AttemptStatus
     score?: FloatNullableFilter<"QuizSubmission"> | number | null
     attemptNumber?: IntFilter<"QuizSubmission"> | number
     timeSpent?: IntNullableFilter<"QuizSubmission"> | number | null
     submissionReason?: EnumSubmissionReasonFilter<"QuizSubmission"> | $Enums.SubmissionReason
-    tabSwitchCount?: IntFilter<"QuizSubmission"> | number
-    minimizeCount?: IntFilter<"QuizSubmission"> | number
-    offlineCount?: IntFilter<"QuizSubmission"> | number
-    totalViolations?: IntFilter<"QuizSubmission"> | number
-    violationLog?: JsonNullableFilter<"QuizSubmission">
-    flaggedForReview?: BoolFilter<"QuizSubmission"> | boolean
+    disconnectionCount?: IntFilter<"QuizSubmission"> | number
+    isFullscreenSupported?: BoolFilter<"QuizSubmission"> | boolean
+    totalOfflineCount?: IntFilter<"QuizSubmission"> | number
+    violations?: JsonFilter<"QuizSubmission">
+    warningCount?: IntFilter<"QuizSubmission"> | number
+    warningMessage?: StringNullableFilter<"QuizSubmission"> | string | null
     createdAt?: DateTimeFilter<"QuizSubmission"> | Date | string
     updatedAt?: DateTimeFilter<"QuizSubmission"> | Date | string
     userId?: StringFilter<"QuizSubmission"> | string
@@ -28362,17 +28350,16 @@ export namespace Prisma {
     id?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
-    status?: SortOrder
     score?: SortOrder
     attemptNumber?: SortOrder
     timeSpent?: SortOrder
     submissionReason?: SortOrder
-    tabSwitchCount?: SortOrder
-    minimizeCount?: SortOrder
-    offlineCount?: SortOrder
-    totalViolations?: SortOrder
-    violationLog?: SortOrder
-    flaggedForReview?: SortOrder
+    disconnectionCount?: SortOrder
+    isFullscreenSupported?: SortOrder
+    totalOfflineCount?: SortOrder
+    violations?: SortOrder
+    warningCount?: SortOrder
+    warningMessage?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -28391,17 +28378,16 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"QuizSubmission"> | string
     startTime?: DateTimeNullableWithAggregatesFilter<"QuizSubmission"> | Date | string | null
     endTime?: DateTimeNullableWithAggregatesFilter<"QuizSubmission"> | Date | string | null
-    status?: EnumAttemptStatusWithAggregatesFilter<"QuizSubmission"> | $Enums.AttemptStatus
     score?: FloatNullableWithAggregatesFilter<"QuizSubmission"> | number | null
     attemptNumber?: IntWithAggregatesFilter<"QuizSubmission"> | number
     timeSpent?: IntNullableWithAggregatesFilter<"QuizSubmission"> | number | null
     submissionReason?: EnumSubmissionReasonWithAggregatesFilter<"QuizSubmission"> | $Enums.SubmissionReason
-    tabSwitchCount?: IntWithAggregatesFilter<"QuizSubmission"> | number
-    minimizeCount?: IntWithAggregatesFilter<"QuizSubmission"> | number
-    offlineCount?: IntWithAggregatesFilter<"QuizSubmission"> | number
-    totalViolations?: IntWithAggregatesFilter<"QuizSubmission"> | number
-    violationLog?: JsonNullableWithAggregatesFilter<"QuizSubmission">
-    flaggedForReview?: BoolWithAggregatesFilter<"QuizSubmission"> | boolean
+    disconnectionCount?: IntWithAggregatesFilter<"QuizSubmission"> | number
+    isFullscreenSupported?: BoolWithAggregatesFilter<"QuizSubmission"> | boolean
+    totalOfflineCount?: IntWithAggregatesFilter<"QuizSubmission"> | number
+    violations?: JsonWithAggregatesFilter<"QuizSubmission">
+    warningCount?: IntWithAggregatesFilter<"QuizSubmission"> | number
+    warningMessage?: StringNullableWithAggregatesFilter<"QuizSubmission"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"QuizSubmission"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"QuizSubmission"> | Date | string
     userId?: StringWithAggregatesFilter<"QuizSubmission"> | string
@@ -28414,6 +28400,7 @@ export namespace Prisma {
     NOT?: StudentAnswerWhereInput | StudentAnswerWhereInput[]
     id?: StringFilter<"StudentAnswer"> | string
     submittedAnswer?: JsonFilter<"StudentAnswer">
+    answerExplanation?: JsonNullableFilter<"StudentAnswer">
     isCorrect?: BoolFilter<"StudentAnswer"> | boolean
     marksAwarded?: FloatFilter<"StudentAnswer"> | number
     timeSpent?: IntNullableFilter<"StudentAnswer"> | number | null
@@ -28428,6 +28415,7 @@ export namespace Prisma {
   export type StudentAnswerOrderByWithRelationInput = {
     id?: SortOrder
     submittedAnswer?: SortOrder
+    answerExplanation?: SortOrder
     isCorrect?: SortOrder
     marksAwarded?: SortOrder
     timeSpent?: SortOrder
@@ -28445,6 +28433,7 @@ export namespace Prisma {
     OR?: StudentAnswerWhereInput[]
     NOT?: StudentAnswerWhereInput | StudentAnswerWhereInput[]
     submittedAnswer?: JsonFilter<"StudentAnswer">
+    answerExplanation?: JsonNullableFilter<"StudentAnswer">
     isCorrect?: BoolFilter<"StudentAnswer"> | boolean
     marksAwarded?: FloatFilter<"StudentAnswer"> | number
     timeSpent?: IntNullableFilter<"StudentAnswer"> | number | null
@@ -28459,6 +28448,7 @@ export namespace Prisma {
   export type StudentAnswerOrderByWithAggregationInput = {
     id?: SortOrder
     submittedAnswer?: SortOrder
+    answerExplanation?: SortOrder
     isCorrect?: SortOrder
     marksAwarded?: SortOrder
     timeSpent?: SortOrder
@@ -28479,6 +28469,7 @@ export namespace Prisma {
     NOT?: StudentAnswerScalarWhereWithAggregatesInput | StudentAnswerScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"StudentAnswer"> | string
     submittedAnswer?: JsonWithAggregatesFilter<"StudentAnswer">
+    answerExplanation?: JsonNullableWithAggregatesFilter<"StudentAnswer">
     isCorrect?: BoolWithAggregatesFilter<"StudentAnswer"> | boolean
     marksAwarded?: FloatWithAggregatesFilter<"StudentAnswer"> | number
     timeSpent?: IntNullableWithAggregatesFilter<"StudentAnswer"> | number | null
@@ -30334,17 +30325,16 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
-    status?: $Enums.AttemptStatus
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
     submissionReason?: $Enums.SubmissionReason
-    tabSwitchCount?: number
-    minimizeCount?: number
-    offlineCount?: number
-    totalViolations?: number
-    violationLog?: InputJsonValue | null
-    flaggedForReview?: boolean
+    disconnectionCount?: number
+    isFullscreenSupported?: boolean
+    totalOfflineCount?: number
+    violations: InputJsonValue
+    warningCount?: number
+    warningMessage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutQuizSubmissionsInput
@@ -30356,17 +30346,16 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
-    status?: $Enums.AttemptStatus
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
     submissionReason?: $Enums.SubmissionReason
-    tabSwitchCount?: number
-    minimizeCount?: number
-    offlineCount?: number
-    totalViolations?: number
-    violationLog?: InputJsonValue | null
-    flaggedForReview?: boolean
+    disconnectionCount?: number
+    isFullscreenSupported?: boolean
+    totalOfflineCount?: number
+    violations: InputJsonValue
+    warningCount?: number
+    warningMessage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -30377,17 +30366,16 @@ export namespace Prisma {
   export type QuizSubmissionUpdateInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: EnumAttemptStatusFieldUpdateOperationsInput | $Enums.AttemptStatus
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
-    tabSwitchCount?: IntFieldUpdateOperationsInput | number
-    minimizeCount?: IntFieldUpdateOperationsInput | number
-    offlineCount?: IntFieldUpdateOperationsInput | number
-    totalViolations?: IntFieldUpdateOperationsInput | number
-    violationLog?: InputJsonValue | InputJsonValue | null
-    flaggedForReview?: BoolFieldUpdateOperationsInput | boolean
+    disconnectionCount?: IntFieldUpdateOperationsInput | number
+    isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
+    totalOfflineCount?: IntFieldUpdateOperationsInput | number
+    violations?: InputJsonValue | InputJsonValue
+    warningCount?: IntFieldUpdateOperationsInput | number
+    warningMessage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutQuizSubmissionsNestedInput
@@ -30398,17 +30386,16 @@ export namespace Prisma {
   export type QuizSubmissionUncheckedUpdateInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: EnumAttemptStatusFieldUpdateOperationsInput | $Enums.AttemptStatus
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
-    tabSwitchCount?: IntFieldUpdateOperationsInput | number
-    minimizeCount?: IntFieldUpdateOperationsInput | number
-    offlineCount?: IntFieldUpdateOperationsInput | number
-    totalViolations?: IntFieldUpdateOperationsInput | number
-    violationLog?: InputJsonValue | InputJsonValue | null
-    flaggedForReview?: BoolFieldUpdateOperationsInput | boolean
+    disconnectionCount?: IntFieldUpdateOperationsInput | number
+    isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
+    totalOfflineCount?: IntFieldUpdateOperationsInput | number
+    violations?: InputJsonValue | InputJsonValue
+    warningCount?: IntFieldUpdateOperationsInput | number
+    warningMessage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -30420,17 +30407,16 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
-    status?: $Enums.AttemptStatus
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
     submissionReason?: $Enums.SubmissionReason
-    tabSwitchCount?: number
-    minimizeCount?: number
-    offlineCount?: number
-    totalViolations?: number
-    violationLog?: InputJsonValue | null
-    flaggedForReview?: boolean
+    disconnectionCount?: number
+    isFullscreenSupported?: boolean
+    totalOfflineCount?: number
+    violations: InputJsonValue
+    warningCount?: number
+    warningMessage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -30440,17 +30426,16 @@ export namespace Prisma {
   export type QuizSubmissionUpdateManyMutationInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: EnumAttemptStatusFieldUpdateOperationsInput | $Enums.AttemptStatus
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
-    tabSwitchCount?: IntFieldUpdateOperationsInput | number
-    minimizeCount?: IntFieldUpdateOperationsInput | number
-    offlineCount?: IntFieldUpdateOperationsInput | number
-    totalViolations?: IntFieldUpdateOperationsInput | number
-    violationLog?: InputJsonValue | InputJsonValue | null
-    flaggedForReview?: BoolFieldUpdateOperationsInput | boolean
+    disconnectionCount?: IntFieldUpdateOperationsInput | number
+    isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
+    totalOfflineCount?: IntFieldUpdateOperationsInput | number
+    violations?: InputJsonValue | InputJsonValue
+    warningCount?: IntFieldUpdateOperationsInput | number
+    warningMessage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -30458,17 +30443,16 @@ export namespace Prisma {
   export type QuizSubmissionUncheckedUpdateManyInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: EnumAttemptStatusFieldUpdateOperationsInput | $Enums.AttemptStatus
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
-    tabSwitchCount?: IntFieldUpdateOperationsInput | number
-    minimizeCount?: IntFieldUpdateOperationsInput | number
-    offlineCount?: IntFieldUpdateOperationsInput | number
-    totalViolations?: IntFieldUpdateOperationsInput | number
-    violationLog?: InputJsonValue | InputJsonValue | null
-    flaggedForReview?: BoolFieldUpdateOperationsInput | boolean
+    disconnectionCount?: IntFieldUpdateOperationsInput | number
+    isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
+    totalOfflineCount?: IntFieldUpdateOperationsInput | number
+    violations?: InputJsonValue | InputJsonValue
+    warningCount?: IntFieldUpdateOperationsInput | number
+    warningMessage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -30478,6 +30462,7 @@ export namespace Prisma {
   export type StudentAnswerCreateInput = {
     id?: string
     submittedAnswer: InputJsonValue
+    answerExplanation?: InputJsonValue | null
     isCorrect?: boolean
     marksAwarded?: number
     timeSpent?: number | null
@@ -30490,6 +30475,7 @@ export namespace Prisma {
   export type StudentAnswerUncheckedCreateInput = {
     id?: string
     submittedAnswer: InputJsonValue
+    answerExplanation?: InputJsonValue | null
     isCorrect?: boolean
     marksAwarded?: number
     timeSpent?: number | null
@@ -30501,6 +30487,7 @@ export namespace Prisma {
 
   export type StudentAnswerUpdateInput = {
     submittedAnswer?: InputJsonValue | InputJsonValue
+    answerExplanation?: InputJsonValue | InputJsonValue | null
     isCorrect?: BoolFieldUpdateOperationsInput | boolean
     marksAwarded?: FloatFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
@@ -30512,6 +30499,7 @@ export namespace Prisma {
 
   export type StudentAnswerUncheckedUpdateInput = {
     submittedAnswer?: InputJsonValue | InputJsonValue
+    answerExplanation?: InputJsonValue | InputJsonValue | null
     isCorrect?: BoolFieldUpdateOperationsInput | boolean
     marksAwarded?: FloatFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
@@ -30524,6 +30512,7 @@ export namespace Prisma {
   export type StudentAnswerCreateManyInput = {
     id?: string
     submittedAnswer: InputJsonValue
+    answerExplanation?: InputJsonValue | null
     isCorrect?: boolean
     marksAwarded?: number
     timeSpent?: number | null
@@ -30535,6 +30524,7 @@ export namespace Prisma {
 
   export type StudentAnswerUpdateManyMutationInput = {
     submittedAnswer?: InputJsonValue | InputJsonValue
+    answerExplanation?: InputJsonValue | InputJsonValue | null
     isCorrect?: BoolFieldUpdateOperationsInput | boolean
     marksAwarded?: FloatFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
@@ -30544,6 +30534,7 @@ export namespace Prisma {
 
   export type StudentAnswerUncheckedUpdateManyInput = {
     submittedAnswer?: InputJsonValue | InputJsonValue
+    answerExplanation?: InputJsonValue | InputJsonValue | null
     isCorrect?: BoolFieldUpdateOperationsInput | boolean
     marksAwarded?: FloatFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
@@ -32304,13 +32295,6 @@ export namespace Prisma {
     _max?: NestedEnumQuestionTypeFilter<$PrismaModel>
   }
 
-  export type EnumAttemptStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.AttemptStatus | EnumAttemptStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.AttemptStatus[] | ListEnumAttemptStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.AttemptStatus[] | ListEnumAttemptStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumAttemptStatusFilter<$PrismaModel> | $Enums.AttemptStatus
-  }
-
   export type EnumSubmissionReasonFilter<$PrismaModel = never> = {
     equals?: $Enums.SubmissionReason | EnumSubmissionReasonFieldRefInput<$PrismaModel>
     in?: $Enums.SubmissionReason[] | ListEnumSubmissionReasonFieldRefInput<$PrismaModel>
@@ -32322,17 +32306,16 @@ export namespace Prisma {
     id?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
-    status?: SortOrder
     score?: SortOrder
     attemptNumber?: SortOrder
     timeSpent?: SortOrder
     submissionReason?: SortOrder
-    tabSwitchCount?: SortOrder
-    minimizeCount?: SortOrder
-    offlineCount?: SortOrder
-    totalViolations?: SortOrder
-    violationLog?: SortOrder
-    flaggedForReview?: SortOrder
+    disconnectionCount?: SortOrder
+    isFullscreenSupported?: SortOrder
+    totalOfflineCount?: SortOrder
+    violations?: SortOrder
+    warningCount?: SortOrder
+    warningMessage?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -32343,26 +32326,24 @@ export namespace Prisma {
     score?: SortOrder
     attemptNumber?: SortOrder
     timeSpent?: SortOrder
-    tabSwitchCount?: SortOrder
-    minimizeCount?: SortOrder
-    offlineCount?: SortOrder
-    totalViolations?: SortOrder
+    disconnectionCount?: SortOrder
+    totalOfflineCount?: SortOrder
+    warningCount?: SortOrder
   }
 
   export type QuizSubmissionMaxOrderByAggregateInput = {
     id?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
-    status?: SortOrder
     score?: SortOrder
     attemptNumber?: SortOrder
     timeSpent?: SortOrder
     submissionReason?: SortOrder
-    tabSwitchCount?: SortOrder
-    minimizeCount?: SortOrder
-    offlineCount?: SortOrder
-    totalViolations?: SortOrder
-    flaggedForReview?: SortOrder
+    disconnectionCount?: SortOrder
+    isFullscreenSupported?: SortOrder
+    totalOfflineCount?: SortOrder
+    warningCount?: SortOrder
+    warningMessage?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -32373,16 +32354,15 @@ export namespace Prisma {
     id?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
-    status?: SortOrder
     score?: SortOrder
     attemptNumber?: SortOrder
     timeSpent?: SortOrder
     submissionReason?: SortOrder
-    tabSwitchCount?: SortOrder
-    minimizeCount?: SortOrder
-    offlineCount?: SortOrder
-    totalViolations?: SortOrder
-    flaggedForReview?: SortOrder
+    disconnectionCount?: SortOrder
+    isFullscreenSupported?: SortOrder
+    totalOfflineCount?: SortOrder
+    warningCount?: SortOrder
+    warningMessage?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -32393,20 +32373,9 @@ export namespace Prisma {
     score?: SortOrder
     attemptNumber?: SortOrder
     timeSpent?: SortOrder
-    tabSwitchCount?: SortOrder
-    minimizeCount?: SortOrder
-    offlineCount?: SortOrder
-    totalViolations?: SortOrder
-  }
-
-  export type EnumAttemptStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.AttemptStatus | EnumAttemptStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.AttemptStatus[] | ListEnumAttemptStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.AttemptStatus[] | ListEnumAttemptStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumAttemptStatusWithAggregatesFilter<$PrismaModel> | $Enums.AttemptStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumAttemptStatusFilter<$PrismaModel>
-    _max?: NestedEnumAttemptStatusFilter<$PrismaModel>
+    disconnectionCount?: SortOrder
+    totalOfflineCount?: SortOrder
+    warningCount?: SortOrder
   }
 
   export type EnumSubmissionReasonWithAggregatesFilter<$PrismaModel = never> = {
@@ -32443,6 +32412,7 @@ export namespace Prisma {
   export type StudentAnswerCountOrderByAggregateInput = {
     id?: SortOrder
     submittedAnswer?: SortOrder
+    answerExplanation?: SortOrder
     isCorrect?: SortOrder
     marksAwarded?: SortOrder
     timeSpent?: SortOrder
@@ -34342,10 +34312,6 @@ export namespace Prisma {
     connect?: StudentAnswerWhereUniqueInput | StudentAnswerWhereUniqueInput[]
   }
 
-  export type EnumAttemptStatusFieldUpdateOperationsInput = {
-    set?: $Enums.AttemptStatus
-  }
-
   export type EnumSubmissionReasonFieldUpdateOperationsInput = {
     set?: $Enums.SubmissionReason
   }
@@ -35045,28 +35011,11 @@ export namespace Prisma {
     _max?: NestedEnumQuestionTypeFilter<$PrismaModel>
   }
 
-  export type NestedEnumAttemptStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.AttemptStatus | EnumAttemptStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.AttemptStatus[] | ListEnumAttemptStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.AttemptStatus[] | ListEnumAttemptStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumAttemptStatusFilter<$PrismaModel> | $Enums.AttemptStatus
-  }
-
   export type NestedEnumSubmissionReasonFilter<$PrismaModel = never> = {
     equals?: $Enums.SubmissionReason | EnumSubmissionReasonFieldRefInput<$PrismaModel>
     in?: $Enums.SubmissionReason[] | ListEnumSubmissionReasonFieldRefInput<$PrismaModel>
     notIn?: $Enums.SubmissionReason[] | ListEnumSubmissionReasonFieldRefInput<$PrismaModel>
     not?: NestedEnumSubmissionReasonFilter<$PrismaModel> | $Enums.SubmissionReason
-  }
-
-  export type NestedEnumAttemptStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.AttemptStatus | EnumAttemptStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.AttemptStatus[] | ListEnumAttemptStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.AttemptStatus[] | ListEnumAttemptStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumAttemptStatusWithAggregatesFilter<$PrismaModel> | $Enums.AttemptStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumAttemptStatusFilter<$PrismaModel>
-    _max?: NestedEnumAttemptStatusFilter<$PrismaModel>
   }
 
   export type NestedEnumSubmissionReasonWithAggregatesFilter<$PrismaModel = never> = {
@@ -35268,17 +35217,16 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
-    status?: $Enums.AttemptStatus
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
     submissionReason?: $Enums.SubmissionReason
-    tabSwitchCount?: number
-    minimizeCount?: number
-    offlineCount?: number
-    totalViolations?: number
-    violationLog?: InputJsonValue | null
-    flaggedForReview?: boolean
+    disconnectionCount?: number
+    isFullscreenSupported?: boolean
+    totalOfflineCount?: number
+    violations: InputJsonValue
+    warningCount?: number
+    warningMessage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     quiz: QuizCreateNestedOneWithoutSubmissionsInput
@@ -35289,17 +35237,16 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
-    status?: $Enums.AttemptStatus
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
     submissionReason?: $Enums.SubmissionReason
-    tabSwitchCount?: number
-    minimizeCount?: number
-    offlineCount?: number
-    totalViolations?: number
-    violationLog?: InputJsonValue | null
-    flaggedForReview?: boolean
+    disconnectionCount?: number
+    isFullscreenSupported?: boolean
+    totalOfflineCount?: number
+    violations: InputJsonValue
+    warningCount?: number
+    warningMessage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     quizId: string
@@ -35818,17 +35765,16 @@ export namespace Prisma {
     id?: StringFilter<"QuizSubmission"> | string
     startTime?: DateTimeNullableFilter<"QuizSubmission"> | Date | string | null
     endTime?: DateTimeNullableFilter<"QuizSubmission"> | Date | string | null
-    status?: EnumAttemptStatusFilter<"QuizSubmission"> | $Enums.AttemptStatus
     score?: FloatNullableFilter<"QuizSubmission"> | number | null
     attemptNumber?: IntFilter<"QuizSubmission"> | number
     timeSpent?: IntNullableFilter<"QuizSubmission"> | number | null
     submissionReason?: EnumSubmissionReasonFilter<"QuizSubmission"> | $Enums.SubmissionReason
-    tabSwitchCount?: IntFilter<"QuizSubmission"> | number
-    minimizeCount?: IntFilter<"QuizSubmission"> | number
-    offlineCount?: IntFilter<"QuizSubmission"> | number
-    totalViolations?: IntFilter<"QuizSubmission"> | number
-    violationLog?: JsonNullableFilter<"QuizSubmission">
-    flaggedForReview?: BoolFilter<"QuizSubmission"> | boolean
+    disconnectionCount?: IntFilter<"QuizSubmission"> | number
+    isFullscreenSupported?: BoolFilter<"QuizSubmission"> | boolean
+    totalOfflineCount?: IntFilter<"QuizSubmission"> | number
+    violations?: JsonFilter<"QuizSubmission">
+    warningCount?: IntFilter<"QuizSubmission"> | number
+    warningMessage?: StringNullableFilter<"QuizSubmission"> | string | null
     createdAt?: DateTimeFilter<"QuizSubmission"> | Date | string
     updatedAt?: DateTimeFilter<"QuizSubmission"> | Date | string
     userId?: StringFilter<"QuizSubmission"> | string
@@ -37385,17 +37331,16 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
-    status?: $Enums.AttemptStatus
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
     submissionReason?: $Enums.SubmissionReason
-    tabSwitchCount?: number
-    minimizeCount?: number
-    offlineCount?: number
-    totalViolations?: number
-    violationLog?: InputJsonValue | null
-    flaggedForReview?: boolean
+    disconnectionCount?: number
+    isFullscreenSupported?: boolean
+    totalOfflineCount?: number
+    violations: InputJsonValue
+    warningCount?: number
+    warningMessage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutQuizSubmissionsInput
@@ -37406,17 +37351,16 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
-    status?: $Enums.AttemptStatus
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
     submissionReason?: $Enums.SubmissionReason
-    tabSwitchCount?: number
-    minimizeCount?: number
-    offlineCount?: number
-    totalViolations?: number
-    violationLog?: InputJsonValue | null
-    flaggedForReview?: boolean
+    disconnectionCount?: number
+    isFullscreenSupported?: boolean
+    totalOfflineCount?: number
+    violations: InputJsonValue
+    warningCount?: number
+    warningMessage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -38115,6 +38059,7 @@ export namespace Prisma {
   export type StudentAnswerCreateWithoutQuestionInput = {
     id?: string
     submittedAnswer: InputJsonValue
+    answerExplanation?: InputJsonValue | null
     isCorrect?: boolean
     marksAwarded?: number
     timeSpent?: number | null
@@ -38126,6 +38071,7 @@ export namespace Prisma {
   export type StudentAnswerUncheckedCreateWithoutQuestionInput = {
     id?: string
     submittedAnswer: InputJsonValue
+    answerExplanation?: InputJsonValue | null
     isCorrect?: boolean
     marksAwarded?: number
     timeSpent?: number | null
@@ -38246,6 +38192,7 @@ export namespace Prisma {
     NOT?: StudentAnswerScalarWhereInput | StudentAnswerScalarWhereInput[]
     id?: StringFilter<"StudentAnswer"> | string
     submittedAnswer?: JsonFilter<"StudentAnswer">
+    answerExplanation?: JsonNullableFilter<"StudentAnswer">
     isCorrect?: BoolFilter<"StudentAnswer"> | boolean
     marksAwarded?: FloatFilter<"StudentAnswer"> | number
     timeSpent?: IntNullableFilter<"StudentAnswer"> | number | null
@@ -38400,6 +38347,7 @@ export namespace Prisma {
   export type StudentAnswerCreateWithoutQuizSubmissionInput = {
     id?: string
     submittedAnswer: InputJsonValue
+    answerExplanation?: InputJsonValue | null
     isCorrect?: boolean
     marksAwarded?: number
     timeSpent?: number | null
@@ -38411,6 +38359,7 @@ export namespace Prisma {
   export type StudentAnswerUncheckedCreateWithoutQuizSubmissionInput = {
     id?: string
     submittedAnswer: InputJsonValue
+    answerExplanation?: InputJsonValue | null
     isCorrect?: boolean
     marksAwarded?: number
     timeSpent?: number | null
@@ -38635,17 +38584,16 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
-    status?: $Enums.AttemptStatus
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
     submissionReason?: $Enums.SubmissionReason
-    tabSwitchCount?: number
-    minimizeCount?: number
-    offlineCount?: number
-    totalViolations?: number
-    violationLog?: InputJsonValue | null
-    flaggedForReview?: boolean
+    disconnectionCount?: number
+    isFullscreenSupported?: boolean
+    totalOfflineCount?: number
+    violations: InputJsonValue
+    warningCount?: number
+    warningMessage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutQuizSubmissionsInput
@@ -38656,17 +38604,16 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
-    status?: $Enums.AttemptStatus
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
     submissionReason?: $Enums.SubmissionReason
-    tabSwitchCount?: number
-    minimizeCount?: number
-    offlineCount?: number
-    totalViolations?: number
-    violationLog?: InputJsonValue | null
-    flaggedForReview?: boolean
+    disconnectionCount?: number
+    isFullscreenSupported?: boolean
+    totalOfflineCount?: number
+    violations: InputJsonValue
+    warningCount?: number
+    warningMessage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -38733,17 +38680,16 @@ export namespace Prisma {
   export type QuizSubmissionUpdateWithoutStudentAnswersInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: EnumAttemptStatusFieldUpdateOperationsInput | $Enums.AttemptStatus
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
-    tabSwitchCount?: IntFieldUpdateOperationsInput | number
-    minimizeCount?: IntFieldUpdateOperationsInput | number
-    offlineCount?: IntFieldUpdateOperationsInput | number
-    totalViolations?: IntFieldUpdateOperationsInput | number
-    violationLog?: InputJsonValue | InputJsonValue | null
-    flaggedForReview?: BoolFieldUpdateOperationsInput | boolean
+    disconnectionCount?: IntFieldUpdateOperationsInput | number
+    isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
+    totalOfflineCount?: IntFieldUpdateOperationsInput | number
+    violations?: InputJsonValue | InputJsonValue
+    warningCount?: IntFieldUpdateOperationsInput | number
+    warningMessage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutQuizSubmissionsNestedInput
@@ -38753,17 +38699,16 @@ export namespace Prisma {
   export type QuizSubmissionUncheckedUpdateWithoutStudentAnswersInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: EnumAttemptStatusFieldUpdateOperationsInput | $Enums.AttemptStatus
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
-    tabSwitchCount?: IntFieldUpdateOperationsInput | number
-    minimizeCount?: IntFieldUpdateOperationsInput | number
-    offlineCount?: IntFieldUpdateOperationsInput | number
-    totalViolations?: IntFieldUpdateOperationsInput | number
-    violationLog?: InputJsonValue | InputJsonValue | null
-    flaggedForReview?: BoolFieldUpdateOperationsInput | boolean
+    disconnectionCount?: IntFieldUpdateOperationsInput | number
+    isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
+    totalOfflineCount?: IntFieldUpdateOperationsInput | number
+    violations?: InputJsonValue | InputJsonValue
+    warningCount?: IntFieldUpdateOperationsInput | number
+    warningMessage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -40820,17 +40765,16 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
-    status?: $Enums.AttemptStatus
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
     submissionReason?: $Enums.SubmissionReason
-    tabSwitchCount?: number
-    minimizeCount?: number
-    offlineCount?: number
-    totalViolations?: number
-    violationLog?: InputJsonValue | null
-    flaggedForReview?: boolean
+    disconnectionCount?: number
+    isFullscreenSupported?: boolean
+    totalOfflineCount?: number
+    violations: InputJsonValue
+    warningCount?: number
+    warningMessage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     quizId: string
@@ -41029,17 +40973,16 @@ export namespace Prisma {
   export type QuizSubmissionUpdateWithoutUserInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: EnumAttemptStatusFieldUpdateOperationsInput | $Enums.AttemptStatus
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
-    tabSwitchCount?: IntFieldUpdateOperationsInput | number
-    minimizeCount?: IntFieldUpdateOperationsInput | number
-    offlineCount?: IntFieldUpdateOperationsInput | number
-    totalViolations?: IntFieldUpdateOperationsInput | number
-    violationLog?: InputJsonValue | InputJsonValue | null
-    flaggedForReview?: BoolFieldUpdateOperationsInput | boolean
+    disconnectionCount?: IntFieldUpdateOperationsInput | number
+    isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
+    totalOfflineCount?: IntFieldUpdateOperationsInput | number
+    violations?: InputJsonValue | InputJsonValue
+    warningCount?: IntFieldUpdateOperationsInput | number
+    warningMessage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUpdateOneRequiredWithoutSubmissionsNestedInput
@@ -41049,17 +40992,16 @@ export namespace Prisma {
   export type QuizSubmissionUncheckedUpdateWithoutUserInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: EnumAttemptStatusFieldUpdateOperationsInput | $Enums.AttemptStatus
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
-    tabSwitchCount?: IntFieldUpdateOperationsInput | number
-    minimizeCount?: IntFieldUpdateOperationsInput | number
-    offlineCount?: IntFieldUpdateOperationsInput | number
-    totalViolations?: IntFieldUpdateOperationsInput | number
-    violationLog?: InputJsonValue | InputJsonValue | null
-    flaggedForReview?: BoolFieldUpdateOperationsInput | boolean
+    disconnectionCount?: IntFieldUpdateOperationsInput | number
+    isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
+    totalOfflineCount?: IntFieldUpdateOperationsInput | number
+    violations?: InputJsonValue | InputJsonValue
+    warningCount?: IntFieldUpdateOperationsInput | number
+    warningMessage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quizId?: StringFieldUpdateOperationsInput | string
@@ -41069,17 +41011,16 @@ export namespace Prisma {
   export type QuizSubmissionUncheckedUpdateManyWithoutUserInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: EnumAttemptStatusFieldUpdateOperationsInput | $Enums.AttemptStatus
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
-    tabSwitchCount?: IntFieldUpdateOperationsInput | number
-    minimizeCount?: IntFieldUpdateOperationsInput | number
-    offlineCount?: IntFieldUpdateOperationsInput | number
-    totalViolations?: IntFieldUpdateOperationsInput | number
-    violationLog?: InputJsonValue | InputJsonValue | null
-    flaggedForReview?: BoolFieldUpdateOperationsInput | boolean
+    disconnectionCount?: IntFieldUpdateOperationsInput | number
+    isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
+    totalOfflineCount?: IntFieldUpdateOperationsInput | number
+    violations?: InputJsonValue | InputJsonValue
+    warningCount?: IntFieldUpdateOperationsInput | number
+    warningMessage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quizId?: StringFieldUpdateOperationsInput | string
@@ -41786,17 +41727,16 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
-    status?: $Enums.AttemptStatus
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
     submissionReason?: $Enums.SubmissionReason
-    tabSwitchCount?: number
-    minimizeCount?: number
-    offlineCount?: number
-    totalViolations?: number
-    violationLog?: InputJsonValue | null
-    flaggedForReview?: boolean
+    disconnectionCount?: number
+    isFullscreenSupported?: boolean
+    totalOfflineCount?: number
+    violations: InputJsonValue
+    warningCount?: number
+    warningMessage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -41863,17 +41803,16 @@ export namespace Prisma {
   export type QuizSubmissionUpdateWithoutQuizInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: EnumAttemptStatusFieldUpdateOperationsInput | $Enums.AttemptStatus
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
-    tabSwitchCount?: IntFieldUpdateOperationsInput | number
-    minimizeCount?: IntFieldUpdateOperationsInput | number
-    offlineCount?: IntFieldUpdateOperationsInput | number
-    totalViolations?: IntFieldUpdateOperationsInput | number
-    violationLog?: InputJsonValue | InputJsonValue | null
-    flaggedForReview?: BoolFieldUpdateOperationsInput | boolean
+    disconnectionCount?: IntFieldUpdateOperationsInput | number
+    isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
+    totalOfflineCount?: IntFieldUpdateOperationsInput | number
+    violations?: InputJsonValue | InputJsonValue
+    warningCount?: IntFieldUpdateOperationsInput | number
+    warningMessage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutQuizSubmissionsNestedInput
@@ -41883,17 +41822,16 @@ export namespace Prisma {
   export type QuizSubmissionUncheckedUpdateWithoutQuizInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: EnumAttemptStatusFieldUpdateOperationsInput | $Enums.AttemptStatus
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
-    tabSwitchCount?: IntFieldUpdateOperationsInput | number
-    minimizeCount?: IntFieldUpdateOperationsInput | number
-    offlineCount?: IntFieldUpdateOperationsInput | number
-    totalViolations?: IntFieldUpdateOperationsInput | number
-    violationLog?: InputJsonValue | InputJsonValue | null
-    flaggedForReview?: BoolFieldUpdateOperationsInput | boolean
+    disconnectionCount?: IntFieldUpdateOperationsInput | number
+    isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
+    totalOfflineCount?: IntFieldUpdateOperationsInput | number
+    violations?: InputJsonValue | InputJsonValue
+    warningCount?: IntFieldUpdateOperationsInput | number
+    warningMessage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -41903,17 +41841,16 @@ export namespace Prisma {
   export type QuizSubmissionUncheckedUpdateManyWithoutQuizInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: EnumAttemptStatusFieldUpdateOperationsInput | $Enums.AttemptStatus
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
-    tabSwitchCount?: IntFieldUpdateOperationsInput | number
-    minimizeCount?: IntFieldUpdateOperationsInput | number
-    offlineCount?: IntFieldUpdateOperationsInput | number
-    totalViolations?: IntFieldUpdateOperationsInput | number
-    violationLog?: InputJsonValue | InputJsonValue | null
-    flaggedForReview?: BoolFieldUpdateOperationsInput | boolean
+    disconnectionCount?: IntFieldUpdateOperationsInput | number
+    isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
+    totalOfflineCount?: IntFieldUpdateOperationsInput | number
+    violations?: InputJsonValue | InputJsonValue
+    warningCount?: IntFieldUpdateOperationsInput | number
+    warningMessage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -42035,6 +41972,7 @@ export namespace Prisma {
   export type StudentAnswerCreateManyQuestionInput = {
     id?: string
     submittedAnswer: InputJsonValue
+    answerExplanation?: InputJsonValue | null
     isCorrect?: boolean
     marksAwarded?: number
     timeSpent?: number | null
@@ -42045,6 +41983,7 @@ export namespace Prisma {
 
   export type StudentAnswerUpdateWithoutQuestionInput = {
     submittedAnswer?: InputJsonValue | InputJsonValue
+    answerExplanation?: InputJsonValue | InputJsonValue | null
     isCorrect?: BoolFieldUpdateOperationsInput | boolean
     marksAwarded?: FloatFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
@@ -42055,6 +41994,7 @@ export namespace Prisma {
 
   export type StudentAnswerUncheckedUpdateWithoutQuestionInput = {
     submittedAnswer?: InputJsonValue | InputJsonValue
+    answerExplanation?: InputJsonValue | InputJsonValue | null
     isCorrect?: BoolFieldUpdateOperationsInput | boolean
     marksAwarded?: FloatFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
@@ -42065,6 +42005,7 @@ export namespace Prisma {
 
   export type StudentAnswerUncheckedUpdateManyWithoutQuestionInput = {
     submittedAnswer?: InputJsonValue | InputJsonValue
+    answerExplanation?: InputJsonValue | InputJsonValue | null
     isCorrect?: BoolFieldUpdateOperationsInput | boolean
     marksAwarded?: FloatFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
@@ -42076,6 +42017,7 @@ export namespace Prisma {
   export type StudentAnswerCreateManyQuizSubmissionInput = {
     id?: string
     submittedAnswer: InputJsonValue
+    answerExplanation?: InputJsonValue | null
     isCorrect?: boolean
     marksAwarded?: number
     timeSpent?: number | null
@@ -42086,6 +42028,7 @@ export namespace Prisma {
 
   export type StudentAnswerUpdateWithoutQuizSubmissionInput = {
     submittedAnswer?: InputJsonValue | InputJsonValue
+    answerExplanation?: InputJsonValue | InputJsonValue | null
     isCorrect?: BoolFieldUpdateOperationsInput | boolean
     marksAwarded?: FloatFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
@@ -42096,6 +42039,7 @@ export namespace Prisma {
 
   export type StudentAnswerUncheckedUpdateWithoutQuizSubmissionInput = {
     submittedAnswer?: InputJsonValue | InputJsonValue
+    answerExplanation?: InputJsonValue | InputJsonValue | null
     isCorrect?: BoolFieldUpdateOperationsInput | boolean
     marksAwarded?: FloatFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
@@ -42106,6 +42050,7 @@ export namespace Prisma {
 
   export type StudentAnswerUncheckedUpdateManyWithoutQuizSubmissionInput = {
     submittedAnswer?: InputJsonValue | InputJsonValue
+    answerExplanation?: InputJsonValue | InputJsonValue | null
     isCorrect?: BoolFieldUpdateOperationsInput | boolean
     marksAwarded?: FloatFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null

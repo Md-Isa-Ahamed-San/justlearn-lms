@@ -347,19 +347,19 @@ model QuizSubmission {
   id               String           @id @default(auto()) @map("_id") @db.ObjectId
   startTime        DateTime?
   endTime          DateTime?
-  status           AttemptStatus    @default(not_started)
+  // status           AttemptStatus    @default(not_started)
   score            Float?           @default(0)
   attemptNumber    Int              @default(1)
   timeSpent        Int?
   submissionReason SubmissionReason @default(manual_submit)
 
   // Simplified Anti-Cheating Data
-  tabSwitchCount   Int     @default(0)
-  minimizeCount    Int     @default(0)
-  offlineCount     Int     @default(0)
-  totalViolations  Int     @default(0)
-  violationLog     Json? // Simple array of violations with timestamps
-  flaggedForReview Boolean @default(false)
+  disconnectionCount Int     @default(0)
+  isFullscreenSupported Boolean @default(true)
+  totalOfflineCount     Int     @default(0)
+  violations       Json
+  warningCount    Int     @default(0)
+  warningMessage String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -374,13 +374,13 @@ model QuizSubmission {
   studentAnswers StudentAnswer[]
 
   @@index([userId, quizId])
-  @@index([status, createdAt])
-  @@index([flaggedForReview])
+  @@index([ createdAt])
 }
 
 model StudentAnswer {
   id              String   @id @default(auto()) @map("_id") @db.ObjectId
   submittedAnswer Json
+  answerExplanation   Json?
   isCorrect       Boolean  @default(false)
   marksAwarded    Float    @default(0)
   timeSpent       Int?     @default(0) // seconds spent on this question

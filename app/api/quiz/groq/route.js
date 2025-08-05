@@ -17,13 +17,6 @@ const groqInstances = [
   }),
 ];
 
-// Account health tracking
-let accountHealth = {
-  1: { successRate: 1.0, avgResponseTime: 0, failures: 0 },
-  2: { successRate: 1.0, avgResponseTime: 0, failures: 0 },
-  3: { successRate: 1.0, avgResponseTime: 0, failures: 0 },
-  4: { successRate: 1.0, avgResponseTime: 0, failures: 0 },
-};
 
 // Primary model configuration
 const PRIMARY_MODEL = {
@@ -51,6 +44,13 @@ const FALLBACK_MODELS = [
     maxQuestionsPerCall: 40,
   },
 ];
+// Account health tracking
+let accountHealth = {
+  1: { successRate: 1.0, avgResponseTime: 0, failures: 0 },
+  2: { successRate: 1.0, avgResponseTime: 0, failures: 0 },
+  3: { successRate: 1.0, avgResponseTime: 0, failures: 0 },
+  4: { successRate: 1.0, avgResponseTime: 0, failures: 0 },
+};
 
 // Helper function to extract text from file
 async function extractTextFromFile(file) {

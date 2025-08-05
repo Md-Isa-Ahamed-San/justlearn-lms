@@ -4,15 +4,17 @@ import {Input} from "@/components/ui/input";
 import {Textarea} from "@/components/ui/textarea";
 
 export default function QuizQuestion({ question, answer, onAnswerChange, disabled }) {
-    const handleMCQChange = (checked, optionLabel) => {
+    const handleMCQChange = (checked, optionLabel,isCorrect) => {
         const currentAnswers = answer?.answer || []
+       
         let newAnswers
         if (checked) {
             newAnswers = [...currentAnswers, optionLabel]
         } else {
             newAnswers = currentAnswers.filter((label) => label !== optionLabel)
         }
-        onAnswerChange(question.id, newAnswers, 'mcq')
+
+        onAnswerChange(question.id, newAnswers, 'mcq',question?.mark,isCorrect)
     }
 
     switch (question.type) {
@@ -26,7 +28,7 @@ export default function QuizQuestion({ question, answer, onAnswerChange, disable
                                 <Checkbox
                                     id={`q-${question.id}-opt-${i}`}
                                     checked={answer?.answer?.includes(opt.label) || false}
-                                    onCheckedChange={(checked) => handleMCQChange(checked, opt.label)}
+                                    onCheckedChange={(checked) => handleMCQChange(checked, opt.label,opt.isCorrect)}
                                     disabled={disabled}
                                 />
                                 <Label htmlFor={`q-${question.id}-opt-${i}`} className="text-base font-normal cursor-pointer flex-1">

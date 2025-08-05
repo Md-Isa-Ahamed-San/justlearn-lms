@@ -30,9 +30,9 @@ function generateTokens(user) {
   });
 
   const refreshToken = jwt.sign(
-    refreshTokenPayload,
-    process.env.JWT_REFRESH_SECRET,
-    { expiresIn: "7d" }
+      refreshTokenPayload,
+      process.env.JWT_REFRESH_SECRET,
+      { expiresIn: "7d" }
   );
 
   return {
@@ -49,8 +49,8 @@ async function refreshCredentialsToken(token) {
 
     // Verify the refresh token
     const decoded = jwt.verify(
-      token.refreshToken,
-      process.env.JWT_REFRESH_SECRET
+        token.refreshToken,
+        process.env.JWT_REFRESH_SECRET
     );
 
     // Get user from database to ensure they still exist
@@ -65,14 +65,14 @@ async function refreshCredentialsToken(token) {
 
     // Generate new access token
     const newAccessToken = jwt.sign(
-      {
-        userId: user.id,
-        email: user.email,
-        name: user.name,
-        type: "access",
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: "15m" }
+        {
+          userId: user.id,
+          email: user.email,
+          name: user.name,
+          type: "access",
+        },
+        process.env.JWT_SECRET,
+        { expiresIn: "15m" }
     );
 
     console.log("✅ Successfully refreshed credentials token");
@@ -87,13 +87,12 @@ async function refreshCredentialsToken(token) {
         name: user.name,
         image: user.image,
       },
+      error: undefined, // Clear any previous errors
     };
   } catch (error) {
     console.error("❌ Error refreshing credentials token:", error.message);
-    return {
-      ...token,
-      error: "RefreshAccessTokenError",
-    };
+    // Return null to trigger logout instead of returning error token
+    return null;
   }
 }
 
@@ -132,13 +131,12 @@ async function refreshGoogleAccessToken(token) {
       accessToken: refreshedTokens.access_token,
       accessTokenExpires: Date.now() + refreshedTokens.expires_in * 1000,
       refreshToken: refreshedTokens.refresh_token ?? token.refreshToken,
+      error: undefined, // Clear any previous errors
     };
   } catch (error) {
     console.error("❌ Google token refresh error:", error.message);
-    return {
-      ...token,
-      error: "RefreshAccessTokenError",
-    };
+    // Return null to trigger logout instead of returning error token
+    return null;
   }
 }
 
@@ -175,8 +173,8 @@ export const {
           }
 
           const isMatch = await bcrypt.compare(
-            credentials.password,
-            user.password
+              credentials.password,
+              user.password
           );
 
           if (!isMatch) {
@@ -184,8 +182,8 @@ export const {
           }
 
           console.log(
-            "✅ Credentials authentication successful for:",
-            user.email
+              "✅ Credentials authentication successful for:",
+              user.email
           );
 
           return {
@@ -248,10 +246,10 @@ export const {
         }
       }
 
-      // If token has error, return it (this will force re-authentication)
-      if (token?.error) {
-        console.log("❌ Token has error, returning error token");
-        return token;
+      // If token is null, this will trigger logout
+      if (!token) {
+        console.log("❌ Token is null, triggering logout");
+        return null;
       }
 
       // Return previous token if the access token has not expired yet
@@ -260,9 +258,9 @@ export const {
         if (Math.random() < 0.1) {
           // 10% chance to log
           console.log(
-            `⏰ Using valid token (expires: ${new Date(
-              token.accessTokenExpires
-            ).toLocaleString()})`
+              `⏰ Using valid token (expires: ${new Date(
+                  token.accessTokenExpires
+              ).toLocaleString()})`
           );
         }
         return token;
@@ -270,27 +268,37 @@ export const {
 
       // Access token has expired, try to update it
       console.log(
-        `🔄 Token expired, refreshing... (Provider: ${token.provider})`
+          `🔄 Token expired, refreshing... (Provider: ${token.provider})`
       );
 
+      let refreshedToken = null;
+
       if (token.provider === "google") {
-        return refreshGoogleAccessToken(token);
+        refreshedToken = await refreshGoogleAccessToken(token);
       } else if (token.provider === "credentials") {
-        return refreshCredentialsToken(token);
+        refreshedToken = await refreshCredentialsToken(token);
       }
 
-      console.log("❌ Unknown provider, returning original token");
-      return token;
+      // If refresh failed (returns null), this will trigger logout
+      if (!refreshedToken) {
+        console.log("❌ Token refresh failed, forcing logout");
+        return null;
+      }
+
+      return refreshedToken;
     },
 
     async session({ session, token }) {
-      if (token?.error) {
-        session.error = token.error;
-      } else {
-        session.user = token?.user || session.user;
-        session.accessToken = token?.accessToken;
-        session.provider = token?.provider;
+      // If token is null or has error, return null session (triggers logout)
+      if (!token) {
+        console.log("❌ No token available, session will be null");
+        return null;
       }
+
+      // Populate session with token data
+      session.user = token?.user || session.user;
+      session.accessToken = token?.accessToken;
+      session.provider = token?.provider;
 
       // Only log occasionally to reduce noise
       if (Math.random() < 0.05) {
@@ -362,8 +370,8 @@ export const {
           } catch (updateError) {
             // Don't block signin if provider update fails
             console.warn(
-              "⚠️ Failed to update provider info:",
-              updateError.message
+                "⚠️ Failed to update provider info:",
+                updateError.message
             );
           }
 
@@ -386,4 +394,19 @@ export const {
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   debug: process.env.NODE_ENV === "development",
+  // Add event handlers for better error tracking
+  events: {
+    async signOut(message) {
+      console.log("🚪 User signed out:", message?.token?.email || "Unknown user");
+    },
+    async session(message) {
+      // Track when sessions are created/accessed
+      if (process.env.NODE_ENV === "development") {
+        console.log("📋 Session event:", {
+          user: message?.session?.user?.email,
+          provider: message?.session?.provider
+        });
+      }
+    }
+  }
 });

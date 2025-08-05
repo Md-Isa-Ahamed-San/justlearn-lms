@@ -2,11 +2,25 @@
 
 import { useEffect, useRef } from "react"
 
-
-export default function AntiCheatMonitor({ onViolation }) {
+export default function AntiCheatMonitor({
+                                             onViolation,
+                                             isActive = true,
+                                             developmentMode
+                                         }) {
     const networkCheckRef = useRef()
     const devToolsCheckRef = useRef()
     const lastNetworkCheckRef = useRef(Date.now())
+
+    // Early return if in development mode
+    if (developmentMode) {
+        console.log("🔧 AntiCheatMonitor: Development mode - monitoring disabled")
+        return null
+    }
+
+    // Early return if not active
+    if (!isActive) {
+        return null
+    }
 
     // Disable right-click and keyboard shortcuts
     useEffect(() => {
@@ -119,7 +133,6 @@ export default function AntiCheatMonitor({ onViolation }) {
     // Monitor developer tools
     useEffect(() => {
         const devtools = { open: false, orientation: null }
-
         const threshold = 160
 
         const checkDevTools = () => {
