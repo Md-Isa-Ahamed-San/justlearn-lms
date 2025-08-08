@@ -287,4 +287,48 @@ export async function getQuizWithDetails(quizId) {
   }
 }
 
+export async function getCompletedQuizIdsByCourse(userId, courseId) {
+    try {
+        if (!userId || !courseId) {
+            throw new Error("User ID and Course ID are required to fetch completed quiz IDs.");
+        }
+
+        // First get all week IDs for the course
+        const courseWeeks = await db.week.findMany({
+            where: {
+                courseId: courseId
+            },
+            select: {
+                id: true
+            }
+        });
+
+        const courseWeekIds = courseWeeks.map(week => week.id);
+
+        if (courseWeekIds.length === 0) {
+            return [];
+        }
+
+        // Get completed quiz submissions for quizzes that belong to course weeks
+        const completedQuizzes = await db.quizSubmission.findMany({
+            where: {
+                userId: userId,
+               
+                courseId:courseId
+            }
+        });
+
+        return completedQuizzes.map(submission => submission.quizId);
+
+    } catch (error) {
+        console.error(
+            `Error fetching completed quiz IDs for user ${userId} and course ${courseId} using Prisma:`,
+            error.message
+        );
+
+        throw new Error(
+            `Failed to retrieve completed quiz IDs for user and course. Details: ${error.message}`
+        );
+    }
+}
 

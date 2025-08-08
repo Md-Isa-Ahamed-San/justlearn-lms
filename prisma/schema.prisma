@@ -199,6 +199,7 @@ model Course {
   weeks          Week[]
   testimonials   Testimonial[]    @relation("CourseTestimonials")
   certificates   Certificate[]    @relation("CourseCertificates")
+  quizSubmissions QuizSubmission[] @relation("CourseQuizSubmissions")
   courseProgress CourseProgress[] @relation("CourseCourseProgress")
   reports        Report[]         @relation("CourseReports")
   participations Participation[]  @relation("CourseParticipations")
@@ -367,14 +368,17 @@ model QuizSubmission {
   // Foreign Keys
   userId String @db.ObjectId
   quizId String @db.ObjectId
+  courseId String @db.ObjectId
 
   // Relationships
+  course         Course          @relation("CourseQuizSubmissions", fields: [courseId], references: [id])
   user           User            @relation("UserQuizSubmissions", fields: [userId], references: [id])
   quiz           Quiz            @relation(fields: [quizId], references: [id])
   studentAnswers StudentAnswer[]
 
   @@index([userId, quizId])
   @@index([ createdAt])
+   @@index([courseId])
 }
 
 model StudentAnswer {

@@ -11,6 +11,7 @@ import { getServerUserData } from "../../../../queries/users";
 import { checkUserParticipation } from "../../../../queries/participation";
 import { getCompletedLessonsByCourse } from "@/queries/lesson";
 import {toggleLessonProgress} from "@/app/actions/lesson";
+import { getCompletedQuizIdsByCourse } from "../../../../queries/quizzes";
 
 
 const SingleCoursePage = async ({ params }) => {
@@ -22,6 +23,9 @@ const SingleCoursePage = async ({ params }) => {
     const completedLessons = userData?.id && courseDetails?.id
         ? await getCompletedLessonsByCourse(userData.id, courseDetails.id)
         : [];
+    const completedQuizzes = userData?.id && courseDetails?.id
+        ? await getCompletedQuizIdsByCourse(userData.id, courseDetails.id)
+        : []; 
 
     return (
         <div>
@@ -40,6 +44,7 @@ const SingleCoursePage = async ({ params }) => {
                 courseDetails={courseDetails}
                 currentUser={userData}
                 completedLessons={completedLessons}
+                completedQuizzes={completedQuizzes}
 
             />
 

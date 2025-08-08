@@ -5,7 +5,6 @@ import { db } from "@/lib/prisma";
 import Groq from "groq-sdk";
 import { revalidatePath } from 'next/cache';
 
-// Initialize multiple Groq instances for load balancing
 const groqInstances = [
   new Groq({
     apiKey: process.env.GROQ_API_KEY_1,
@@ -21,7 +20,6 @@ const groqInstances = [
   }),
 ];
 
-// Primary model configuration
 const PRIMARY_MODEL = {
   id: "llama-3.3-70b-versatile",
   name: "Llama 3.3 70B",
@@ -30,7 +28,6 @@ const PRIMARY_MODEL = {
   maxQuestionsPerCall: 80,
 };
 
-// Fallback models
 const FALLBACK_MODELS = [
   {
     id: "meta-llama/llama-4-maverick-17b-128e-instruct",
@@ -55,20 +52,17 @@ function getRandomGroqInstance() {
   return groqInstances[Math.floor(Math.random() * groqInstances.length)];
 }
 
-/**
- * Create AI prompt for evaluating student answers
- */
 function createEvaluationPrompt(question, studentAnswer, maxMark) {
   return `You are an expert evaluator. Please evaluate the following student answer with medium difficulty standards.
 
-QUESTION: ${question.text}
+QUESTION: ${question}
 STUDENT ANSWER: ${studentAnswer}
 MAXIMUM MARKS: ${maxMark}
 
 Please evaluate this answer and respond with ONLY a JSON object in this exact format:
 {
   "marksAwarded": <number between 0 and ${maxMark}>,
-  "explanation": "<brief explanation of why this mark was given>",
+  "explanation": "<act as you are the instructor and you are describing to student why this mark was give. so add a short brief explanation of why this mark was given according to the requirement.>",
   "correctAnswer": "<the ideal/correct answer for reference>"
 }
 
@@ -76,12 +70,9 @@ Guidelines:
 - Give partial marks for partially correct answers
 - Give 0 marks for completely incorrect or irrelevant answers
 - Be fair but maintain medium difficulty standards
-- Marks must be a number between 0 and ${maxMark}`;
+- CRITICAL REQUIREMENT: Marks must be a number between 0 and ${maxMark}`;
 }
 
-/**
- * Evaluate answers using AI with retry logic
- */
 async function evaluateWithAI(questions, maxRetries = 3) {
   const models = [PRIMARY_MODEL, ...FALLBACK_MODELS];
   
@@ -131,7 +122,7 @@ async function evaluateWithAI(questions, maxRetries = 3) {
               };
             } catch (parseError) {
               console.error(`JSON parse error for question ${item.questionId}:`, parseError);
-              // Return zero marks if parsing fails
+             
               return {
                 questionId: item.questionId,
                 marksAwarded: 0,
@@ -181,37 +172,43 @@ export async function submitQuizWithStudentAnswer(data) {
 
     console.log(`Processing quiz submission for user: ${loggedInUser.id}`);
 
-    // Step 2: Extract quiz ID from the first answer (assuming all answers are for the same quiz)
-    const firstAnswerKey = Object.keys(data.answers)[0];
-    if (!firstAnswerKey) {
+    // Step 2: Validate required data
+    if (!data.quizId || !data.answers || Object.keys(data.answers).length === 0) {
       return {
         success: false,
-        error: "No answers provided"
+        error: "Invalid submission data - missing quiz ID or answers"
       };
     }
 
-    // Step 3: Get all questions for this quiz to validate and get quiz info
-    const questionIds = Object.keys(data.answers);
-    const questions = await db.question.findMany({
-      where: {
-        id: { in: questionIds }
-      },
-      include: {
-        quiz: true
+    const quizId = data.quizId;
+    const answerEntries = Object.values(data.answers);
+
+    console.log(`Processing ${answerEntries.length} answers for quiz: ${quizId}`);
+
+    // Step 3: Validate quiz exists and get basic info
+    const quiz = await db.quiz.findUnique({
+      where: { id: quizId },
+      select: {
+        id: true,
+        title: true,
+        active: true,
+        status: true
       }
     });
 
-    if (questions.length === 0) {
+    if (!quiz) {
       return {
         success: false,
-        error: "No valid questions found"
+        error: "Quiz not found"
       };
     }
 
-    const quiz = questions[0].quiz;
-    const quizId = quiz.id;
-
-    console.log(`Processing ${questions.length} questions for quiz: ${quiz.title}`);
+    if (!quiz.active || quiz.status !== 'published') {
+      return {
+        success: false,
+        error: "Quiz is not available for submission"
+      };
+    }
 
     // Step 4: Create or get existing quiz submission
     let quizSubmission = await db.quizSubmission.findFirst({
@@ -227,7 +224,9 @@ export async function submitQuizWithStudentAnswer(data) {
         data: {
           userId: loggedInUser.id,
           quizId: quizId,
-          startTime: new Date(),
+          courseId:data.courseId,
+          startTime: new Date(), // Set current time as start if not existing
+          endTime: new Date(),
           attemptNumber: 1,
           violations: data.violations || [],
           warningCount: data.warningCount || 0,
@@ -238,44 +237,48 @@ export async function submitQuizWithStudentAnswer(data) {
           submissionReason: "manual_submit"
         }
       });
+    } else {
+      
+      return {
+        success: false,
+        error: "Quiz submission already exists for you",
+      };
     }
 
-    console.log(`Quiz submission created/found: ${quizSubmission.id}`);
+    console.log(`Quiz submission created/updated: ${quizSubmission.id}`);
 
-    // Step 5: Separate MCQ and non-MCQ questions for processing
+    // Step 5: Separate answers by processing type
     const mcqAnswers = [];
     const aiEvaluationNeeded = [];
     
-    for (const question of questions) {
-      const answerData = data.answers[question.id];
-      
-      if (question.type === 'mcq') {
-        // Process MCQ immediately
-        const isCorrect = JSON.stringify(answerData.answer) === JSON.stringify(question.correctAnswer);
+    for (const answerData of answerEntries) {
+      if (answerData.questionType === 'mcq') {
+        // Process MCQ directly using provided data
+        const marksAwarded = answerData.isCorrect ? answerData.mark : 0;
         mcqAnswers.push({
-          questionId: question.id,
+          questionId: answerData.questionId,
           submittedAnswer: answerData.answer,
-          isCorrect: isCorrect,
-          marksAwarded: isCorrect ? question.mark : 0,
+          isCorrect: answerData.isCorrect,
+          marksAwarded: marksAwarded,
           answerExplanation: {
-            explanation: isCorrect ? "Correct answer" : "Incorrect answer",
-            correctAnswer: question.correctAnswer
+            explanation: answerData.isCorrect ? "Correct answer" : "Incorrect answer",
+            correctAnswer: "See quiz results for correct answer"
           }
         });
       } else {
-        // Queue for AI evaluation
+        // Queue for AI evaluation (short_answer, long_answer)
         aiEvaluationNeeded.push({
-          questionId: question.id,
-          question: question,
+          questionId: answerData.questionId,
+          question: answerData.question,
           studentAnswer: answerData.answer,
-          maxMark: question.mark
+          maxMark: answerData.mark
         });
       }
     }
 
-    console.log(`Processing ${mcqAnswers.length} MCQ answers and ${aiEvaluationNeeded.length} AI evaluation needed`);
+    console.log(`Processing ${mcqAnswers.length} MCQ answers and ${aiEvaluationNeeded.length} AI evaluations needed`);
 
-    // Step 6: Process AI evaluations for short and long answers
+    // Step 6: Process AI evaluations for non-MCQ questions
     let aiResults = [];
     if (aiEvaluationNeeded.length > 0) {
       try {
@@ -291,7 +294,7 @@ export async function submitQuizWithStudentAnswer(data) {
       }
     }
 
-    // Step 7: Create all student answer records
+    // Step 7: Prepare all student answer records
     const allAnswerRecords = [];
     
     // Add MCQ answers
@@ -329,23 +332,23 @@ export async function submitQuizWithStudentAnswer(data) {
 
     // Step 9: Calculate total score and update quiz submission
     const totalScore = allAnswerRecords.reduce((sum, answer) => sum + answer.marksAwarded, 0);
-    const maxPossibleScore = questions.reduce((sum, question) => sum + question.mark, 0);
+    const maxPossibleScore = answerEntries.reduce((sum, answer) => sum + answer.mark, 0);
     const percentageScore = maxPossibleScore > 0 ? (totalScore / maxPossibleScore) * 100 : 0;
 
     // Update quiz submission with final results
-    await db.quizSubmission.update({
+    const finalSubmission = await db.quizSubmission.update({
       where: { id: quizSubmission.id },
       data: {
         endTime: new Date(),
-        score: percentageScore,
-        timeSpent: Math.floor((new Date() - new Date(quizSubmission.startTime)) / 1000), // in seconds
-        // Note: status field was commented out in schema, so not updating it
+        score: totalScore,
+        timeSpent: quizSubmission.startTime ? 
+          Math.floor((new Date() - new Date(quizSubmission.startTime)) / 1000) : 0,
       }
     });
 
     console.log(`Quiz submission completed. Score: ${totalScore}/${maxPossibleScore} (${percentageScore.toFixed(2)}%)`);
 
-    // Step 10: Revalidate relevant paths (user will be redirected to previous URL)
+    // Step 10: Revalidate relevant paths
     revalidatePath('/dashboard');
     revalidatePath(`/quiz/${quizId}`);
 
@@ -353,7 +356,7 @@ export async function submitQuizWithStudentAnswer(data) {
     return {
       success: true,
       data: {
-        submissionId: quizSubmission.id,
+        submissionId: finalSubmission.id,
         totalScore: totalScore,
         maxScore: maxPossibleScore,
         percentage: percentageScore,

@@ -33,6 +33,7 @@ import { formatDate } from "../../../../../lib/formatDate";
 const CourseDetails = ({   courseDetails,
                          currentUser,
                          completedLessons,
+                         completedQuizzes
                           }) => {
   const getInstructorInitials = () => {
     if (!courseDetails?.user) return "IN";
@@ -46,7 +47,7 @@ const CourseDetails = ({   courseDetails,
       return total + (week.lessons?.length || 0);
     }, 0);
   };
-
+  console.log("courseDetails(courseDetails,currentUser,completedLessons,completedQuizzes: ",courseDetails,currentUser,completedLessons,completedQuizzes);
   // Calculate total duration in hours
   const getTotalDuration = () => {
     if (!courseDetails?.weeks) return 0;
@@ -191,6 +192,7 @@ const CourseDetails = ({   courseDetails,
                 courseDetails={courseDetails}
                 currentUser={currentUser}
                 completedLessons={completedLessons}
+                completedQuizzes={completedQuizzes}
 
             />
 

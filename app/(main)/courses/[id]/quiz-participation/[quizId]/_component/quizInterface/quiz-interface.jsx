@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, useReducer } from "react";
 import { toast } from "sonner"; // NEW: Import the toast function
-
+import { useRouter } from 'next/navigation';
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 import {
@@ -20,6 +20,8 @@ import QuizHeader from "@/app/(main)/courses/[id]/quiz-participation/[quizId]/_c
 import QuizNavigationSidebar from "@/app/(main)/courses/[id]/quiz-participation/[quizId]/_component/quizInterface/_components/quiz-navigation-sidebar";
 import QuestionInterface from "@/app/(main)/courses/[id]/quiz-participation/[quizId]/_component/quizInterface/_components/question-interface";
 import { quizReducer } from "@/service/quizReducer";
+import { submitQuizWithStudentAnswer } from "../../../../../../../actions/quiz";
+
 
 // !MARK: QUIZ REDUCER
 //exported to service / quizReducer
@@ -59,7 +61,7 @@ export default function QuizInterface({
     shouldAutoSubmitOnReconnect: state.shouldAutoSubmitOnReconnect,
     autoSubmitReason: state.autoSubmitReason,
   });
-
+const router = useRouter();
   const quizContainerRef = useRef(null);
   const heartbeatIntervalRef = useRef(null);
   const submissionTimeoutRef = useRef(null);
@@ -772,10 +774,10 @@ export default function QuizInterface({
   }, [quiz.id, currentUser.id, autoSubmitQuiz]);
 
   // !MARK: handle ans change
-  const handleAnswerChange = (questionId, answer, questionType,mark, isCorrect) => {
+  const handleAnswerChange = (questionId,question, answer, questionType,mark, isCorrect) => {
     dispatch({
       type: "UPDATE_ANSWER",
-      payload: { questionId, answer, questionType,mark, isCorrect },
+      payload: { questionId,question, answer, questionType,mark, isCorrect },
     });
 
     // Store in localStorage if offline for recovery
@@ -818,23 +820,72 @@ export default function QuizInterface({
   };
 
   // NEW: Extracted submission logic to be called by toast action
-  const proceedWithManualSubmit = () => {
-    hasAutoSubmittedRef.current = true;
-    dispatch({ type: "SET_SUBMITTING", payload: true });
+ const proceedWithManualSubmit = async () => {
+  
+  
+  hasAutoSubmittedRef.current = true;
+  state.quizId = quiz.id;
+  state.courseId = courseId
+  dispatch({ type: "SET_SUBMITTING", payload: true });
 
-    console.log("✅ Manually submitting quiz...");
-    console.log("quiz Data full: ",quiz)
-    console.log("full state: ",state)
-    // console.log("📋 Final answers:", state.answers);
+  console.log("✅ Manually submitting quiz...");
+  console.log("quiz Data full: ", quiz);
+  console.log("full state: ", state);
 
-    // TODO: Replace with actual server action
-    setTimeout(() => {
-      console.log("state: ", state);
-      // REPLACED: alert("✅ Quiz submitted successfully!")
-      toast.success("Quiz submitted successfully!");
-      // TODO: Redirect to results page
-    }, 2000);
-  };
+  try {
+    // Submit the quiz
+    const submissionResponse = await submitQuizWithStudentAnswer(state);
+    console.log("🚀 ~ proceedWithManualSubmit ~ submissionResponse:", submissionResponse)
+    
+    // Always set submitting to false first
+    dispatch({ type: "SET_SUBMITTING", payload: false });
+    
+    // Wait for the next tick to ensure state update
+    await new Promise(resolve => setTimeout(resolve, 50));
+    
+    if (submissionResponse.success) {
+      // Show success message
+      toast.success("Quiz submitted successfully!", {
+        duration: 4000,
+        position: 'top-center',
+      });
+      
+      console.log("submissionResponse: ", submissionResponse);
+      
+      // Navigate back after showing toast
+      setTimeout(() => {
+        router.back();
+        
+        // Alternative navigation options:
+        // router.push('/dashboard');
+        // router.push(`/quiz/${quiz.id}/results`);
+        // window.history.back();
+      }, 2000);
+      
+    } else {
+      // Show error message
+      toast.error(submissionResponse.error || "Failed to submit quiz", {
+        duration: 5000,
+        position: 'top-center',
+      });
+      
+      console.error("Submission failed:", submissionResponse);
+    }
+    
+  } catch (error) {
+    // Handle unexpected errors
+    dispatch({ type: "SET_SUBMITTING", payload: false });
+    
+    await new Promise(resolve => setTimeout(resolve, 50));
+    
+    toast.error("An unexpected error occurred. Please try again.", {
+      duration: 5000,
+      position: 'top-center',
+    });
+    
+    console.error("Submission error:", error);
+  }
+};
   //!MARK: handle manual submit
   const handleManualSubmit = () => {
     if (state.isSubmitting || hasAutoSubmittedRef.current) return;

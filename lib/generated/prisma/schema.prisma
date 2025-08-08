@@ -194,14 +194,15 @@ model Course {
   categoryId String @db.ObjectId
 
   // Relationships
-  user           User             @relation("UserCourses", fields: [userId], references: [id])
-  category       Category         @relation(fields: [categoryId], references: [id])
-  weeks          Week[]
-  testimonials   Testimonial[]    @relation("CourseTestimonials")
-  certificates   Certificate[]    @relation("CourseCertificates")
-  courseProgress CourseProgress[] @relation("CourseCourseProgress")
-  reports        Report[]         @relation("CourseReports")
-  participations Participation[]  @relation("CourseParticipations")
+  user            User             @relation("UserCourses", fields: [userId], references: [id])
+  category        Category         @relation(fields: [categoryId], references: [id])
+  weeks           Week[]
+  testimonials    Testimonial[]    @relation("CourseTestimonials")
+  certificates    Certificate[]    @relation("CourseCertificates")
+  quizSubmissions QuizSubmission[] @relation("CourseQuizSubmissions")
+  courseProgress  CourseProgress[] @relation("CourseCourseProgress")
+  reports         Report[]         @relation("CourseReports")
+  participations  Participation[]  @relation("CourseParticipations")
 }
 
 model Week {
@@ -365,16 +366,19 @@ model QuizSubmission {
   updatedAt DateTime @updatedAt
 
   // Foreign Keys
-  userId String @db.ObjectId
-  quizId String @db.ObjectId
+  userId   String @db.ObjectId
+  quizId   String @db.ObjectId
+  courseId String @db.ObjectId
 
   // Relationships
+  course         Course          @relation("CourseQuizSubmissions", fields: [courseId], references: [id])
   user           User            @relation("UserQuizSubmissions", fields: [userId], references: [id])
   quiz           Quiz            @relation(fields: [quizId], references: [id])
   studentAnswers StudentAnswer[]
 
   @@index([userId, quizId])
   @@index([createdAt])
+  @@index([courseId])
 }
 
 model StudentAnswer {

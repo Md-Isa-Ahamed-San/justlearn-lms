@@ -14,7 +14,7 @@ export default function QuizQuestion({ question, answer, onAnswerChange, disable
             newAnswers = currentAnswers.filter((label) => label !== optionLabel)
         }
 
-        onAnswerChange(question.id, newAnswers, 'mcq',question?.mark,isCorrect)
+        onAnswerChange(question.id,question.text, newAnswers, 'mcq',question?.mark,isCorrect)
     }
 
     switch (question.type) {
@@ -46,7 +46,7 @@ export default function QuizQuestion({ question, answer, onAnswerChange, disable
                     <Input
                         placeholder="Type your short answer here..."
                         value={answer?.answer || ""}
-                        onChange={(e) => onAnswerChange(question.id, e.target.value, 'short_answer')}
+                        onChange={(e) => onAnswerChange(question.id,question.text, e.target.value, 'short_answer',question?.mark)}
                         disabled={disabled}
                     />
                 </div>
@@ -58,7 +58,7 @@ export default function QuizQuestion({ question, answer, onAnswerChange, disable
                     <Textarea
                         placeholder="Type your detailed answer here..."
                         value={answer?.answer || ""}
-                        onChange={(e) => onAnswerChange(question.id, e.target.value, 'long_answer')}
+                        onChange={(e) => onAnswerChange(question.id,question.text, e.target.value, 'long_answer',question?.mark)}
                         rows={8}
                         disabled={disabled}
                     />
