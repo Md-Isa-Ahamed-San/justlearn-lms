@@ -12,6 +12,8 @@ import { checkUserParticipation } from "../../../../queries/participation";
 import { getCompletedLessonsByCourse } from "@/queries/lesson";
 import {toggleLessonProgress} from "@/app/actions/lesson";
 import { getCompletedQuizIdsByCourse } from "../../../../queries/quizzes";
+import { getQuizSubmissionDetails } from "../../../actions/quiz";
+import { chalkLog } from "../../../../utils/logger";
 
 
 const SingleCoursePage = async ({ params }) => {
@@ -26,7 +28,8 @@ const SingleCoursePage = async ({ params }) => {
     const completedQuizzes = userData?.id && courseDetails?.id
         ? await getCompletedQuizIdsByCourse(userData.id, courseDetails.id)
         : []; 
-
+//   const testQuizSubmissionData = await getQuizSubmissionDetails({userId:"6842e2f52433a7219fcb76e1",courseId:"686bd330132d72f488155d02", quizId:"686be8d4981bb26d863af82a"});
+    // chalkLog.log("testQuizSubmissionData: ", testQuizSubmissionData);
     return (
         <div>
             <ScrollToTop />

@@ -47,6 +47,7 @@ const CourseCurriculum = ({
   const router = useRouter();
   const params = useParams();
 
+
   // Helper function to check if a lesson is completed
   const isLessonCompleted = (lessonId) => {
     return completedLessons.includes(lessonId);
@@ -226,8 +227,14 @@ const CourseCurriculum = ({
     }
   };
 
-  const onNavigateToQuiz = (quizId) => {
-    router.push(`/courses/${params.id}/quiz-participation/${quizId}`);
+  const onNavigateToQuiz = (quizId,quizCompleted) => {
+    console.log("quizCompleted: ",quizCompleted);
+    if(quizCompleted){
+       router.push(`/courses/${params.id}/quizResult/${quizId}`);
+    }
+    else{
+      router.push(`/courses/${params.id}/quiz-participation/${quizId}`);
+    }
   };
 
   const handleLessonClick = (lesson, isUnlocked) => {
@@ -245,7 +252,7 @@ const CourseCurriculum = ({
     setIsModalOpen(true);
   };
 
-  const handleQuizClick = (quiz, isUnlocked) => {
+  const handleQuizClick = (quiz, isUnlocked,quizCompleted) => {
     if (!currentUser) {
       toast.error('Please log in to take quizzes');
       return;
@@ -256,7 +263,7 @@ const CourseCurriculum = ({
       return;
     }
     
-    onNavigateToQuiz(quiz.id);
+    onNavigateToQuiz(quiz.id,quizCompleted);
   };
 
   const getTotalDuration = () => {
@@ -474,11 +481,11 @@ const CourseCurriculum = ({
                                 variant={quizUnlocked ? "default" : "secondary"}
                                 size="sm"
                                 className={`h-8 gap-1 ${quizUnlocked ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground cursor-not-allowed'}`}
-                                onClick={() => handleQuizClick(quiz, quizUnlocked)}
-                                disabled={!quizUnlocked || quizCompleted}
+                                onClick={() => handleQuizClick(quiz, quizUnlocked,quizCompleted)}
+                                disabled={!quizUnlocked}
                               >
                                 {quizUnlocked ? <Users className="h-3 w-3" /> : <Lock className="h-3 w-3" />}
-                                {quizUnlocked ? 'Take Quiz' : 'Locked'}
+                                {quizCompleted? "See Result" : quizUnlocked ? 'Take Quiz' : 'Locked'}
                               </Button>
                             ) : (
                               <Button

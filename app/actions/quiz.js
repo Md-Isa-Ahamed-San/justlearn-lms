@@ -377,3 +377,99 @@ export async function submitQuizWithStudentAnswer(data) {
     };
   }
 }
+
+
+export async function getQuizSubmissionDetails({
+  courseId,
+  quizId,
+  userId,
+}) {
+  try {
+    // Validate input parameters
+    if (!courseId || !quizId || !userId) {
+      return {
+        success: false,
+        error: "Missing required parameters: courseId, quizId, and userId are required",
+      };
+    }
+
+    // Get quiz submission details
+    const quizSubmission = await db.quizSubmission.findFirst({
+      where: {
+        courseId,
+        quizId,
+        userId,
+      },
+      select: {
+        id: true,
+        startTime: true,
+        endTime: true,
+        score: true,
+        attemptNumber: true,
+        timeSpent: true,
+        submissionReason: true,
+        disconnectionCount: true,
+        isFullscreenSupported: true,
+        totalOfflineCount: true,
+        violations: true,
+        warningCount: true,
+        warningMessage: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    // Get all student answers for this submission
+    let studentAnswers= [];
+    
+    if (quizSubmission) {
+      studentAnswers = await db.studentAnswer.findMany({
+        where: {
+          quizSubmissionId: quizSubmission.id,
+        },
+        select: {
+          id: true,
+          submittedAnswer: true,
+          answerExplanation: true,
+          isCorrect: true,
+          marksAwarded: true,
+          timeSpent: true,
+          createdAt: true,
+          updatedAt: true,
+          question: {
+            select: {
+              id: true,
+              type: true,
+              text: true,
+              image: true,
+              explanation: true,
+              options: true,
+              correctAnswer: true,
+              mark: true,
+              order: true,
+            },
+          },
+        },
+        orderBy: {
+          question: {
+            order: 'asc',
+          },
+        },
+      });
+    }
+
+    return {
+      success: true,
+      data: {
+        submission: quizSubmission,
+        answers: studentAnswers,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching quiz submission details:", error);
+    return {
+      success: false,
+      error: "Failed to fetch quiz submission details. Please try again.",
+    };
+  }
+}

@@ -829,13 +829,13 @@ const router = useRouter();
   dispatch({ type: "SET_SUBMITTING", payload: true });
 
   console.log("✅ Manually submitting quiz...");
-  console.log("quiz Data full: ", quiz);
-  console.log("full state: ", state);
+  // console.log("quiz Data full: ", quiz);
+  // console.log("full state: ", state);
 
   try {
     // Submit the quiz
     const submissionResponse = await submitQuizWithStudentAnswer(state);
-    console.log("🚀 ~ proceedWithManualSubmit ~ submissionResponse:", submissionResponse)
+    // console.log("🚀 ~ proceedWithManualSubmit ~ submissionResponse:", submissionResponse)
     
     // Always set submitting to false first
     dispatch({ type: "SET_SUBMITTING", payload: false });
