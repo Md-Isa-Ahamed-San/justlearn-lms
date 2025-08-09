@@ -70,7 +70,7 @@ export default async function QuizResultsPage({ params }) {
   return (
       <div className="min-h-screen bg-background">
         {/* Results Header with Score Display */}
-       <div className="flex gap-4 flex-col md:flex-row justify-center mx-auto mt-2 md:mt-10">
+       <div className="flex gap-4 md:min-w-7xl max-w-7xl flex-col md:flex-row justify-center mx-auto mt-2 md:mt-10">
          <QuizResultsHeader
              score={submission.score}
              totalQuestions={totalQuestions}
@@ -81,9 +81,8 @@ export default async function QuizResultsPage({ params }) {
 
        </div>
         {/* Main Content Container */}
-        <div className="container mx-auto px-4 py-8 max-w-4xl">
+        <div className="container mx-auto px-4 py-8 max-w-7xl">
           {/* Performance Overview Section */}
-
 
           {/* Detailed Question Results */}
           <QuestionResultsList answers={sortedAnswers} />

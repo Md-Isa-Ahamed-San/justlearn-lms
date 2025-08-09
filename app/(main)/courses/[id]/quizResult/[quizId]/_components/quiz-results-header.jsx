@@ -57,7 +57,7 @@ export function QuizResultsHeader({ score, totalQuestions, timeSpent, attemptNum
   }
 
   return (
-    <header className="bg-card border-b border-border">
+    <header className="bg-card border-b border-border w-full">
       <div className="container mx-auto px-4 py-12 text-center max-w-4xl">
         {/* Attempt Badge */}
         <Badge variant={getBadgeVariant()} className="mb-4">

@@ -74,7 +74,7 @@ export function QuizResultsOverview({ answers }) {
   }
 
   return (
-    <section className="bg-card rounded-lg border border-border p-6">
+    <section className="bg-card rounded-lg border border-border p-6 w-full">
       <h2 className="font-poppins font-bold text-xl text-foreground mb-6">
         Performance Overview
       </h2>

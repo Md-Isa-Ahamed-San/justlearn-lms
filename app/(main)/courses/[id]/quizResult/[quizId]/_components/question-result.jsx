@@ -89,7 +89,7 @@ export function QuestionResult({ answer, questionNumber }) {
   }
 
   return (
-    <Card className={`p-6 border-l-4 ${getBorderColor()}`}>
+    <Card className={`p-6 w-full border-l-4 ${getBorderColor()}`}>
       {/* Question Header */}
       <div className="flex justify-between items-start mb-4">
         <div className="flex items-center gap-2">
