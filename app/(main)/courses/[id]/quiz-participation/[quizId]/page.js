@@ -1,6 +1,8 @@
 // app/(main)/courses/[id]/quiz-participation/[quizId]/page.tsx
 import { redirect } from "next/navigation"
 import QuizParticipationClient from "@/app/(main)/courses/[id]/quiz-participation/[quizId]/_component/quiz-participation-client"
+import { getServerUserData } from "../../../../../../queries/users"
+import { getQuizWithDetails } from "../../../../../../queries/quizzes"
 
 // Remove: import { chalkLog } from "@/utils/chalkLogger"
 
@@ -211,10 +213,10 @@ export default async function QuizParticipationPage({ params }) {
     try {
         // For development, use sample data
         // In production, uncomment the line below:
-        // serverUserData = await getServerUserData();
+        serverUserData = await getServerUserData();
 
         // Using sample data for development
-        serverUserData = sampleUserData
+        // serverUserData = sampleUserData
 
         console.log("serverUserData inside quiz participation page: ", serverUserData)
     } catch (error) {
@@ -234,10 +236,10 @@ export default async function QuizParticipationPage({ params }) {
     try {
         // For development, use sample data
         // In production, uncomment the line below:
-        // const quizData = await getQuizWithDetails(quizId);
+        const quizData = await getQuizWithDetails(quizId);
 
         // Using sample data for development
-        const quizData = sampleQuizData
+        // const quizData = sampleQuizData
 
         console.log("quiz data for giving quiz inside quiz participation page: ", quizData)
 

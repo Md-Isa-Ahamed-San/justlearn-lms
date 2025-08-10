@@ -4,6 +4,7 @@ import { getLoggedInUser } from "@/lib/loggedin-user";
 import { db } from "@/lib/prisma";
 import Groq from "groq-sdk";
 import { revalidatePath } from 'next/cache';
+import { chalkLog } from "../../utils/logger";
 
 const groqInstances = [
   new Groq({
@@ -171,6 +172,8 @@ export async function submitQuizWithStudentAnswer(data) {
     }
 
     console.log(`Processing quiz submission for user: ${loggedInUser.id}`);
+    chalkLog.log(`Quiz submission data: ${data}`);
+
 
     // Step 2: Validate required data
     if (!data.quizId || !data.answers || Object.keys(data.answers).length === 0) {

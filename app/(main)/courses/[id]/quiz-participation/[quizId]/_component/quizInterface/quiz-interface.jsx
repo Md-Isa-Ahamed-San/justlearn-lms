@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback, useReducer } from "react";
-import { toast } from "sonner"; // NEW: Import the toast function
-import { useRouter } from 'next/navigation';
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 import {
@@ -22,10 +22,6 @@ import QuestionInterface from "@/app/(main)/courses/[id]/quiz-participation/[qui
 import { quizReducer } from "@/service/quizReducer";
 import { submitQuizWithStudentAnswer } from "../../../../../../../actions/quiz";
 
-
-// !MARK: QUIZ REDUCER
-//exported to service / quizReducer
-//!MARK: QuizInterface component
 export default function QuizInterface({
   quiz,
   currentUser,
@@ -61,18 +57,183 @@ export default function QuizInterface({
     shouldAutoSubmitOnReconnect: state.shouldAutoSubmitOnReconnect,
     autoSubmitReason: state.autoSubmitReason,
   });
-const router = useRouter();
+
+  const router = useRouter();
   const quizContainerRef = useRef(null);
   const heartbeatIntervalRef = useRef(null);
   const submissionTimeoutRef = useRef(null);
   const offlineTimeoutRef = useRef(null);
   const offlineTrackingIntervalRef = useRef(null);
-  const hasAutoSubmittedRef = useRef(false); // Prevent duplicate submissions
+  const hasAutoSubmittedRef = useRef(false);
   const fullscreenAttempted = useRef(false);
 
   const currentQuestion = quiz.questions[currentQuestionIndex];
   const totalQuestions = quiz.questions.length;
   const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+
+  // !MARK: UNIFIED SUBMIT FUNCTION - Handles both manual and auto submissions
+  const submitQuiz = useCallback(
+    async (submissionContext = {}) => {
+      const {
+        reason = "Manual submission",
+        isAutoSubmit = false,
+        skipConfirmation = false,
+      } = submissionContext;
+
+      // Prevent duplicate submissions
+      if (hasAutoSubmittedRef.current || state.isSubmitting) {
+        console.log("🚫 Submission already in progress, skipping...");
+        return;
+      }
+
+      console.log(
+        `🚀 Starting ${isAutoSubmit ? "auto" : "manual"} submission:`,
+        reason
+      );
+
+      // For manual submissions, check for unanswered questions and show confirmation
+      if (!isAutoSubmit && !skipConfirmation) {
+        const unansweredQuestions = quiz.questions.filter((q) => {
+          const answerData = state.answers[q.id];
+          if (!answerData) return true;
+          if (Array.isArray(answerData.answer))
+            return answerData.answer.length === 0;
+          return !answerData.answer;
+        });
+
+        if (unansweredQuestions.length > 0) {
+          toast.warning("Are you sure you want to submit?", {
+            description: `You have ${unansweredQuestions.length} unanswered questions.`,
+            action: {
+              label: "Submit Anyway",
+              onClick: () =>
+                submitQuiz({
+                  reason,
+                  isAutoSubmit,
+                  skipConfirmation: true,
+                }),
+            },
+            cancel: {
+              label: "Cancel",
+            },
+            duration: 10000,
+          });
+          return;
+        }
+      }
+
+      // Set submission flags
+      hasAutoSubmittedRef.current = true;
+      dispatch({ type: "SET_SUBMITTING", payload: true });
+
+      // Enhanced state for submission
+      const submissionState = {
+        ...state,
+        quizId: quiz.id,
+        courseId: courseId,
+        submissionReason: reason,
+        isAutoSubmit,
+        submissionTimestamp: new Date().toISOString(),
+      };
+
+      console.log("📋 Final submission data:", {
+        answers: submissionState.answers,
+        violations: submissionState.violations,
+        offlineTracking: {
+          disconnectionCount: submissionState.disconnectionCount,
+          totalOfflineTime: submissionState.totalOfflineTime,
+        },
+        reason,
+        isAutoSubmit,
+      });
+
+      // Cleanup all timers and intervals
+      const cleanup = () => {
+        if (submissionTimeoutRef.current)
+          clearTimeout(submissionTimeoutRef.current);
+        if (heartbeatIntervalRef.current)
+          clearInterval(heartbeatIntervalRef.current);
+        if (offlineTimeoutRef.current) clearTimeout(offlineTimeoutRef.current);
+        if (offlineTrackingIntervalRef.current)
+          clearInterval(offlineTrackingIntervalRef.current);
+
+        // Clean up localStorage
+        try {
+          localStorage.removeItem(`quiz_${quiz.id}_offline_state`);
+          console.log("🧹 Cleaned up localStorage and intervals");
+        } catch (error) {
+          console.error("❌ Failed to clean up offline state:", error);
+        }
+      };
+
+      cleanup();
+
+      try {
+        // Submit the quiz
+        const submissionResponse =
+          await submitQuizWithStudentAnswer(submissionState);
+
+        // Always reset submitting state first
+        dispatch({ type: "SET_SUBMITTING", payload: false });
+        await new Promise((resolve) => setTimeout(resolve, 50));
+
+        if (submissionResponse.success) {
+          // Show appropriate success message
+          const successMessage = isAutoSubmit
+            ? `Quiz auto-submitted: ${reason}`
+            : "Quiz submitted successfully!";
+
+          toast.success(successMessage, {
+            duration: 4000,
+            position: "top-center",
+          });
+
+          console.log("✅ Submission successful:", submissionResponse);
+
+          // Navigate back after showing toast
+          setTimeout(() => {
+            router.back();
+          }, 2000);
+        } else {
+          // Show error message
+          const errorMessage =
+            submissionResponse.error || "Failed to submit quiz";
+          toast.error(errorMessage, {
+            duration: 5000,
+            position: "top-center",
+          });
+
+          console.error("❌ Submission failed:", submissionResponse);
+
+          // Reset submission flag on failure for manual submissions
+          if (!isAutoSubmit) {
+            hasAutoSubmittedRef.current = false;
+          }
+        }
+      } catch (error) {
+        // Handle unexpected errors
+        dispatch({ type: "SET_SUBMITTING", payload: false });
+        await new Promise((resolve) => setTimeout(resolve, 50));
+
+        const errorMessage = isAutoSubmit
+          ? `Auto-submission failed: ${error.message}`
+          : "An unexpected error occurred. Please try again.";
+
+        toast.error(errorMessage, {
+          duration: 5000,
+          position: "top-center",
+        });
+
+        console.error("💥 Submission error:", error);
+
+        // Reset submission flag on error for manual submissions
+        if (!isAutoSubmit) {
+          hasAutoSubmittedRef.current = false;
+        }
+      }
+    },
+    [state, quiz.id, quiz.questions, courseId, router]
+  );
 
   // Enhanced offline handling with smart submission logic
   // !MARK: HANDLE OFFLINE
@@ -92,7 +253,7 @@ const router = useRouter();
         isOffline: true,
         offlineStartTime,
         disconnectionCount: newDisconnectionCount,
-        shouldAutoSubmitOnReconnect: false, // Reset this initially
+        shouldAutoSubmitOnReconnect: false,
       },
     });
 
@@ -127,7 +288,6 @@ const router = useRouter();
     offlineTrackingIntervalRef.current = setInterval(() => {
       const currentOfflineTime = Date.now() - offlineStartTime;
 
-      // Update the stored state periodically
       const updatedState = {
         ...offlineQuizState,
         currentOfflineTime,
@@ -146,7 +306,6 @@ const router = useRouter();
 
     // Handle disconnection logic based on count
     if (newDisconnectionCount === 1) {
-      // First disconnection: Wait 30 seconds before flagging for auto-submit
       showWarningMessage(
         "⚠️ Connection lost. Reconnect within 30 seconds to avoid auto-submission."
       );
@@ -163,7 +322,6 @@ const router = useRouter();
           },
         });
 
-        // Update localStorage with auto-submit flag
         try {
           const storedState = localStorage.getItem(
             `quiz_${quiz.id}_offline_state`
@@ -185,9 +343,8 @@ const router = useRouter();
         showWarningMessage(
           "🔥 Grace period expired! Quiz will auto-submit when connection returns."
         );
-      }, 30000); // 30 seconds
+      }, 30000);
     } else {
-      // Second or subsequent disconnections: Immediate auto-submit when online
       console.log(
         "🚨 Multiple disconnections detected - immediate auto-submit on reconnect"
       );
@@ -203,7 +360,6 @@ const router = useRouter();
         `🚨 Multiple disconnections detected! Quiz will auto-submit immediately when connection returns.`
       );
 
-      // Update localStorage immediately for multiple disconnections
       try {
         const storedState = localStorage.getItem(
           `quiz_${quiz.id}_offline_state`
@@ -231,13 +387,13 @@ const router = useRouter();
     quiz.id,
     currentUser.id,
   ]);
+
   // !MARK: HANDLE ONLINE
   const handleOnline = useCallback(() => {
     if (!state.isOffline || hasAutoSubmittedRef.current) return;
 
     console.log("🟢 Connection restored");
 
-    // Calculate offline duration
     const offlineDuration = state.offlineStartTime
       ? Date.now() - state.offlineStartTime
       : 0;
@@ -245,7 +401,9 @@ const router = useRouter();
     const newTotalOfflineTime = state.totalOfflineTime + offlineDuration;
 
     console.log(
-      `📊 Offline duration: ${offlineSeconds} seconds, Total offline: ${Math.floor(newTotalOfflineTime / 1000)} seconds`
+      `📊 Offline duration: ${offlineSeconds} seconds, Total offline: ${Math.floor(
+        newTotalOfflineTime / 1000
+      )} seconds`
     );
 
     // Clear offline tracking intervals
@@ -263,7 +421,6 @@ const router = useRouter();
     let shouldAutoSubmit = state.shouldAutoSubmitOnReconnect;
     let autoSubmitReason = state.autoSubmitReason;
 
-    // Also check localStorage in case of page refresh
     try {
       const storedState = localStorage.getItem(`quiz_${quiz.id}_offline_state`);
       if (storedState) {
@@ -285,7 +442,6 @@ const router = useRouter();
     }
 
     if (shouldAutoSubmit) {
-      // Auto-submit immediately
       console.log(
         "🚨 Auto-submitting due to offline conditions:",
         autoSubmitReason
@@ -312,21 +468,18 @@ const router = useRouter();
         },
       });
 
-      // Clean up and submit
-      try {
-        localStorage.removeItem(`quiz_${quiz.id}_offline_state`);
-      } catch (error) {
-        console.error("❌ Failed to clean up localStorage:", error);
-      }
-
-      autoSubmitQuiz(autoSubmitReason);
+      // Use unified submit function
+      submitQuiz({
+        reason: autoSubmitReason,
+        isAutoSubmit: true,
+        skipConfirmation: true,
+      });
       return;
     }
 
-    // Resume normal operation - No auto-submit needed
+    // Resume normal operation
     console.log("✅ Resuming normal operation - no auto-submit needed");
 
-    // Update offline state
     dispatch({
       type: "SET_OFFLINE_STATE",
       payload: {
@@ -355,9 +508,10 @@ const router = useRouter();
       console.error("❌ Failed to clean up localStorage:", error);
     }
 
-    // Show reconnection message
     showWarningMessage(
-      `✅ Connection restored! ${offlineSeconds}s deducted from quiz time. Total offline: ${Math.floor(newTotalOfflineTime / 1000)}s`
+      `✅ Connection restored! ${offlineSeconds}s deducted from quiz time. Total offline: ${Math.floor(
+        newTotalOfflineTime / 1000
+      )}s`
     );
   }, [
     state.isOffline,
@@ -368,13 +522,12 @@ const router = useRouter();
     state.autoSubmitReason,
     timeRemaining,
     quiz.id,
+    submitQuiz,
   ]);
 
-  // Improved violation handler with better dependency management
   // !MARK: HANDLE VIOLATION
   const handleViolation = useCallback(
     (type, message) => {
-      // Prevent handling violations if already submitting or offline
       if (hasAutoSubmittedRef.current || state.isOffline) return;
 
       const newViolation = {
@@ -385,20 +538,28 @@ const router = useRouter();
 
       dispatch({ type: "ADD_VIOLATION", payload: newViolation });
 
-      // Immediate auto-submit violations (but not for fullscreen issues if not supported)
+      // Immediate auto-submit violations
       const immediateSubmitTypes = ["developer_tools", "copy_paste_success"];
       if (immediateSubmitTypes.includes(type)) {
-        autoSubmitQuiz(message);
+        submitQuiz({
+          reason: message,
+          isAutoSubmit: true,
+          skipConfirmation: true,
+        });
         return;
       }
 
-      // Only auto-submit for fullscreen exit if fullscreen is actually supported and was working
+      // Fullscreen exit auto-submit
       if (
         type === "fullscreen_exit" &&
         state.isFullscreenSupported &&
         isFullscreen
       ) {
-        autoSubmitQuiz(message);
+        submitQuiz({
+          reason: message,
+          isAutoSubmit: true,
+          skipConfirmation: true,
+        });
         return;
       }
 
@@ -414,7 +575,11 @@ const router = useRouter();
           state.violations.filter((v) => v.type === type).length + 1;
 
         if (typeViolations >= 2) {
-          autoSubmitQuiz(`Too many ${type.replace("_", " ")} violations`);
+          submitQuiz({
+            reason: `Too many ${type.replace("_", " ")} violations`,
+            isAutoSubmit: true,
+            skipConfirmation: true,
+          });
         } else {
           showWarningMessage(
             `⚠️ Warning: ${message}. Next violation will auto-submit the quiz.`
@@ -422,7 +587,6 @@ const router = useRouter();
         }
       }
 
-      // Log violation (TODO: Replace with actual server action)
       console.log("🔍 Logging violation:", newViolation);
     },
     [
@@ -430,67 +594,7 @@ const router = useRouter();
       state.isFullscreenSupported,
       state.isOffline,
       isFullscreen,
-    ]
-  );
-
-  // Improved auto-submit with race condition prevention
-  // !MARK: autoSubmitQuiz
-  const autoSubmitQuiz = useCallback(
-    (reason) => {
-      if (hasAutoSubmittedRef.current) {
-        console.log("🚫 Auto-submit already in progress, skipping...");
-        return;
-      }
-
-      hasAutoSubmittedRef.current = true;
-      dispatch({ type: "SET_SUBMITTING", payload: true });
-
-      console.log("🚨 AUTO-SUBMITTING QUIZ:", reason);
-      console.log("📋 Final answers:", state.answers);
-      console.log("⚠️ Violations:", state.violations);
-      console.log("📊 Offline tracking:", {
-        disconnectionCount: state.disconnectionCount,
-        totalOfflineTime: state.totalOfflineTime,
-      });
-
-      // Clear any existing timeouts and intervals
-      if (submissionTimeoutRef.current) {
-        clearTimeout(submissionTimeoutRef.current);
-      }
-      if (heartbeatIntervalRef.current) {
-        clearInterval(heartbeatIntervalRef.current);
-      }
-      if (offlineTimeoutRef.current) {
-        clearTimeout(offlineTimeoutRef.current);
-      }
-      if (offlineTrackingIntervalRef.current) {
-        clearInterval(offlineTrackingIntervalRef.current);
-      }
-
-      // Clean up any stored offline state
-      try {
-        localStorage.removeItem(`quiz_${quiz.id}_offline_state`);
-        console.log("🧹 Cleaned up localStorage");
-      } catch (error) {
-        console.error("❌ Failed to clean up offline state:", error);
-      }
-
-      // TODO: Replace with actual server action
-      submissionTimeoutRef.current = setTimeout(() => {
-        // REPLACED: alert(`🚨 Quiz auto-submitted due to: ${reason}`)
-        toast.error("Quiz Auto-Submitted", {
-          description: reason,
-          duration: 10000, // Keep message on screen longer
-        });
-        // TODO: Redirect to results page
-      }, 2000);
-    },
-    [
-      state.answers,
-      state.violations,
-      state.disconnectionCount,
-      state.totalOfflineTime,
-      quiz.id,
+      submitQuiz,
     ]
   );
 
@@ -505,7 +609,7 @@ const router = useRouter();
         type: "SET_WARNING",
         payload: { show: false },
       });
-    }, 6000); // Increased to 6 seconds for better readability
+    }, 6000);
   };
 
   // Check fullscreen support and capabilities
@@ -541,7 +645,6 @@ const router = useRouter();
         return;
       }
 
-      // Check if already in fullscreen
       if (
         document.fullscreenElement ||
         document.webkitFullscreenElement ||
@@ -552,7 +655,6 @@ const router = useRouter();
         return;
       }
 
-      // Try different fullscreen methods based on browser support
       if (element.requestFullscreen) {
         await element.requestFullscreen();
       } else if (element.webkitRequestFullscreen) {
@@ -570,7 +672,6 @@ const router = useRouter();
     } catch (error) {
       console.error("❌ Failed to enter fullscreen:", error);
 
-      // Handle different types of errors
       if (error.name === "NotAllowedError") {
         showWarningMessage(
           "Fullscreen blocked by browser. Please allow fullscreen and refresh to take quiz in secure mode."
@@ -591,7 +692,6 @@ const router = useRouter();
         );
       }
 
-      // Don't treat fullscreen failure as a violation if it's not supported
       setIsFullscreen(false);
     }
   }, [state.isFullscreenSupported]);
@@ -601,7 +701,6 @@ const router = useRouter();
     const isSupported = checkFullscreenSupport();
 
     if (isSupported) {
-      // Small delay to ensure DOM is ready
       const timer = setTimeout(() => {
         attemptFullscreen();
       }, 500);
@@ -622,7 +721,6 @@ const router = useRouter();
 
       setIsFullscreen(isCurrentlyFullscreen);
 
-      // Only trigger violation if fullscreen was working and user intentionally exited
       if (
         !isCurrentlyFullscreen &&
         fullscreenAttempted.current &&
@@ -630,7 +728,6 @@ const router = useRouter();
         !hasAutoSubmittedRef.current &&
         !state.isOffline
       ) {
-        // Give a brief moment to check if this was intentional or system-caused
         setTimeout(() => {
           if (
             !document.fullscreenElement &&
@@ -646,7 +743,6 @@ const router = useRouter();
       }
     };
 
-    // Add event listeners for different browsers
     document.addEventListener("fullscreenchange", handleFullscreenChange);
     document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
     document.addEventListener("mozfullscreenchange", handleFullscreenChange);
@@ -684,7 +780,6 @@ const router = useRouter();
     window.addEventListener("online", handleOnlineEvent);
     window.addEventListener("offline", handleOfflineEvent);
 
-    // Check initial connection status
     if (!navigator.onLine && !state.isOffline) {
       console.log("🔍 Initial check: User is offline");
       handleOffline();
@@ -701,7 +796,6 @@ const router = useRouter();
     const startHeartbeat = () => {
       heartbeatIntervalRef.current = setInterval(() => {
         if (!hasAutoSubmittedRef.current && !state.isOffline) {
-          // TODO: Call server action to validate session
           console.log("💓 Heartbeat: Validating quiz session...");
         }
       }, 10000);
@@ -710,33 +804,26 @@ const router = useRouter();
     startHeartbeat();
 
     return () => {
-      if (heartbeatIntervalRef.current) {
+      if (heartbeatIntervalRef.current)
         clearInterval(heartbeatIntervalRef.current);
-      }
-      if (submissionTimeoutRef.current) {
+      if (submissionTimeoutRef.current)
         clearTimeout(submissionTimeoutRef.current);
-      }
-      if (offlineTimeoutRef.current) {
-        clearTimeout(offlineTimeoutRef.current);
-      }
-      if (offlineTrackingIntervalRef.current) {
+      if (offlineTimeoutRef.current) clearTimeout(offlineTimeoutRef.current);
+      if (offlineTrackingIntervalRef.current)
         clearInterval(offlineTrackingIntervalRef.current);
-      }
     };
   }, [state.isOffline]);
 
-  // Recovery on component mount (in case of page refresh during offline)
+  // Recovery on component mount
   useEffect(() => {
     try {
       const storedState = localStorage.getItem(`quiz_${quiz.id}_offline_state`);
       if (storedState) {
         const offlineData = JSON.parse(storedState);
 
-        // Check if this is a valid recovery scenario
         if (offlineData.userId === currentUser.id) {
           console.log("🔄 Recovering from offline state:", offlineData);
 
-          // Restore answers if any
           Object.keys(offlineData.answers || {}).forEach((questionId) => {
             dispatch({
               type: "UPDATE_ANSWER",
@@ -744,7 +831,6 @@ const router = useRouter();
             });
           });
 
-          // Update disconnection tracking
           dispatch({
             type: "UPDATE_OFFLINE_TRACKING",
             payload: {
@@ -753,14 +839,16 @@ const router = useRouter();
             },
           });
 
-          // Check if should auto-submit
           if (offlineData.shouldAutoSubmit) {
             console.log("🚨 Recovery: Auto-submitting due to stored flag");
-            autoSubmitQuiz(
-              "Recovered from offline state - " + offlineData.autoSubmitReason
-            );
+            submitQuiz({
+              reason:
+                "Recovered from offline state - " +
+                offlineData.autoSubmitReason,
+              isAutoSubmit: true,
+              skipConfirmation: true,
+            });
           } else {
-            // Clean up if no auto-submit needed
             localStorage.removeItem(`quiz_${quiz.id}_offline_state`);
             console.log(
               "✅ Recovery: No auto-submit needed, cleaned up localStorage"
@@ -771,16 +859,24 @@ const router = useRouter();
     } catch (error) {
       console.error("❌ Failed to recover offline state:", error);
     }
-  }, [quiz.id, currentUser.id, autoSubmitQuiz]);
+  }, [quiz.id, currentUser.id, submitQuiz]);
 
-  // !MARK: handle ans change
-  const handleAnswerChange = (questionId,question, answer, questionType,mark, isCorrect) => {
+  // !MARK: handle answer change
+  const handleAnswerChange = (
+    questionId,
+    question,
+    answer,
+    questionType,
+    mark,
+    isCorrect
+  ) => {
     dispatch({
       type: "UPDATE_ANSWER",
-      payload: { questionId,question, answer, questionType,mark, isCorrect },
+      payload: { questionId, question, answer, questionType, mark, isCorrect },
     });
 
-    // Store in localStorage if offline for recovery
+    console.log("full state inside the handleAnswerChange: ", state);
+
     if (state.isOffline) {
       try {
         const storedState = localStorage.getItem(
@@ -790,7 +886,13 @@ const router = useRouter();
           const offlineData = JSON.parse(storedState);
           offlineData.answers = {
             ...offlineData.answers,
-            [questionId]: { questionId, answer, questionType,mark, isCorrect },
+            [questionId]: {
+              questionId,
+              answer,
+              questionType,
+              mark,
+              isCorrect,
+            },
           };
           localStorage.setItem(
             `quiz_${quiz.id}_offline_state`,
@@ -803,117 +905,36 @@ const router = useRouter();
       }
     }
 
-    // TODO: Call server action to save answer (only if online)
     if (!state.isOffline) {
       console.log("💾 Saving answer to server:", {
         questionId,
         answer,
         questionType,
-        mark, isCorrect
+        mark,
+        isCorrect,
       });
     }
   };
 
+  // !MARK: Handle Time Up - Uses unified submit function
   const handleTimeUp = () => {
     console.log("⏰ Time limit exceeded");
-    autoSubmitQuiz("Time limit exceeded");
+    submitQuiz({
+      reason: "Time limit exceeded",
+      isAutoSubmit: true,
+      skipConfirmation: true,
+    });
   };
 
-  // NEW: Extracted submission logic to be called by toast action
- const proceedWithManualSubmit = async () => {
-  
-  
-  hasAutoSubmittedRef.current = true;
-  state.quizId = quiz.id;
-  state.courseId = courseId
-  dispatch({ type: "SET_SUBMITTING", payload: true });
-
-  console.log("✅ Manually submitting quiz...");
-  // console.log("quiz Data full: ", quiz);
-  // console.log("full state: ", state);
-
-  try {
-    // Submit the quiz
-    const submissionResponse = await submitQuizWithStudentAnswer(state);
-    // console.log("🚀 ~ proceedWithManualSubmit ~ submissionResponse:", submissionResponse)
-    
-    // Always set submitting to false first
-    dispatch({ type: "SET_SUBMITTING", payload: false });
-    
-    // Wait for the next tick to ensure state update
-    await new Promise(resolve => setTimeout(resolve, 50));
-    
-    if (submissionResponse.success) {
-      // Show success message
-      toast.success("Quiz submitted successfully!", {
-        duration: 4000,
-        position: 'top-center',
-      });
-      
-      console.log("submissionResponse: ", submissionResponse);
-      
-      // Navigate back after showing toast
-      setTimeout(() => {
-        router.back();
-        
-        // Alternative navigation options:
-        // router.push('/dashboard');
-        // router.push(`/quiz/${quiz.id}/results`);
-        // window.history.back();
-      }, 2000);
-      
-    } else {
-      // Show error message
-      toast.error(submissionResponse.error || "Failed to submit quiz", {
-        duration: 5000,
-        position: 'top-center',
-      });
-      
-      console.error("Submission failed:", submissionResponse);
-    }
-    
-  } catch (error) {
-    // Handle unexpected errors
-    dispatch({ type: "SET_SUBMITTING", payload: false });
-    
-    await new Promise(resolve => setTimeout(resolve, 50));
-    
-    toast.error("An unexpected error occurred. Please try again.", {
-      duration: 5000,
-      position: 'top-center',
-    });
-    
-    console.error("Submission error:", error);
-  }
-};
-  //!MARK: handle manual submit
+  // !MARK: Handle Manual Submit - Uses unified submit function
   const handleManualSubmit = () => {
     if (state.isSubmitting || hasAutoSubmittedRef.current) return;
 
-    const unansweredQuestions = quiz.questions.filter((q) => {
-      const answerData = state.answers[q.id];
-      if (!answerData) return true;
-      if (Array.isArray(answerData.answer))
-        return answerData.answer.length === 0;
-      return !answerData.answer;
+    submitQuiz({
+      reason: "Manual submission",
+      isAutoSubmit: false,
+      skipConfirmation: false,
     });
-
-    if (unansweredQuestions.length > 0) {
-      // REPLACED: const confirmSubmit = confirm(...)
-      toast.warning("Are you sure you want to submit?", {
-        description: `You have ${unansweredQuestions.length} unanswered questions.`,
-        action: {
-          label: "Submit Anyway",
-          onClick: () => proceedWithManualSubmit(),
-        },
-        cancel: {
-          label: "Cancel",
-        },
-        duration: 10000,
-      });
-    } else {
-      proceedWithManualSubmit();
-    }
   };
 
   const nextQuestion = () => {
@@ -961,7 +982,9 @@ const router = useRouter();
     if (state.warningCount > 0)
       return {
         variant: "warning",
-        text: `${state.warningCount} Warning${state.warningCount > 1 ? "s" : ""}`,
+        text: `${state.warningCount} Warning${
+          state.warningCount > 1 ? "s" : ""
+        }`,
         icon: AlertTriangle,
       };
     return {
@@ -996,10 +1019,8 @@ const router = useRouter();
         currentQuestionIndex={currentQuestionIndex}
         totalQuestions={totalQuestions}
         securityStatus={securityStatus}
-        // isFullscreen={isFullscreen}
         state={state}
         progress={progress}
-        // onFullscreenToggle={handleFullscreenToggle}
       />
       {/*!MARK: QUIZ TIMER*/}
       <div className="mb-6">
@@ -1014,7 +1035,6 @@ const router = useRouter();
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Question Navigation Sidebar */}
-
         <QuizNavigationSidebar
           quiz={quiz}
           state={state}
@@ -1038,12 +1058,12 @@ const router = useRouter();
       </div>
 
       {/* Anti-Cheat Monitor Component */}
-      {/* <AntiCheatMonitor
+      <AntiCheatMonitor
         onViolation={handleViolation}
         isActive={!state.isSubmitting && !state.isOffline}
         isFullscreenSupported={state.isFullscreenSupported}
-        developmentMode={process.env.NODE_ENV}
-      /> */}
+        developmentMode={process.env.DEVELOPMENT_MODE}
+      />
     </div>
   );
 }
