@@ -1,5 +1,6 @@
 import { db } from "@/lib/prisma";
 import { unstable_cache } from "next/cache";
+import { chalkLog } from "../utils/logger";
 
 const REVALIDATE_TIME = 300;
 
@@ -238,7 +239,8 @@ export const getInstructorCourses = async (instructorId) => {
         _count: {
           select: {
             testimonials: true,
-            courseProgress: true,
+            participations: true, // ✅ Fixed: Use participations for student count
+            courseProgress: true, // Keep this for students who have progress
             certificates: true,
           },
         },
@@ -248,8 +250,10 @@ export const getInstructorCourses = async (instructorId) => {
       },
     });
 
-    // Transform the data to include additional calculated fields
+    
+
     const transformedCourses = courses.map((course) => {
+      // Calculate total duration from all lessons in all weeks
       const totalDuration = course.weeks.reduce((total, week) => {
         const weekDuration = week.lessons.reduce((weekTotal, lesson) => {
           return weekTotal + (lesson.duration || 0);
@@ -257,35 +261,49 @@ export const getInstructorCourses = async (instructorId) => {
         return total + weekDuration;
       }, 0);
 
+      // Calculate total lessons across all weeks
       const totalLessons = course.weeks.reduce((total, week) => {
         return total + week.lessons.length;
       }, 0);
 
-      const averageRating =
-          course.testimonials.length > 0
-              ? course.testimonials.reduce(
-              (sum, testimonial) => sum + (testimonial.rating || 0),
-              0
-          ) / course.testimonials.length
-              : 0;
+      // Use the existing course rating (already calculated/stored)
+      const averageRating = course.rating || 0;
 
+      // Calculate total quizzes across all weeks
+      const totalQuizzes = course.weeks.reduce((total, week) => {
+        return total + (week.quizIds?.length || 0);
+      }, 0);
+console.log("CoursesPage ~ fetched courses in server action:", {
+        course,
+        totalDuration,
+        totalLessons,
+        totalWeeks: course.weeks.length,
+        totalQuizzes,
+        totalStudents: course._count.participations, // ✅ Fixed: Use participations for enrolled students
+        studentsWithProgress: course._count.courseProgress, // Additional info: students who started
+        totalTestimonials: course._count.testimonials,
+        totalCertificates: course._count.certificates,
+        averageRating: Math.round(averageRating * 10) / 10, // Round to 1 decimal place
+      });
       return {
         ...course,
         totalDuration,
         totalLessons,
         totalWeeks: course.weeks.length,
-        totalStudents: course._count.courseProgress,
+        totalQuizzes,
+        totalStudents: course._count.participations, // ✅ Fixed: Use participations for enrolled students
+        studentsWithProgress: course._count.courseProgress, // Additional info: students who started
         totalTestimonials: course._count.testimonials,
         totalCertificates: course._count.certificates,
-        averageRating: Math.round(averageRating * 10) / 10,
+        averageRating: Math.round(averageRating * 10) / 10, // Round to 1 decimal place
       };
     });
 
     return transformedCourses;
   } catch (error) {
     console.error(
-        `❌ Error fetching courses for instructor ${instructorId}:`,
-        error
+      `❌ Error fetching courses for instructor ${instructorId}:`,
+      error
     );
     return [];
   }
@@ -879,7 +897,7 @@ export const getStudentsInCourse = async (courseId) => {
       include: {
         user: {
           include: {
-            student: true, // Eagerly load the student profile
+            student: true,
           },
         },
       },
@@ -899,13 +917,13 @@ export const getStudentsInCourse = async (courseId) => {
               userId: user.id,
               name: user.name,
               email: user.email,
-              studentDetails: user.student, // The complete Student model
+              studentDetails: user.student,
               participationData: participation.progress,
             };
           }
-          return null; // Filter out non-student users
+          return null;
         })
-        .filter((student) => student !== null); // Remove null entries
+        .filter((student) => student !== null);
 
     return students;
   } catch (error) {

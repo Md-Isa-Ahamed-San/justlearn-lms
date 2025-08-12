@@ -176,8 +176,8 @@ const CourseCurriculum = ({
         toast.error('User not authenticated');
         return;
       }
-
-      const result = await markLessonComplete({ lessonId, userId });
+      let courseId =  params.id;
+      const result = await markLessonComplete({ lessonId, userId, courseId });
       console.log("Server action result:", result);
 
       if (result?.success === false) {

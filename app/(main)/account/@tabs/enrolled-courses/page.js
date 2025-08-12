@@ -10,8 +10,8 @@ import { chalkLog } from "../../../../../utils/logger";
 
 async function EnrolledCourses() {
   // const { userData } = await getServerUserData();
-    let serverUserData = null;
-  
+  let serverUserData = null;
+
   try {
     serverUserData = await getServerUserData();
   } catch (error) {
@@ -40,7 +40,7 @@ async function EnrolledCourses() {
   }
 
   const enrolledCourses = await getUserEnrolledCourses(userData.id);
-//   chalkLog.log(" EnrolledCourses ~ enrolledCourses:", enrolledCourses)
+  //   chalkLog.log(" EnrolledCourses ~ enrolledCourses:", enrolledCourses)
   const enrolledCoursesCount = enrolledCourses?.length || 0;
 
   if (enrolledCoursesCount === 0) {
@@ -51,8 +51,8 @@ async function EnrolledCourses() {
           <div className="text-muted-foreground mb-4">
             You haven&apos;t enrolled in any courses yet.
           </div>
-          <Link 
-            href="/courses" 
+          <Link
+            href="/courses"
             className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
           >
             Browse Courses
@@ -68,45 +68,45 @@ async function EnrolledCourses() {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
     if (hours > 0) {
-      return `${hours}h ${mins > 0 ? `${mins}m` : ''}`;
+      return `${hours}h ${mins > 0 ? `${mins}m` : ""}`;
     }
     return `${mins}m`;
   };
 
   // Helper function to format date
   const formatDate = (date) => {
-    return new Date(date).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
+    return new Date(date).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
   // Helper function to get status variant
   const getStatusVariant = (status) => {
     switch (status?.toLowerCase()) {
-      case 'completed':
-        return 'success';
-      case 'in_progress':
-        return 'default';
-      case 'not_started':
-        return 'secondary';
+      case "completed":
+        return "success";
+      case "in_progress":
+        return "default";
+      case "not_started":
+        return "secondary";
       default:
-        return 'default';
+        return "default";
     }
   };
 
   // Helper function to get status label
   const getStatusLabel = (status) => {
     switch (status?.toLowerCase()) {
-      case 'completed':
-        return 'Completed';
-      case 'in_progress':
-        return 'In Progress';
-      case 'not_started':
-        return 'Not Started';
+      case "completed":
+        return "Completed";
+      case "in_progress":
+        return "In Progress";
+      case "not_started":
+        return "Not Started";
       default:
-        return 'Enrolled';
+        return "Enrolled";
     }
   };
 
@@ -121,9 +121,9 @@ async function EnrolledCourses() {
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {enrolledCourses.map((enrollment) => {
           const { course } = enrollment;
-          
+
           return (
-            <Link 
+            <Link
               key={enrollment.enrollmentId}
               href={`/courses/${course.slug || course.id}`}
               className="group"
@@ -132,14 +132,18 @@ async function EnrolledCourses() {
                 {/* Course Image */}
                 <div className="relative w-full aspect-video rounded-md overflow-hidden mb-4">
                   <Image
-                    src={course.thumbnail || "/assets/images/courses/course_1.png"}
+                    src={
+                      course.thumbnail || "/assets/images/courses/course_1.png"
+                    }
                     alt={course.title || "Course"}
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                     fill
                   />
                   {/* Status Badge */}
                   <div className="absolute top-2 right-2">
-                    <Badge variant={getStatusVariant(enrollment.enrollmentStatus)}>
+                    <Badge
+                      variant={getStatusVariant(enrollment.enrollmentStatus)}
+                    >
                       {getStatusLabel(enrollment.enrollmentStatus)}
                     </Badge>
                   </div>
@@ -172,14 +176,18 @@ async function EnrolledCourses() {
                   <div className="space-y-2 border-t pt-3">
                     <div className="flex items-center justify-between text-sm">
                       <span className="">Total Lessons:</span>
-                      <span className="font-medium">{course.totalLessons || 0}</span>
+                      <span className="font-medium">
+                        {course.totalLessons || 0}
+                      </span>
                     </div>
-                    
+
                     <div className="flex items-center justify-between text-sm">
                       <span className="">Students:</span>
                       <div className="flex items-center gap-1">
                         <Users className="w-3 h-3" />
-                        <span className="font-medium">{course.totalStudents || 0}</span>
+                        <span className="font-medium">
+                          {course.totalStudents || 0}
+                        </span>
                       </div>
                     </div>
 
@@ -187,7 +195,9 @@ async function EnrolledCourses() {
                       <span className="">Joined:</span>
                       <div className="flex items-center gap-1">
                         <Calendar className="w-3 h-3" />
-                        <span className="font-medium">{formatDate(enrollment.enrolledAt)}</span>
+                        <span className="font-medium">
+                          {formatDate(enrollment.enrolledAt)}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -203,7 +213,9 @@ async function EnrolledCourses() {
                     <CourseProgress
                       size="sm"
                       value={enrollment.progress || 0}
-                      variant={enrollment.progress >= 100 ? "success" : "default"}
+                      variant={
+                        enrollment.progress >= 100 ? "success" : "default"
+                      }
                     />
                   </div>
 
@@ -211,14 +223,19 @@ async function EnrolledCourses() {
                   {course.user && (
                     <div className="flex items-center gap-2 pt-2 border-t">
                       <div className="w-6 h-6 rounded-full  flex items-center justify-center">
-					{
-						!course?.user?.image? (<span className="text-xs font-medium ">
-                          {course.user.name?.charAt(0).toUpperCase()}
-                      
-                          
-                        </span>):(<Image className="rounded-full" src={course.user.image} alt="instructor profile pic" width={50} height={50}/>)
-					}
-                        
+                        {!course?.user?.image ? (
+                          <span className="text-xs font-medium ">
+                            {course.user.name?.charAt(0).toUpperCase()}
+                          </span>
+                        ) : (
+                          <Image
+                            className="rounded-full"
+                            src={course.user.image}
+                            alt="instructor profile pic"
+                            width={50}
+                            height={50}
+                          />
+                        )}
                       </div>
                       <div>
                         <p className="text-xs font-medium ">
@@ -243,27 +260,35 @@ async function EnrolledCourses() {
           <div className="text-2xl font-bold ">{enrolledCoursesCount}</div>
           <div className="text-sm ">Total Students</div>
         </div>
-        
+
         <div className=" p-4 rounded-lg text-center">
           <div className="text-2xl font-bold ">
-            {enrolledCourses.filter(e => e.enrollmentStatus === 'completed').length}
+            {
+              enrolledCourses.filter((e) => e.enrollmentStatus === "completed")
+                .length
+            }
           </div>
           <div className="text-sm ">Completed</div>
         </div>
-        
+
         <div className=" p-4 rounded-lg text-center">
           <div className="text-2xl font-bold ">
-            {enrolledCourses.filter(e => e.enrollmentStatus === 'in_progress').length}
+            {
+              enrolledCourses.filter(
+                (e) => e.enrollmentStatus === "in_progress"
+              ).length
+            }
           </div>
           <div className="text-sm ">In Progress</div>
         </div>
-        
+
         <div className=" p-4 rounded-lg text-center">
           <div className="text-2xl font-bold ">
             {Math.round(
-              enrolledCourses.reduce((sum, e) => sum + (e.progress || 0), 0) / 
-              enrolledCoursesCount
-            ) || 0}%
+              enrolledCourses.reduce((sum, e) => sum + (e.progress || 0), 0) /
+                enrolledCoursesCount
+            ) || 0}
+            %
           </div>
           <div className="text-sm ">Avg Progress</div>
         </div>

@@ -160,6 +160,153 @@ async function evaluateWithAI(questions, maxRetries = 3) {
 /**
  * Main function to submit quiz with student answers
  */
+export async function updateCourseProgressAfterQuizOrLesson(userId, courseId, accomplished) {
+  try {
+    console.log(`Updating course progress for user: ${userId}, course: ${courseId}, accomplished: ${accomplished}`);
+
+    // Step 1: Get current course structure (total counts)
+    const courseStructure = await db.course.findUnique({
+      where: { id: courseId },
+      select: {
+        id: true,
+        title: true,
+        weeks: {
+          select: {
+            id: true,
+            quizIds: true,
+            lessons: {
+              select: { id: true }
+            }
+          }
+        }
+      }
+    });
+
+    if (!courseStructure) {
+      console.error(`Course not found: ${courseId}`);
+      return { success: false, error: "Course not found" };
+    }
+
+    // Step 2: Calculate current course totals
+    const totalWeeks = courseStructure.weeks.length;
+    const totalLessons = courseStructure.weeks.reduce((sum, week) => sum + week.lessons.length, 0);
+    
+    // Get unique quiz IDs across all weeks (since quizzes can be in multiple weeks)
+    const allQuizIds = new Set();
+    courseStructure.weeks.forEach(week => {
+      week.quizIds.forEach(quizId => allQuizIds.add(quizId));
+    });
+    const totalQuizzes = allQuizIds.size;
+
+    console.log(`Course structure - Weeks: ${totalWeeks}, Lessons: ${totalLessons}, Quizzes: ${totalQuizzes}`);
+
+    // Step 3: Get user's current progress or set defaults
+    const currentProgress = await db.courseProgress.findUnique({
+      where: {
+        userId_courseId: {
+          userId: userId,
+          courseId: courseId
+        }
+      }
+    });
+
+    // Step 4: Calculate new completion counts
+    let newCompletedLessons = currentProgress?.completedLessons || 0;
+    let newCompletedQuizzes = currentProgress?.completedQuizzes || 0;
+
+    // Increment based on what was accomplished
+    if (accomplished === "lesson") {
+      newCompletedLessons += 1;
+    } else if (accomplished === "quiz") {
+      newCompletedQuizzes += 1;
+    }
+
+    console.log(`Updated completion - Lessons: ${newCompletedLessons}, Quizzes: ${newCompletedQuizzes}`);
+
+    // Step 5: Calculate progress percentage
+    const totalItems = totalLessons + totalQuizzes;
+    const completedItems = newCompletedLessons + newCompletedQuizzes;
+    const progressPercentage = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
+
+    // Step 6: Determine status
+    let status = "not_started";
+    if (completedItems > 0 && completedItems < totalItems) {
+      status = "in_progress";
+    } else if (completedItems >= totalItems && totalItems > 0) {
+      status = "completed";
+    }
+
+    // Step 7: Calculate completed weeks (simplified - you might want to refine this logic)
+    const completedWeeks = Math.floor((completedItems / totalItems) * totalWeeks) || 0;
+
+    // Step 8: Create or update course progress
+    let updatedProgress;
+    
+    if (currentProgress) {
+      // Update existing progress record
+      updatedProgress = await db.courseProgress.update({
+        where: {
+          userId_courseId: {
+            userId: userId,
+            courseId: courseId
+          }
+        },
+        data: {
+          status: status,
+          progress: progressPercentage,
+          totalWeeks: totalWeeks,
+          totalLessons: totalLessons,
+          totalQuizzes: totalQuizzes,
+          completedLessons: newCompletedLessons,
+          completedQuizzes: newCompletedQuizzes,
+          completedWeeks: completedWeeks,
+          lastActivityDate: new Date(),
+          completionDate: status === "completed" ? new Date() : null
+        }
+      });
+    } else {
+      // Create new progress record
+      updatedProgress = await db.courseProgress.create({
+        data: {
+          userId: userId,
+          courseId: courseId,
+          status: status,
+          progress: progressPercentage,
+          totalWeeks: totalWeeks,
+          totalLessons: totalLessons,
+          totalQuizzes: totalQuizzes,
+          completedLessons: newCompletedLessons,
+          completedQuizzes: newCompletedQuizzes,
+          completedWeeks: completedWeeks,
+          lastActivityDate: new Date(),
+          completionDate: status === "completed" ? new Date() : null
+        }
+      });
+    }
+
+    console.log(`Course progress updated successfully. Progress: ${progressPercentage}% (${status})`);
+
+    return {
+      success: true,
+      data: {
+        progress: progressPercentage,
+        status: status,
+        completedItems: completedItems,
+        totalItems: totalItems,
+        completedQuizzes: newCompletedQuizzes,
+        completedLessons: newCompletedLessons
+      }
+    };
+
+  } catch (error) {
+    console.error("Error updating course progress:", error);
+    return { 
+      success: false, 
+      error: "Failed to update course progress",
+      details: error.message 
+    };
+  }
+}
 export async function submitQuizWithStudentAnswer(data) {
   try {
     // Step 1: Validate user authentication
@@ -240,6 +387,7 @@ export async function submitQuizWithStudentAnswer(data) {
           submissionReason: "manual_submit"
         }
       });
+     
     } else {
       
       return {
@@ -348,7 +496,8 @@ export async function submitQuizWithStudentAnswer(data) {
           Math.floor((new Date() - new Date(quizSubmission.startTime)) / 1000) : 0,
       }
     });
-
+    let accomplished = "quiz"
+    await updateCourseProgressAfterQuizOrLesson(loggedInUser.id,data.courseId,accomplished)
     console.log(`Quiz submission completed. Score: ${totalScore}/${maxPossibleScore} (${percentageScore.toFixed(2)}%)`);
 
     // Step 10: Revalidate relevant paths

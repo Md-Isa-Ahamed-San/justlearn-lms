@@ -425,9 +425,24 @@ model AIGenerationLog {
 }
 
 model CourseProgress {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  status    String   @default("not_started")
-  progress  Float    @default(0)
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  status   String   @default("not_started") // "not_started", "in_progress", "completed"
+  progress Float    @default(0) // 0-100 percentage
+  
+  // Course content tracking fields
+  totalWeeks    Int @default(0) // Total weeks in course at time of calculation
+  totalLessons  Int @default(0) // Total lessons in course
+  totalQuizzes  Int @default(0) // Total quizzes in course
+  
+  // User completion tracking fields
+  completedLessons Int @default(0) // Lessons completed by user
+  completedQuizzes Int @default(0) // Quizzes completed by user
+  completedWeeks   Int @default(0) // Weeks fully completed
+  
+  // Activity tracking fields
+  lastActivityDate DateTime? // When user last engaged with course
+  completionDate   DateTime? // When course was fully completed
+  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -438,8 +453,12 @@ model CourseProgress {
   // Relationships
   user   User   @relation("UserCourseProgress", fields: [userId], references: [id])
   course Course @relation("CourseCourseProgress", fields: [courseId], references: [id])
-}
 
+  // Indexes for performance
+  @@unique([userId, courseId])
+  @@index([courseId, progress])
+  @@index([status, lastActivityDate])
+}
 model Certificate {
   id              String   @id @default(auto()) @map("_id") @db.ObjectId
   certificateLink String

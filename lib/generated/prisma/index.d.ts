@@ -291,13 +291,6 @@ export class PrismaClient<
    */
   $disconnect(): $Utils.JsPromise<void>;
 
-  /**
-   * Add a middleware
-   * @deprecated since 4.16.0. For new code, prefer client extensions instead.
-   * @see https://pris.ly/d/extensions
-   */
-  $use(cb: Prisma.Middleware): void
-
 /**
    * Allows the running of a sequence of read/write operations that are guaranteed to either succeed or fail as a whole.
    * @example
@@ -601,8 +594,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.13.0
-   * Query Engine version: 361e86d0ea4987e9f53a565309b3eed797a6bcbd
+   * Prisma Client JS version: 6.14.0
+   * Query Engine version: 717184b7b35ea05dfa71a3236b7af656013e1e49
    */
   export type PrismaVersion = {
     client: string
@@ -2737,25 +2730,6 @@ export namespace Prisma {
     | 'runCommandRaw'
     | 'findRaw'
     | 'groupBy'
-
-  /**
-   * These options are being passed into the middleware as "params"
-   */
-  export type MiddlewareParams = {
-    model?: ModelName
-    action: PrismaAction
-    args: any
-    dataPath: string[]
-    runInTransaction: boolean
-  }
-
-  /**
-   * The `T` type makes sure, that the `return proceed` is not forgotten in the middleware implementation
-   */
-  export type Middleware<T = any> = (
-    params: MiddlewareParams,
-    next: (params: MiddlewareParams) => $Utils.JsPromise<T>,
-  ) => $Utils.JsPromise<T>
 
   // tested in getLogLevel.test.ts
   export function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
@@ -19464,16 +19438,36 @@ export namespace Prisma {
 
   export type CourseProgressAvgAggregateOutputType = {
     progress: number | null
+    totalWeeks: number | null
+    totalLessons: number | null
+    totalQuizzes: number | null
+    completedLessons: number | null
+    completedQuizzes: number | null
+    completedWeeks: number | null
   }
 
   export type CourseProgressSumAggregateOutputType = {
     progress: number | null
+    totalWeeks: number | null
+    totalLessons: number | null
+    totalQuizzes: number | null
+    completedLessons: number | null
+    completedQuizzes: number | null
+    completedWeeks: number | null
   }
 
   export type CourseProgressMinAggregateOutputType = {
     id: string | null
     status: string | null
     progress: number | null
+    totalWeeks: number | null
+    totalLessons: number | null
+    totalQuizzes: number | null
+    completedLessons: number | null
+    completedQuizzes: number | null
+    completedWeeks: number | null
+    lastActivityDate: Date | null
+    completionDate: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
@@ -19484,6 +19478,14 @@ export namespace Prisma {
     id: string | null
     status: string | null
     progress: number | null
+    totalWeeks: number | null
+    totalLessons: number | null
+    totalQuizzes: number | null
+    completedLessons: number | null
+    completedQuizzes: number | null
+    completedWeeks: number | null
+    lastActivityDate: Date | null
+    completionDate: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
@@ -19494,6 +19496,14 @@ export namespace Prisma {
     id: number
     status: number
     progress: number
+    totalWeeks: number
+    totalLessons: number
+    totalQuizzes: number
+    completedLessons: number
+    completedQuizzes: number
+    completedWeeks: number
+    lastActivityDate: number
+    completionDate: number
     createdAt: number
     updatedAt: number
     userId: number
@@ -19504,16 +19514,36 @@ export namespace Prisma {
 
   export type CourseProgressAvgAggregateInputType = {
     progress?: true
+    totalWeeks?: true
+    totalLessons?: true
+    totalQuizzes?: true
+    completedLessons?: true
+    completedQuizzes?: true
+    completedWeeks?: true
   }
 
   export type CourseProgressSumAggregateInputType = {
     progress?: true
+    totalWeeks?: true
+    totalLessons?: true
+    totalQuizzes?: true
+    completedLessons?: true
+    completedQuizzes?: true
+    completedWeeks?: true
   }
 
   export type CourseProgressMinAggregateInputType = {
     id?: true
     status?: true
     progress?: true
+    totalWeeks?: true
+    totalLessons?: true
+    totalQuizzes?: true
+    completedLessons?: true
+    completedQuizzes?: true
+    completedWeeks?: true
+    lastActivityDate?: true
+    completionDate?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -19524,6 +19554,14 @@ export namespace Prisma {
     id?: true
     status?: true
     progress?: true
+    totalWeeks?: true
+    totalLessons?: true
+    totalQuizzes?: true
+    completedLessons?: true
+    completedQuizzes?: true
+    completedWeeks?: true
+    lastActivityDate?: true
+    completionDate?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -19534,6 +19572,14 @@ export namespace Prisma {
     id?: true
     status?: true
     progress?: true
+    totalWeeks?: true
+    totalLessons?: true
+    totalQuizzes?: true
+    completedLessons?: true
+    completedQuizzes?: true
+    completedWeeks?: true
+    lastActivityDate?: true
+    completionDate?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -19631,6 +19677,14 @@ export namespace Prisma {
     id: string
     status: string
     progress: number
+    totalWeeks: number
+    totalLessons: number
+    totalQuizzes: number
+    completedLessons: number
+    completedQuizzes: number
+    completedWeeks: number
+    lastActivityDate: Date | null
+    completionDate: Date | null
     createdAt: Date
     updatedAt: Date
     userId: string
@@ -19660,6 +19714,14 @@ export namespace Prisma {
     id?: boolean
     status?: boolean
     progress?: boolean
+    totalWeeks?: boolean
+    totalLessons?: boolean
+    totalQuizzes?: boolean
+    completedLessons?: boolean
+    completedQuizzes?: boolean
+    completedWeeks?: boolean
+    lastActivityDate?: boolean
+    completionDate?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
@@ -19674,13 +19736,21 @@ export namespace Prisma {
     id?: boolean
     status?: boolean
     progress?: boolean
+    totalWeeks?: boolean
+    totalLessons?: boolean
+    totalQuizzes?: boolean
+    completedLessons?: boolean
+    completedQuizzes?: boolean
+    completedWeeks?: boolean
+    lastActivityDate?: boolean
+    completionDate?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
     courseId?: boolean
   }
 
-  export type CourseProgressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "status" | "progress" | "createdAt" | "updatedAt" | "userId" | "courseId", ExtArgs["result"]["courseProgress"]>
+  export type CourseProgressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "status" | "progress" | "totalWeeks" | "totalLessons" | "totalQuizzes" | "completedLessons" | "completedQuizzes" | "completedWeeks" | "lastActivityDate" | "completionDate" | "createdAt" | "updatedAt" | "userId" | "courseId", ExtArgs["result"]["courseProgress"]>
   export type CourseProgressInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     course?: boolean | CourseDefaultArgs<ExtArgs>
@@ -19696,6 +19766,14 @@ export namespace Prisma {
       id: string
       status: string
       progress: number
+      totalWeeks: number
+      totalLessons: number
+      totalQuizzes: number
+      completedLessons: number
+      completedQuizzes: number
+      completedWeeks: number
+      lastActivityDate: Date | null
+      completionDate: Date | null
       createdAt: Date
       updatedAt: Date
       userId: string
@@ -20097,6 +20175,14 @@ export namespace Prisma {
     readonly id: FieldRef<"CourseProgress", 'String'>
     readonly status: FieldRef<"CourseProgress", 'String'>
     readonly progress: FieldRef<"CourseProgress", 'Float'>
+    readonly totalWeeks: FieldRef<"CourseProgress", 'Int'>
+    readonly totalLessons: FieldRef<"CourseProgress", 'Int'>
+    readonly totalQuizzes: FieldRef<"CourseProgress", 'Int'>
+    readonly completedLessons: FieldRef<"CourseProgress", 'Int'>
+    readonly completedQuizzes: FieldRef<"CourseProgress", 'Int'>
+    readonly completedWeeks: FieldRef<"CourseProgress", 'Int'>
+    readonly lastActivityDate: FieldRef<"CourseProgress", 'DateTime'>
+    readonly completionDate: FieldRef<"CourseProgress", 'DateTime'>
     readonly createdAt: FieldRef<"CourseProgress", 'DateTime'>
     readonly updatedAt: FieldRef<"CourseProgress", 'DateTime'>
     readonly userId: FieldRef<"CourseProgress", 'String'>
@@ -26907,6 +26993,14 @@ export namespace Prisma {
     id: 'id',
     status: 'status',
     progress: 'progress',
+    totalWeeks: 'totalWeeks',
+    totalLessons: 'totalLessons',
+    totalQuizzes: 'totalQuizzes',
+    completedLessons: 'completedLessons',
+    completedQuizzes: 'completedQuizzes',
+    completedWeeks: 'completedWeeks',
+    lastActivityDate: 'lastActivityDate',
+    completionDate: 'completionDate',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     userId: 'userId',
@@ -28645,6 +28739,14 @@ export namespace Prisma {
     id?: StringFilter<"CourseProgress"> | string
     status?: StringFilter<"CourseProgress"> | string
     progress?: FloatFilter<"CourseProgress"> | number
+    totalWeeks?: IntFilter<"CourseProgress"> | number
+    totalLessons?: IntFilter<"CourseProgress"> | number
+    totalQuizzes?: IntFilter<"CourseProgress"> | number
+    completedLessons?: IntFilter<"CourseProgress"> | number
+    completedQuizzes?: IntFilter<"CourseProgress"> | number
+    completedWeeks?: IntFilter<"CourseProgress"> | number
+    lastActivityDate?: DateTimeNullableFilter<"CourseProgress"> | Date | string | null
+    completionDate?: DateTimeNullableFilter<"CourseProgress"> | Date | string | null
     createdAt?: DateTimeFilter<"CourseProgress"> | Date | string
     updatedAt?: DateTimeFilter<"CourseProgress"> | Date | string
     userId?: StringFilter<"CourseProgress"> | string
@@ -28657,6 +28759,14 @@ export namespace Prisma {
     id?: SortOrder
     status?: SortOrder
     progress?: SortOrder
+    totalWeeks?: SortOrder
+    totalLessons?: SortOrder
+    totalQuizzes?: SortOrder
+    completedLessons?: SortOrder
+    completedQuizzes?: SortOrder
+    completedWeeks?: SortOrder
+    lastActivityDate?: SortOrder
+    completionDate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -28667,23 +28777,40 @@ export namespace Prisma {
 
   export type CourseProgressWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    userId_courseId?: CourseProgressUserIdCourseIdCompoundUniqueInput
     AND?: CourseProgressWhereInput | CourseProgressWhereInput[]
     OR?: CourseProgressWhereInput[]
     NOT?: CourseProgressWhereInput | CourseProgressWhereInput[]
     status?: StringFilter<"CourseProgress"> | string
     progress?: FloatFilter<"CourseProgress"> | number
+    totalWeeks?: IntFilter<"CourseProgress"> | number
+    totalLessons?: IntFilter<"CourseProgress"> | number
+    totalQuizzes?: IntFilter<"CourseProgress"> | number
+    completedLessons?: IntFilter<"CourseProgress"> | number
+    completedQuizzes?: IntFilter<"CourseProgress"> | number
+    completedWeeks?: IntFilter<"CourseProgress"> | number
+    lastActivityDate?: DateTimeNullableFilter<"CourseProgress"> | Date | string | null
+    completionDate?: DateTimeNullableFilter<"CourseProgress"> | Date | string | null
     createdAt?: DateTimeFilter<"CourseProgress"> | Date | string
     updatedAt?: DateTimeFilter<"CourseProgress"> | Date | string
     userId?: StringFilter<"CourseProgress"> | string
     courseId?: StringFilter<"CourseProgress"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
-  }, "id">
+  }, "id" | "userId_courseId">
 
   export type CourseProgressOrderByWithAggregationInput = {
     id?: SortOrder
     status?: SortOrder
     progress?: SortOrder
+    totalWeeks?: SortOrder
+    totalLessons?: SortOrder
+    totalQuizzes?: SortOrder
+    completedLessons?: SortOrder
+    completedQuizzes?: SortOrder
+    completedWeeks?: SortOrder
+    lastActivityDate?: SortOrder
+    completionDate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -28702,6 +28829,14 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"CourseProgress"> | string
     status?: StringWithAggregatesFilter<"CourseProgress"> | string
     progress?: FloatWithAggregatesFilter<"CourseProgress"> | number
+    totalWeeks?: IntWithAggregatesFilter<"CourseProgress"> | number
+    totalLessons?: IntWithAggregatesFilter<"CourseProgress"> | number
+    totalQuizzes?: IntWithAggregatesFilter<"CourseProgress"> | number
+    completedLessons?: IntWithAggregatesFilter<"CourseProgress"> | number
+    completedQuizzes?: IntWithAggregatesFilter<"CourseProgress"> | number
+    completedWeeks?: IntWithAggregatesFilter<"CourseProgress"> | number
+    lastActivityDate?: DateTimeNullableWithAggregatesFilter<"CourseProgress"> | Date | string | null
+    completionDate?: DateTimeNullableWithAggregatesFilter<"CourseProgress"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"CourseProgress"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"CourseProgress"> | Date | string
     userId?: StringWithAggregatesFilter<"CourseProgress"> | string
@@ -30721,6 +30856,14 @@ export namespace Prisma {
     id?: string
     status?: string
     progress?: number
+    totalWeeks?: number
+    totalLessons?: number
+    totalQuizzes?: number
+    completedLessons?: number
+    completedQuizzes?: number
+    completedWeeks?: number
+    lastActivityDate?: Date | string | null
+    completionDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutCourseProgressInput
@@ -30731,6 +30874,14 @@ export namespace Prisma {
     id?: string
     status?: string
     progress?: number
+    totalWeeks?: number
+    totalLessons?: number
+    totalQuizzes?: number
+    completedLessons?: number
+    completedQuizzes?: number
+    completedWeeks?: number
+    lastActivityDate?: Date | string | null
+    completionDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -30740,6 +30891,14 @@ export namespace Prisma {
   export type CourseProgressUpdateInput = {
     status?: StringFieldUpdateOperationsInput | string
     progress?: FloatFieldUpdateOperationsInput | number
+    totalWeeks?: IntFieldUpdateOperationsInput | number
+    totalLessons?: IntFieldUpdateOperationsInput | number
+    totalQuizzes?: IntFieldUpdateOperationsInput | number
+    completedLessons?: IntFieldUpdateOperationsInput | number
+    completedQuizzes?: IntFieldUpdateOperationsInput | number
+    completedWeeks?: IntFieldUpdateOperationsInput | number
+    lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutCourseProgressNestedInput
@@ -30749,6 +30908,14 @@ export namespace Prisma {
   export type CourseProgressUncheckedUpdateInput = {
     status?: StringFieldUpdateOperationsInput | string
     progress?: FloatFieldUpdateOperationsInput | number
+    totalWeeks?: IntFieldUpdateOperationsInput | number
+    totalLessons?: IntFieldUpdateOperationsInput | number
+    totalQuizzes?: IntFieldUpdateOperationsInput | number
+    completedLessons?: IntFieldUpdateOperationsInput | number
+    completedQuizzes?: IntFieldUpdateOperationsInput | number
+    completedWeeks?: IntFieldUpdateOperationsInput | number
+    lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -30759,6 +30926,14 @@ export namespace Prisma {
     id?: string
     status?: string
     progress?: number
+    totalWeeks?: number
+    totalLessons?: number
+    totalQuizzes?: number
+    completedLessons?: number
+    completedQuizzes?: number
+    completedWeeks?: number
+    lastActivityDate?: Date | string | null
+    completionDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -30768,6 +30943,14 @@ export namespace Prisma {
   export type CourseProgressUpdateManyMutationInput = {
     status?: StringFieldUpdateOperationsInput | string
     progress?: FloatFieldUpdateOperationsInput | number
+    totalWeeks?: IntFieldUpdateOperationsInput | number
+    totalLessons?: IntFieldUpdateOperationsInput | number
+    totalQuizzes?: IntFieldUpdateOperationsInput | number
+    completedLessons?: IntFieldUpdateOperationsInput | number
+    completedQuizzes?: IntFieldUpdateOperationsInput | number
+    completedWeeks?: IntFieldUpdateOperationsInput | number
+    lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -30775,6 +30958,14 @@ export namespace Prisma {
   export type CourseProgressUncheckedUpdateManyInput = {
     status?: StringFieldUpdateOperationsInput | string
     progress?: FloatFieldUpdateOperationsInput | number
+    totalWeeks?: IntFieldUpdateOperationsInput | number
+    totalLessons?: IntFieldUpdateOperationsInput | number
+    totalQuizzes?: IntFieldUpdateOperationsInput | number
+    completedLessons?: IntFieldUpdateOperationsInput | number
+    completedQuizzes?: IntFieldUpdateOperationsInput | number
+    completedWeeks?: IntFieldUpdateOperationsInput | number
+    lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -32603,10 +32794,23 @@ export namespace Prisma {
     processingTimeMs?: SortOrder
   }
 
+  export type CourseProgressUserIdCourseIdCompoundUniqueInput = {
+    userId: string
+    courseId: string
+  }
+
   export type CourseProgressCountOrderByAggregateInput = {
     id?: SortOrder
     status?: SortOrder
     progress?: SortOrder
+    totalWeeks?: SortOrder
+    totalLessons?: SortOrder
+    totalQuizzes?: SortOrder
+    completedLessons?: SortOrder
+    completedQuizzes?: SortOrder
+    completedWeeks?: SortOrder
+    lastActivityDate?: SortOrder
+    completionDate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -32615,12 +32819,26 @@ export namespace Prisma {
 
   export type CourseProgressAvgOrderByAggregateInput = {
     progress?: SortOrder
+    totalWeeks?: SortOrder
+    totalLessons?: SortOrder
+    totalQuizzes?: SortOrder
+    completedLessons?: SortOrder
+    completedQuizzes?: SortOrder
+    completedWeeks?: SortOrder
   }
 
   export type CourseProgressMaxOrderByAggregateInput = {
     id?: SortOrder
     status?: SortOrder
     progress?: SortOrder
+    totalWeeks?: SortOrder
+    totalLessons?: SortOrder
+    totalQuizzes?: SortOrder
+    completedLessons?: SortOrder
+    completedQuizzes?: SortOrder
+    completedWeeks?: SortOrder
+    lastActivityDate?: SortOrder
+    completionDate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -32631,6 +32849,14 @@ export namespace Prisma {
     id?: SortOrder
     status?: SortOrder
     progress?: SortOrder
+    totalWeeks?: SortOrder
+    totalLessons?: SortOrder
+    totalQuizzes?: SortOrder
+    completedLessons?: SortOrder
+    completedQuizzes?: SortOrder
+    completedWeeks?: SortOrder
+    lastActivityDate?: SortOrder
+    completionDate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -32639,6 +32865,12 @@ export namespace Prisma {
 
   export type CourseProgressSumOrderByAggregateInput = {
     progress?: SortOrder
+    totalWeeks?: SortOrder
+    totalLessons?: SortOrder
+    totalQuizzes?: SortOrder
+    completedLessons?: SortOrder
+    completedQuizzes?: SortOrder
+    completedWeeks?: SortOrder
   }
 
   export type CertificateCountOrderByAggregateInput = {
@@ -35521,6 +35753,14 @@ export namespace Prisma {
     id?: string
     status?: string
     progress?: number
+    totalWeeks?: number
+    totalLessons?: number
+    totalQuizzes?: number
+    completedLessons?: number
+    completedQuizzes?: number
+    completedWeeks?: number
+    lastActivityDate?: Date | string | null
+    completionDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     course: CourseCreateNestedOneWithoutCourseProgressInput
@@ -35530,6 +35770,14 @@ export namespace Prisma {
     id?: string
     status?: string
     progress?: number
+    totalWeeks?: number
+    totalLessons?: number
+    totalQuizzes?: number
+    completedLessons?: number
+    completedQuizzes?: number
+    completedWeeks?: number
+    lastActivityDate?: Date | string | null
+    completionDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     courseId: string
@@ -36028,6 +36276,14 @@ export namespace Prisma {
     id?: StringFilter<"CourseProgress"> | string
     status?: StringFilter<"CourseProgress"> | string
     progress?: FloatFilter<"CourseProgress"> | number
+    totalWeeks?: IntFilter<"CourseProgress"> | number
+    totalLessons?: IntFilter<"CourseProgress"> | number
+    totalQuizzes?: IntFilter<"CourseProgress"> | number
+    completedLessons?: IntFilter<"CourseProgress"> | number
+    completedQuizzes?: IntFilter<"CourseProgress"> | number
+    completedWeeks?: IntFilter<"CourseProgress"> | number
+    lastActivityDate?: DateTimeNullableFilter<"CourseProgress"> | Date | string | null
+    completionDate?: DateTimeNullableFilter<"CourseProgress"> | Date | string | null
     createdAt?: DateTimeFilter<"CourseProgress"> | Date | string
     updatedAt?: DateTimeFilter<"CourseProgress"> | Date | string
     userId?: StringFilter<"CourseProgress"> | string
@@ -36912,6 +37168,14 @@ export namespace Prisma {
     id?: string
     status?: string
     progress?: number
+    totalWeeks?: number
+    totalLessons?: number
+    totalQuizzes?: number
+    completedLessons?: number
+    completedQuizzes?: number
+    completedWeeks?: number
+    lastActivityDate?: Date | string | null
+    completionDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutCourseProgressInput
@@ -36921,6 +37185,14 @@ export namespace Prisma {
     id?: string
     status?: string
     progress?: number
+    totalWeeks?: number
+    totalLessons?: number
+    totalQuizzes?: number
+    completedLessons?: number
+    completedQuizzes?: number
+    completedWeeks?: number
+    lastActivityDate?: Date | string | null
+    completionDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -41170,6 +41442,14 @@ export namespace Prisma {
     id?: string
     status?: string
     progress?: number
+    totalWeeks?: number
+    totalLessons?: number
+    totalQuizzes?: number
+    completedLessons?: number
+    completedQuizzes?: number
+    completedWeeks?: number
+    lastActivityDate?: Date | string | null
+    completionDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     courseId: string
@@ -41514,6 +41794,14 @@ export namespace Prisma {
   export type CourseProgressUpdateWithoutUserInput = {
     status?: StringFieldUpdateOperationsInput | string
     progress?: FloatFieldUpdateOperationsInput | number
+    totalWeeks?: IntFieldUpdateOperationsInput | number
+    totalLessons?: IntFieldUpdateOperationsInput | number
+    totalQuizzes?: IntFieldUpdateOperationsInput | number
+    completedLessons?: IntFieldUpdateOperationsInput | number
+    completedQuizzes?: IntFieldUpdateOperationsInput | number
+    completedWeeks?: IntFieldUpdateOperationsInput | number
+    lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     course?: CourseUpdateOneRequiredWithoutCourseProgressNestedInput
@@ -41522,6 +41810,14 @@ export namespace Prisma {
   export type CourseProgressUncheckedUpdateWithoutUserInput = {
     status?: StringFieldUpdateOperationsInput | string
     progress?: FloatFieldUpdateOperationsInput | number
+    totalWeeks?: IntFieldUpdateOperationsInput | number
+    totalLessons?: IntFieldUpdateOperationsInput | number
+    totalQuizzes?: IntFieldUpdateOperationsInput | number
+    completedLessons?: IntFieldUpdateOperationsInput | number
+    completedQuizzes?: IntFieldUpdateOperationsInput | number
+    completedWeeks?: IntFieldUpdateOperationsInput | number
+    lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courseId?: StringFieldUpdateOperationsInput | string
@@ -41530,6 +41826,14 @@ export namespace Prisma {
   export type CourseProgressUncheckedUpdateManyWithoutUserInput = {
     status?: StringFieldUpdateOperationsInput | string
     progress?: FloatFieldUpdateOperationsInput | number
+    totalWeeks?: IntFieldUpdateOperationsInput | number
+    totalLessons?: IntFieldUpdateOperationsInput | number
+    totalQuizzes?: IntFieldUpdateOperationsInput | number
+    completedLessons?: IntFieldUpdateOperationsInput | number
+    completedQuizzes?: IntFieldUpdateOperationsInput | number
+    completedWeeks?: IntFieldUpdateOperationsInput | number
+    lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courseId?: StringFieldUpdateOperationsInput | string
@@ -41811,6 +42115,14 @@ export namespace Prisma {
     id?: string
     status?: string
     progress?: number
+    totalWeeks?: number
+    totalLessons?: number
+    totalQuizzes?: number
+    completedLessons?: number
+    completedQuizzes?: number
+    completedWeeks?: number
+    lastActivityDate?: Date | string | null
+    completionDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -41974,6 +42286,14 @@ export namespace Prisma {
   export type CourseProgressUpdateWithoutCourseInput = {
     status?: StringFieldUpdateOperationsInput | string
     progress?: FloatFieldUpdateOperationsInput | number
+    totalWeeks?: IntFieldUpdateOperationsInput | number
+    totalLessons?: IntFieldUpdateOperationsInput | number
+    totalQuizzes?: IntFieldUpdateOperationsInput | number
+    completedLessons?: IntFieldUpdateOperationsInput | number
+    completedQuizzes?: IntFieldUpdateOperationsInput | number
+    completedWeeks?: IntFieldUpdateOperationsInput | number
+    lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutCourseProgressNestedInput
@@ -41982,6 +42302,14 @@ export namespace Prisma {
   export type CourseProgressUncheckedUpdateWithoutCourseInput = {
     status?: StringFieldUpdateOperationsInput | string
     progress?: FloatFieldUpdateOperationsInput | number
+    totalWeeks?: IntFieldUpdateOperationsInput | number
+    totalLessons?: IntFieldUpdateOperationsInput | number
+    totalQuizzes?: IntFieldUpdateOperationsInput | number
+    completedLessons?: IntFieldUpdateOperationsInput | number
+    completedQuizzes?: IntFieldUpdateOperationsInput | number
+    completedWeeks?: IntFieldUpdateOperationsInput | number
+    lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -41990,6 +42318,14 @@ export namespace Prisma {
   export type CourseProgressUncheckedUpdateManyWithoutCourseInput = {
     status?: StringFieldUpdateOperationsInput | string
     progress?: FloatFieldUpdateOperationsInput | number
+    totalWeeks?: IntFieldUpdateOperationsInput | number
+    totalLessons?: IntFieldUpdateOperationsInput | number
+    totalQuizzes?: IntFieldUpdateOperationsInput | number
+    completedLessons?: IntFieldUpdateOperationsInput | number
+    completedQuizzes?: IntFieldUpdateOperationsInput | number
+    completedWeeks?: IntFieldUpdateOperationsInput | number
+    lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string

@@ -3,6 +3,7 @@
 import { getLoggedInUser } from "@/lib/loggedin-user";
 import { db } from "@/lib/prisma";
 import { revalidatePath } from 'next/cache';
+import { updateCourseProgressAfterQuizOrLesson } from "./quiz";
 // !MARK: createLesson
 export async function createLesson(data) {
     try {
@@ -419,7 +420,7 @@ export async function toggleLessonProgress(userId, lessonId, courseId, isComplet
     }
 }
 
-export async function markLessonComplete({userId, lessonId}) {
+export async function markLessonComplete({userId, lessonId,courseId}) {
     try {
         if (!userId || !lessonId) {
             return {
@@ -461,6 +462,8 @@ export async function markLessonComplete({userId, lessonId}) {
                 timeSpent: 0
             }
         });
+        let accomplished = "lesson"
+        await updateCourseProgressAfterQuizOrLesson(userId, courseId, accomplished);
 
         // Revalidate the course page to update the UI
         revalidatePath('/courses/686bd330132d72f488155d02');
