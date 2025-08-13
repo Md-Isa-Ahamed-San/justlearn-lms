@@ -93,8 +93,8 @@ export const columns = [
     },
   },
   {
-    id: "participation",
-    accessorFn: (row) => row.participationData,
+    id: "progress",
+    accessorFn: (row) => row.courseProgress.progress,
     header: ({ column }) => {
       return (
           <Button
@@ -102,14 +102,14 @@ export const columns = [
               onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
               className="bg-background text-foreground hover:bg-accent hover:text-accent-foreground font-poppins font-bold"
           >
-            Participation
+            Progress
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
       );
     },
     cell: ({ row }) => {
-      const participation = row.getValue("participation");
-      return <div className="pl-4 font-medium text-foreground">{participation}%</div>;
+      const progress = row.getValue("progress");
+      return <div className="pl-4 font-medium text-foreground">{progress}%</div>;
     },
   },
   {

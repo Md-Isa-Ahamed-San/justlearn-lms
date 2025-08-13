@@ -14,11 +14,11 @@ const CoursesPage = async () => {
   try {
     serverUserData = await getServerUserData();
     const userData = serverUserData?.userData;
-    console.log(" CoursesPage ~ userData:", userData);
+    // console.log(" CoursesPage ~ userData:", userData);
 
     if (userData?.instructor?.id) {
       courses = await getInstructorCourses(userData.instructor.id);
-      chalkLog.log(" CoursesPage ~ courses of a instructor:", courses);
+      // chalkLog.log(" CoursesPage ~ courses of a instructor:", courses);
     }
   } catch (error) {
     // During static generation or if user is not authenticated, this might fail

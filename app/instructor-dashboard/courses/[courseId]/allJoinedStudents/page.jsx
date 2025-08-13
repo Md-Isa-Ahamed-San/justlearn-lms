@@ -15,7 +15,7 @@ const AllJoinedStudentsPage = async ({ params }) => {
       {/* <Link href="/teacher/create">
         <Button>New Course</Button>
       </Link> */}
-      <h2>Think in a Redux way enrollments</h2>
+      {/* <h2>Think in a Redux way enrollments</h2> */}
       <DataTable columns={columns} data={studentData} />
     </div>
   );

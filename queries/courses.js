@@ -898,6 +898,11 @@ export const getStudentsInCourse = async (courseId) => {
         user: {
           include: {
             student: true,
+            courseProgress: {
+              where: {
+                courseId: courseId,
+              },
+            },
           },
         },
       },
@@ -907,23 +912,53 @@ export const getStudentsInCourse = async (courseId) => {
       return []; // Return an empty array if no participations found
     }
 
-    // Filter for users who are students and extract student details
+    // Filter for users who are students and extract student details with progress
     const students = participations
-        .map((participation) => {
-          const user = participation.user;
+      .map((participation) => {
+        const user = participation.user;
 
-          if (user.student) {
-            return {
-              userId: user.id,
-              name: user.name,
-              email: user.email,
-              studentDetails: user.student,
-              participationData: participation.progress,
-            };
-          }
-          return null;
-        })
-        .filter((student) => student !== null);
+        if (user.student) {
+          // Get course progress for this specific course
+          const courseProgress = user.courseProgress.find(
+            (progress) => progress.courseId === courseId
+          );
+
+          return {
+            userId: user.id,
+            name: user.name,
+            email: user.email,
+            studentDetails: user.student,
+            participationData: participation.progress,
+            courseProgress: courseProgress
+              ? {
+                  status: courseProgress.status,
+                  progress: courseProgress.progress,
+                  totalWeeks: courseProgress.totalWeeks,
+                  totalLessons: courseProgress.totalLessons,
+                  totalQuizzes: courseProgress.totalQuizzes,
+                  completedLessons: courseProgress.completedLessons,
+                  completedQuizzes: courseProgress.completedQuizzes,
+                  completedWeeks: courseProgress.completedWeeks,
+                  lastActivityDate: courseProgress.lastActivityDate,
+                  completionDate: courseProgress.completionDate,
+                }
+              : {
+                  status: "not_started",
+                  progress: 0,
+                  totalWeeks: 0,
+                  totalLessons: 0,
+                  totalQuizzes: 0,
+                  completedLessons: 0,
+                  completedQuizzes: 0,
+                  completedWeeks: 0,
+                  lastActivityDate: null,
+                  completionDate: null,
+                }, // Default progress if no record exists
+          };
+        }
+        return null;
+      })
+      .filter((student) => student !== null);
 
     return students;
   } catch (error) {
