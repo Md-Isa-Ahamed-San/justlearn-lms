@@ -1,0 +1,244 @@
+\documentclass{thesis-library}
+\usepackage{lipsum}
+\usepackage{graphicx} % Required for including images
+\usepackage{subcaption}
+\usepackage{float} % Enables [H] placement
+
+% Abbreviations List
+\newacronym{just}{JUST}{Jashore University of Science and Technology} % Use \Gls{just} in the text
+\newacronym{cse}{CSE}{Computer Science and Engineering} % Use \Gls{cse} in the text
+
+\begin{document}
+\newcommand{\thesisTitle}{JustLearn – Modern AI-Driven Learning Management Platform}
+%
+
+\renewcommand{\subtitle}{[ Thesis Subtitle ]}
+\newcommand{\byLabel}{Submitted By:}
+\newcommand{\studentID}{190138}
+\newcommand{\studentRegYear}{Registration Year:2019-20}
+\newcommand{\studentAcaYear}{Academic Year:2020-21}
+\newcommand{\studentName}{Md Isa Ahamed San}
+\newcommand{\supervisorLabel}{Supervisor:}
+\newcommand{\supervisorName}{Sk. Shalauddin Kabir}
+\newcommand{\supervisorDesig}{Lecturer}
+\newcommand{\supervisorAff}{Department of Computer Science and Engineering}
+\newcommand{\degreeLineBLabel}{Requirements for fulfillment the BSc.Engg. Degree}
+\newcommand{\majorName}{In \textbf{Computer Science and Engineering}}
+\newcommand{\facultyName}{Faculty of Engineering and Technology}
+\newcommand{\universityName}{Jashore University of Science and Technology}
+\newcommand{\regionName}{Jashore-7408, Bangladesh}
+\newcommand{\degreeyearName}{2025}
+\newcommand{\degreemonthName}{November}
+\newcommand{\approvalText}{This project titled "JustLearn – Modern AI-Driven Learning Management Platform"
+submitted by Md Isa Ahamed San for the pre-defense for the degree of BSc. in Computer Science and
+Engineering on November 2025.}
+\newcommand{\studentSign}{\underline{Signature of the Student}}
+\newcommand{\supervisorSign}{\underline{Signature of the Supervisor}}
+
+% Creating cover page and approval page
+\makecoverpage
+\makeapprovalpage
+
+\pagenumbering{roman}
+\chapter*{Dedication}
+\addcontentsline{toc}{chapter}{Dedication}
+This project is dedicated to my beloved parents, wife and siblings, whose unwavering support and encouragement have been a constant source of motivation throughout this journey. Their belief in my abilities and their guidance have been instrumental in helping me to reach this milestone.
+
+\chapter*{Acknowledgments}
+\addcontentsline{toc}{chapter}{Acknowledgments}
+I would like to express my sincere gratitude to my supervisor, \textbf{Sk. Shalauddin Kabir}, for his expert guidance and valuable feedback throughout the project. My deepest thanks go to my family, who have supported me unconditionally during my academic journey. Their love and encouragement have helped me stay motivated and achieve this milestone.
+
+\newpage
+\tableofcontents
+\newpage
+
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+JustLearn is an AI-powered learning management platform designed to modernize the educational experience at Jashore University of Science and Technology (JUST). This platform aims to optimize the learning process by providing a week-based content structure, AI-driven quiz generation, and detailed progress analytics. The system facilitates a seamless and interactive learning environment for both students and instructors.
+
+\newpage
+\pagenumbering{arabic}
+
+\printchaptertitle{Introduction}
+\newpage
+\textbf{JustLearn} aims to enhance the traditional learning process by integrating AI to generate customized quizzes, allowing instructors to create assessments more efficiently. This system will help students track their learning journey with detailed analytics and personalized feedback, reducing the need for manual grading and providing a more engaging learning experience.
+
+\section{Background}
+Traditionally, instructors at JUST create and grade quizzes manually, which can be a time-consuming process. Students often receive delayed feedback on their performance, which can hinder their learning progress. A more efficient approach would be to automate the quiz generation and grading process, providing instant feedback to students and freeing up instructors' time to focus on teaching and mentoring.
+
+\section{Motivation}
+The need for a more efficient and engaging learning management system at JUST is the primary motivation behind JustLearn. By leveraging AI, the platform can provide a more personalized and interactive learning experience for students, while also reducing the administrative workload for instructors. This will lead to improved learning outcomes and a more effective educational process overall.
+
+\section{Existing System}
+\begin{itemize}
+\item \textbf{Moodle:} Moodle is a popular open-source learning management system that is widely used in educational institutions. It offers a wide range of features, including course management, assignments, and quizzes. However, it lacks the AI-powered quiz generation and personalized feedback features of JustLearn.
+\item \textbf{Google Classroom:} Google Classroom is a free web service that aims to simplify creating, distributing, and grading assignments. While it is easy to use, it does not offer the same level of customization and control as JustLearn, particularly in terms of quiz generation and progress analytics.
+\end{itemize}
+
+\section{Problem Statement}
+The manual process of creating and grading quizzes is a significant challenge for instructors at JUST. It is not only time-consuming but also prone to human error. Students, on the other hand, often have to wait for an extended period to receive feedback on their performance, which can negatively impact their learning. A more efficient and automated system is needed to address these issues and improve the overall learning experience.
+
+\section{Proposed System}
+\begin{itemize}
+\item \textbf{Week-Based Structure:} The platform organizes content by weeks, aligning with JUST's academic calendar.
+\item \textbf{AI-Driven Quizzes:} Instructors can provide prompts to the AI system, which generates customized quizzes for each week's content.
+\item \textbf{Progress Analytics:} Students can track their learning journey with detailed analytics and personalized feedback on their performance.
+\item \textbf{Instructor Control:} Teachers can preview, edit, and version control all AI-generated assessments before publishing.
+\end{itemize}
+
+\printchaptertitle{Objectives}
+The objective of JustLearn is to enhance the learning experience at JUST by providing a modern, AI-driven platform that streamlines the process of creating and grading quizzes, while also offering personalized feedback and progress analytics to students.
+
+\section{Objectives}
+The primary objectives of JustLearn are:
+\begin{itemize}
+\item To provide an AI-powered platform that generates customized quizzes based on instructor prompts.
+\item To automate the grading process and provide instant feedback to students.
+\item To improve the efficiency of the assessment process for instructors.
+\item To offer detailed progress analytics to help students track their learning journey.
+\end{itemize}
+
+\section{Features}
+Key features of JustLearn include:
+\begin{itemize}
+\item Week-based content structure.
+\item AI-driven quiz generation.
+\item Detailed progress analytics.
+\item Instructor control over assessments.
+\end{itemize}
+
+\printchaptertitle{Methodology}
+To develop the \textbf{JustLearn} platform, the Agile methodology will be employed. Agile is a flexible, iterative approach that emphasizes collaboration, customer feedback, and adaptability. The development process will be broken down into small, manageable sprints, each focused on delivering specific features or components of the website. This allows for continuous improvement, as feedback from users and stakeholders will be incorporated at the end of each sprint.
+
+\printchaptertitle{System Design}
+\textbf{JustLearn} will be designed with a comprehensive frontend and backend system. The frontend, built using Next.js and styled with Tailwind CSS, will provide a responsive, user-friendly interface for students and instructors. The backend will be powered by Node.js with Express.js, handling data fetching, user authentication, and API integration with a secure, scalable approach. MongoDB will be used as the database to store user information, course content, quizzes, and progress data.
+
+\section{Data Flow Architecture}
+The system's data flow is designed to ensure a seamless and secure learning experience:
+\begin{itemize}
+\item Instructor creates a course and adds weekly content.
+\item Instructor provides prompts to the AI system to generate a quiz.
+\item The AI system generates a quiz based on the provided prompts.
+\item Instructor previews, edits, and publishes the quiz.
+\item Student takes the quiz.
+\item The system automatically grades the quiz and provides instant feedback to the student.
+\item The student's progress is updated in the analytics dashboard.
+\end{itemize}
+
+\section{Frontend Technology}
+\begin{itemize}
+\item Next.js
+\item React.js
+\item Tailwind CSS
+\end{itemize}
+
+\section{Backend Technology}
+\begin{itemize}
+\item Node.js
+\item Express.js
+\item MongoDB
+\item Mongoose
+\item NextAuth.js
+\end{itemize}
+
+\section{Tools}
+\begin{itemize}
+\item VS Code
+\item Postman
+\end{itemize}
+
+\section{Database Schema}
+\begin{figure}[H] % Use H to force placement
+\centering
+\includegraphics[width=\linewidth]{}
+\caption{Database Schema}
+\label{fig:database}
+\end{figure}
+
+\section{Activity Diagram}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{}
+\caption{Authentication}
+\label{fig:Authentication}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.1\linewidth]{}
+\caption{Student taking an AI-generated quiz}
+\label{fig:taking_quiz}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{}
+\caption{Quiz reviewed by instructor}
+\label{fig:quiz_reviewed}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\linewidth]{}
+\caption{Student quiz result download}
+\label{fig:quiz_result_download}
+\end{figure}
+
+\newpage
+\section{Use Case Diagram}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{}
+\caption{Level 0}
+\label{fig:level 0}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{}
+\caption{Level 1}
+\label{fig:level 1}
+\end{figure}
+
+\printchaptertitle{Development}
+The development phase serves as an overview of the project's current status and the steps taken toward meeting its objectives.
+
+\section{User Registration}
+\subsection{For Instructor}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{}
+\caption{Registration as a instructor}
+\label{fig:RegistrationAsInstructor}
+\end{figure}
+
+\newpage
+\subsection{For Student}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{}
+\caption{Registration as a Student}
+\label{fig:Registration as a Student}
+\end{figure}
+
+\section{Student Dashboard}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{}
+\caption{Student Dashboard}
+\label{fig:Student Dashboard}
+\end{figure}
+
+\section{Instructor Dashboard}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{}
+\caption{Instructor Dashboard}
+\label{fig:Instructor Dashboard}
+\end{figure}
+
+
+\printchaptertitle{Conclusion}
+JustLearn is built to transform the way education works at JUST—making it smarter, more efficient, and more engaging. By combining intelligent technology with a deep understanding of the educational process, we aim to support instructors, empower students, and streamline the learning experience. From course content to assessments, JustLearn is shaping a future where education is more accessible, personalized, and effective for everyone.
+
+\renewcommand{\bibname}{References}
+\bibliographystyle{plain}
+\bibliography{references.bib}
+
+\end{document}
