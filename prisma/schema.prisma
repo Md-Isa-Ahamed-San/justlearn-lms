@@ -88,8 +88,6 @@ model User {
   aiGenerationLogs AIGenerationLog[] @relation("UserAILogs")
   courseProgress   CourseProgress[]  @relation("UserCourseProgress")
   certificates     Certificate[]     @relation("UserCertificates")
-  reports          Report[]          @relation("UserReports")
-  participations   Participation[]   @relation("UserParticipations")
   watches          Watch[]           @relation("UserWatches")
   liveSessions     Live[]            @relation("UserLiveSessions")
   lessonProgress   LessonProgress[]  @relation("UserLessonProgress")
@@ -194,8 +192,6 @@ model Course {
   certificates    Certificate[]    @relation("CourseCertificates")
   quizSubmissions QuizSubmission[] @relation("CourseQuizSubmissions")
   courseProgress  CourseProgress[] @relation("CourseCourseProgress")
-  reports         Report[]         @relation("CourseReports")
-  participations  Participation[]  @relation("CourseParticipations")
 }
 
 model Week {
@@ -486,36 +482,6 @@ model Testimonial {
   course Course @relation("CourseTestimonials", fields: [courseId], references: [id])
 }
 
-model Report {
-  id                    String   @id @default(auto()) @map("_id") @db.ObjectId
-  totalCompletedLessons Json
-  totalCompletedModules Json
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
-
-  // Foreign Keys
-  courseId String @db.ObjectId
-  userId   String @db.ObjectId
-
-  // Relationships
-  course Course @relation("CourseReports", fields: [courseId], references: [id])
-  user   User   @relation("UserReports", fields: [userId], references: [id])
-}
-
-model Participation {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  progress  Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Foreign Keys
-  courseId String @db.ObjectId
-  userId   String @db.ObjectId
-
-  // Relationships
-  course Course @relation("CourseParticipations", fields: [courseId], references: [id])
-  user   User   @relation("UserParticipations", fields: [userId], references: [id])
-}
 
 model Watch {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
