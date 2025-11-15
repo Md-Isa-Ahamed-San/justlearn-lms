@@ -33,7 +33,8 @@ import { formatDate } from "../../../../../lib/formatDate";
 const CourseDetails = ({   courseDetails,
                          currentUser,
                          completedLessons,
-                         completedQuizzes
+                         completedQuizzes,
+                         testimonials
                           }) => {
   const getInstructorInitials = () => {
     if (!courseDetails?.user) return "IN";
@@ -47,7 +48,7 @@ const CourseDetails = ({   courseDetails,
       return total + (week.lessons?.length || 0);
     }, 0);
   };
-  console.log("courseDetails(courseDetails,currentUser,completedLessons,completedQuizzes: ",courseDetails,currentUser,completedLessons,completedQuizzes);
+  // console.log("courseDetails(courseDetails,currentUser,completedLessons,completedQuizzes: ",courseDetails,currentUser,completedLessons,completedQuizzes);
   // Calculate total duration in hours
   const getTotalDuration = () => {
     if (!courseDetails?.weeks) return 0;
@@ -108,7 +109,7 @@ const CourseDetails = ({   courseDetails,
             </div>
           </div>
 
-          <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+          {/* <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
             <Card>
               <CardContent className="flex items-center gap-3 p-4">
                 <div className="rounded-full p-2">
@@ -163,7 +164,7 @@ const CourseDetails = ({   courseDetails,
                 </div>
               </CardContent>
             </Card>
-          </div>
+          </div> */}
 
           <Tabs defaultValue="overview" className="w-full">
             <TabsList className="grid w-full grid-cols-3 rounded-lg p-1">
@@ -187,7 +188,7 @@ const CourseDetails = ({   courseDetails,
               </TabsTrigger>
             </TabsList>
 
-            <CourseOverview courseDetails={courseDetails} />
+            <CourseOverview courseDetails={courseDetails} testimonials={testimonials} />
             <CourseCurriculum
                 courseDetails={courseDetails}
                 currentUser={currentUser}

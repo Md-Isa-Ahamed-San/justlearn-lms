@@ -1,7 +1,7 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { TabsContent } from "@/components/ui/tabs";
-import {useParams, useRouter} from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -33,20 +33,19 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { LessonModal } from "@/app/(main)/courses/[id]/_components/LessonModal";
-import {markLessonComplete} from "@/app/actions/lesson";
+import { markLessonComplete } from "@/app/actions/lesson";
 
 const CourseCurriculum = ({
-                            courseDetails,
-                            currentUser,
-                            completedLessons,
-                            completedQuizzes
-                          }) => {
+  courseDetails,
+  currentUser,
+  completedLessons,
+  completedQuizzes,
+}) => {
   const [selectedLesson, setSelectedLesson] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const params = useParams();
-
 
   // Helper function to check if a lesson is completed
   const isLessonCompleted = (lessonId) => {
@@ -61,13 +60,13 @@ const CourseCurriculum = ({
   // Check if all lessons in a week are completed
   const areAllWeekLessonsCompleted = (week) => {
     if (!week.lessons || week.lessons.length === 0) return true;
-    return week.lessons.every(lesson => isLessonCompleted(lesson.id));
+    return week.lessons.every((lesson) => isLessonCompleted(lesson.id));
   };
 
   // Check if all quizzes in a week are completed
   const areAllWeekQuizzesCompleted = (week) => {
     if (!week.quizzes || week.quizzes.length === 0) return true;
-    return week.quizzes.every(quiz => isQuizCompleted(quiz.id));
+    return week.quizzes.every((quiz) => isQuizCompleted(quiz.id));
   };
 
   // Check if an entire week is completed (all lessons + quizzes)
@@ -94,7 +93,7 @@ const CourseCurriculum = ({
       // Check if previous week is completely finished
       const previousWeek = courseDetails.weeks[weekIndex - 1];
       const isPreviousWeekCompleted = isWeekCompleted(previousWeek);
-      
+
       if (!isPreviousWeekCompleted) return false;
 
       // If it's the first lesson of the week, it's unlocked
@@ -140,7 +139,7 @@ const CourseCurriculum = ({
       if (!isWeekCompleted(previousWeek)) {
         return `Complete Week ${previousWeek.order} to unlock this week`;
       }
-      
+
       if (currentLessonIndex > 0) {
         const previousLesson = currentWeek.lessons[currentLessonIndex - 1];
         return `Complete "${previousLesson.title}" to unlock this lesson`;
@@ -152,16 +151,16 @@ const CourseCurriculum = ({
 
   // Get quiz unlock requirement
   const getQuizUnlockRequirement = (currentWeek) => {
-    const incompleteLessons = currentWeek.lessons?.filter(lesson => 
-      !isLessonCompleted(lesson.id)
-    ) || [];
-    
+    const incompleteLessons =
+      currentWeek.lessons?.filter((lesson) => !isLessonCompleted(lesson.id)) ||
+      [];
+
     if (incompleteLessons.length === 0) return null;
-    
+
     if (incompleteLessons.length === 1) {
       return `Complete "${incompleteLessons[0].title}" to unlock this quiz`;
     }
-    
+
     return `Complete all ${incompleteLessons.length} lessons to unlock this quiz`;
   };
 
@@ -173,33 +172,32 @@ const CourseCurriculum = ({
       const userId = currentUser?.id;
 
       if (!userId) {
-        toast.error('User not authenticated');
+        toast.error("User not authenticated");
         return;
       }
-      let courseId =  params.id;
+      let courseId = params.id;
       const result = await markLessonComplete({ lessonId, userId, courseId });
       console.log("Server action result:", result);
 
       if (result?.success === false) {
-        console.error('Server action failed:', result.error);
-        toast.error(result.error || 'Failed to update lesson progress');
+        console.error("Server action failed:", result.error);
+        toast.error(result.error || "Failed to update lesson progress");
       } else if (result?.success === true) {
-        toast.success(result.message || 'Lesson marked as complete!');
+        toast.success(result.message || "Lesson marked as complete!");
         setIsModalOpen(false);
-      } else if (result && typeof result === 'object' && result.id) {
-        toast.success('Lesson marked as complete!');
+      } else if (result && typeof result === "object" && result.id) {
+        toast.success("Lesson marked as complete!");
         setIsModalOpen(false);
       } else {
-        console.error('Unexpected server response:', result);
-        toast.error('Unexpected response from server');
+        console.error("Unexpected server response:", result);
+        toast.error("Unexpected response from server");
       }
-
     } catch (error) {
-      console.error('Error calling server action:', error);
+      console.error("Error calling server action:", error);
       if (error.message) {
         toast.error(error.message);
       } else {
-        toast.error('Something went wrong. Please try again.');
+        toast.error("Something went wrong. Please try again.");
       }
     } finally {
       setIsUpdating(false);
@@ -208,11 +206,11 @@ const CourseCurriculum = ({
 
   const getAttachmentIcon = (type) => {
     switch (type) {
-      case 'image':
+      case "image":
         return <FileText className="h-4 w-4" />;
-      case 'document':
+      case "document":
         return <Download className="h-4 w-4" />;
-      case 'link':
+      case "link":
         return <ExternalLink className="h-4 w-4" />;
       default:
         return <FileText className="h-4 w-4" />;
@@ -220,79 +218,92 @@ const CourseCurriculum = ({
   };
 
   const handleAttachmentClick = (attachment) => {
-    if (attachment.type === 'link') {
-      window.open(attachment.url, '_blank');
+    if (attachment.type === "link") {
+      window.open(attachment.url, "_blank");
     } else {
-      window.open(attachment.url, '_blank');
+      window.open(attachment.url, "_blank");
     }
   };
 
-  const onNavigateToQuiz = (quizId,quizCompleted) => {
-    console.log("quizCompleted: ",quizCompleted);
-    if(quizCompleted){
-       router.push(`/courses/${params.id}/quizResult/${quizId}`);
-    }
-    else{
+  const onNavigateToQuiz = (quizId, quizCompleted) => {
+    console.log("quizCompleted: ", quizCompleted);
+    if (quizCompleted) {
+      router.push(`/courses/${params.id}/quizResult/${quizId}`);
+    } else {
       router.push(`/courses/${params.id}/quiz-participation/${quizId}`);
     }
   };
 
   const handleLessonClick = (lesson, isUnlocked) => {
     if (!currentUser) {
-      toast.error('Please log in to access lessons');
+      toast.error("Please log in to access lessons");
       return;
     }
-    
+
     if (!isUnlocked) {
-      toast.error('Complete previous lessons to unlock this content');
+      toast.error("Complete previous lessons to unlock this content");
       return;
     }
-    
+
     setSelectedLesson(lesson);
     setIsModalOpen(true);
   };
 
-  const handleQuizClick = (quiz, isUnlocked,quizCompleted) => {
+  const handleQuizClick = (quiz, isUnlocked, quizCompleted) => {
     if (!currentUser) {
-      toast.error('Please log in to take quizzes');
+      toast.error("Please log in to take quizzes");
       return;
     }
-    
+
     if (!isUnlocked) {
-      toast.error('Complete all lessons in this week to unlock the quiz');
+      toast.error("Complete all lessons in this week to unlock the quiz");
       return;
     }
-    
-    onNavigateToQuiz(quiz.id,quizCompleted);
+    console.log("Navigating to quiz ID:", quiz.id, "Completed:", quizCompleted);
+    onNavigateToQuiz(quiz.id, quizCompleted);
   };
 
   const getTotalDuration = () => {
     if (!courseDetails?.weeks) return 0;
-    return courseDetails.weeks.reduce((total, week) => total + (week.duration || 0), 0);
+    return courseDetails.weeks.reduce(
+      (total, week) => total + (week.duration || 0),
+      0
+    );
   };
 
   const getTotalLessons = () => {
     if (!courseDetails?.weeks) return 0;
-    return courseDetails.weeks.reduce((total, week) => total + (week.lessons?.length || 0), 0);
+    return courseDetails.weeks.reduce(
+      (total, week) => total + (week.lessons?.length || 0),
+      0
+    );
   };
 
   return (
     <TabsContent value="curriculum" className="mt-6">
       <div className="space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <h3 className="text-2xl font-bold text-foreground font-poppins">Course Curriculum</h3>
+          <h3 className="text-2xl font-bold text-foreground font-poppins">
+            Course Curriculum
+          </h3>
           <div className="flex flex-wrap items-center gap-6 text-sm">
             <div className="flex items-center gap-2">
               <BookCheck className="h-4 w-4" />
-              <span className="text-foreground">{courseDetails?.weeks?.length || 0} Weeks</span>
+              <span className="text-foreground">
+                {courseDetails?.weeks?.length || 0} Weeks
+              </span>
             </div>
             <div className="flex items-center gap-2">
               <Clock className="h-4 w-4" />
-              <span className="text-foreground">{Math.ceil(getTotalDuration() / 60)}+ Hours</span>
+              <span className="text-foreground">
+                {Math.ceil(getTotalDuration() / 60)}+ Hours
+              </span>
             </div>
             <div className="flex items-center gap-2">
               <Video className="h-4 w-4" />
-              <span className="text-foreground">{getTotalLessons()} Lessons</span>
+              <span className="text-foreground">
+                {getTotalLessons()} Lessons
+              </span>
             </div>
           </div>
         </div>
@@ -306,8 +317,8 @@ const CourseCurriculum = ({
             <p className="text-muted-foreground mb-4">
               Log in to unlock lessons, track your progress, and take quizzes.
             </p>
-            <Button 
-              onClick={() => router.push('/sign-in')}
+            <Button
+              onClick={() => router.push("/sign-in")}
               className="bg-primary text-primary-foreground hover:bg-primary/90"
             >
               Sign In Now
@@ -322,21 +333,34 @@ const CourseCurriculum = ({
         >
           {courseDetails?.weeks?.map((week, weekIndex) => {
             const weekUnlocked = isWeekUnlocked(weekIndex);
-            
+
             return (
-              <AccordionItem key={week.id} value={week.id} className="border-b border-border px-0">
+              <AccordionItem
+                key={week.id}
+                value={week.id}
+                className="border-b border-border px-0"
+              >
                 <AccordionTrigger className="py-4 text-lg font-medium hover:no-underline text-foreground font-poppins">
                   <div className="flex items-center gap-3">
-                    <Badge 
-                      variant={weekUnlocked ? "default" : "secondary"} 
-                      className={weekUnlocked ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"}
+                    <Badge
+                      variant={weekUnlocked ? "default" : "secondary"}
+                      className={
+                        weekUnlocked
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-secondary text-secondary-foreground"
+                      }
                     >
                       Week {week.order}
                     </Badge>
-                    {!weekUnlocked && <Lock className="h-4 w-4 text-muted-foreground" />}
+                    {!weekUnlocked && (
+                      <Lock className="h-4 w-4 text-muted-foreground" />
+                    )}
                     {week.title}
-                    {week.status === 'draft' && (
-                      <Badge variant="secondary" className="bg-secondary text-secondary-foreground">
+                    {week.status === "draft" && (
+                      <Badge
+                        variant="secondary"
+                        className="bg-secondary text-secondary-foreground"
+                      >
                         Draft
                       </Badge>
                     )}
@@ -350,38 +374,52 @@ const CourseCurriculum = ({
                     <div className="mb-4 rounded-lg border border-border bg-muted/30 p-4">
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Lock className="h-4 w-4" />
-                        <span>Complete Week {weekIndex} to unlock this content</span>
+                        <span>
+                          Complete Week {weekIndex} to unlock this content
+                        </span>
                       </div>
                     </div>
                   )}
-                  
+
                   <div className="mb-4 flex flex-wrap items-center gap-4 rounded-lg bg-muted/30 p-4 text-sm">
                     <div className="flex items-center gap-1.5">
                       <Video className="h-4 w-4" />
-                      <span className="text-foreground">{week.lessons?.length || 0} Lessons</span>
+                      <span className="text-foreground">
+                        {week.lessons?.length || 0} Lessons
+                      </span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <Clock className="h-4 w-4" />
-                      <span className="text-foreground">{Math.ceil((week.duration || 0) / 60)} Hours</span>
+                      <span className="text-foreground">
+                        {Math.ceil((week.duration || 0) / 60)} Hours
+                      </span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <FileText className="h-4 w-4" />
-                      <span className="text-muted-foreground">{week.description}</span>
+                      <span className="text-muted-foreground">
+                        {week.description}
+                      </span>
                     </div>
                   </div>
 
                   <div className="space-y-3">
                     {/* Lessons */}
                     {week.lessons?.map((lesson, lessonIndex) => {
-                      const lessonUnlocked = isLessonUnlocked(week, lessonIndex, weekIndex);
+                      const lessonUnlocked = isLessonUnlocked(
+                        week,
+                        lessonIndex,
+                        weekIndex
+                      );
                       const lessonCompleted = isLessonCompleted(lesson.id);
-                      const unlockRequirement = !lessonUnlocked ? getNextRequiredItem(week, lessonIndex, weekIndex) : null;
-                      
+                      const unlockRequirement = !lessonUnlocked
+                        ? getNextRequiredItem(week, lessonIndex, weekIndex)
+                        : null;
+
                       return (
                         <div
                           key={lesson.id}
                           className={`flex items-center justify-between rounded-lg p-3 pl-8 transition-colors border border-border
-                            ${lessonUnlocked ? 'hover:bg-muted/50' : 'opacity-60 bg-muted/20'}`}
+                            ${lessonUnlocked ? "hover:bg-muted/50" : "opacity-60 bg-muted/20"}`}
                         >
                           <div className="flex items-center gap-3">
                             {lessonCompleted ? (
@@ -392,38 +430,56 @@ const CourseCurriculum = ({
                               <Lock className="h-4 w-4 text-muted-foreground" />
                             )}
                             <div>
-                              <span className={`font-medium ${lessonUnlocked ? 'text-foreground' : 'text-muted-foreground'}`}>
+                              <span
+                                className={`font-medium ${lessonUnlocked ? "text-foreground" : "text-muted-foreground"}`}
+                              >
                                 {lesson.title}
                               </span>
-                              <p className="text-sm text-muted-foreground">{lesson.description}</p>
+                              <p className="text-sm text-muted-foreground">
+                                {lesson.description}
+                              </p>
                               {unlockRequirement && (
-                                <p className="text-xs text-orange-600 mt-1">{unlockRequirement}</p>
+                                <p className="text-xs text-orange-600 mt-1">
+                                  {unlockRequirement}
+                                </p>
                               )}
                             </div>
                           </div>
                           <div className="flex items-center gap-2">
-                            {lesson.attachments && lesson.attachments.length > 0 && (
-                              <Badge variant="outline" className="border-border text-foreground">
-                                {lesson.attachments.length} Resources
-                              </Badge>
-                            )}
+                            {lesson.attachments &&
+                              lesson.attachments.length > 0 && (
+                                <Badge
+                                  variant="outline"
+                                  className="border-border text-foreground"
+                                >
+                                  {lesson.attachments.length} Resources
+                                </Badge>
+                              )}
                             {currentUser ? (
                               <Button
                                 variant={lessonUnlocked ? "ghost" : "secondary"}
                                 size="sm"
-                                className={`h-8 gap-1 ${lessonUnlocked ? 'text-foreground hover:bg-accent hover:text-accent-foreground' : 'text-muted-foreground cursor-not-allowed'}`}
-                                onClick={() => handleLessonClick(lesson, lessonUnlocked)}
+                                className={`h-8 gap-1 ${lessonUnlocked ? "text-foreground hover:bg-accent hover:text-accent-foreground" : "text-muted-foreground cursor-not-allowed"}`}
+                                onClick={() =>
+                                  handleLessonClick(lesson, lessonUnlocked)
+                                }
                                 disabled={!lessonUnlocked}
                               >
-                                {lessonUnlocked ? <Play className="h-3 w-3" /> : <Lock className="h-3 w-3" />}
-                                {lessonUnlocked ? 'Open Lesson' : 'Locked'}
+                                {lessonUnlocked ? (
+                                  <Play className="h-3 w-3" />
+                                ) : (
+                                  <Lock className="h-3 w-3" />
+                                )}
+                                {lessonUnlocked ? "Open Lesson" : "Locked"}
                               </Button>
                             ) : (
                               <Button
                                 variant="ghost"
                                 size="sm"
                                 className="h-8 gap-1 text-muted-foreground"
-                                onClick={() => toast.error('Please log in to access lessons')}
+                                onClick={() =>
+                                  toast.error("Please log in to access lessons")
+                                }
                               >
                                 <LogIn className="h-3 w-3" />
                                 Sign In
@@ -438,13 +494,16 @@ const CourseCurriculum = ({
                     {week.quizzes?.map((quiz) => {
                       const quizUnlocked = isQuizUnlocked(week, weekIndex);
                       const quizCompleted = isQuizCompleted(quiz.id);
-                      const quizRequirement = !quizUnlocked ? getQuizUnlockRequirement(week) : null;
-                      
+                      const quizRequirement = !quizUnlocked
+                        ? getQuizUnlockRequirement(week)
+                        : null;
+                      // console.log("single quiz on the curriculum page: ", quiz);
+                      if (quiz.status === "draft") return null;
                       return (
                         <div
                           key={quiz.id}
                           className={`flex items-center justify-between rounded-lg p-3 pl-8 transition-colors border border-border
-                            ${quizUnlocked ? 'hover:bg-muted/50 bg-accent/20' : 'opacity-60 bg-muted/10'}`}
+                            ${quizUnlocked ? "hover:bg-muted/50 bg-accent/20" : "opacity-60 bg-muted/10"}`}
                         >
                           <div className="flex items-center gap-3">
                             {quizCompleted ? (
@@ -455,24 +514,32 @@ const CourseCurriculum = ({
                               <Lock className="h-4 w-4 text-muted-foreground" />
                             )}
                             <div>
-                              <span className={`font-medium ${quizUnlocked ? 'text-foreground' : 'text-muted-foreground'}`}>
+                              <span
+                                className={`font-medium ${quizUnlocked ? "text-foreground" : "text-muted-foreground"}`}
+                              >
                                 {quiz.title}
                               </span>
-                              <p className="text-sm text-muted-foreground">{quiz.description}</p>
+                              <p className="text-sm text-muted-foreground">
+                                {quiz.description}
+                              </p>
                               <div className="flex items-center gap-4 mt-1 text-xs text-muted-foreground">
-                                <span>{quiz.questionsPerStudent} Questions</span>
+                                <span>
+                                  {quiz.questionsPerStudent} Questions
+                                </span>
                                 <span>{quiz.timeLimit} Minutes</span>
                                 <span>{quiz.maxAttempts} Attempt(s)</span>
                               </div>
                               {quizRequirement && (
-                                <p className="text-xs text-orange-600 mt-1">{quizRequirement}</p>
+                                <p className="text-xs text-orange-600 mt-1">
+                                  {quizRequirement}
+                                </p>
                               )}
                             </div>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Badge 
-                              variant="outline" 
-                              className={`border-border ${quizUnlocked ? 'text-foreground' : 'text-muted-foreground'}`}
+                            <Badge
+                              variant="outline"
+                              className={`border-border ${quizUnlocked ? "text-foreground" : "text-muted-foreground"}`}
                             >
                               Quiz
                             </Badge>
@@ -480,19 +547,35 @@ const CourseCurriculum = ({
                               <Button
                                 variant={quizUnlocked ? "default" : "secondary"}
                                 size="sm"
-                                className={`h-8 gap-1 ${quizUnlocked ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground cursor-not-allowed'}`}
-                                onClick={() => handleQuizClick(quiz, quizUnlocked,quizCompleted)}
+                                className={`h-8 gap-1 ${quizUnlocked ? "bg-primary text-primary-foreground hover:bg-primary/90" : "text-muted-foreground cursor-not-allowed"}`}
+                                onClick={() =>
+                                  handleQuizClick(
+                                    quiz,
+                                    quizUnlocked,
+                                    quizCompleted
+                                  )
+                                }
                                 disabled={!quizUnlocked}
                               >
-                                {quizUnlocked ? <Users className="h-3 w-3" /> : <Lock className="h-3 w-3" />}
-                                {quizCompleted? "See Result" : quizUnlocked ? 'Take Quiz' : 'Locked'}
+                                {quizUnlocked ? (
+                                  <Users className="h-3 w-3" />
+                                ) : (
+                                  <Lock className="h-3 w-3" />
+                                )}
+                                {quizCompleted
+                                  ? "See Result"
+                                  : quizUnlocked
+                                    ? "Take Quiz"
+                                    : "Locked"}
                               </Button>
                             ) : (
                               <Button
                                 variant="ghost"
                                 size="sm"
                                 className="h-8 gap-1 text-muted-foreground"
-                                onClick={() => toast.error('Please log in to take quizzes')}
+                                onClick={() =>
+                                  toast.error("Please log in to take quizzes")
+                                }
                               >
                                 <LogIn className="h-3 w-3" />
                                 Sign In
@@ -521,7 +604,9 @@ const CourseCurriculum = ({
             {selectedLesson && (
               <LessonModal
                 lesson={selectedLesson}
-                week={courseDetails?.weeks?.find(w => w.lessons?.some(l => l.id === selectedLesson.id))}
+                week={courseDetails?.weeks?.find((w) =>
+                  w.lessons?.some((l) => l.id === selectedLesson.id)
+                )}
                 isLessonCompleted={isLessonCompleted}
                 getAttachmentIcon={getAttachmentIcon}
                 currentUser={currentUser}

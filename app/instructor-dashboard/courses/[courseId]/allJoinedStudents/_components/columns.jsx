@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ArrowUpDown, MoreHorizontal, Eye, GraduationCap } from "lucide-react";
+import { ArrowUpDown, Eye, GraduationCap, MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 import { StudentDetailsModal } from "./data-table";
 
@@ -20,7 +20,7 @@ export const columns = [
           <Button
               variant="ghost"
               onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-              className="bg-background text-foreground hover:bg-accent hover:text-accent-foreground font-poppins font-bold"
+              className=" text-foreground hover:bg-accent hover:text-accent-foreground font-poppins font-bold"
           >
             Student ID
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -40,7 +40,7 @@ export const columns = [
           <Button
               variant="ghost"
               onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-              className="bg-background text-foreground hover:bg-accent hover:text-accent-foreground font-poppins font-bold"
+              className=" text-foreground hover:bg-accent hover:text-accent-foreground font-poppins font-bold"
           >
             Student Name
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -60,7 +60,7 @@ export const columns = [
           <Button
               variant="ghost"
               onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-              className="bg-background text-foreground hover:bg-accent hover:text-accent-foreground font-poppins font-bold"
+              className=" text-foreground hover:bg-accent hover:text-accent-foreground font-poppins font-bold"
           >
             Department
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -80,7 +80,7 @@ export const columns = [
           <Button
               variant="ghost"
               onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-              className="bg-background text-foreground hover:bg-accent hover:text-accent-foreground font-poppins font-bold"
+              className=" text-foreground hover:bg-accent hover:text-accent-foreground font-poppins font-bold"
           >
             Session
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -100,7 +100,7 @@ export const columns = [
           <Button
               variant="ghost"
               onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-              className="bg-background text-foreground hover:bg-accent hover:text-accent-foreground font-poppins font-bold"
+              className=" text-foreground hover:bg-accent hover:text-accent-foreground font-poppins font-bold"
           >
             Progress
             <ArrowUpDown className="ml-2 h-4 w-4" />

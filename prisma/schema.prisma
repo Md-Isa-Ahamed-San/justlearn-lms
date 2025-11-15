@@ -53,14 +53,7 @@ enum QuizGenerationType {
   ai_pool
 }
 
-enum SubmissionReason {
-  manual_submit
-  time_expired
-  tab_switch_auto_submit
-  minimize_auto_submit
-  offline_auto_submit
-  violation_limit_exceeded
-}
+
 
 enum SecurityLevel {
   low
@@ -194,15 +187,15 @@ model Course {
   categoryId String @db.ObjectId
 
   // Relationships
-  user           User             @relation("UserCourses", fields: [userId], references: [id])
-  category       Category         @relation(fields: [categoryId], references: [id])
-  weeks          Week[]
-  testimonials   Testimonial[]    @relation("CourseTestimonials")
-  certificates   Certificate[]    @relation("CourseCertificates")
+  user            User             @relation("UserCourses", fields: [userId], references: [id])
+  category        Category         @relation(fields: [categoryId], references: [id])
+  weeks           Week[]
+  testimonials    Testimonial[]    @relation("CourseTestimonials")
+  certificates    Certificate[]    @relation("CourseCertificates")
   quizSubmissions QuizSubmission[] @relation("CourseQuizSubmissions")
-  courseProgress CourseProgress[] @relation("CourseCourseProgress")
-  reports        Report[]         @relation("CourseReports")
-  participations Participation[]  @relation("CourseParticipations")
+  courseProgress  CourseProgress[] @relation("CourseCourseProgress")
+  reports         Report[]         @relation("CourseReports")
+  participations  Participation[]  @relation("CourseParticipations")
 }
 
 model Week {
@@ -349,25 +342,27 @@ model QuizSubmission {
   startTime        DateTime?
   endTime          DateTime?
   // status           AttemptStatus    @default(not_started)
+  maxScore         Float?           @default(0)
   score            Float?           @default(0)
+  
   attemptNumber    Int              @default(1)
   timeSpent        Int?
-  submissionReason SubmissionReason @default(manual_submit)
+  submissionReason String @default("Manual submit")
 
   // Simplified Anti-Cheating Data
-  disconnectionCount Int     @default(0)
+  disconnectionCount    Int     @default(0)
   isFullscreenSupported Boolean @default(true)
   totalOfflineCount     Int     @default(0)
-  violations       Json
-  warningCount    Int     @default(0)
-  warningMessage String?
+  violations            Json
+  warningCount          Int     @default(0)
+  warningMessage        String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // Foreign Keys
-  userId String @db.ObjectId
-  quizId String @db.ObjectId
+  userId   String @db.ObjectId
+  quizId   String @db.ObjectId
   courseId String @db.ObjectId
 
   // Relationships
@@ -377,19 +372,19 @@ model QuizSubmission {
   studentAnswers StudentAnswer[]
 
   @@index([userId, quizId])
-  @@index([ createdAt])
-   @@index([courseId])
+  @@index([createdAt])
+  @@index([courseId])
 }
 
 model StudentAnswer {
-  id              String   @id @default(auto()) @map("_id") @db.ObjectId
-  submittedAnswer Json
-  answerExplanation   Json?
-  isCorrect       Boolean  @default(false)
-  marksAwarded    Float    @default(0)
-  timeSpent       Int?     @default(0) // seconds spent on this question
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  submittedAnswer   Json
+  answerExplanation Json?
+  isCorrect         Boolean  @default(false)
+  marksAwarded      Float    @default(0)
+  timeSpent         Int?     @default(0) // seconds spent on this question
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   // Foreign Keys
   questionId       String @db.ObjectId
@@ -425,24 +420,24 @@ model AIGenerationLog {
 }
 
 model CourseProgress {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  status   String   @default("not_started") // "not_started", "in_progress", "completed"
-  progress Float    @default(0) // 0-100 percentage
-  
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  status   String @default("not_started") // "not_started", "in_progress", "completed"
+  progress Float  @default(0) // 0-100 percentage
+
   // Course content tracking fields
-  totalWeeks    Int @default(0) // Total weeks in course at time of calculation
-  totalLessons  Int @default(0) // Total lessons in course
-  totalQuizzes  Int @default(0) // Total quizzes in course
-  
+  totalWeeks   Int @default(0) // Total weeks in course at time of calculation
+  totalLessons Int @default(0) // Total lessons in course
+  totalQuizzes Int @default(0) // Total quizzes in course
+
   // User completion tracking fields
   completedLessons Int @default(0) // Lessons completed by user
   completedQuizzes Int @default(0) // Quizzes completed by user
   completedWeeks   Int @default(0) // Weeks fully completed
-  
+
   // Activity tracking fields
   lastActivityDate DateTime? // When user last engaged with course
   completionDate   DateTime? // When course was fully completed
-  
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -459,6 +454,7 @@ model CourseProgress {
   @@index([courseId, progress])
   @@index([status, lastActivityDate])
 }
+
 model Certificate {
   id              String   @id @default(auto()) @map("_id") @db.ObjectId
   certificateLink String

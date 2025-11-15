@@ -28,6 +28,7 @@ export default function QuizInterface({
   courseId,
   userSubmissions,
 }) {
+  
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState(quiz.timeLimit * 60);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -72,7 +73,7 @@ export default function QuizInterface({
   const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
 
   // !MARK: UNIFIED SUBMIT FUNCTION - Handles both manual and auto submissions
-  const submitQuiz = useCallback(
+ const submitQuiz = useCallback(
     async (submissionContext = {}) => {
       const {
         reason = "Manual submission",
@@ -126,9 +127,32 @@ export default function QuizInterface({
       hasAutoSubmittedRef.current = true;
       dispatch({ type: "SET_SUBMITTING", payload: true });
 
-      // Enhanced state for submission
+      // 🔥 NEW: Ensure ALL questions have answers (empty for unanswered)
+      const completeAnswers = {};
+      
+      quiz.questions.forEach((question) => {
+        const existingAnswer = state.answers[question.id];
+        
+        if (existingAnswer) {
+          // Use existing answer
+          completeAnswers[question.id] = existingAnswer;
+        } else {
+          // Create empty answer for unanswered question
+          completeAnswers[question.id] = {
+            questionId: question.id,
+            question: question.text, // Include question text
+            answer: question.type === 'mcq' ? [] : "", // Empty array for MCQ, empty string for others
+            questionType: question.type,
+            mark: question.mark,
+            isCorrect: false,
+          };
+        }
+      });
+
+      // Enhanced state for submission with complete answers
       const submissionState = {
         ...state,
+        answers: completeAnswers, // 🔥 Use complete answer set instead of state.answers
         quizId: quiz.id,
         courseId: courseId,
         submissionReason: reason,
@@ -137,7 +161,9 @@ export default function QuizInterface({
       };
 
       console.log("📋 Final submission data:", {
-        answers: submissionState.answers,
+        totalQuestions: quiz.questions.length,
+        answeredQuestions: Object.keys(state.answers).length,
+        completeAnswersCount: Object.keys(completeAnswers).length, // Should equal totalQuestions
         violations: submissionState.violations,
         offlineTracking: {
           disconnectionCount: submissionState.disconnectionCount,
@@ -157,7 +183,6 @@ export default function QuizInterface({
         if (offlineTrackingIntervalRef.current)
           clearInterval(offlineTrackingIntervalRef.current);
 
-        // Clean up localStorage
         try {
           localStorage.removeItem(`quiz_${quiz.id}_offline_state`);
           console.log("🧹 Cleaned up localStorage and intervals");
@@ -234,7 +259,6 @@ export default function QuizInterface({
     },
     [state, quiz.id, quiz.questions, courseId, router]
   );
-
   // Enhanced offline handling with smart submission logic
   // !MARK: HANDLE OFFLINE
   const handleOffline = useCallback(() => {

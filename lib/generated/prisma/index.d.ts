@@ -184,18 +184,6 @@ export const QuizGenerationType: {
 export type QuizGenerationType = (typeof QuizGenerationType)[keyof typeof QuizGenerationType]
 
 
-export const SubmissionReason: {
-  manual_submit: 'manual_submit',
-  time_expired: 'time_expired',
-  tab_switch_auto_submit: 'tab_switch_auto_submit',
-  minimize_auto_submit: 'minimize_auto_submit',
-  offline_auto_submit: 'offline_auto_submit',
-  violation_limit_exceeded: 'violation_limit_exceeded'
-};
-
-export type SubmissionReason = (typeof SubmissionReason)[keyof typeof SubmissionReason]
-
-
 export const SecurityLevel: {
   low: 'low',
   medium: 'medium',
@@ -233,10 +221,6 @@ export const Visibility: typeof $Enums.Visibility
 export type QuizGenerationType = $Enums.QuizGenerationType
 
 export const QuizGenerationType: typeof $Enums.QuizGenerationType
-
-export type SubmissionReason = $Enums.SubmissionReason
-
-export const SubmissionReason: typeof $Enums.SubmissionReason
 
 export type SecurityLevel = $Enums.SecurityLevel
 
@@ -594,8 +578,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.14.0
-   * Query Engine version: 717184b7b35ea05dfa71a3236b7af656013e1e49
+   * Prisma Client JS version: 6.19.0
+   * Query Engine version: 2ba551f319ab1df4bc874a89965d8b3641056773
    */
   export type PrismaVersion = {
     client: string
@@ -608,6 +592,7 @@ export namespace Prisma {
    */
 
 
+  export import Bytes = runtime.Bytes
   export import JsonObject = runtime.JsonObject
   export import JsonArray = runtime.JsonArray
   export import JsonValue = runtime.JsonValue
@@ -16050,6 +16035,7 @@ export namespace Prisma {
   }
 
   export type QuizSubmissionAvgAggregateOutputType = {
+    maxScore: number | null
     score: number | null
     attemptNumber: number | null
     timeSpent: number | null
@@ -16059,6 +16045,7 @@ export namespace Prisma {
   }
 
   export type QuizSubmissionSumAggregateOutputType = {
+    maxScore: number | null
     score: number | null
     attemptNumber: number | null
     timeSpent: number | null
@@ -16071,10 +16058,11 @@ export namespace Prisma {
     id: string | null
     startTime: Date | null
     endTime: Date | null
+    maxScore: number | null
     score: number | null
     attemptNumber: number | null
     timeSpent: number | null
-    submissionReason: $Enums.SubmissionReason | null
+    submissionReason: string | null
     disconnectionCount: number | null
     isFullscreenSupported: boolean | null
     totalOfflineCount: number | null
@@ -16091,10 +16079,11 @@ export namespace Prisma {
     id: string | null
     startTime: Date | null
     endTime: Date | null
+    maxScore: number | null
     score: number | null
     attemptNumber: number | null
     timeSpent: number | null
-    submissionReason: $Enums.SubmissionReason | null
+    submissionReason: string | null
     disconnectionCount: number | null
     isFullscreenSupported: boolean | null
     totalOfflineCount: number | null
@@ -16111,6 +16100,7 @@ export namespace Prisma {
     id: number
     startTime: number
     endTime: number
+    maxScore: number
     score: number
     attemptNumber: number
     timeSpent: number
@@ -16131,6 +16121,7 @@ export namespace Prisma {
 
 
   export type QuizSubmissionAvgAggregateInputType = {
+    maxScore?: true
     score?: true
     attemptNumber?: true
     timeSpent?: true
@@ -16140,6 +16131,7 @@ export namespace Prisma {
   }
 
   export type QuizSubmissionSumAggregateInputType = {
+    maxScore?: true
     score?: true
     attemptNumber?: true
     timeSpent?: true
@@ -16152,6 +16144,7 @@ export namespace Prisma {
     id?: true
     startTime?: true
     endTime?: true
+    maxScore?: true
     score?: true
     attemptNumber?: true
     timeSpent?: true
@@ -16172,6 +16165,7 @@ export namespace Prisma {
     id?: true
     startTime?: true
     endTime?: true
+    maxScore?: true
     score?: true
     attemptNumber?: true
     timeSpent?: true
@@ -16192,6 +16186,7 @@ export namespace Prisma {
     id?: true
     startTime?: true
     endTime?: true
+    maxScore?: true
     score?: true
     attemptNumber?: true
     timeSpent?: true
@@ -16300,10 +16295,11 @@ export namespace Prisma {
     id: string
     startTime: Date | null
     endTime: Date | null
+    maxScore: number | null
     score: number | null
     attemptNumber: number
     timeSpent: number | null
-    submissionReason: $Enums.SubmissionReason
+    submissionReason: string
     disconnectionCount: number
     isFullscreenSupported: boolean
     totalOfflineCount: number
@@ -16340,6 +16336,7 @@ export namespace Prisma {
     id?: boolean
     startTime?: boolean
     endTime?: boolean
+    maxScore?: boolean
     score?: boolean
     attemptNumber?: boolean
     timeSpent?: boolean
@@ -16368,6 +16365,7 @@ export namespace Prisma {
     id?: boolean
     startTime?: boolean
     endTime?: boolean
+    maxScore?: boolean
     score?: boolean
     attemptNumber?: boolean
     timeSpent?: boolean
@@ -16385,7 +16383,7 @@ export namespace Prisma {
     courseId?: boolean
   }
 
-  export type QuizSubmissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "startTime" | "endTime" | "score" | "attemptNumber" | "timeSpent" | "submissionReason" | "disconnectionCount" | "isFullscreenSupported" | "totalOfflineCount" | "violations" | "warningCount" | "warningMessage" | "createdAt" | "updatedAt" | "userId" | "quizId" | "courseId", ExtArgs["result"]["quizSubmission"]>
+  export type QuizSubmissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "startTime" | "endTime" | "maxScore" | "score" | "attemptNumber" | "timeSpent" | "submissionReason" | "disconnectionCount" | "isFullscreenSupported" | "totalOfflineCount" | "violations" | "warningCount" | "warningMessage" | "createdAt" | "updatedAt" | "userId" | "quizId" | "courseId", ExtArgs["result"]["quizSubmission"]>
   export type QuizSubmissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | CourseDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -16406,10 +16404,11 @@ export namespace Prisma {
       id: string
       startTime: Date | null
       endTime: Date | null
+      maxScore: number | null
       score: number | null
       attemptNumber: number
       timeSpent: number | null
-      submissionReason: $Enums.SubmissionReason
+      submissionReason: string
       disconnectionCount: number
       isFullscreenSupported: boolean
       totalOfflineCount: number
@@ -16820,10 +16819,11 @@ export namespace Prisma {
     readonly id: FieldRef<"QuizSubmission", 'String'>
     readonly startTime: FieldRef<"QuizSubmission", 'DateTime'>
     readonly endTime: FieldRef<"QuizSubmission", 'DateTime'>
+    readonly maxScore: FieldRef<"QuizSubmission", 'Float'>
     readonly score: FieldRef<"QuizSubmission", 'Float'>
     readonly attemptNumber: FieldRef<"QuizSubmission", 'Int'>
     readonly timeSpent: FieldRef<"QuizSubmission", 'Int'>
-    readonly submissionReason: FieldRef<"QuizSubmission", 'SubmissionReason'>
+    readonly submissionReason: FieldRef<"QuizSubmission", 'String'>
     readonly disconnectionCount: FieldRef<"QuizSubmission", 'Int'>
     readonly isFullscreenSupported: FieldRef<"QuizSubmission", 'Boolean'>
     readonly totalOfflineCount: FieldRef<"QuizSubmission", 'Int'>
@@ -26935,6 +26935,7 @@ export namespace Prisma {
     id: 'id',
     startTime: 'startTime',
     endTime: 'endTime',
+    maxScore: 'maxScore',
     score: 'score',
     attemptNumber: 'attemptNumber',
     timeSpent: 'timeSpent',
@@ -27276,20 +27277,6 @@ export namespace Prisma {
    * Reference to a field of type 'QuestionType[]'
    */
   export type ListEnumQuestionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuestionType[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'SubmissionReason'
-   */
-  export type EnumSubmissionReasonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SubmissionReason'>
-    
-
-
-  /**
-   * Reference to a field of type 'SubmissionReason[]'
-   */
-  export type ListEnumSubmissionReasonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SubmissionReason[]'>
     
   /**
    * Deep Input Types
@@ -28428,10 +28415,11 @@ export namespace Prisma {
     id?: StringFilter<"QuizSubmission"> | string
     startTime?: DateTimeNullableFilter<"QuizSubmission"> | Date | string | null
     endTime?: DateTimeNullableFilter<"QuizSubmission"> | Date | string | null
+    maxScore?: FloatNullableFilter<"QuizSubmission"> | number | null
     score?: FloatNullableFilter<"QuizSubmission"> | number | null
     attemptNumber?: IntFilter<"QuizSubmission"> | number
     timeSpent?: IntNullableFilter<"QuizSubmission"> | number | null
-    submissionReason?: EnumSubmissionReasonFilter<"QuizSubmission"> | $Enums.SubmissionReason
+    submissionReason?: StringFilter<"QuizSubmission"> | string
     disconnectionCount?: IntFilter<"QuizSubmission"> | number
     isFullscreenSupported?: BoolFilter<"QuizSubmission"> | boolean
     totalOfflineCount?: IntFilter<"QuizSubmission"> | number
@@ -28453,6 +28441,7 @@ export namespace Prisma {
     id?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
+    maxScore?: SortOrder
     score?: SortOrder
     attemptNumber?: SortOrder
     timeSpent?: SortOrder
@@ -28481,10 +28470,11 @@ export namespace Prisma {
     NOT?: QuizSubmissionWhereInput | QuizSubmissionWhereInput[]
     startTime?: DateTimeNullableFilter<"QuizSubmission"> | Date | string | null
     endTime?: DateTimeNullableFilter<"QuizSubmission"> | Date | string | null
+    maxScore?: FloatNullableFilter<"QuizSubmission"> | number | null
     score?: FloatNullableFilter<"QuizSubmission"> | number | null
     attemptNumber?: IntFilter<"QuizSubmission"> | number
     timeSpent?: IntNullableFilter<"QuizSubmission"> | number | null
-    submissionReason?: EnumSubmissionReasonFilter<"QuizSubmission"> | $Enums.SubmissionReason
+    submissionReason?: StringFilter<"QuizSubmission"> | string
     disconnectionCount?: IntFilter<"QuizSubmission"> | number
     isFullscreenSupported?: BoolFilter<"QuizSubmission"> | boolean
     totalOfflineCount?: IntFilter<"QuizSubmission"> | number
@@ -28506,6 +28496,7 @@ export namespace Prisma {
     id?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
+    maxScore?: SortOrder
     score?: SortOrder
     attemptNumber?: SortOrder
     timeSpent?: SortOrder
@@ -28535,10 +28526,11 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"QuizSubmission"> | string
     startTime?: DateTimeNullableWithAggregatesFilter<"QuizSubmission"> | Date | string | null
     endTime?: DateTimeNullableWithAggregatesFilter<"QuizSubmission"> | Date | string | null
+    maxScore?: FloatNullableWithAggregatesFilter<"QuizSubmission"> | number | null
     score?: FloatNullableWithAggregatesFilter<"QuizSubmission"> | number | null
     attemptNumber?: IntWithAggregatesFilter<"QuizSubmission"> | number
     timeSpent?: IntNullableWithAggregatesFilter<"QuizSubmission"> | number | null
-    submissionReason?: EnumSubmissionReasonWithAggregatesFilter<"QuizSubmission"> | $Enums.SubmissionReason
+    submissionReason?: StringWithAggregatesFilter<"QuizSubmission"> | string
     disconnectionCount?: IntWithAggregatesFilter<"QuizSubmission"> | number
     isFullscreenSupported?: BoolWithAggregatesFilter<"QuizSubmission"> | boolean
     totalOfflineCount?: IntWithAggregatesFilter<"QuizSubmission"> | number
@@ -30528,10 +30520,11 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
+    maxScore?: number | null
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
-    submissionReason?: $Enums.SubmissionReason
+    submissionReason?: string
     disconnectionCount?: number
     isFullscreenSupported?: boolean
     totalOfflineCount?: number
@@ -30550,10 +30543,11 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
+    maxScore?: number | null
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
-    submissionReason?: $Enums.SubmissionReason
+    submissionReason?: string
     disconnectionCount?: number
     isFullscreenSupported?: boolean
     totalOfflineCount?: number
@@ -30571,10 +30565,11 @@ export namespace Prisma {
   export type QuizSubmissionUpdateInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxScore?: NullableFloatFieldUpdateOperationsInput | number | null
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
-    submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
+    submissionReason?: StringFieldUpdateOperationsInput | string
     disconnectionCount?: IntFieldUpdateOperationsInput | number
     isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
     totalOfflineCount?: IntFieldUpdateOperationsInput | number
@@ -30592,10 +30587,11 @@ export namespace Prisma {
   export type QuizSubmissionUncheckedUpdateInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxScore?: NullableFloatFieldUpdateOperationsInput | number | null
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
-    submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
+    submissionReason?: StringFieldUpdateOperationsInput | string
     disconnectionCount?: IntFieldUpdateOperationsInput | number
     isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
     totalOfflineCount?: IntFieldUpdateOperationsInput | number
@@ -30614,10 +30610,11 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
+    maxScore?: number | null
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
-    submissionReason?: $Enums.SubmissionReason
+    submissionReason?: string
     disconnectionCount?: number
     isFullscreenSupported?: boolean
     totalOfflineCount?: number
@@ -30634,10 +30631,11 @@ export namespace Prisma {
   export type QuizSubmissionUpdateManyMutationInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxScore?: NullableFloatFieldUpdateOperationsInput | number | null
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
-    submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
+    submissionReason?: StringFieldUpdateOperationsInput | string
     disconnectionCount?: IntFieldUpdateOperationsInput | number
     isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
     totalOfflineCount?: IntFieldUpdateOperationsInput | number
@@ -30651,10 +30649,11 @@ export namespace Prisma {
   export type QuizSubmissionUncheckedUpdateManyInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxScore?: NullableFloatFieldUpdateOperationsInput | number | null
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
-    submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
+    submissionReason?: StringFieldUpdateOperationsInput | string
     disconnectionCount?: IntFieldUpdateOperationsInput | number
     isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
     totalOfflineCount?: IntFieldUpdateOperationsInput | number
@@ -32560,17 +32559,11 @@ export namespace Prisma {
     _max?: NestedEnumQuestionTypeFilter<$PrismaModel>
   }
 
-  export type EnumSubmissionReasonFilter<$PrismaModel = never> = {
-    equals?: $Enums.SubmissionReason | EnumSubmissionReasonFieldRefInput<$PrismaModel>
-    in?: $Enums.SubmissionReason[] | ListEnumSubmissionReasonFieldRefInput<$PrismaModel>
-    notIn?: $Enums.SubmissionReason[] | ListEnumSubmissionReasonFieldRefInput<$PrismaModel>
-    not?: NestedEnumSubmissionReasonFilter<$PrismaModel> | $Enums.SubmissionReason
-  }
-
   export type QuizSubmissionCountOrderByAggregateInput = {
     id?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
+    maxScore?: SortOrder
     score?: SortOrder
     attemptNumber?: SortOrder
     timeSpent?: SortOrder
@@ -32589,6 +32582,7 @@ export namespace Prisma {
   }
 
   export type QuizSubmissionAvgOrderByAggregateInput = {
+    maxScore?: SortOrder
     score?: SortOrder
     attemptNumber?: SortOrder
     timeSpent?: SortOrder
@@ -32601,6 +32595,7 @@ export namespace Prisma {
     id?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
+    maxScore?: SortOrder
     score?: SortOrder
     attemptNumber?: SortOrder
     timeSpent?: SortOrder
@@ -32621,6 +32616,7 @@ export namespace Prisma {
     id?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
+    maxScore?: SortOrder
     score?: SortOrder
     attemptNumber?: SortOrder
     timeSpent?: SortOrder
@@ -32638,22 +32634,13 @@ export namespace Prisma {
   }
 
   export type QuizSubmissionSumOrderByAggregateInput = {
+    maxScore?: SortOrder
     score?: SortOrder
     attemptNumber?: SortOrder
     timeSpent?: SortOrder
     disconnectionCount?: SortOrder
     totalOfflineCount?: SortOrder
     warningCount?: SortOrder
-  }
-
-  export type EnumSubmissionReasonWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.SubmissionReason | EnumSubmissionReasonFieldRefInput<$PrismaModel>
-    in?: $Enums.SubmissionReason[] | ListEnumSubmissionReasonFieldRefInput<$PrismaModel>
-    notIn?: $Enums.SubmissionReason[] | ListEnumSubmissionReasonFieldRefInput<$PrismaModel>
-    not?: NestedEnumSubmissionReasonWithAggregatesFilter<$PrismaModel> | $Enums.SubmissionReason
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumSubmissionReasonFilter<$PrismaModel>
-    _max?: NestedEnumSubmissionReasonFilter<$PrismaModel>
   }
 
   export type FloatFilter<$PrismaModel = never> = {
@@ -34669,10 +34656,6 @@ export namespace Prisma {
     connect?: StudentAnswerWhereUniqueInput | StudentAnswerWhereUniqueInput[]
   }
 
-  export type EnumSubmissionReasonFieldUpdateOperationsInput = {
-    set?: $Enums.SubmissionReason
-  }
-
   export type CourseUpdateOneRequiredWithoutQuizSubmissionsNestedInput = {
     create?: XOR<CourseCreateWithoutQuizSubmissionsInput, CourseUncheckedCreateWithoutQuizSubmissionsInput>
     connectOrCreate?: CourseCreateOrConnectWithoutQuizSubmissionsInput
@@ -35376,23 +35359,6 @@ export namespace Prisma {
     _max?: NestedEnumQuestionTypeFilter<$PrismaModel>
   }
 
-  export type NestedEnumSubmissionReasonFilter<$PrismaModel = never> = {
-    equals?: $Enums.SubmissionReason | EnumSubmissionReasonFieldRefInput<$PrismaModel>
-    in?: $Enums.SubmissionReason[] | ListEnumSubmissionReasonFieldRefInput<$PrismaModel>
-    notIn?: $Enums.SubmissionReason[] | ListEnumSubmissionReasonFieldRefInput<$PrismaModel>
-    not?: NestedEnumSubmissionReasonFilter<$PrismaModel> | $Enums.SubmissionReason
-  }
-
-  export type NestedEnumSubmissionReasonWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.SubmissionReason | EnumSubmissionReasonFieldRefInput<$PrismaModel>
-    in?: $Enums.SubmissionReason[] | ListEnumSubmissionReasonFieldRefInput<$PrismaModel>
-    notIn?: $Enums.SubmissionReason[] | ListEnumSubmissionReasonFieldRefInput<$PrismaModel>
-    not?: NestedEnumSubmissionReasonWithAggregatesFilter<$PrismaModel> | $Enums.SubmissionReason
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumSubmissionReasonFilter<$PrismaModel>
-    _max?: NestedEnumSubmissionReasonFilter<$PrismaModel>
-  }
-
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -35584,10 +35550,11 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
+    maxScore?: number | null
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
-    submissionReason?: $Enums.SubmissionReason
+    submissionReason?: string
     disconnectionCount?: number
     isFullscreenSupported?: boolean
     totalOfflineCount?: number
@@ -35605,10 +35572,11 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
+    maxScore?: number | null
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
-    submissionReason?: $Enums.SubmissionReason
+    submissionReason?: string
     disconnectionCount?: number
     isFullscreenSupported?: boolean
     totalOfflineCount?: number
@@ -36150,10 +36118,11 @@ export namespace Prisma {
     id?: StringFilter<"QuizSubmission"> | string
     startTime?: DateTimeNullableFilter<"QuizSubmission"> | Date | string | null
     endTime?: DateTimeNullableFilter<"QuizSubmission"> | Date | string | null
+    maxScore?: FloatNullableFilter<"QuizSubmission"> | number | null
     score?: FloatNullableFilter<"QuizSubmission"> | number | null
     attemptNumber?: IntFilter<"QuizSubmission"> | number
     timeSpent?: IntNullableFilter<"QuizSubmission"> | number | null
-    submissionReason?: EnumSubmissionReasonFilter<"QuizSubmission"> | $Enums.SubmissionReason
+    submissionReason?: StringFilter<"QuizSubmission"> | string
     disconnectionCount?: IntFilter<"QuizSubmission"> | number
     isFullscreenSupported?: BoolFilter<"QuizSubmission"> | boolean
     totalOfflineCount?: IntFilter<"QuizSubmission"> | number
@@ -37117,10 +37086,11 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
+    maxScore?: number | null
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
-    submissionReason?: $Enums.SubmissionReason
+    submissionReason?: string
     disconnectionCount?: number
     isFullscreenSupported?: boolean
     totalOfflineCount?: number
@@ -37138,10 +37108,11 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
+    maxScore?: number | null
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
-    submissionReason?: $Enums.SubmissionReason
+    submissionReason?: string
     disconnectionCount?: number
     isFullscreenSupported?: boolean
     totalOfflineCount?: number
@@ -37814,10 +37785,11 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
+    maxScore?: number | null
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
-    submissionReason?: $Enums.SubmissionReason
+    submissionReason?: string
     disconnectionCount?: number
     isFullscreenSupported?: boolean
     totalOfflineCount?: number
@@ -37835,10 +37807,11 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
+    maxScore?: number | null
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
-    submissionReason?: $Enums.SubmissionReason
+    submissionReason?: string
     disconnectionCount?: number
     isFullscreenSupported?: boolean
     totalOfflineCount?: number
@@ -39171,10 +39144,11 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
+    maxScore?: number | null
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
-    submissionReason?: $Enums.SubmissionReason
+    submissionReason?: string
     disconnectionCount?: number
     isFullscreenSupported?: boolean
     totalOfflineCount?: number
@@ -39192,10 +39166,11 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
+    maxScore?: number | null
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
-    submissionReason?: $Enums.SubmissionReason
+    submissionReason?: string
     disconnectionCount?: number
     isFullscreenSupported?: boolean
     totalOfflineCount?: number
@@ -39269,10 +39244,11 @@ export namespace Prisma {
   export type QuizSubmissionUpdateWithoutStudentAnswersInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxScore?: NullableFloatFieldUpdateOperationsInput | number | null
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
-    submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
+    submissionReason?: StringFieldUpdateOperationsInput | string
     disconnectionCount?: IntFieldUpdateOperationsInput | number
     isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
     totalOfflineCount?: IntFieldUpdateOperationsInput | number
@@ -39289,10 +39265,11 @@ export namespace Prisma {
   export type QuizSubmissionUncheckedUpdateWithoutStudentAnswersInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxScore?: NullableFloatFieldUpdateOperationsInput | number | null
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
-    submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
+    submissionReason?: StringFieldUpdateOperationsInput | string
     disconnectionCount?: IntFieldUpdateOperationsInput | number
     isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
     totalOfflineCount?: IntFieldUpdateOperationsInput | number
@@ -41376,10 +41353,11 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
+    maxScore?: number | null
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
-    submissionReason?: $Enums.SubmissionReason
+    submissionReason?: string
     disconnectionCount?: number
     isFullscreenSupported?: boolean
     totalOfflineCount?: number
@@ -41595,10 +41573,11 @@ export namespace Prisma {
   export type QuizSubmissionUpdateWithoutUserInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxScore?: NullableFloatFieldUpdateOperationsInput | number | null
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
-    submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
+    submissionReason?: StringFieldUpdateOperationsInput | string
     disconnectionCount?: IntFieldUpdateOperationsInput | number
     isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
     totalOfflineCount?: IntFieldUpdateOperationsInput | number
@@ -41615,10 +41594,11 @@ export namespace Prisma {
   export type QuizSubmissionUncheckedUpdateWithoutUserInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxScore?: NullableFloatFieldUpdateOperationsInput | number | null
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
-    submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
+    submissionReason?: StringFieldUpdateOperationsInput | string
     disconnectionCount?: IntFieldUpdateOperationsInput | number
     isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
     totalOfflineCount?: IntFieldUpdateOperationsInput | number
@@ -41635,10 +41615,11 @@ export namespace Prisma {
   export type QuizSubmissionUncheckedUpdateManyWithoutUserInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxScore?: NullableFloatFieldUpdateOperationsInput | number | null
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
-    submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
+    submissionReason?: StringFieldUpdateOperationsInput | string
     disconnectionCount?: IntFieldUpdateOperationsInput | number
     isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
     totalOfflineCount?: IntFieldUpdateOperationsInput | number
@@ -42095,10 +42076,11 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
+    maxScore?: number | null
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
-    submissionReason?: $Enums.SubmissionReason
+    submissionReason?: string
     disconnectionCount?: number
     isFullscreenSupported?: boolean
     totalOfflineCount?: number
@@ -42227,10 +42209,11 @@ export namespace Prisma {
   export type QuizSubmissionUpdateWithoutCourseInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxScore?: NullableFloatFieldUpdateOperationsInput | number | null
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
-    submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
+    submissionReason?: StringFieldUpdateOperationsInput | string
     disconnectionCount?: IntFieldUpdateOperationsInput | number
     isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
     totalOfflineCount?: IntFieldUpdateOperationsInput | number
@@ -42247,10 +42230,11 @@ export namespace Prisma {
   export type QuizSubmissionUncheckedUpdateWithoutCourseInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxScore?: NullableFloatFieldUpdateOperationsInput | number | null
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
-    submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
+    submissionReason?: StringFieldUpdateOperationsInput | string
     disconnectionCount?: IntFieldUpdateOperationsInput | number
     isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
     totalOfflineCount?: IntFieldUpdateOperationsInput | number
@@ -42267,10 +42251,11 @@ export namespace Prisma {
   export type QuizSubmissionUncheckedUpdateManyWithoutCourseInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxScore?: NullableFloatFieldUpdateOperationsInput | number | null
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
-    submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
+    submissionReason?: StringFieldUpdateOperationsInput | string
     disconnectionCount?: IntFieldUpdateOperationsInput | number
     isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
     totalOfflineCount?: IntFieldUpdateOperationsInput | number
@@ -42489,10 +42474,11 @@ export namespace Prisma {
     id?: string
     startTime?: Date | string | null
     endTime?: Date | string | null
+    maxScore?: number | null
     score?: number | null
     attemptNumber?: number
     timeSpent?: number | null
-    submissionReason?: $Enums.SubmissionReason
+    submissionReason?: string
     disconnectionCount?: number
     isFullscreenSupported?: boolean
     totalOfflineCount?: number
@@ -42566,10 +42552,11 @@ export namespace Prisma {
   export type QuizSubmissionUpdateWithoutQuizInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxScore?: NullableFloatFieldUpdateOperationsInput | number | null
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
-    submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
+    submissionReason?: StringFieldUpdateOperationsInput | string
     disconnectionCount?: IntFieldUpdateOperationsInput | number
     isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
     totalOfflineCount?: IntFieldUpdateOperationsInput | number
@@ -42586,10 +42573,11 @@ export namespace Prisma {
   export type QuizSubmissionUncheckedUpdateWithoutQuizInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxScore?: NullableFloatFieldUpdateOperationsInput | number | null
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
-    submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
+    submissionReason?: StringFieldUpdateOperationsInput | string
     disconnectionCount?: IntFieldUpdateOperationsInput | number
     isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
     totalOfflineCount?: IntFieldUpdateOperationsInput | number
@@ -42606,10 +42594,11 @@ export namespace Prisma {
   export type QuizSubmissionUncheckedUpdateManyWithoutQuizInput = {
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxScore?: NullableFloatFieldUpdateOperationsInput | number | null
     score?: NullableFloatFieldUpdateOperationsInput | number | null
     attemptNumber?: IntFieldUpdateOperationsInput | number
     timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
-    submissionReason?: EnumSubmissionReasonFieldUpdateOperationsInput | $Enums.SubmissionReason
+    submissionReason?: StringFieldUpdateOperationsInput | string
     disconnectionCount?: IntFieldUpdateOperationsInput | number
     isFullscreenSupported?: BoolFieldUpdateOperationsInput | boolean
     totalOfflineCount?: IntFieldUpdateOperationsInput | number

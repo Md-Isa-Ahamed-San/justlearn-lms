@@ -53,15 +53,6 @@ enum QuizGenerationType {
   ai_pool
 }
 
-enum SubmissionReason {
-  manual_submit
-  time_expired
-  tab_switch_auto_submit
-  minimize_auto_submit
-  offline_auto_submit
-  violation_limit_exceeded
-}
-
 enum SecurityLevel {
   low
   medium
@@ -345,14 +336,16 @@ model Question {
 }
 
 model QuizSubmission {
-  id               String           @id @default(auto()) @map("_id") @db.ObjectId
-  startTime        DateTime?
-  endTime          DateTime?
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  startTime DateTime?
+  endTime   DateTime?
   // status           AttemptStatus    @default(not_started)
-  score            Float?           @default(0)
-  attemptNumber    Int              @default(1)
+  maxScore  Float?    @default(0)
+  score     Float?    @default(0)
+
+  attemptNumber    Int    @default(1)
   timeSpent        Int?
-  submissionReason SubmissionReason @default(manual_submit)
+  submissionReason String @default("Manual submit")
 
   // Simplified Anti-Cheating Data
   disconnectionCount    Int     @default(0)

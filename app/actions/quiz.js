@@ -374,8 +374,8 @@ export async function submitQuizWithStudentAnswer(data) {
         data: {
           userId: loggedInUser.id,
           quizId: quizId,
-          courseId:data.courseId,
-          startTime: new Date(), // Set current time as start if not existing
+          courseId: data.courseId,
+          startTime: new Date(),
           endTime: new Date(),
           attemptNumber: 1,
           violations: data.violations || [],
@@ -384,12 +384,11 @@ export async function submitQuizWithStudentAnswer(data) {
           isFullscreenSupported: data.isFullscreenSupported ?? true,
           disconnectionCount: data.disconnectionCount || 0,
           totalOfflineCount: data.totalOfflineTime || 0,
-          submissionReason: "manual_submit"
+          submissionReason: data.submissionReason || "manual_submit" // 🔥 Use the reason from client
         }
       });
      
     } else {
-      
       return {
         success: false,
         error: "Quiz submission already exists for you",
@@ -403,33 +402,58 @@ export async function submitQuizWithStudentAnswer(data) {
     const aiEvaluationNeeded = [];
     
     for (const answerData of answerEntries) {
+      // 🔥 NEW: Check if answer is empty (unanswered question)
+      const isEmpty = 
+        (Array.isArray(answerData.answer) && answerData.answer.length === 0) ||
+        answerData.answer === "" ||
+        answerData.answer === null ||
+        answerData.answer === undefined;
+
       if (answerData.questionType === 'mcq') {
         // Process MCQ directly using provided data
-        const marksAwarded = answerData.isCorrect ? answerData.mark : 0;
+        const marksAwarded = isEmpty ? 0 : (answerData.isCorrect ? answerData.mark : 0);
         mcqAnswers.push({
           questionId: answerData.questionId,
-          submittedAnswer: answerData.answer,
-          isCorrect: answerData.isCorrect,
+          submittedAnswer: answerData.answer, // Will be empty array [] for unanswered
+          isCorrect: isEmpty ? false : answerData.isCorrect,
           marksAwarded: marksAwarded,
-          answerExplanation: {
+          answerExplanation: isEmpty ? {
+            explanation: "Question not answered",
+            correctAnswer: "No answer provided"
+          } : {
             explanation: answerData.isCorrect ? "Correct answer" : "Incorrect answer",
             correctAnswer: "See quiz results for correct answer"
           }
         });
       } else {
-        // Queue for AI evaluation (short_answer, long_answer)
-        aiEvaluationNeeded.push({
-          questionId: answerData.questionId,
-          question: answerData.question,
-          studentAnswer: answerData.answer,
-          maxMark: answerData.mark
-        });
+        // 🔥 NEW: Handle empty answers for text questions
+        if (isEmpty) {
+          // Add as unanswered record (no AI evaluation needed)
+          mcqAnswers.push({
+            questionId: answerData.questionId,
+            submittedAnswer: "", // Empty string for unanswered text questions
+            isCorrect: false,
+            marksAwarded: 0,
+            answerExplanation: {
+              explanation: "Question not answered",
+              correctAnswer: "No answer provided"
+            }
+          });
+        } else {
+          // Queue for AI evaluation (short_answer, long_answer)
+          aiEvaluationNeeded.push({
+            questionId: answerData.questionId,
+            question: answerData.question,
+            studentAnswer: answerData.answer,
+            maxMark: answerData.mark
+          });
+        }
       }
     }
 
-    console.log(`Processing ${mcqAnswers.length} MCQ answers and ${aiEvaluationNeeded.length} AI evaluations needed`);
+    console.log(`Processing ${mcqAnswers.length} direct answers (MCQ + unanswered) and ${aiEvaluationNeeded.length} AI evaluations needed`);
 
-    // Step 6: Process AI evaluations for non-MCQ questions
+    // Step 6: Process AI evaluations for non-MCQ questions (only answered ones)
     let aiResults = [];
     if (aiEvaluationNeeded.length > 0) {
       try {
@@ -448,12 +472,12 @@ export async function submitQuizWithStudentAnswer(data) {
     // Step 7: Prepare all student answer records
     const allAnswerRecords = [];
     
-    // Add MCQ answers
+    // Add MCQ and unanswered text answers
     for (const mcqAnswer of mcqAnswers) {
       allAnswerRecords.push({
         ...mcqAnswer,
         quizSubmissionId: quizSubmission.id,
-        timeSpent: 0 // Could be enhanced to track individual question time
+        timeSpent: 0
       });
     }
     
@@ -479,7 +503,7 @@ export async function submitQuizWithStudentAnswer(data) {
       data: allAnswerRecords
     });
 
-    console.log(`Created ${allAnswerRecords.length} student answer records`);
+    console.log(`Created ${allAnswerRecords.length} student answer records (including ${mcqAnswers.filter(a => a.submittedAnswer === "" || (Array.isArray(a.submittedAnswer) && a.submittedAnswer.length === 0)).length} unanswered)`);
 
     // Step 9: Calculate total score and update quiz submission
     const totalScore = allAnswerRecords.reduce((sum, answer) => sum + answer.marksAwarded, 0);
@@ -492,12 +516,15 @@ export async function submitQuizWithStudentAnswer(data) {
       data: {
         endTime: new Date(),
         score: totalScore,
+        maxScore: maxPossibleScore, // 🔥 Add maxScore to the update
         timeSpent: quizSubmission.startTime ? 
           Math.floor((new Date() - new Date(quizSubmission.startTime)) / 1000) : 0,
       }
     });
+    
     let accomplished = "quiz"
-    await updateCourseProgressAfterQuizOrLesson(loggedInUser.id,data.courseId,accomplished)
+    await updateCourseProgressAfterQuizOrLesson(loggedInUser.id, data.courseId, accomplished)
+    
     console.log(`Quiz submission completed. Score: ${totalScore}/${maxPossibleScore} (${percentageScore.toFixed(2)}%)`);
 
     // Step 10: Revalidate relevant paths
@@ -512,6 +539,11 @@ export async function submitQuizWithStudentAnswer(data) {
         totalScore: totalScore,
         maxScore: maxPossibleScore,
         percentage: percentageScore,
+        totalAnswers: allAnswerRecords.length,
+        answeredQuestions: allAnswerRecords.filter(a => 
+          a.submittedAnswer !== "" && 
+          !(Array.isArray(a.submittedAnswer) && a.submittedAnswer.length === 0)
+        ).length,
         answers: allAnswerRecords.map(answer => ({
           questionId: answer.questionId,
           marksAwarded: answer.marksAwarded,
@@ -529,7 +561,6 @@ export async function submitQuizWithStudentAnswer(data) {
     };
   }
 }
-
 
 export async function getQuizSubmissionDetails({
   courseId,

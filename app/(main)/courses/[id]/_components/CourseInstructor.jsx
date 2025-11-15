@@ -37,7 +37,7 @@ const CourseInstructor = async ({ courseDetails }) => {
 
   // Get instructor stats
   const instructorStats = await getInstructorDetailedStats(instructorProfile?.id);
-  console.log("CourseInstructor ~ instructorStats:", instructorStats);
+  // console.log("CourseInstructor ~ instructorStats:", instructorStats);
 
   // Extract commonly used values
   const fullName = userProfile?.name;

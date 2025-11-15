@@ -106,6 +106,7 @@ export async function createQuiz(
 }
 export async function updateQuizBasicInfo(quizId, updateData) {
   try {
+    console.log(`Updating quiz with ID: ${quizId} with data:`, updateData);
     if (!quizId) {
       throw new Error("Quiz ID is required to update quiz information.");
     }
@@ -331,4 +332,5 @@ export async function getCompletedQuizIdsByCourse(userId, courseId) {
         );
     }
 }
+
 

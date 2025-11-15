@@ -2,14 +2,20 @@ import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import {ExplanationSection} from "@/app/(main)/courses/[id]/quizResult/[quizId]/_components/explanation-section";
 import {AnswerComparison} from "@/app/(main)/courses/[id]/quizResult/[quizId]/_components/answer-comparison";
-// import { AnswerComparison } from './AnswerComparison'
-// import { ExplanationSection } from './ExplanationSection'
-// 
+
 export function QuestionResult({ answer, questionNumber }) {
   const { question, isCorrect, marksAwarded, submittedAnswer, answerExplanation } = answer
 
+  // Check if question was unanswered
+  const isUnanswered = 
+    submittedAnswer === "" || 
+    submittedAnswer === null ||
+    submittedAnswer === undefined ||
+    (Array.isArray(submittedAnswer) && submittedAnswer.length === 0);
+
   // Determine status and styling
   const getStatus = () => {
+    if (isUnanswered) return 'unanswered'
     if (isCorrect) return 'correct'
     if (marksAwarded > 0) return 'partial'
     return 'incorrect'
@@ -25,6 +31,8 @@ export function QuestionResult({ answer, questionNumber }) {
         return 'border-l-yellow-500'
       case 'incorrect':
         return 'border-l-red-500'
+      case 'unanswered':
+        return 'border-l-gray-400'
       default:
         return 'border-l-border'
     }
@@ -48,6 +56,12 @@ export function QuestionResult({ answer, questionNumber }) {
         return (
           <Badge variant="destructive" className="bg-red-100 text-red-800 hover:bg-red-100">
             Incorrect
+          </Badge>
+        )
+      case 'unanswered':
+        return (
+          <Badge variant="secondary" className="bg-gray-100 text-gray-800 hover:bg-gray-100">
+            Not Answered
           </Badge>
         )
       default:
@@ -137,11 +151,13 @@ export function QuestionResult({ answer, questionNumber }) {
       />
       
       {/* Explanation Section */}
-      <ExplanationSection
-        answerExplanation={answerExplanation.explanation}
-        questionExplanation={question.explanation}
-        status={status}
-      />
+      {answerExplanation && answerExplanation.explanation && (
+        <ExplanationSection
+          answerExplanation={answerExplanation.explanation}
+          questionExplanation={question.explanation}
+          status={status}
+        />
+      )}
     </Card>
   )
 }

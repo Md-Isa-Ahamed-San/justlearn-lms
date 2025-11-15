@@ -1,4 +1,4 @@
-import { CheckCircle, XCircle, AlertCircle, Target } from 'lucide-react'
+import { CheckCircle, XCircle, AlertCircle, Target, HelpCircle } from 'lucide-react'
 
 export function QuizResultsOverview({ answers }) {
   // Calculate performance statistics
@@ -6,6 +6,7 @@ export function QuizResultsOverview({ answers }) {
     let correctCount = 0
     let incorrectCount = 0
     let partialCount = 0
+    let unansweredCount = 0
     let totalMarks = 0
     let earnedMarks = 0
 
@@ -13,7 +14,16 @@ export function QuizResultsOverview({ answers }) {
       totalMarks += answer.question.mark
       earnedMarks += answer.marksAwarded
 
-      if (answer.isCorrect) {
+      // Check if unanswered
+      const isUnanswered = 
+        answer.submittedAnswer === "" || 
+        answer.submittedAnswer === null ||
+        answer.submittedAnswer === undefined ||
+        (Array.isArray(answer.submittedAnswer) && answer.submittedAnswer.length === 0);
+
+      if (isUnanswered) {
+        unansweredCount++
+      } else if (answer.isCorrect) {
         correctCount++
       } else if (answer.marksAwarded > 0) {
         partialCount++
@@ -22,13 +32,14 @@ export function QuizResultsOverview({ answers }) {
       }
     })
 
-    const accuracy = Math.round((earnedMarks / totalMarks) * 100)
-    const questionAccuracy = Math.round((correctCount / answers.length) * 100)
+    const accuracy = totalMarks > 0 ? Math.round((earnedMarks / totalMarks) * 100) : 0
+    const questionAccuracy = answers.length > 0 ? Math.round((correctCount / answers.length) * 100) : 0
 
     return {
       correctCount,
       incorrectCount,
       partialCount,
+      unansweredCount,
       totalQuestions: answers.length,
       accuracy,
       questionAccuracy,
@@ -46,10 +57,19 @@ export function QuizResultsOverview({ answers }) {
     answers.forEach(answer => {
       const type = answer.question.type
       if (!typeBreakdown[type]) {
-        typeBreakdown[type] = { total: 0, correct: 0 }
+        typeBreakdown[type] = { total: 0, correct: 0, unanswered: 0 }
       }
       typeBreakdown[type].total++
-      if (answer.isCorrect) {
+      
+      const isUnanswered = 
+        answer.submittedAnswer === "" || 
+        answer.submittedAnswer === null ||
+        answer.submittedAnswer === undefined ||
+        (Array.isArray(answer.submittedAnswer) && answer.submittedAnswer.length === 0);
+      
+      if (isUnanswered) {
+        typeBreakdown[type].unanswered++
+      } else if (answer.isCorrect) {
         typeBreakdown[type].correct++
       }
     })
@@ -80,7 +100,7 @@ export function QuizResultsOverview({ answers }) {
       </h2>
       
       {/* Main Statistics Grid */}
-      <div className="grid md:grid-cols-4 gap-6 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {/* Correct Answers */}
         <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
           <CheckCircle className="w-8 h-8 text-green-600 mx-auto mb-2" />
@@ -116,6 +136,19 @@ export function QuizResultsOverview({ answers }) {
           </div>
         </div>
 
+        {/* Unanswered Questions */}
+        {stats.unansweredCount > 0 && (
+          <div className="text-center p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <HelpCircle className="w-8 h-8 text-gray-600 mx-auto mb-2" />
+            <div className="text-2xl font-bold text-gray-600 mb-1">
+              {stats.unansweredCount}
+            </div>
+            <div className="text-sm text-gray-700 font-medium">
+              Unanswered
+            </div>
+          </div>
+        )}
+
         {/* Overall Accuracy */}
         <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
           <Target className="w-8 h-8 text-blue-600 mx-auto mb-2" />
@@ -144,6 +177,12 @@ export function QuizResultsOverview({ answers }) {
               <span className="text-muted-foreground">Questions Correct:</span>
               <span className="font-medium text-green-600">{stats.correctCount}</span>
             </div>
+            {stats.unansweredCount > 0 && (
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Questions Unanswered:</span>
+                <span className="font-medium text-gray-600">{stats.unansweredCount}</span>
+              </div>
+            )}
             <div className="flex justify-between">
               <span className="text-muted-foreground">Question Accuracy:</span>
               <span className="font-medium text-foreground">{stats.questionAccuracy}%</span>
@@ -181,7 +220,7 @@ export function QuizResultsOverview({ answers }) {
           </h3>
           <div className="grid md:grid-cols-3 gap-4">
             {Object.entries(typeBreakdown).map(([type, data]) => {
-              const typeAccuracy = Math.round((data.correct / data.total) * 100)
+              const typeAccuracy = data.total > 0 ? Math.round((data.correct / data.total) * 100) : 0
               return (
                 <div key={type} className="text-center">
                   <div className="text-lg font-bold text-foreground">
@@ -193,6 +232,11 @@ export function QuizResultsOverview({ answers }) {
                   <div className="text-sm font-medium text-foreground">
                     {typeAccuracy}%
                   </div>
+                  {data.unanswered > 0 && (
+                    <div className="text-xs text-gray-500 mt-1">
+                      ({data.unanswered} unanswered)
+                    </div>
+                  )}
                 </div>
               )
             })}

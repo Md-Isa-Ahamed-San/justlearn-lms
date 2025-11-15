@@ -229,9 +229,10 @@ export default async function QuizParticipationPage({ params }) {
 
     if (!userData) redirect("/login")
 
-    if (userData.role !== "student") {
-        redirect(`/courses/${courseId}`)
-    }
+    // if (userData.role !== "student" || userData.role !== "admin") {
+    //     console.error("user is not student. courseId inside quiz participation page before redirect: ", courseId);
+    //     redirect(`/courses/${courseId}`)
+    // }
 
     try {
         // For development, use sample data
@@ -241,14 +242,23 @@ export default async function QuizParticipationPage({ params }) {
         // Using sample data for development
         // const quizData = sampleQuizData
 
-        console.log("quiz data for giving quiz inside quiz participation page: ", quizData)
+      
+        if(quizData){
+            // console.log("quiz data available.")
+            console.log("quiz data for giving quiz inside quiz participation page: ", quizData)
+        }
+        else{
+            console.log("No quiz data available.")
+        }
 
         if (!quizData) {
+            console.error("quiz data not found. course id is : ", courseId);
             redirect(`/courses/${courseId}`)
         }
 
         // Check if quiz is published and active
         if (quizData.status !== "published" || !quizData.active) {
+            console.error("quiz is not published or inactive. course id is : ", courseId);
             redirect(`/courses/${courseId}`)
         }
 
@@ -291,6 +301,7 @@ export default async function QuizParticipationPage({ params }) {
         )
     } catch (error) {
         console.error("Error loading quiz:", error)
+        console.error("Redirecting back to course page:", courseId)
         redirect(`/courses/${courseId}`)
     }
 }
