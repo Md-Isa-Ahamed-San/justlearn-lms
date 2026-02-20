@@ -24,7 +24,7 @@ export const toggleUserStatus = async (userId) => {
       data: { isActive: newStatus },
     });
 
-    revalidatePath("/admin-dashboard"); // Keep this for full page reloads
+    revalidatePath("/admin-dashboard");
 
     return { success: true };
   } catch (error) {

@@ -1,10 +1,11 @@
-import { Suspense } from "react";
-import CourseManagement from "./course-management";
-import UserManagement from "./user-management/user-management";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IconBook2, IconUsers } from "@tabler/icons-react";
+import { Suspense } from "react";
 import { getCourseList } from "../../../../queries/courses";
 import { getAllUsers } from "../../../../queries/users";
-import { chalkLog } from "../../../../utils/logger";
+import CourseManagement from "./course-management";
+import UserManagement from "./user-management/user-management";
+
 
 // Add this to fix the static generation error
 export const dynamic = 'force-dynamic';
@@ -15,26 +16,30 @@ export default async function AdminDashboard() {
   let allCourses = [];
 
   try {
-    // Fetch data with proper error handling
-    const [usersData, coursesData] = await Promise.allSettled([
+    const [usersResult, coursesResult] = await Promise.allSettled([
       getAllUsers(),
       getCourseList()
     ]);
 
     // Handle users data
-    if (usersData) {
-      users = Array.isArray(usersData) ? usersData: [];
+    if (usersResult.status === 'fulfilled') {
+      users = Array.isArray(usersResult.value) ? usersResult.value : [];
     } else {
-      console.error("Error fetching users:", usersData.reason);
+      console.error("Error fetching users:", usersResult.reason);
     }
 
     // Handle courses data
-    if (coursesData) {
-      allCourses = Array.isArray(coursesData) ? coursesData : [];
-      chalkLog.log(" AdminDashboard ~ allCourses:", allCourses);
+    if (coursesResult.status === 'fulfilled') {
+      allCourses = Array.isArray(coursesResult.value) ? coursesResult.value : [];
     } else {
-      console.error("Error fetching courses:", coursesData.reason);
+      console.error("Error fetching courses:", coursesResult.reason);
     }
+
+    // Handle analytics data (if needed for the summary cards)
+    // Note: The original code was using allCourses.length and users.length which is fine.
+    // The getInstructorAnalytics was added to demonstrate where it would go.
+    // We can use it if we want to show specific instructor stats.
+
 
   } catch (error) {
     console.error("Error in AdminDashboard:", error);
@@ -70,7 +75,28 @@ export default async function AdminDashboard() {
               </div>
             </div>
 
+            {/* Analytics Summary */}
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                <Card>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">Total Courses</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">{allCourses.length}</div>
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">{users.length}</div>
+                    </CardContent>
+                </Card>
+            </div>
+
             {/* Content Sections */}
+
             <div id="users-section">
               <Suspense
                 fallback={

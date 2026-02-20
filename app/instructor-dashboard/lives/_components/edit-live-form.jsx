@@ -1,6 +1,6 @@
 "use client";
 
-import { createLiveSession } from "@/app/actions/live";
+import { deleteLiveSession, updateLiveSession } from "@/app/actions/live";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -37,17 +37,17 @@ const formSchema = z.object({
   meetLink: z.string().min(1, { message: "Meeting Link is required!" }),
 });
 
-const AddLive = () => {
+export const EditLiveForm = ({ initialData, liveId }) => {
   const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      date: undefined,
-      time: "",
-      meetLink: "",
+      title: initialData.title || "",
+      description: initialData.description || "",
+      date: initialData.schedule ? new Date(initialData.schedule) : new Date(),
+      time: initialData.schedule ? new Date(initialData.schedule).toTimeString().slice(0, 5) : "",
+      meetLink: initialData.meetLink || "",
     },
   });
 
@@ -55,28 +55,43 @@ const AddLive = () => {
 
   const onSubmit = async (values) => {
     try {
-        const response = await createLiveSession({
-            ...values,
-            date: format(values.date, "yyyy-MM-dd"), // Ensure date format matches server expectation
-        });
-        
+        const response = await updateLiveSession(liveId, values);
         if (response.success) {
-            toast.success("Live session created");
+            toast.success("Live session updated");
             router.push(`/instructor-dashboard/lives`);
             router.refresh();
         } else {
             toast.error(response.error || "Something went wrong");
         }
     } catch (error) {
-        console.error("Error creating live session:", error);
         toast.error("Something went wrong");
     }
   };
 
+  const handleDelete = async () => {
+      if (confirm("Are you sure you want to delete this session?")) {
+        try {
+            const response = await deleteLiveSession(liveId);
+            if (response.success) {
+                toast.success("Live session deleted");
+                router.push(`/instructor-dashboard/lives`);
+                router.refresh();
+            } else {
+                toast.error(response.error || "Failed to delete");
+            }
+        } catch (error) {
+            toast.error("Something went wrong");
+        }
+      }
+  }
+
   return (
     <div className="max-w-5xl mx-auto flex md:items-center md:justify-center h-full p-6">
       <div className="max-w-full w-[536px]">
-        <h1 className="text-2xl font-bold mb-6">Create Live Session</h1>
+        <div className="flex justify-between items-center mb-6">
+            <h1 className="text-2xl font-bold">Edit Live Session</h1>
+            <Button variant="destructive" size="sm" onClick={handleDelete} type="button">Delete</Button>
+        </div>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -159,9 +174,9 @@ const AddLive = () => {
                 </FormItem>
               )}
             />
-
-             {/* meetLink */}
-             <FormField
+            
+            {/* meetLink */}
+            <FormField
               control={form.control}
               name="meetLink"
               render={({ field }) => (
@@ -207,7 +222,7 @@ const AddLive = () => {
                 </Button>
               </Link>
               <Button type="submit" disabled={isSubmitting}>
-                Create Session
+                Save Changes
               </Button>
             </div>
           </form>
@@ -216,5 +231,3 @@ const AddLive = () => {
     </div>
   );
 };
-
-export default AddLive;

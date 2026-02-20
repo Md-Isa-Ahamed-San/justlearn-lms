@@ -40,7 +40,7 @@ const DashboardPage = async () => {
   
   if (userData?.role !== "instructor") redirect("/login");
   
-  const analytics = await getInstructorAnalytics(userData?.instructor?.id);
+  const analytics = await getInstructorAnalytics(userData?.id);
 
   const formatTime = (timestamp) => {
     return new Date(timestamp).toLocaleDateString('en-US', {

@@ -2,7 +2,6 @@
 
 generator client {
   provider      = "prisma-client-js"
-  output        = "../lib/generated/prisma"
   binaryTargets = ["native", "windows", "rhel-openssl-3.0.x"]
 }
 
@@ -53,8 +52,6 @@ enum QuizGenerationType {
   ai_pool
 }
 
-
-
 enum SecurityLevel {
   low
   medium
@@ -88,6 +85,9 @@ model User {
   aiGenerationLogs AIGenerationLog[] @relation("UserAILogs")
   courseProgress   CourseProgress[]  @relation("UserCourseProgress")
   certificates     Certificate[]     @relation("UserCertificates")
+  userBadges       UserBadge[]
+  comments         Comment[]
+  points           Int               @default(0)
   reports          Report[]          @relation("UserReports")
   participations   Participation[]   @relation("UserParticipations")
   watches          Watch[]           @relation("UserWatches")
@@ -290,6 +290,7 @@ model Lesson {
   week           Week             @relation(fields: [weekId], references: [id])
   watches        Watch[]
   LessonProgress LessonProgress[]
+  comments       Comment[]
 }
 
 model LessonProgress {
@@ -338,14 +339,14 @@ model Question {
 }
 
 model QuizSubmission {
-  id               String           @id @default(auto()) @map("_id") @db.ObjectId
-  startTime        DateTime?
-  endTime          DateTime?
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  startTime DateTime?
+  endTime   DateTime?
   // status           AttemptStatus    @default(not_started)
-  maxScore         Float?           @default(0)
-  score            Float?           @default(0)
-  
-  attemptNumber    Int              @default(1)
+  maxScore  Float?    @default(0)
+  score     Float?    @default(0)
+
+  attemptNumber    Int    @default(1)
   timeSpent        Int?
   submissionReason String @default("Manual submit")
 
@@ -420,9 +421,10 @@ model AIGenerationLog {
 }
 
 model CourseProgress {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  status   String @default("not_started") // "not_started", "in_progress", "completed"
-  progress Float  @default(0) // 0-100 percentage
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  status      String  @default("not_started") // "not_started", "in_progress", "completed"
+  isCertified Boolean @default(false)
+  progress    Float   @default(0) // 0-100 percentage
 
   // Course content tracking fields
   totalWeeks   Int @default(0) // Total weeks in course at time of calculation
@@ -458,6 +460,7 @@ model CourseProgress {
 model Certificate {
   id              String   @id @default(auto()) @map("_id") @db.ObjectId
   certificateLink String
+  snapshotData    Json?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
@@ -540,7 +543,9 @@ model Live {
   title       String
   description String
   thumbnail   String?
-  videoId     String   @map("video_id")
+  videoId     String?  @map("video_id")
+  meetLink    String?
+  status      String   @default("scheduled")
   schedule    DateTime
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -552,4 +557,45 @@ model Live {
   // Relationships
   quiz Quiz? @relation("QuizLiveSession", fields: [quizId], references: [id])
   user User  @relation("UserLiveSessions", fields: [userId], references: [id])
+}
+
+model Comment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId   String  @db.ObjectId
+  lessonId String  @db.ObjectId
+  parentId String? @db.ObjectId
+
+  user     User      @relation(fields: [userId], references: [id])
+  lesson   Lesson    @relation(fields: [lessonId], references: [id])
+  parent   Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  children Comment[] @relation("CommentReplies")
+}
+
+model Badge {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  icon        String
+  points      Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userBadges UserBadge[]
+}
+
+model UserBadge {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  earnedAt DateTime @default(now())
+
+  userId  String @db.ObjectId
+  badgeId String @db.ObjectId
+
+  user  User  @relation(fields: [userId], references: [id])
+  badge Badge @relation(fields: [badgeId], references: [id])
+
+  @@unique([userId, badgeId])
 }

@@ -3,8 +3,44 @@
 import { getLoggedInUser } from "@/lib/loggedin-user";
 import { db } from "@/lib/prisma";
 import Groq from "groq-sdk";
-import { revalidatePath } from 'next/cache';
+
 import { chalkLog } from "../../utils/logger";
+
+// Gamification Constants
+const POINTS_LESSON_COMPLETE = 10;
+const POINTS_QUIZ_PERFECT = 50;
+const POINTS_QUIZ_PASS = 20;
+
+async function awardPoints(userId, points, reason) {
+    try {
+        await db.user.update({
+            where: { id: userId },
+            data: { points: { increment: points } }
+        });
+        console.log(`Awarded ${points} points to user ${userId} for ${reason}`);
+    } catch (error) {
+        console.error(`Error awarding points: ${error.message}`);
+    }
+}
+
+async function checkAndAwardBadges(userId, type) {
+    try {
+        // Example Badge Logic (Expand as needed)
+        if (type === 'quiz_master') {
+             const badge = await db.badge.findFirst({ where: { name: 'Quiz Master' } });
+             if (badge) {
+                 await db.userBadge.upsert({
+                     where: { userId_badgeId: { userId, badgeId: badge.id } },
+                     create: { userId, badgeId: badge.id },
+                     update: {}
+                 });
+             }
+        }
+    } catch (error) {
+         console.error(`Error checking badges: ${error.message}`);
+    }
+}
+
 
 const groqInstances = [
   new Groq({
@@ -285,6 +321,44 @@ export async function updateCourseProgressAfterQuizOrLesson(userId, courseId, ac
     }
 
     console.log(`Course progress updated successfully. Progress: ${progressPercentage}% (${status})`);
+    
+    // Gamification Triggers
+    if (accomplished === 'lesson') {
+        await awardPoints(userId, POINTS_LESSON_COMPLETE, 'Lesson Completion');
+    }
+
+    // Certificate Issuance Logic
+    if (status === 'completed' && !currentProgress?.isCertified) {
+        console.log(`User ${userId} completed course ${courseId}. Issuing certificate...`);
+        
+        // Create snapshot of course structure
+        const snapshotData = {
+            courseTitle: courseStructure.title,
+            completedAt: new Date(),
+            totalWeeks: totalWeeks,
+            totalLessons: totalLessons,
+            totalQuizzes: totalQuizzes
+        };
+
+        // Issue Certificate
+        await db.certificate.create({
+            data: {
+                userId: userId,
+                courseId: courseId,
+                certificateLink: `/certificates/${userId}/${courseId}`, // Placeholder link logic
+                snapshotData: snapshotData
+            }
+        });
+
+        // Mark as certified to prevent re-issuance or regression
+        await db.courseProgress.update({
+             where: { userId_courseId: { userId, courseId } },
+             data: { isCertified: true }
+        });
+        
+        console.log(`Certificate issued for user ${userId} in course ${courseId}`);
+    }
+
 
     return {
       success: true,

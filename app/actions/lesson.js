@@ -464,6 +464,17 @@ export async function markLessonComplete({userId, lessonId,courseId}) {
         });
         let accomplished = "lesson"
         await updateCourseProgressAfterQuizOrLesson(userId, courseId, accomplished);
+        
+        // Award points for lesson completion (Inline logic for now)
+        try {
+            await db.user.update({
+                where: { id: userId },
+                data: { points: { increment: 10 } }
+            });
+        } catch (e) {
+            console.error("Failed to award points for lesson:", e);
+        }
+
 
         // Revalidate the course page to update the UI
         revalidatePath('/courses/686bd330132d72f488155d02');
@@ -484,5 +495,71 @@ export async function markLessonComplete({userId, lessonId,courseId}) {
             success: false,
             error: `Failed to mark lesson as complete. Details: ${error.message}`
         };
+    }
+    }
+
+
+// !!MARK: Comments System
+export async function addComment(lessonId, content, parentId = null) {
+    try {
+        // Ensure user is authenticated
+        const user = await getLoggedInUser();
+        if (!user) throw new Error("Unauthorized");
+
+        const comment = await db.comment.create({
+            data: {
+                content,
+                lessonId,
+                userId: user.id,
+                parentId: parentId || null
+            },
+            include: {
+                user: { select: { id: true, name: true, image: true } }
+            }
+        });
+        
+        revalidatePath(`/courses/${lessonId}`);
+        return { success: true, comment };
+    } catch (error) {
+        console.error("Error adding comment:", error);
+        return { success: false, error: error.message };
+    }
+}
+
+export async function getLessonComments(lessonId) {
+    try {
+        const comments = await db.comment.findMany({
+            where: { lessonId, parentId: null },
+            include: {
+                user: { select: { id: true, name: true, image: true } },
+                children: {
+                    include: {
+                        user: { select: { id: true, name: true, image: true } }
+                    },
+                    orderBy: { createdAt: 'asc' }
+                }
+            },
+            orderBy: { createdAt: 'desc' }
+        });
+        return { success: true, comments };
+    } catch (error) {
+        console.error("Error fetching comments:", error);
+        return { success: false, error: error.message };
+    }
+}
+
+export async function deleteComment(commentId) {
+    try {
+        const user = await getLoggedInUser();
+        if (!user) throw new Error("Unauthorized");
+
+        const comment = await db.comment.findUnique({ where: { id: commentId } });
+        if (!comment || comment.userId !== user.id) throw new Error("Forbidden");
+
+        await db.comment.delete({ where: { id: commentId } });
+        return { success: true };
+    } catch (error) {
+        console.error("Error deleting comment:", error);
+        return { success: false, error: error.message };
     }
 }
