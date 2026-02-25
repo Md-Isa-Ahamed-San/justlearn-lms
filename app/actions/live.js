@@ -44,7 +44,7 @@ export async function updateLiveSession(liveId, data) {
         const user = await getLoggedInUser();
         if (!user) return { success: false, error: "Unauthorized" };
 
-        const { title, description, date, time, meetLink } = data;
+        const { title, description, date, time, meetLink, videoId } = data;
         
         const schedule = new Date(`${date}T${time}`);
 
@@ -57,7 +57,8 @@ export async function updateLiveSession(liveId, data) {
                 title,
                 description,
                 schedule,
-                meetLink
+                meetLink,
+                ...(videoId !== undefined && { videoId }),
             }
         });
 

@@ -1,29 +1,37 @@
-// Remove CourseDetailsWithProgress component entirely
-// Update SingleCoursePage.js
-
-import CourseDetailsHero from "./_components/CourseDetailsHero";
-import Testimonials from "./_components/Testimonials";
-import CourseDetails from "./_components/CourseDetails";
-import React from "react";
-import ScrollToTop from "./_components/ScrollToTop";
-import { getCourseDetailsById } from "../../../../queries/courses";
-import { getServerUserData } from "../../../../queries/users";
-import { checkUserParticipation } from "../../../../queries/participation";
 import { getCompletedLessonsByCourse } from "@/queries/lesson";
-import { toggleLessonProgress } from "@/app/actions/lesson";
+import { getCourseDetailsById } from "../../../../queries/courses";
+import { checkUserParticipation } from "../../../../queries/participation";
 import { getCompletedQuizIdsByCourse } from "../../../../queries/quizzes";
-import { getQuizSubmissionDetails } from "../../../actions/quiz";
-import { chalkLog } from "../../../../utils/logger";
+import { getServerUserData } from "../../../../queries/users";
+import CourseDetails from "./_components/CourseDetails";
+import CourseDetailsHero from "./_components/CourseDetailsHero";
+import ScrollToTop from "./_components/ScrollToTop";
 
 const SingleCoursePage = async ({ params }) => {
   const { id } = await params;
   const { userData } = await getServerUserData();
 
-  const courseDetails = await getCourseDetailsById(id);
-  const { isJoined, participationId } = await checkUserParticipation(
-    userData.id,
-    id
-  );
+  const rawCourseDetails = await getCourseDetailsById(id);
+  const { isJoined } = await checkUserParticipation(userData.id, id);
+
+  // Determine if the viewer is the course instructor
+  const isInstructor =
+    userData?.id && rawCourseDetails?.userId === userData?.id;
+
+  // Filter draft weeks and inactive lessons for students (not instructor)
+  let courseDetails = rawCourseDetails;
+  if (rawCourseDetails && !isInstructor) {
+    courseDetails = {
+      ...rawCourseDetails,
+      weeks: rawCourseDetails.weeks
+        ?.filter((week) => week.status === "published" || !week.status)
+        .map((week) => ({
+          ...week,
+          lessons: week.lessons?.filter((lesson) => lesson.active !== false),
+        })),
+    };
+  }
+
   const completedLessons =
     userData?.id && courseDetails?.id
       ? await getCompletedLessonsByCourse(userData.id, courseDetails.id)
@@ -32,8 +40,7 @@ const SingleCoursePage = async ({ params }) => {
     userData?.id && courseDetails?.id
       ? await getCompletedQuizIdsByCourse(userData.id, courseDetails.id)
       : [];
-  //   const testQuizSubmissionData = await getQuizSubmissionDetails({userId:"6842e2f52433a7219fcb76e1",courseId:"686bd330132d72f488155d02", quizId:"686be8d4981bb26d863af82a"});
-  // chalkLog.log("testQuizSubmissionData: ", testQuizSubmissionData);
+
   return (
     <div>
       <ScrollToTop />
@@ -53,6 +60,7 @@ const SingleCoursePage = async ({ params }) => {
         completedLessons={completedLessons}
         completedQuizzes={completedQuizzes}
         testimonials={courseDetails?.testimonials}
+        isInstructor={isInstructor}
       />
     </div>
   );

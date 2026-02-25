@@ -5,6 +5,7 @@ import { db } from "@/lib/prisma";
 import Groq from "groq-sdk";
 
 import { chalkLog } from "../../utils/logger";
+import { checkBadgesAfterCourseComplete, checkBadgesAfterQuiz } from "./badges";
 
 // Gamification Constants
 const POINTS_LESSON_COMPLETE = 10;
@@ -357,6 +358,9 @@ export async function updateCourseProgressAfterQuizOrLesson(userId, courseId, ac
         });
         
         console.log(`Certificate issued for user ${userId} in course ${courseId}`);
+
+        // Award course completer badge
+        await checkBadgesAfterCourseComplete(userId);
     }
 
 
@@ -597,7 +601,10 @@ export async function submitQuizWithStudentAnswer(data) {
     });
     
     let accomplished = "quiz"
-    await updateCourseProgressAfterQuizOrLesson(loggedInUser.id, data.courseId, accomplished)
+    await updateCourseProgressAfterQuizOrLesson(loggedInUser.id, data.courseId, accomplished);
+    
+    // Award badge checks after quiz
+    await checkBadgesAfterQuiz(loggedInUser.id, totalScore, maxPossibleScore);
     
     console.log(`Quiz submission completed. Score: ${totalScore}/${maxPossibleScore} (${percentageScore.toFixed(2)}%)`);
 

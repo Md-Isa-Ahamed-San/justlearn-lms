@@ -2,10 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ArrowUpDown, Eye, GraduationCap, MoreHorizontal } from "lucide-react";
 import Link from "next/link";
@@ -144,9 +144,9 @@ export const columns = [
                 />
               </DropdownMenuItem>
               <DropdownMenuItem className="text-popover-foreground hover:bg-accent hover:text-accent-foreground">
-                <Link href={`/teacher/students/${userId}/progress`} className="w-full flex items-center">
+                <Link href={`/instructor-dashboard/courses/${student.courseId || ""}/students/${userId}`} className="w-full flex items-center">
                   <GraduationCap className="h-4 w-4 mr-2" />
-                  View Progress
+                  View Marks & Progress
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>

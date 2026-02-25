@@ -261,6 +261,16 @@ export default async function StudentDashboardPage() {
                                                     Join Meeting
                                                 </a>
                                             )}
+                                            {session.videoId && (
+                                                <a
+                                                    href={session.videoId}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-xs text-green-600 hover:underline block mt-1"
+                                                >
+                                                    📹 Watch Recording
+                                                </a>
+                                            )}
                                         </div>
                                     </div>
                                 ))

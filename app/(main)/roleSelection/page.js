@@ -1,4 +1,4 @@
-import { GraduationCap, User, Shield, ArrowRight, CheckCircle } from 'lucide-react'
+import { ArrowRight, CheckCircle, GraduationCap, Shield, User } from 'lucide-react'
 import { getRoleDescription } from "../../../utils/RoleHelpers"
 import { submitRole } from "../../actions/authActions"
 // Add this to pages that use headers(), cookies(), etc.
@@ -20,6 +20,16 @@ export default function RoleSelection() {
   return (
     <div className="w-full max-w-2xl mx-auto p-4 h-screen mt-8 md:mt-14 lg:mt-20">
       <div className="space-y-6">
+        {/* Notice banner */}
+        <div className="flex items-start gap-3 rounded-lg border border-yellow-200 bg-yellow-50 p-4 text-yellow-800 dark:bg-yellow-950/20 dark:border-yellow-800 dark:text-yellow-300">
+          <span className="text-lg shrink-0">⚠️</span>
+          <div>
+            <p className="font-semibold text-sm">Role Required</p>
+            <p className="text-xs mt-0.5 opacity-80">
+              You must select a role before you can access the platform. Please choose below to continue.
+            </p>
+          </div>
+        </div>
         <div className="text-center">
           <h2 className="text-2xl font-bold">Choose Your Role</h2>
           <p className="text-muted-foreground mt-2">

@@ -3,6 +3,7 @@
 import { getLoggedInUser } from "@/lib/loggedin-user";
 import { db } from "@/lib/prisma";
 import { revalidatePath } from 'next/cache';
+import { checkBadgesAfterLesson } from "./badges";
 import { updateCourseProgressAfterQuizOrLesson } from "./quiz";
 // !MARK: createLesson
 export async function createLesson(data) {
@@ -475,9 +476,13 @@ export async function markLessonComplete({userId, lessonId,courseId}) {
             console.error("Failed to award points for lesson:", e);
         }
 
+        // Check and award badges after lesson completion
+        await checkBadgesAfterLesson(userId);
 
         // Revalidate the course page to update the UI
-        revalidatePath('/courses/686bd330132d72f488155d02');
+        revalidatePath(`/courses/${courseId}`);
+        revalidatePath('/account/progress');
+        revalidatePath('/student-dashboard');
 
         return {
             success: true,

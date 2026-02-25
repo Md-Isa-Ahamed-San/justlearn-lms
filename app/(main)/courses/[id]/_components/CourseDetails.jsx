@@ -1,34 +1,15 @@
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Image from "next/image";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import {
-  BookCheck,
-  CheckCircle,
-  Clock,
-  FileText,
-  Globe,
-  GraduationCap,
-  MessageSquare,
-  Radio,
-  Star,
-  Users,
-  Video,
-} from "lucide-react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent } from "@/components/ui/card";
-import CourseInstructor from "./CourseInstructor";
-import CourseCurriculum from "./CourseCurriculum";
-import CourseOverview from "./CourseOverview";
-import { formatPrice } from "../../../../../lib/formatPrice";
+import {
+    Star
+} from "lucide-react";
+import { AITutorWidget } from "../../../../../components/ai-tutor-widget";
 import { formatDate } from "../../../../../lib/formatDate";
+import CourseCurriculum from "./CourseCurriculum";
+import CourseInstructor from "./CourseInstructor";
+import CourseOverview from "./CourseOverview";
 
 const CourseDetails = ({   courseDetails,
                          currentUser,
@@ -201,6 +182,11 @@ const CourseDetails = ({   courseDetails,
           </Tabs>
         </div>
       </div>
+
+      {/* AI Tutor floating widget — context-aware to current course */}
+      <AITutorWidget
+        lessonContext={`Course: ${courseDetails?.title || 'Unknown'}.\nDescription: ${courseDetails?.description || 'No description available.'}`}
+      />
     </section>
   );
 };

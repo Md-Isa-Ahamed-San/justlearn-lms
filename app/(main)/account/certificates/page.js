@@ -61,15 +61,17 @@ export default async function AccountCertificatesPage() {
                                     </div>
                                     
                                     <div className="flex gap-2 pt-2">
-                                        {cert.certificateLink && (
-                                            <a href={cert.certificateLink} target="_blank" rel="noopener noreferrer" className="w-full">
-                                                <Button size="sm" variant="outline" className="w-full">
-                                                    <Download className="w-4 h-4 mr-2" />
-                                                    Download
-                                                </Button>
-                                            </a>
-                                        )}
-                                        {/* Fallback View Action if no link, or as secondary */}
+                                        <a 
+                                            href={`/api/certificates/generate?id=${cert.id}`} 
+                                            target="_blank" 
+                                            rel="noopener noreferrer" 
+                                            className="w-full"
+                                        >
+                                            <Button size="sm" variant="outline" className="w-full">
+                                                <Download className="w-4 h-4 mr-2" />
+                                                Download PDF
+                                            </Button>
+                                        </a>
                                         <Link href={`/courses/${cert.courseId}`} className="w-full">
                                            <Button size="sm" variant="ghost" className="w-full">
                                                 <ExternalLink className="w-4 h-4 mr-2" />

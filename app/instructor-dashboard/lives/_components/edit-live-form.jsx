@@ -35,6 +35,7 @@ const formSchema = z.object({
   time: z.string({ required_error: "Time is required!" }).min(1, { message: "Time is required!" }),
   description: z.string().min(1, { message: "Description is required!" }),
   meetLink: z.string().min(1, { message: "Meeting Link is required!" }),
+  videoId: z.string().optional(),
 });
 
 export const EditLiveForm = ({ initialData, liveId }) => {
@@ -48,6 +49,7 @@ export const EditLiveForm = ({ initialData, liveId }) => {
       date: initialData.schedule ? new Date(initialData.schedule) : new Date(),
       time: initialData.schedule ? new Date(initialData.schedule).toTimeString().slice(0, 5) : "",
       meetLink: initialData.meetLink || "",
+      videoId: initialData.videoId || "",
     },
   });
 
@@ -191,6 +193,28 @@ export const EditLiveForm = ({ initialData, liveId }) => {
                   </FormControl>
                   <FormDescription>
                     Paste the link to your meeting (Zoom, Google Meet, etc.)
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Recording URL (videoId) */}
+            <FormField
+              control={form.control}
+              name="videoId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Recording URL</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={isSubmitting}
+                      placeholder="e.g https://youtube.com/watch?v=... (paste after session ends)"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Optional: Paste a YouTube or video URL for students to watch the recording after the session.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

@@ -1,28 +1,33 @@
 // actions/testimonials.js
-// import { getLoggedInUser } from "@/lib/loggedin-user";
 "use server";
 import { db } from "@/lib/prisma";
-
 import { revalidatePath } from "next/cache";
-// import { chalkLog } from "../../utils/logger";
+
+// Helper: recalculate and persist course average rating
+async function recalculateCourseRating(courseId) {
+  try {
+    const result = await db.testimonial.aggregate({
+      where: { courseId },
+      _avg: { rating: true },
+      _count: { rating: true },
+    });
+    const avg = result._avg.rating ?? 0;
+    await db.course.update({
+      where: { id: courseId },
+      data: { rating: parseFloat(avg.toFixed(2)) },
+    });
+  } catch (e) {
+    console.error("Rating recalculation error:", e);
+  }
+}
 
 // 1. Create testimonial
-export async function onSubmitTestimonial({
-  userId,
-  courseId,
-  content,
-  rating,
-}) {
+export async function onSubmitTestimonial({ userId, courseId, content, rating }) {
   const response = await db.testimonial.create({
-    data: {
-      userId,
-      courseId,
-      content,
-      rating,
-    },
+    data: { userId, courseId, content, rating },
   });
-//   console.log("Testimonial created: ", response);
   if (response) {
+    await recalculateCourseRating(courseId);
     revalidatePath(`/courses/${courseId}`);
   }
 }
@@ -33,22 +38,21 @@ export async function onEditTestimonial({ id, content, rating }) {
     where: { id },
     data: { content, rating },
   });
-//   console.log("Testimonial Updated: ", response);
   if (response) {
-    revalidatePath(`/courses/${id}`);
+    await recalculateCourseRating(response.courseId);
+    revalidatePath(`/courses/${response.courseId}`);
   }
 }
 
 // 3. Delete testimonial
 export async function onDeleteTestimonial(id) {
-  const response = await db.testimonial.delete({
-    where: { id },
-  });
-//   console.log("Testimonial Deleted: ", response);
+  const response = await db.testimonial.delete({ where: { id } });
   if (response) {
-    revalidatePath(`/courses/${id}`);
+    await recalculateCourseRating(response.courseId);
+    revalidatePath(`/courses/${response.courseId}`);
   }
 }
+
 
 // 4. Fetch testimonials with user data
 export async function getTestimonials(courseId) {

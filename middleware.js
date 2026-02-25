@@ -1,6 +1,6 @@
+import { PUBLIC_ROUTES, ROOT } from "@/lib/routes";
 import NextAuth from "next-auth";
 import { authConfig } from "./auth.config";
-import { LOGIN, PUBLIC_ROUTES, ROOT } from "@/lib/routes";
 import { chalkLog } from "./utils/logger";
 
 const { auth } = NextAuth(authConfig);
@@ -21,11 +21,24 @@ export default auth((req) => {
   
   // Only handle unauthorized redirects - don't interfere with profile completion logic
   if (!isAuthenticated && !isPublicRoute) {
-    console.log("Unauthenticated user accessing protected route, redirecting to unauthorized");
+    console.log("Unauthenticated user accessing protected route, redirecting to login");
     return Response.redirect(new URL("/login", nextUrl));
   }
-  
-  // Allow all other requests to continue (including your profile completion logic)
+
+  // If authenticated but no role assigned, redirect to roleSelection
+  if (isAuthenticated && req.auth?.user) {
+    const userRole = req.auth.user?.role;
+    const isRoleSelectionPage = nextUrl.pathname === "/roleSelection";
+    const isApiRoute = nextUrl.pathname.startsWith("/api");
+    const isAuthRoute = nextUrl.pathname.startsWith("/login") || nextUrl.pathname.startsWith("/register");
+
+    if (!userRole && !isRoleSelectionPage && !isApiRoute && !isAuthRoute && !isPublicRoute) {
+      console.log("Authenticated user with no role — redirecting to roleSelection");
+      return Response.redirect(new URL("/roleSelection", nextUrl));
+    }
+  }
+
+  // Allow all other requests to continue
   return;
 });
 
