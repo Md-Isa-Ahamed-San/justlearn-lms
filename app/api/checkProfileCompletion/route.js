@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 // /app/api/googleLoginRedirect/route.js
 import { NextResponse } from "next/server";
 import { auth, signOut } from "@/auth";

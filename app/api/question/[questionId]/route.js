@@ -1,5 +1,6 @@
-import {NextResponse} from "next/server";
-import {deleteQuestionById} from "@/queries/question";
+export const dynamic = 'force-dynamic';
+import { deleteQuestionById } from "@/queries/question";
+import { NextResponse } from "next/server";
 
 export async function DELETE(request,{params}) {
     try {

@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { db } from "@/lib/prisma";
 import { getLoggedInUser } from "@/lib/loggedin-user";
 import { NextResponse } from "next/server";

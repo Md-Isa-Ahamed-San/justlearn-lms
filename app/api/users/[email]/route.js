@@ -1,4 +1,5 @@
 // app/api/user/[email]/route.js
+export const dynamic = 'force-dynamic';
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 import { getUserByEmail } from "../../../../queries/users";
