@@ -217,16 +217,22 @@ export const {
         console.log(`🔐 Initial sign in - Provider: ${account.provider}`);
 
         if (account.provider === "google") {
+          // Fetch the user's role from DB — Google's profile doesn't include it
+          const dbUser = await db.user.findUnique({
+            where: { email: user.email },
+            select: { id: true, role: true },
+          });
           return {
             accessToken: account.access_token,
             accessTokenExpires: Date.now() + account.expires_in * 1000,
             refreshToken: account.refresh_token,
             provider: "google",
             user: {
-              id: user.id,
+              id: dbUser?.id || user.id,
               email: user.email,
               name: user.name,
               image: user.image,
+              role: dbUser?.role || null,
             },
           };
         } else if (account.provider === "credentials") {
@@ -263,6 +269,20 @@ export const {
               ).toLocaleString()})`
           );
         }
+
+        // If role is missing (e.g. just after submitRole saved it to DB),
+        // re-fetch it so the token self-heals without requiring a logout.
+        if (!token.user?.role && token.user?.email) {
+          const dbUser = await db.user.findUnique({
+            where: { email: token.user.email },
+            select: { role: true },
+          });
+          if (dbUser?.role) {
+            console.log("✅ Role synced from DB into token:", dbUser.role);
+            return { ...token, user: { ...token.user, role: dbUser.role } };
+          }
+        }
+
         return token;
       }
 

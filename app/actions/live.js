@@ -18,7 +18,12 @@ export async function createLiveSession(data) {
         }
 
         // Combine date and time
-        const schedule = new Date(`${date}T${time}`);
+        // Combine date and time robustly
+        const schedule = new Date(date);
+        if (typeof time === "string" && time.includes(":")) {
+            const [hours, minutes] = time.split(":");
+            schedule.setHours(parseInt(hours, 10), parseInt(minutes, 10), 0, 0);
+        }
 
         await db.live.create({
             data: {
@@ -46,7 +51,12 @@ export async function updateLiveSession(liveId, data) {
 
         const { title, description, date, time, meetLink, videoId } = data;
         
-        const schedule = new Date(`${date}T${time}`);
+        // Combine date and time robustly
+        const schedule = new Date(date);
+        if (typeof time === "string" && time.includes(":")) {
+            const [hours, minutes] = time.split(":");
+            schedule.setHours(parseInt(hours, 10), parseInt(minutes, 10), 0, 0);
+        }
 
         await db.live.update({
             where: { 

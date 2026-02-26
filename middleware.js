@@ -36,6 +36,20 @@ export default auth((req) => {
       console.log("Authenticated user with no role — redirecting to roleSelection");
       return Response.redirect(new URL("/roleSelection", nextUrl));
     }
+
+    // Role-based route protection
+    const isInstructorRoute = nextUrl.pathname.startsWith("/instructor-dashboard");
+    const isAdminRoute = nextUrl.pathname.startsWith("/admin-dashboard");
+
+    if (isInstructorRoute && userRole !== "instructor" && userRole !== "admin") {
+      console.log(`User role '${userRole}' not allowed on instructor route — redirecting to /courses`);
+      return Response.redirect(new URL("/courses", nextUrl));
+    }
+
+    if (isAdminRoute && userRole !== "admin") {
+      console.log(`User role '${userRole}' not allowed on admin route — redirecting to /courses`);
+      return Response.redirect(new URL("/courses", nextUrl));
+    }
   }
 
   // Allow all other requests to continue

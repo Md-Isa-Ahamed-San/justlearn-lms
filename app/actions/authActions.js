@@ -1,9 +1,8 @@
 "use server";
 
 import { auth, signIn } from "@/auth"; // Adjust if needed
-import { db } from "../../lib/prisma";
 import { redirect } from "next/navigation";
-import { chalkLog } from "../../utils/logger";
+import { db } from "../../lib/prisma";
 
 export async function credentialLogin(data) {
   console.log("credentialLogin ~ formData:", data);
@@ -34,24 +33,19 @@ export const checkProfileCompletion = async (email) => {
 
   const user = await db.user.findUnique({
     where: { email: email },
-    include: {
-      student: true,
-      instructor: true,
-      admin: true,
-    },
   });
 
   if (!user) {
     throw new Error("User not found");
   }
 
-  const roleRecord = user[user.role];
-  const isComplete = roleRecord !== null && roleRecord !== undefined;
+  // A user is considered complete if they have a role assigned.
+  // The role-specific profile (Student/Instructor row) is filled in on the account page.
+  const isComplete = !!user.role;
 
   console.log("Profile completion check:", {
     email,
     role: user.role,
-    hasRoleRecord: !!roleRecord,
     isComplete,
   });
 
@@ -69,7 +63,15 @@ export async function submitRole(formData) {
     throw new Error("Role not selected")
   }
 
-  // Optionally: update DB here
+  const session = await auth()
+  if (!session?.user?.email) {
+    throw new Error("Not authenticated")
+  }
 
-  redirect(`/account?role=${role}`) // Navigate without reload
+  await db.user.update({
+    where: { email: session.user.email },
+    data: { role },
+  })
+
+  redirect("/account")
 }

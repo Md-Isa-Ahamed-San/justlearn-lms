@@ -1,22 +1,18 @@
+import { LearningForm } from "@/app/instructor-dashboard/courses/[courseId]/_components/learning-form";
+import AlertBanner from "@/components/alert-banner";
 import { IconBadge } from "@/components/icon-badge";
+import { getCourseDetailsById } from "@/queries/courses";
+import { chalkLog } from "@/utils/logger";
 import {
-  CircleDollarSign,
-  File,
-  LayoutDashboard,
-  ListChecks,
+    LayoutDashboard,
+    ListChecks
 } from "lucide-react";
 import { CategoryForm } from "./_components/category-form";
+import { CourseActions } from "./_components/course-action";
 import { DescriptionForm } from "./_components/description-form";
 import { ImageForm } from "./_components/image-form";
-import { WeeksForm } from "./_components/week-form";
-import { PriceForm } from "./_components/price-form";
 import { TitleForm } from "./_components/title-form";
-import { CourseActions } from "./_components/course-action";
-import AlertBanner from "@/components/alert-banner";
-import { QuizSetForm } from "./_components/quiz-set-form";
-import { getCourseDetailsById } from "@/queries/courses";
-import {chalkLog} from "@/utils/logger";
-import {LearningForm} from "@/app/instructor-dashboard/courses/[courseId]/_components/learning-form";
+import { WeeksForm } from "./_components/week-form";
 
 export const dynamic = "force-dynamic";
 const EditCourse = async ({ params }) => {
@@ -29,10 +25,12 @@ const EditCourse = async ({ params }) => {
   // }
   return (
     <>
-      <AlertBanner
-        label="This course is unpublished. It will not be visible in the course."
-       className="bg-accent text-foreground"
-      />
+      {courseData?.visibility !== "public" && (
+        <AlertBanner
+          label="This course is unpublished. It will not be visible in the course."
+          className="bg-accent text-foreground"
+        />
+      )}
       <div className="p-6">
         <div className="flex items-center justify-end">
           <CourseActions status={courseData?.
