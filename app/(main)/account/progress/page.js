@@ -17,6 +17,7 @@ import {
     Clock,
     PlayCircle,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -121,7 +122,7 @@ export default async function AccountProgressPage() {
                   <div className="flex flex-col md:flex-row gap-6">
                     {/* Course Thumbnail */}
                     <div className="w-full md:w-64 h-40 flex-shrink-0">
-                      <img
+                      <Image
                         src={course.thumbnail || "/placeholder-course.jpg"}
                         alt={course.title}
                         className="w-full h-full object-cover rounded-lg"

@@ -13,6 +13,7 @@ import {
     Star,
     Trophy
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -161,7 +162,7 @@ export default async function StudentDashboardPage() {
                                     <Card key={course.id} className="hover:shadow-md transition-shadow">
                                         <CardContent className="p-0 flex flex-col md:flex-row">
                                             <div className="relative w-full md:w-48 h-32 md:h-auto">
-                                                <img 
+                                                <Image
                                                     src={course.thumbnail || "/placeholder-course.jpg"} 
                                                     alt={course.title}
                                                     className="w-full h-full object-cover rounded-t-lg md:rounded-l-lg md:rounded-tr-none"

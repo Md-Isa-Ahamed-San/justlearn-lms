@@ -1,21 +1,8 @@
+export const dynamic = 'force-dynamic';
+
 import { MainNav } from "../../components/main-nav";
 import { getServerUserData } from "../../queries/users";
-import { Navbar } from "./_components/navbar";
 import Sidebar from "./_components/sidebar";
-import {
-  IconHome,
-  IconBooks,
-  IconBook2,
-  IconUser,
-  IconChalkboard,
-  IconListCheck,
-  IconRobot,
-  IconSettings,
-  IconBrandGithub,
-  IconBrandX,
-  IconLayoutDashboard,
-  IconNotebook,
-} from "@tabler/icons-react";
 const DashboardLayout = async ({ children }) => {
   let serverUserData = null;
 

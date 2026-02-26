@@ -55,7 +55,7 @@ import {
 import { toast } from "sonner";
 import { toggleCourseVisibilityStatus } from "../../../../queries/admin";
 export default function CourseTable({ courses }) {
-  console.log(" CourseTable ~ courses:", courses);
+  // console.log(" CourseTable ~ courses:", courses);
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [filterCategory, setFilterCategory] = useState("all");
